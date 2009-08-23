@@ -1,0 +1,4 @@
+digraph osg_shape {
+	Group -> Geode -> ShapeDrawable -> Box;
+	Group -> PositionAttitudeTransform -> Geode;
+}
