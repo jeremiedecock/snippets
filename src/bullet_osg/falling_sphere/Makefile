@@ -9,7 +9,6 @@ OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
 .PHONY: $(EXEC_NAME) clean
 
 $(EXEC_NAME): $(OBJECTS)
-	echo $(OBJECTS)
 	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
 
 %.o : %.cc

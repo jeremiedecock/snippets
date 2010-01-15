@@ -1,5 +1,19 @@
-boxShape : boxShape.cc
-	gcc -Wall -o boxShape `pkg-config --libs openscenegraph` boxShape.cc
+CC = g++
 
-clean :
-	rm boxShape
+CFLAGS = -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph`
+
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)

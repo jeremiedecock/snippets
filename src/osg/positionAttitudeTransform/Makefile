@@ -1,9 +1,19 @@
-positionAttitudeTransform : positionAttitudeTransform.o
-	g++ -o positionAttitudeTransform `pkg-config --libs openscenegraph` positionAttitudeTransform.o
+CC = g++
 
-positionAttitudeTransform.o : positionAttitudeTransform.cc
-	g++ -c -Wall positionAttitudeTransform.cc
+CFLAGS = -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph`
 
-clean :
-	rm *.o
-	rm positionAttitudeTransform
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)

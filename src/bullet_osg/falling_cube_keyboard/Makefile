@@ -1,9 +1,19 @@
-fallingCube : fallingCube.o
-	g++ -o fallingCube `pkg-config --libs openscenegraph` fallingCube.o ../../bullet_lib/libbulletdynamics.a ../../bullet_lib/libbulletcollision.a ../../bullet_lib/libbulletmath.a
+CC = g++
 
-fallingCube.o : fallingCube.cc
-	g++ -c -Wall -I../../bullet_src/ fallingCube.cc
+CFLAGS = -I../../../lib/bullet/src/ -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph` -lm ../../../lib/bullet/lib/libbulletdynamics.a ../../../lib/bullet/lib/libbulletcollision.a ../../../lib/bullet/lib/libbulletmath.a
 
-clean :
-	rm *.o
-	rm fallingCube
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)

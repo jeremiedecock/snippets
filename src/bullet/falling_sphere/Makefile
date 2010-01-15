@@ -1,12 +1,19 @@
-BasicDemo : BasicDemo.o main.o
-	g++ -o BasicDemo BasicDemo.o ../../bullet_lib/libbulletdynamics.a ../../bullet_lib/libbulletcollision.a ../../bullet_lib/libbulletmath.a ../../opengl_lib/libbulletopenglsupport.a -L/usr/X11R6/lib -lGL -lGLU -lglut -lX11 -lXmu -lXi -lm
+CC = g++
 
-BasicDemo.o : BasicDemo.cpp
-	g++ -c -Wall -I../../bullet_src/ -I../../opengl_src/ BasicDemo.cpp
+CFLAGS = -I../../../lib/bullet/src/ -Wall -pedantic -g -c
+LIBS = -lm ../../../lib/bullet/lib/libbulletdynamics.a ../../../lib/bullet/lib/libbulletcollision.a ../../../lib/bullet/lib/libbulletmath.a
 
-main.o : main.cpp
-	g++ -c -Wall -I../../bullet_src/ -I../../opengl_src/ main.cpp
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
 
-clean :
-	rm *.o
-	rm BasicDemo
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)

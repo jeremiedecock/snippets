@@ -1,9 +1,19 @@
-updateCallback : updateCallback.o
-	g++ -o updateCallback `pkg-config --libs openscenegraph` updateCallback.o
+CC = g++
 
-updateCallback.o : updateCallback.cc
-	g++ -c -Wall updateCallback.cc
+CFLAGS = -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph`
 
-clean :
-	rm *.o
-	rm updateCallback
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)

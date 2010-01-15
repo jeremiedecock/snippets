@@ -1,5 +1,19 @@
-matrixTransform : matrixTransform.cc
-	gcc -Wall -o matrixTransform `pkg-config --libs openscenegraph` matrixTransform.cc
+CC = g++
 
-clean :
-	rm matrixTransform
+CFLAGS = -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph`
+
+EXEC_NAME = demo
+OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+
+.PHONY: $(EXEC_NAME) clean
+
+$(EXEC_NAME): $(OBJECTS)
+	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+
+%.o : %.cc
+	$(CC) $(CFLAGS) $<
+
+clean:
+	rm -f $(OBJECTS)
+	rm -f $(EXEC_NAME)
