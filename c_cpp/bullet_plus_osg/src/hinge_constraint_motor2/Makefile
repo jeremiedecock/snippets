@@ -1,7 +1,7 @@
 CC = g++
 
-CFLAGS = -I../../../lib/bullet/src/ -Wall -pedantic -g -c
-LIBS = `pkg-config --libs openscenegraph` -lm ../../../lib/bullet/lib/libbulletdynamics.a ../../../lib/bullet/lib/libbulletcollision.a ../../../lib/bullet/lib/libbulletmath.a
+CFLAGS = -I../../include/bullet/ -Wall -pedantic -g -c
+LIBS = `pkg-config --libs openscenegraph` -lm ../../lib/libbulletdynamics.a ../../lib/libbulletcollision.a ../../lib/libbulletmath.a
 
 EXEC_NAME = demo
 OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
