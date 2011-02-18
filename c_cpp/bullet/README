@@ -1,0 +1,30 @@
+                               BULLET DEMOS
+
+PREREQUISITES
+
+Required packages : pkg-config.
+
+Bullet physics is also a prerequisite but there are no Debian packages for this
+library*. To install it, fallow these steps :
+- install freeglut-dev
+- download bullet-2.77.tgz (http://code.google.com/p/bullet/) and untar it
+- generate ./configure script typing ./autogen.sh
+- install bullet library : 
+    ./configure --prefix=/usr
+    make
+    sudo make install
+
+(*) : WNPP Bullet -> http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=476284
+
+
+BUILD AND RUN DEMOS
+
+make
+./demo
+
+
+COPYING
+
+The BotSim executables and source code are distributed under the MIT licence,
+which is similar in effect to the BSD licence. (This licence is Open Source
+certified and complies with the Debian Free Software Guidelines.) 

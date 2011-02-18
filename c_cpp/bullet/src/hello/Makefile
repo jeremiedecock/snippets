@@ -1,7 +1,7 @@
 CC = g++
 
-CFLAGS = -I../../include/bullet/ -Wall -pedantic -g -c
-LIBS = -lm ../../lib/libbulletdynamics.a ../../lib/libbulletcollision.a ../../lib/libbulletmath.a
+CFLAGS = `pkg-config --cflags bullet` -Wall -pedantic -g -c
+LIBS = -lm `pkg-config --libs bullet`
 
 EXEC_NAME = demo
 OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))

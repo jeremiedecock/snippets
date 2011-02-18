@@ -1,19 +1,19 @@
 CC = g++
 
-CFLAGS = -I../../include/bullet/ -Wall -pedantic -g -c
-LIBS = `pkg-config --libs openscenegraph` -lm ../../lib/libbulletdynamics.a ../../lib/libbulletcollision.a ../../lib/libbulletmath.a
+CFLAGS  = `pkg-config --cflags bullet openscenegraph` -Wall -pedantic
+LDFLAGS = `pkg-config --libs bullet openscenegraph`
 
 EXEC_NAME = demo
-OBJECTS = $(patsubst %.cc,%.o,$(wildcard *.cc))
+SRC = $(wildcard *.cc)
+OBJ = $(SRC:.cc=.o)
 
 .PHONY: $(EXEC_NAME) clean
 
-$(EXEC_NAME): $(OBJECTS)
-	$(CC) -o $(EXEC_NAME) $(OBJECTS) $(LIBS)
+$(EXEC_NAME): $(OBJ)
+	$(CC) $(LDFLAGS) -o $@ $^
 
 %.o : %.cc
-	$(CC) $(CFLAGS) $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJECTS)
-	rm -f $(EXEC_NAME)
+	rm -f $(EXEC_NAME) $(OBJ)
