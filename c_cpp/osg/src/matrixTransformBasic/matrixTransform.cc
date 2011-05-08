@@ -12,30 +12,31 @@
 #include <osg/Matrix>
 
 int main(int, char **) {
-	// Set scenegraph
-	osg::Box* cube = new osg::Box( osg::Vec3(0,0,0), 1.0f );
 
-	osg::ShapeDrawable* cubeDrawable = new osg::ShapeDrawable(cube);
+    // Set scenegraph
+    osg::ref_ptr<osg::Box> cube = new osg::Box( osg::Vec3(0,0,0), 1.0f );
 
-	osg::Geode* geode = new osg::Geode();
-	geode->addDrawable(cubeDrawable);
+    osg::ref_ptr<osg::ShapeDrawable> cubeDrawable = new osg::ShapeDrawable(cube);
 
-	osg::MatrixTransform* mt = new osg::MatrixTransform();
-	mt->addChild(geode);
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    geode->addDrawable(cubeDrawable);
 
-	osg::Group* root = new osg::Group();
-	root->addChild(geode);			// the first cube
-	root->addChild(mt);			// the second cube
+    osg::ref_ptr<osg::MatrixTransform> mt = new osg::MatrixTransform();
+    mt->addChild(geode);
 
-	// Setup Transform
-	osg::Matrix m;
-	m.setTrans(5,0,0);
-	mt->setMatrix(m);
+    osg::ref_ptr<osg::Group> root = new osg::Group();
+    root->addChild(geode);      // the first cube
+    root->addChild(mt);         // the second cube
 
-	// Viewer
-	osgViewer::Viewer viewer;
-	viewer.setSceneData(root);
-	viewer.run();
+    // Setup Transform
+    osg::Matrix m;
+    m.setTrans(5,0,0);
+    mt->setMatrix(m);
 
-	return 0;
+    // Viewer
+    osgViewer::Viewer viewer;
+    viewer.setSceneData(root);
+    viewer.run();
+
+    return 0;
 }

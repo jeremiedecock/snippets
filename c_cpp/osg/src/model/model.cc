@@ -8,11 +8,11 @@
 #include <osgViewer/Viewer>
 
 int main(int, char **) {
-	osg::Node* model = osgDB::readNodeFile("cessna.osg"); // could be also .obj files, ...
+    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("cessna.osg"); // could be also .obj files, ...
 
-	osgViewer::Viewer viewer;
-	viewer.setSceneData(model);
-	viewer.run();
+    osgViewer::Viewer viewer;
+    viewer.setSceneData(model);
+    viewer.run();
 
-	return 0;
+    return 0;
 }
