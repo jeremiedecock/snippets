@@ -1,0 +1,4 @@
+USAGE:
+  cd build
+  cmake ..
+  make

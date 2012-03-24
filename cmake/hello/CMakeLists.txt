@@ -1,0 +1,4 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+PROJECT(mon_projet_hello)
+ADD_EXECUTABLE(hello hello.c)
