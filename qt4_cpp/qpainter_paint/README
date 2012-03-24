@@ -1,0 +1,4 @@
+USAGE: 
+  qmake -project   # produce "*.pro" file
+  qmake            # produce Makefile
+  make             # produce executable
