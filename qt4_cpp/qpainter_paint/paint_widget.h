@@ -1,5 +1,5 @@
-#ifndef ANALOGCLOCK_H
-#define ANALOGCLOCK_H
+#ifndef PAINT_WIDGET_H
+#define PAINT_WIDGET_H
 
 #include <QWidget>
 
@@ -14,4 +14,4 @@ class MyPaintWidget : public QWidget
         void paintEvent(QPaintEvent * event);
 };
 
-#endif
+#endif // PAINT_WIDGET_H
