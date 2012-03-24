@@ -1,0 +1,5 @@
+A simple function wrapper compiled with GCC or Clang.
+
+USAGE:
+./build.sh
+./test.py
