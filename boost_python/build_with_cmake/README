@@ -1,0 +1,9 @@
+A simple function wrapper compiled with cmake.
+
+USAGE:
+  mkdir build
+  cd build
+  cmake ..
+  make
+  cp ../test.py ./
+  mv libcppfunc.so cppfunc.so
