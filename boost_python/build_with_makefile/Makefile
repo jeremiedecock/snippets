@@ -5,7 +5,7 @@
 
 CC = g++
 LIB = cppfunc.so
-OBJS = func.o python_wrapper.o
+OBJS = $(patsubst %.cc,%.o,$(wildcard *.cc))
 
 CFLAGS = -fPIC `pkg-config --cflags python`
 LIBS = -shared -lboost_python

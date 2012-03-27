@@ -1,9 +1,9 @@
 CC = g++
 EXEC = hello
-OBJS = hello.o
+OBJS = $(patsubst %.cc,%.o,$(wildcard *.cc))
 
-LIBS = `pkg-config --libs QtGui`
 CFLAGS = `pkg-config --cflags QtGui`
+LIBS = `pkg-config --libs QtGui`
 
 .PHONY : all clean init
 
@@ -13,7 +13,7 @@ all : $(EXEC)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(EXEC) : $(OBJS)
-	$(CC) -o $@ $< $(LIBS)
+	$(CC) -o $@ $^ $(LIBS)
 
 clean :
 	rm *.o
