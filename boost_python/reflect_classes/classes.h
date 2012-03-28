@@ -2,6 +2,7 @@
 #define classes_h
 
 #include <iostream>
+#include <string>
 
 // Basic classes
 class Point {
@@ -10,14 +11,20 @@ class Point {
         double y;
 
     public:
+        static int cpt;    // TODO: unreachable...
+        std::string color;
+
+    public:
         Point(double, double);
         Point();
 
-        double getX();
-        double getY();
+        double getX() const;
+        double getY() const;
 
         void setX(double);
         void setY(double);
+
+        std::string toString();
 };
 
 #endif // classes_h
