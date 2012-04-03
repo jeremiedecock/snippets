@@ -13,6 +13,25 @@ print cppfunctions.one_argument(3.0)
 print "* cppfunctions.two_arguments(2, 3.0):",
 print cppfunctions.two_arguments(2, 3.0)
 
+print "* cppfunctions.overload_arguments(3.14):",
+print cppfunctions.overload_arguments(3.14)
+print "* cppfunctions.overload_arguments(3.14, 3):",
+print cppfunctions.overload_arguments(3.14, 3)
+print "* cppfunctions.overload_arguments(): ",
+print cppfunctions.overload_arguments()
+print "* cppfunctions.overload_arguments('hello'): ",
+print cppfunctions.overload_arguments('hello')
+
+print "* cppfunctions.default_arguments(1, 2, 3):",
+print cppfunctions.default_arguments(1, 2, 3)
+print "* cppfunctions.default_arguments(1, 2):",
+print cppfunctions.default_arguments(1, 2)
+print "* cppfunctions.default_arguments(1):",
+print cppfunctions.default_arguments(1)
+#print cppfunctions.default_arguments(1, y=2, z=3)
+#print cppfunctions.default_arguments(1, y=2)
+#print cppfunctions.default_arguments(1, z=3)
+
 print "* cppfunctions.std_string('hello'):",
 print cppfunctions.std_string('hello')
 
