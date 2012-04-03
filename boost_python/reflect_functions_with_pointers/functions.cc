@@ -1,7 +1,5 @@
 #include "functions.h"
 
-// Pointers ///////////////////////////////////////////////////////////////////
-
 void pointer_wrong(double * x) {
     (*x)++;
 }
