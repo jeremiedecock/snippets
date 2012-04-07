@@ -3,3 +3,7 @@ a.out
 *.swp
 *.o
 *.so
+*.class
+*.dex
+*.apk
+*.cache
