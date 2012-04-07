@@ -4,6 +4,3 @@ a.out
 *.o
 *.so
 *.class
-*.dex
-*.apk
-*.cache
