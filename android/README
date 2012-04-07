@@ -1,0 +1,18 @@
+# MANAGE PROJECTS FORM COMMAND LINE
+#
+# FOR MORE INFORMANTIONS, SEE:
+# - https://developer.android.com/guide/developing/projects/projects-cmdline.html
+# - https://developer.android.com/guide/developing/building/building-cmdline.html
+#
+# OFFICIAL SAMPLES, SNIPPETS AND DEMOS:
+# - <SDK_DIR>/samples/
+
+# GENERATE NEW PROJECT FORM COMMAND LINE
+<SDK_DIR>/tools/android create project --target 1 --name HelloAndroid --path ./hello_android_project --activity HelloAndroidActivity --package org.jdhp.android.snippet
+
+# BUILD PROJECT FORM COMMAND LINE
+ant debug
+
+# RUN PROJECT FROM COMMAND LINE
+<SDK_DIR>/tools/android avd
+<SDK_DIR>/platform-tools/adb -s emulator-5554  install bin/HelloAndroid-debug.apk
