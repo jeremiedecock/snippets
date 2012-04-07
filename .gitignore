@@ -4,3 +4,6 @@ a.out
 *.o
 *.so
 *.class
+.classpath
+.project
+.settings/
