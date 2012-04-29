@@ -1,0 +1,111 @@
+<html>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+     width="300" height="300" viewBox="0 0 135 150">
+     
+     <title>test graph</title>
+
+    <style type="text/css">
+        <![CDATA[
+            rect.bar {
+                fill            : #dfeffc;
+                fill-opacity    : 0.5;
+                stroke          : #afd8f8;
+                stroke-opacity  : 0.5;
+                stroke-width    : 1;
+            }
+            
+            rect#frame {
+                fill            : none;
+                stroke          : #545454;
+                stroke-width    : 1.25;
+                stroke-linecap  : square;
+            }
+            
+            path.guide {
+                fill            : none;
+                stroke          : #d9d9d9;
+                stroke-width    : 0.25;
+                stroke-linecap  : butt;
+            }
+            
+            text {
+                fill                : #545454;
+            }
+            
+            text#title {
+                font-size           : 12;
+                stroke              : none;
+                text-anchor         : middle;
+            }
+            
+            text.axis {
+                font-size           : 8;
+                font-family         : Monospace;
+                stroke              : none;
+                text-anchor         : end;
+            }
+        ]]>
+    </style>
+    
+    <text id="title" x="63" y="17">Title</text>
+    
+    <!-- translate to add a margin of 10 px -->
+    <g transform="translate(15,20)">
+    
+        <!-- transform the coordinate system so that [0,0] is in the lower left instead of the upper left -->
+        <g transform="translate(0,110) scale(1,-1)">
+
+            <path class="guide" d="M 0,20 h 98"/>
+            <path class="guide" d="M 0,40 h 98"/>
+            <path class="guide" d="M 0,60 h 98"/>
+            <path class="guide" d="M 0,80 h 98"/>
+
+            <rect class="bar" x="0"  y="0" width="14" height="50">
+                <title>50</title>
+            </rect>
+            <rect class="bar" x="14" y="0" width="14" height="30">
+                <title>30</title>
+            </rect>
+            <rect class="bar" x="28" y="0" width="14" height="70">
+                <title>70</title>
+            </rect>
+            <rect class="bar" x="42" y="0" width="14" height="95">
+                <title>95</title>
+            </rect>
+            <rect class="bar" x="56" y="0" width="14" height="80">
+                <title>80</title>
+            </rect>
+            <rect class="bar" x="70" y="0" width="14" height="40">
+                <title>40</title>
+            </rect>
+            <rect class="bar" x="84" y="0" width="14" height="60">
+                <title>60</title>
+            </rect>
+                     
+            <rect id="frame" x="0"  y="0" width="98" height="100"/>
+            
+        </g>
+        
+        <text class="axis" x="-3" y="112">0</text>
+        <text class="axis" x="-3" y="92">20</text>
+        <text class="axis" x="-3" y="72">40</text>
+        <text class="axis" x="-3" y="52">60</text>
+        <text class="axis" x="-3" y="32">80</text>
+        <text class="axis" x="-3" y="12">100</text>
+        
+        <text class="axis" x="7"  y="115" transform="rotate(-45  7,115)">mon</text>
+        <text class="axis" x="21" y="115" transform="rotate(-45 21,115)">tue</text>
+        <text class="axis" x="35" y="115" transform="rotate(-45 35,115)">wed</text>
+        <text class="axis" x="49" y="115" transform="rotate(-45 49,115)">thu</text>
+        <text class="axis" x="63" y="115" transform="rotate(-45 63,115)">fri</text>
+        <text class="axis" x="77" y="115" transform="rotate(-45 77,115)">sat</text>
+        <text class="axis" x="91" y="115" transform="rotate(-45 91,115)">sun</text>
+    
+    </g>
+    
+</svg>
+
+</body>
+</html> 

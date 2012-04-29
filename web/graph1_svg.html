@@ -1,0 +1,57 @@
+<html>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+     width="300" height="300" viewBox="0 0 130 130">
+
+    <style type="text/css">
+        <![CDATA[
+            rect.bar {
+                fill            : #dfeffc;
+                stroke          : #afd8f8;
+                stroke-width    : 1;
+            }
+            
+            path.axis {
+                stroke          : #545454;
+                stroke-width    : 1.5;
+                stroke-linecap  : square;
+                marker-end      : url(#endmarker);
+            }
+            
+            #endmarker {
+                fill            : #545454;
+            }
+        ]]>
+    </style>
+    
+    <defs>
+        <!-- arrow -->
+        <marker id="endmarker" markerWidth="6" markerHeight="4" refX="0" refY="2" orient="auto">
+            <polyline points="0,0 6,2 0,4"/>
+        </marker>
+    </defs>
+    
+    <!-- translate to add a margin of 10 px -->
+    <g transform="translate(10,10)">
+        <!-- transform the coordinate system so that [0,0] is in the lower left instead of the upper left -->
+        <g transform="translate(0,110) scale(1,-1)">
+
+            <rect class="bar" x="0"  y="0" width="14" height="50"/>
+            <rect class="bar" x="14" y="0" width="14" height="30"/>
+            <rect class="bar" x="28" y="0" width="14" height="70"/>
+            <rect class="bar" x="42" y="0" width="14" height="100"/>
+            <rect class="bar" x="56" y="0" width="14" height="80"/>
+            <rect class="bar" x="70" y="0" width="14" height="40"/>
+            <rect class="bar" x="84" y="0" width="14" height="60"/>
+            
+            <path class="axis" id="x_axis" d="M 0,0 h 105" />
+            <path class="axis" id="y_axis" d="M 0,0 v 105" />
+            
+        </g>
+    </g>
+    
+</svg>
+
+</body>
+</html> 
