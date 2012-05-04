@@ -9,17 +9,15 @@ import numpy as np
 
 x = np.arange(-5, 5, 0.25)
 y = np.arange(-5, 5, 0.25)
-x,y = np.meshgrid(x, y)
-#x,y = np.mgrid[-5:5, -5:5]
 
-r = np.sqrt(x**2 + y**2)
-z = np.sin(r)
+xx,yy = np.meshgrid(x, y)
+z = np.sin(np.sqrt(xx**2 + yy**2))
 
 # Plot data #################
 
 fig = plt.figure()
 ax = axes3d.Axes3D(fig)
-ax.plot_wireframe(x, y, z)
+ax.plot_wireframe(xx, yy, z)
 
 plt.show()
 

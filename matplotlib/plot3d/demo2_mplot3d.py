@@ -19,11 +19,8 @@ zconf = 2. * a[:,7] / math.sqrt(POPULATION_SIZE) # confidence interval ~95%
 
 # Build datas ###############
 
-#xgrid = x.reshape(len(np.unique(x)), len(np.unique(y)))
-#ygrid = y.reshape(len(np.unique(x)), len(np.unique(y)))
-zgrid = z.reshape(len(np.unique(x)), len(np.unique(y)))
-
-xgrid, ygrid = np.meshgrid(np.unique(x), np.unique(x))
+xgrid, ygrid = np.meshgrid(np.unique(x), np.unique(y))
+zgrid = z.reshape(len(np.unique(x)), len(np.unique(y))).T
 
 print zgrid
 
@@ -47,7 +44,7 @@ surf = ax.plot_surface(xgrid, ygrid, zgrid, cmap=cm.jet, rstride=1, cstride=1, c
 # Plot errorbars (confidence interval 95%)
 
 for i in np.arange(0, len(zconf)):
-    ax.plot([y[i], y[i]], [x[i], x[i]], [z[i]+zconf[i], z[i]-zconf[i]], marker="_", color='k')
+    ax.plot([x[i], x[i]], [y[i], y[i]], [z[i]+zconf[i], z[i]-zconf[i]], marker="_", color='k')
 
 # Title, etc.
 
