@@ -1,0 +1,5 @@
+A simple function wrapper compiled with GCC or Clang using makefile.
+
+USAGE:
+make
+make clean
