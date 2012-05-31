@@ -21,7 +21,7 @@ class Point
 class Geometry
 {
     public:
-        void translate(Point * point);
+        virtual void translate(Point * point);
         double getTranslateValue();
 };
 

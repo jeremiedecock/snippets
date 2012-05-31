@@ -31,8 +31,9 @@ class GeometryPy(cppclasses.Geometry):
 point = cppclasses.Point(1, 2)
 print "cpp before: (", point.get_x(), ",", point.get_y(), ")"
 
-geo = cppclasses.GeometryPy()
+geo = GeometryPy()
 geo.translate(point)
 print "cpp after: (", point.get_x(), ",", point.get_y(), ")"
+print
 
 #help(cppclasses)
