@@ -4,8 +4,7 @@
 import sys
 import cppclasses
 
-x = cppclasses.MuttableNumber()
-x.value = 0.0
+x = cppclasses.MuttableDouble(0.0)
 
 foo = cppclasses.Foo(x)
 foo.increment()

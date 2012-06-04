@@ -1,9 +1,9 @@
 #include "classes.h"
 
-Foo::Foo(MuttableNumber * _num) {
+Foo::Foo(double * _num) {
     this->num = _num;
 }
 
 void Foo::incrementNum() {
-    this->num->value += 1;
+    (* this->num) += 1;
 }

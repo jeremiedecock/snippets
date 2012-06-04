@@ -3,21 +3,12 @@
 
 #include <iostream>
 
-// MuttableNumbers
-
-class MuttableNumber {
-    public:
-    double value;
-};
-
-// Foo
-
 class Foo {
     private:
-    MuttableNumber * num;
+    double * num;
 
     public:
-    Foo(MuttableNumber *);
+    Foo(double *);
     void incrementNum();
 };
 
