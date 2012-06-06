@@ -16,7 +16,7 @@ class MuttableDouble {
 
 class FooWrapper : public Foo {
     public:
-    FooWrapper(MuttableDouble * muttable_x) : Foo(&(muttable_x->value)) { }
+    FooWrapper(MuttableDouble & muttable_x) : Foo(muttable_x.value) { }
 };
 
 // Define python module
@@ -29,7 +29,7 @@ BOOST_PYTHON_MODULE(cppclasses)
     muttable_double_wrapper.def_readwrite("value", &MuttableDouble::value, "value");
 
     // Foo class
-    boost::python::class_<FooWrapper> foo_wrapper("Foo", boost::python::init<MuttableDouble *>());
+    boost::python::class_<FooWrapper> foo_wrapper("Foo", boost::python::init<MuttableDouble &>());
     foo_wrapper.def("increment", &FooWrapper::incrementNum, "Increment num.");
 }
 
