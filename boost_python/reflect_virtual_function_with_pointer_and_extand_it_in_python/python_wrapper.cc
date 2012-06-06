@@ -1,28 +1,29 @@
 #include <boost/python.hpp>
 #include "classes.h"
 
-struct GeometryWrapper : Geometry, boost::python::wrapper<Geometry>
+class GeometryWrapper : public Geometry, public boost::python::wrapper<Geometry>
 {
-    void translate(Point * point) {
-        if(boost::python::override translate = this->get_override("translate")) {
-            // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
-            //          If translate(Point *) had returned something, we would have written:
-            //          "return translate(Point *);"
-            translate(point);
-        } else {
-            // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
-            //          If translate(Point *) had returned something, we would have written:
-            //          "return Geometry::translate(Point *);"
-            Geometry::translate(point);
+    public:
+        void translate(Point * point) {
+            if(boost::python::override translate = this->get_override("translate")) {
+                // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+                //          If translate(Point *) had returned something, we would have written:
+                //          "return translate(Point *);"
+                translate(point);
+            } else {
+                // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+                //          If translate(Point *) had returned something, we would have written:
+                //          "return Geometry::translate(Point *);"
+                Geometry::translate(point);
+            }
         }
-    }
 
-    void default_translate(Point * point) {
-        // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
-        //          If translate(Point *) had returned something, we would have written:
-        //          "return this->Geometry::translate(Point *);"
-        this->Geometry::translate(point);
-    }
+        void default_translate(Point * point) {
+            // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+            //          If translate(Point *) had returned something, we would have written:
+            //          "return this->Geometry::translate(Point *);"
+            this->Geometry::translate(point);
+        }
 };
 
 BOOST_PYTHON_MODULE(cppclasses)

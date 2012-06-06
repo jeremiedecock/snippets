@@ -1,13 +1,15 @@
 #include <boost/python.hpp>
 #include "classes.h"
 
-struct HelloWrapper : Hello, boost::python::wrapper<Hello> {
-    void message() {
-        // WARNING: here, message() don't return anything, so the wrapper neither.
-        //          If message() had returned something, we would have written:
-        //          "return this->get_override("message")();"
-        this->get_override("message")();
-    }
+class HelloWrapper : public Hello, public boost::python::wrapper<Hello>
+{
+    public:
+        void message() {
+            // WARNING: here, message() don't return anything, so the wrapper neither.
+            //          If message() had returned something, we would have written:
+            //          "return this->get_override("message")();"
+            this->get_override("message")();
+        }
 };
 
 BOOST_PYTHON_MODULE(cppclasses)
