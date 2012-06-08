@@ -1,0 +1,5 @@
+A very simple numerical integration demo.
+
+USAGE:
+make
+make clean
