@@ -1,0 +1,6 @@
+Estimate Pi value using Monte Carlo method.
+
+USAGE (USING GCC):
+
+ make
+ make clean
