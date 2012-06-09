@@ -11,7 +11,7 @@ double integrate_using_rectangle_rule(double (*pf)(double), double min, double m
     double sum = 0.0;
 
     double i;
-    for(i=min ; i<=max ; i+=delta) {
+    for(i=min ; i<max ; i+=delta) {
         double y = (*pf)(i);
         double rectangle_area = y * delta;
         sum += rectangle_area;
