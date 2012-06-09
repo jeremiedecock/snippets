@@ -4,7 +4,7 @@
  * Copyright (c) 2012 Jérémie Decock
  *
  * Required: boost.datetime library
- * Usage: g++ chrono.cc
+ * Usage: g++ time_budget_loop.cc
  *
  */
 

@@ -1,0 +1,5 @@
+*.o
+a.out
+rand_normal
+rand_uniform_int
+rand_uniform_real

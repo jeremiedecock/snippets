@@ -1,3 +1,13 @@
+/* 
+ * Rand_normal: generate random numbers (normal distribution) using boost::random.
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: boost.random library
+ * Usage: g++ rand_normal.cc
+ *
+ */
+
 #include <boost/random.hpp>
 #include <boost/random/normal_distribution.hpp>
 #include <ctime>

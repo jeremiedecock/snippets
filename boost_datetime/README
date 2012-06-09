@@ -1,0 +1,13 @@
+Boost::datetime demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ g++ chrono.cc
+ g++ time_budget_loop.cc
+ g++ timer.cc
+

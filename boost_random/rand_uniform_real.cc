@@ -1,3 +1,13 @@
+/* 
+ * Rand_uniform_real: generate random real numbers (uniform distribution) using boost::random.
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: boost.random library
+ * Usage: g++ rand_uniform_real.cc
+ *
+ */
+
 #include <boost/random.hpp>
 #include <boost/random/uniform_real.hpp>
 #include <ctime>

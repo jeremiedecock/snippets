@@ -1,0 +1,12 @@
+Boost::random demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ g++ rand_normal.cc
+ g++ rand_uniform_int.cc
+ g++ rand_uniform_real.cc

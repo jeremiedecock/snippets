@@ -1,3 +1,13 @@
+/* 
+ * Rand_uniform_int: generate random integer numbers (uniform distribution) using boost::random.
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: boost.random library
+ * Usage: g++ rand_uniform_int.cc
+ *
+ */
+
 #include <boost/random.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <ctime>
