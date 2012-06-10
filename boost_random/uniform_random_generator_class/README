@@ -1,0 +1,7 @@
+A boost::random demo.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
