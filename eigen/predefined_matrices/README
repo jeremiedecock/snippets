@@ -1,0 +1,6 @@
+A very basic demo of libeigen3.
+
+USAGE (USING GCC):
+
+ make
+ make clean
