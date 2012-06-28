@@ -10,7 +10,7 @@
 
 #include "random_number_generator.h"
 
-const unsigned long num_random_points = 100000000;
+const unsigned long num_random_points = 1000000;
 
 int main() {
     double min = 0.0;
