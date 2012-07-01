@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Hello
+# Copyright (c) 2012 Jérémie DECOCK <jd.jdhp@gmail.com>
+
+ROOT="."
+OPTS=
+LIBS="./bin"
+
+java ${OPTS} $@ -cp ${LIBS} org.jdhp.snippets.swing.HelloSwing
