@@ -34,93 +34,138 @@ lower 7 bits are US-ASCII. Another trick is to change the LANG environment
 variable from something like "us.utf8" to "us". 
 -->
 
-<project name="Hello" basedir="." default="help">
+<project name="Hello" basedir="." default="jar">
 
-    <!-- PROPERTIES -->
+    <!-- ========== PROPERTIES ========== -->
+
+    <!-- PROPERTIES (LOCAL) -->
     <property name="project_name" value="hello" />
     <property name="main_class" value="org.jdhp.snippets.Hello" />
-	<property name="package_names" value="org.jdhp.snippets.*" />
+    <property name="package_names" value="org.jdhp.snippets.*" />
+    <property name="data_path" value="org/jdhp/snippets/data" />
 
-	<property name="src_dir" value="${basedir}/src" />
-	<property name="class_dir" value="${basedir}/bin" />
-	<property name="lib_dir" value="${basedir}/ext/lib" />
-	<property name="javadoc_dir" value="${basedir}/doc/javadoc" />
-	<property name="dist_dir" value="${basedir}/dist" />
+    <!-- PROPERTIES (GLOBAL) -->
+    <property name="src_dir" value="${basedir}/src" />
+    <property name="class_dir" value="${basedir}/bin" />
+    <property name="lib_dir" value="${basedir}/ext/lib" />
+    <property name="javadoc_dir" value="${basedir}/doc/javadoc" />
+    <property name="dist_dir" value="${basedir}/dist" />
     <property name="dist_project_dir" value="${dist_dir}/${project_name}" />
-	
-	<property name="jar_file" value="${dist_project_dir}/${project_name}.jar" />
-	<property name="dist_file" value="${dist_dir}/${project_name}.zip" />
-	
-	<property name="classpath" value="${class_dir}" />
+    <property name="dist_project_lib_dir" value="${dist_project_dir}/lib" />
+    <property name="src_data_dir" value="${src_dir}/${data_path}" />
+    <property name="class_data_dir" value="${class_dir}/${data_path}" />
+
+    <property name="jar_file" value="${basedir}/${project_name}.jar" />
+    <property name="dist_file" value="${dist_dir}/${project_name}.zip" />
+    <property name="run_script_file" value="${basedir}/${project_name}" />
+
+    <!-- PROPERTIES (LIBS) -->
+    <property name="classpath" value="${class_dir}" />
     <property name="jar_classpath" value="./" />
 
-    <!-- TARGETS -->
-	<target name="init_dist" description="Generate the dist directories">
-		<echo>Generate the dist directories</echo>
-		<mkdir dir="${dist_dir}" />
-		<mkdir dir="${dist_project_dir}" />
-		<mkdir dir="${dist_project_dir}/lib" />
-		<copy todir="${dist_project_dir}/lib">
-			<fileset dir="${lib_dir}"/>
-		</copy>
-	</target>
+    <!-- ========== TARGETS ========== -->
 
-	<target name="build" description="Build class files">
-		<echo>Generate class files</echo>
-		<delete dir="${class_dir}" />
-		<mkdir dir="${class_dir}" />
-		<javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" />
-	</target>
+    <!-- TARGET BUILD -->
+    <target name="build" description="Build class files">
+        <echo>Generate class files</echo>
+        
+        <delete dir="${class_dir}" />
+        <mkdir dir="${class_dir}" />
 
-	<target name="jar" depends="build, init_dist" description="Generate the jar file">
-		<echo>Generate the jar file</echo>
-		<delete file="${jar_file}" />
-		<jar destfile="${jar_file}" basedir="${class_dir}">
-			<manifest>
+        <!-- To avoid error messages if ${src_data_dir} doesn't exists -->
+        <mkdir dir="${src_data_dir}" />
+
+        <!-- Copy data files -->
+        <mkdir dir="${class_data_dir}" />
+        <copy todir="${class_data_dir}">
+            <fileset dir="${src_data_dir}" excludes="**/*.java" />
+        </copy>
+        
+        <!-- Build classes -->
+        <javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" includeantruntime="false" />
+    </target>
+
+    <!-- TARGET JAR -->
+    <target name="jar" depends="build" description="Generate the jar file">
+        <echo>Generate the jar file</echo>
+        <delete file="${jar_file}" />
+        <jar destfile="${jar_file}" basedir="${class_dir}">
+            <manifest>
                 <attribute name="Main-Class" value="${main_class}" />
                 <attribute name="Class-Path" value="${jar_classpath}" />
-			</manifest>
-		</jar>
-	</target>
+            </manifest>
+        </jar>
+    </target>
 
-	<target name="dist" depends="jar" description="Generate the dist file">
-		<echo>Generate the dist file</echo>
-		<delete file="${dist_file}" />
-		<zip basedir="${dist_dir}" destfile="${dist_file}" />
-	</target>
+    <!-- TARGET DIST -->
+    <target name="dist" depends="jar" description="Generate the dist file">
+        <echo>Generate the dist directories</echo>
 
-	<target name="doc" description="Generate documentation">
-		<echo>Generate documentation</echo>
-		<delete dir="${javadoc_dir}" />
-		<mkdir dir="${javadoc_dir}" />
+        <!-- Generate the dist directories -->
+        <delete dir="${dist_dir}" />
+        <mkdir dir="${dist_dir}" />
+        <mkdir dir="${dist_project_dir}" />
+        <mkdir dir="${dist_project_lib_dir}" />
+
+        <!-- Copy run script -->
+        <copy file="${run_script_file}" todir="${dist_project_dir}" />
+
+        <!-- To avoid error messages if ${lib_dir} doesn't exists -->
+        <mkdir dir="${lib_dir}" />
+
+        <!-- Copy libraries -->
+        <copy todir="${dist_project_lib_dir}">
+            <fileset dir="${lib_dir}"/>
+        </copy>
+
+        <!-- Copy JAR file -->
+        <copy file="${jar_file}" todir="${dist_project_dir}" />
+
+        <!-- Generate the dist file -->
+        <echo>Generate the dist file</echo>
+        <delete file="${dist_file}" />
+        <zip basedir="${dist_dir}" destfile="${dist_file}" />
+    </target>
+
+    <!-- TARGET DOC -->
+    <target name="doc" description="Generate documentation">
+        <echo>Generate documentation</echo>
+
+        <delete dir="${javadoc_dir}" />
+        <mkdir dir="${javadoc_dir}" />
+        
+        <!-- Generate documentation -->
         <javadoc sourcepath="${src_dir}" destdir="${javadoc_dir}" packagenames="${package_names}" />
-	</target>
+    </target>
 
-	<target name="clean" description="Remove class and doc directories and jar and dist files">
-		<echo>Remove class and doc directories and jar and dist files</echo>
-		<delete dir="${class_dir}" />
-		<delete dir="${javadoc_dir}" />
-		<delete file="${jar_file}" />
-		<delete file="${dist_file}" />
-		<delete dir="${dist_project_dir}" />
-		<delete dir="${dist_dir}" />
-	</target>
+    <!-- TARGET CLEAN -->
+    <target name="clean" description="Remove class and doc directories and jar and dist files">
+        <echo>Remove class and doc directories and jar and dist files</echo>
+        <delete dir="${class_dir}" />
+        <delete dir="${javadoc_dir}" />
+        <delete file="${jar_file}" />
+        <delete file="${dist_file}" />
+        <delete dir="${dist_project_dir}" />
+        <delete dir="${dist_dir}" />
+    </target>
 
-	<target name="run" depends="build" description="Run the project">
-		<echo>Run the project</echo>
+    <!-- TARGET RUN -->
+    <target name="run" depends="build" description="Run the project">
+        <echo>Run the project</echo>
         <java classpath="${classpath}" classname="${main_class}" />
-	</target>
+    </target>
 
-	<target name="help" description="Display help">
-		<echo>build     generate class files</echo>
-		<echo>jar       generate the jar file</echo>
-		<echo>doc       generate documentation</echo>
-		<echo> </echo>
-		<echo>clean     remove class and doc directories and jar and dist files</echo>
-		<echo>dist      generate the dist file (dist/${project_name}.zip)</echo>
-		<echo>run       run the project</echo>
-		<echo> </echo>
-		<echo>help      display this message</echo>
-	</target>
+    <!-- TARGET HELP -->
+    <target name="help" description="Display help">
+        <echo>build     generate class files</echo>
+        <echo>jar       generate the jar file</echo>
+        <echo>doc       generate documentation</echo>
+        <echo> </echo>
+        <echo>clean     remove class and doc directories and jar and dist files</echo>
+        <echo>dist      generate the dist file (dist/${project_name}.zip)</echo>
+        <echo>run       run the project</echo>
+        <echo> </echo>
+        <echo>help      display this message</echo>
+    </target>
 
 </project>
