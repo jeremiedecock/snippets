@@ -5,6 +5,7 @@
 
 ROOT="."
 OPTS=
-LIBS="./bin"
+LIBS="${ROOT}/bin/"
 
+#java ${OPTS} $@ -jar ${ROOT}/hello.jar
 java ${OPTS} $@ -cp ${LIBS} org.jdhp.snippets.Hello

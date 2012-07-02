@@ -5,6 +5,7 @@
 
 ROOT="."
 OPTS=
-LIBS="./bin"
+LIBS="${ROOT}/bin/"
 
+#java ${OPTS} $@ -jar ${ROOT}/hello_swing.jar
 java ${OPTS} $@ -cp ${LIBS} org.jdhp.snippets.swing.HelloSwing
