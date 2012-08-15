@@ -1,11 +1,12 @@
 #!/bin/sh
 
-# Hello
+# Hello Java
 # Copyright (c) 2012 Jérémie DECOCK <jd.jdhp@gmail.com>
 
 ROOT="."
-OPTS=
+JVM_ARGS="$@"
+PROGRAM_ARGS=
 LIBS="${ROOT}/bin/"
 
-#java ${OPTS} $@ -jar ${ROOT}/hello.jar
-java ${OPTS} $@ -cp ${LIBS} org.jdhp.snippets.Hello
+#java ${JVM_ARGS} -jar ${ROOT}/hello.jar ${PROGRAM_ARGS}
+java ${JVM_ARGS} -cp ${LIBS} org.jdhp.snippets.Hello ${PROGRAM_ARGS}
