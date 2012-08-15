@@ -1,4 +1,5 @@
 bin/
 dist/
+doc/
 *.class
-hello_swing.jar
+hello_swt.jar
