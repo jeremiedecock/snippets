@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# HelloSWT
+# Copyright (c) 2012 Jérémie DECOCK <jd.jdhp@gmail.com>
+
+# TODO:
+# - test this script on a "x86_32" platform
+
+ROOT="."
+JVM_ARGS="$@"
+PROGRAM_ARGS=
+
+### CHECK COMMANDS ###
+
+#CMDS="uname java"
+#for CMD in ${CMDS}
+#do
+#    # command -v will return >0 when the $i is not found
+#    command -v ${CMD} >/dev/null && continue || { echo "${CMD}: command not found."; exit 1; }
+#done
+
+### SET LIBS ###
+
+#if [ $(uname -i) = "x86" ]
+#then
+#    echo "x86 platform detected"
+#    LIBS="${ROOT}/bin/:${ROOT}/ext/lib/swt-3.7.2-gtk-linux-x86.jar"
+#elif [ $(uname -i) = "x86_64" ]
+#then
+#    echo "x86_64 platform detected"
+#    LIBS="${ROOT}/bin/:${ROOT}/ext/lib/swt-3.7.2-gtk-linux-x86_64.jar"
+#else
+#    echo "Error: unknown platform"
+#fi
+
+### LAUNCH JAVA ###
+
+LIBS="${ROOT}/bin/:${ROOT}/ext/lib/swt-3.7.2-gtk-linux-x86.jar"
+
+#java ${JVM_ARGS} $@ -jar ${ROOT}/hello_swt.jar ${PROGRAM_ARGS}
+java ${JVM_ARGS} $@ -cp ${LIBS} org.jdhp.snippets.swt.HelloSwt ${PROGRAM_ARGS}
+
