@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Hello SAX
+# Copyright (c) 2012 Jérémie DECOCK <jd.jdhp@gmail.com>
+
+ROOT="."
+JVM_ARGS=
+PROGRAM_ARGS="$@"
+LIBS="${ROOT}/bin/"
+
+#java ${JVM_ARGS} -jar ${ROOT}/hello_sax.jar ${PROGRAM_ARGS}
+java ${JVM_ARGS} -cp ${LIBS} org.jdhp.snippets.sax.Hello ${PROGRAM_ARGS}
