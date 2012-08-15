@@ -1,0 +1,5 @@
+bin/
+dist/
+doc/
+*.class
+browser_html_from_memory.jar

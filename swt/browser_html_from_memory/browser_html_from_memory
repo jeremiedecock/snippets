@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Browser HTML form memory
+# Copyright (c) 2012 Jérémie DECOCK <jd.jdhp@gmail.com>
+
+ROOT="."
+JVM_ARGS="$@"
+PROGRAM_ARGS=
+
+LIBS="${ROOT}/bin/:${ROOT}/ext/lib/swt-3.7.2-gtk-linux-x86.jar"
+
+#java ${JVM_ARGS} $@ -jar ${ROOT}/browser_html_from_memory ${PROGRAM_ARGS}
+java ${JVM_ARGS} $@ -cp ${LIBS} org.jdhp.snippets.swt.BrowserHTMLFromMemory ${PROGRAM_ARGS}
+
