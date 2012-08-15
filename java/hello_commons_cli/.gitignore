@@ -1,4 +1,5 @@
 bin/
 dist/
+doc/
 *.class
 hello_commons_cli.jar
