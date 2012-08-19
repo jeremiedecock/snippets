@@ -153,7 +153,7 @@ public class SaxHandlers extends DefaultHandler
     public void startDocument()
         throws SAXException
     {
-    	System.out.println("start document");
+        System.out.println("start document");
     }
 
 
@@ -172,7 +172,7 @@ public class SaxHandlers extends DefaultHandler
     public void endDocument()
         throws SAXException
     {
-    	System.out.println("end document");
+        System.out.println("end document");
     }
 
 
@@ -242,35 +242,35 @@ public class SaxHandlers extends DefaultHandler
         throws SAXException
     {
         if(namespaceURI.equals("")) {
-        	System.out.println("start element: " + qualifiedName);
-        	
-        	/* 
-        	 * In this snippet, attributes name are unknown so a "for loop" is used to iterate on all attributes.
-        	 * In a real program, attributes name are known so "attributes.getValue("...")" can be used directly.
-        	 */
-        	for(int i=0 ; i<attributes.getLength() ; i++) {
-        		String attributeName = attributes.getLocalName(i);
-        		
-        		/*
-        		 *  "attributes.getValue(int index);" could be used too.
-        		 */
-        		System.out.println("attribute \"" + attributeName + "\" = " + attributes.getValue(attributeName));
-        	}
+            System.out.println("start element: " + qualifiedName);
+            
+            /* 
+             * In this snippet, attributes name are unknown so a "for loop" is used to iterate on all attributes.
+             * In a real program, attributes name are known so "attributes.getValue("...")" can be used directly.
+             */
+            for(int i=0 ; i<attributes.getLength() ; i++) {
+                String attributeName = attributes.getLocalName(i);
+                
+                /*
+                 *  "attributes.getValue(int index);" could be used too.
+                 */
+                System.out.println("attribute \"" + attributeName + "\" = " + attributes.getValue(attributeName));
+            }
         } else {
-        	System.out.println("start element: {" + namespaceURI + "}" + localName);
-        	
-        	/* 
-        	 * In this snippet, attributes name are unknown so a "for loop" is used to iterate on all attributes.
-        	 * In a real program, attributes name are known so "attributes.getValue("...")" can be used directly.
-        	 */
-        	for(int i=0 ; i<attributes.getLength() ; i++) {
-        		String attributeName = attributes.getLocalName(i);
+            System.out.println("start element: {" + namespaceURI + "}" + localName);
+            
+            /* 
+             * In this snippet, attributes name are unknown so a "for loop" is used to iterate on all attributes.
+             * In a real program, attributes name are known so "attributes.getValue("...")" can be used directly.
+             */
+            for(int i=0 ; i<attributes.getLength() ; i++) {
+                String attributeName = attributes.getLocalName(i);
 
-        		/*
-        		 *  "attributes.getValue(int index);" could be used too.
-        		 */
-        		System.out.println("attribute \"" + attributeName + "\" = " + attributes.getValue(attributeName));
-        	}
+                /*
+                 *  "attributes.getValue(int index);" could be used too.
+                 */
+                System.out.println("attribute \"" + attributeName + "\" = " + attributes.getValue(attributeName));
+            }
         }
     }
 
@@ -299,9 +299,9 @@ public class SaxHandlers extends DefaultHandler
         throws SAXException
     {
         if(namespaceURI.equals("")) {
-        	System.out.println("end element: " + qualifiedName);
+            System.out.println("end element: " + qualifiedName);
         } else {
-        	System.out.println("end element: {" + namespaceURI + "}" + localName);
+            System.out.println("end element: {" + namespaceURI + "}" + localName);
         }
     }
 
@@ -325,29 +325,29 @@ public class SaxHandlers extends DefaultHandler
     public void characters(char ch[], int start, int length)
         throws SAXException
     {
-    	StringBuffer str = new StringBuffer();
-    	
+        StringBuffer str = new StringBuffer();
+        
         for(int i=start ; i<start+length ; i++) {
-        	switch(ch[i]) {
-        	case '\\':
-        		str.append("\\\\");
-        		break;
-        	case '"':
-        		str.append("\\\"");
-        		break;
-        	case '\n':
-        		str.append("\\n");
-        		break;
-        	case '\r':
-        		str.append("\\r");
-        		break;
-        	case '\t':
-        		str.append("\\t");
-        		break;
-        	default:
-        		str.append(ch[i]);
-        		break;
-        	}
+            switch(ch[i]) {
+            case '\\':
+                str.append("\\\\");
+                break;
+            case '"':
+                str.append("\\\"");
+                break;
+            case '\n':
+                str.append("\\n");
+                break;
+            case '\r':
+                str.append("\\r");
+                break;
+            case '\t':
+                str.append("\\t");
+                break;
+            default:
+                str.append(ch[i]);
+                break;
+            }
         }
        
         System.out.println("characters: " + str);
@@ -439,7 +439,7 @@ public class SaxHandlers extends DefaultHandler
     public void warning(SAXParseException e)
         throws SAXException
     {
-    	System.out.println("warning: " + e.getMessage());
+        System.out.println("warning: " + e.getMessage());
     }
 
 
@@ -460,7 +460,7 @@ public class SaxHandlers extends DefaultHandler
     public void error(SAXParseException e)
         throws SAXException
     {
-    	System.out.println("error: " + e.getMessage());
+        System.out.println("error: " + e.getMessage());
     }
 
 
@@ -484,7 +484,7 @@ public class SaxHandlers extends DefaultHandler
     public void fatalError(SAXParseException e)
         throws SAXException
     {
-    	System.out.println("fatalError: " + e.getMessage());
+        System.out.println("fatalError: " + e.getMessage());
         throw e;
     }
 

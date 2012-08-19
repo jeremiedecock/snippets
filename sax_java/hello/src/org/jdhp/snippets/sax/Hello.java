@@ -20,8 +20,8 @@ public class Hello {
      * @param args
      */
     public static void main(String args[]) {
-    	
-    	// Check arguments
+        
+        // Check arguments
         if(args.length != 1) {
             usage();
             System.exit(1);
@@ -37,7 +37,7 @@ public class Hello {
 
         // Make the parser and parse
         try {
-        	XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+            XMLReader xmlReader = XMLReaderFactory.createXMLReader();
             xmlReader.setContentHandler(handlers);
             xmlReader.setErrorHandler(handlers);
             xmlReader.parse(fileUrl);
