@@ -1,18 +1,12 @@
 package org.jdhp.snippets.sax;
 
-import java.io.File;
 import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -24,68 +18,25 @@ import org.xml.sax.helpers.DefaultHandler;
  * Users can copy it and drop useless methods.
  * 
  * DefaultHandler implements the four SAX handlers:
- * - org.xml.sax.EntityResolver
- * - org.xml.sax.DTDHandler
  * - org.xml.sax.ContentHandler
  * - org.xml.sax.ErrorHandler
+ * - org.xml.sax.DTDHandler
+ * - org.xml.sax.EntityResolver
  * 
  * The main methods are:
- * - void startDocument()
- * - void endDocument()
- * - void startElement(String namespaceURI, String localName, String qualifiedName, Attributes attributes)
- * - void endElement(String namespaceURI, String localName, String qualifiedName)
- * - void characters(char ch[], int start, int length)
- * - void warning(SAXParseException e)
- * - void error(SAXParseException e)
- * - void fatalError(SAXParseException e)
+ * * ContentHandler
+ *   - void startDocument()
+ *   - void endDocument()
+ *   - void startElement(String namespaceURI, String localName, String qualifiedName, Attributes attributes)
+ *   - void endElement(String namespaceURI, String localName, String qualifiedName)
+ *   - void characters(char ch[], int start, int length)
+ * * ErrorHandler
+ *   - void warning(SAXParseException e)
+ *   - void error(SAXParseException e)
+ *   - void fatalError(SAXParseException e)
  */
-public class XMLParser extends DefaultHandler
+public class SaxHandlers extends DefaultHandler
 {
-
-	/**
-	 * 
-	 * @param filename
-	 */
-    public XMLParser(String filename) {
-        String fileUrl = convertToFileURL(filename);
-        System.out.println("Parsing " + fileUrl);
-
-        try {
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            spf.setNamespaceAware(true);
-            SAXParser saxParser = spf.newSAXParser();
-
-            XMLReader xmlReader = saxParser.getXMLReader();
-            xmlReader.setContentHandler(this);
-            xmlReader.parse(fileUrl);
-        } catch(ParserConfigurationException ex) {
-            //
-        } catch(IOException ex) {
-            //
-        } catch(SAXException ex) {
-            //
-        }
-    }
-
-    
-    /**
-     * @param filename
-     * @return
-     */
-    private static String convertToFileURL(String filename) {
-        String path = new File(filename).getAbsolutePath();
-
-        if(File.separatorChar != '/') {
-            path = path.replace(File.separatorChar, '/');
-        }
-
-        if(!path.startsWith("/")) {
-            path = "/" + path;
-        }
-
-        return "file:" + path;
-    }
-
 
     // EntityResolver interface ////////////////////////////////////////
 
