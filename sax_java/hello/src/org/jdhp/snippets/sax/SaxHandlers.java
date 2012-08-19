@@ -38,6 +38,18 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SaxHandlers extends DefaultHandler
 {
 
+	private String getParseExceptionInfo(SAXParseException ex) {
+		String systemId = ex.getSystemId();
+		
+		if(systemId == null) {
+			systemId = "null";
+		}
+		
+		String info = "URI=" + systemId + " Line=" + ex.getLineNumber() + ": " + ex.getMessage();
+		
+		return info;
+	}
+	
     // EntityResolver interface ////////////////////////////////////////
 
 
@@ -439,7 +451,7 @@ public class SaxHandlers extends DefaultHandler
     public void warning(SAXParseException e)
         throws SAXException
     {
-        System.out.println("warning: " + e.getMessage());
+        System.out.println("warning: " + this.getParseExceptionInfo(e));
     }
 
 
@@ -460,7 +472,7 @@ public class SaxHandlers extends DefaultHandler
     public void error(SAXParseException e)
         throws SAXException
     {
-        System.out.println("error: " + e.getMessage());
+        System.out.println("error: " + this.getParseExceptionInfo(e));
     }
 
 
@@ -484,7 +496,7 @@ public class SaxHandlers extends DefaultHandler
     public void fatalError(SAXParseException e)
         throws SAXException
     {
-        System.out.println("fatalError: " + e.getMessage());
+        System.out.println("fatalError: " + this.getParseExceptionInfo(e));
         throw e;
     }
 
