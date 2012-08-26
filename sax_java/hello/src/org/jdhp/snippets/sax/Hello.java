@@ -35,9 +35,20 @@ public class Hello {
         // Make the handler
         SaxHandlers handlers = new SaxHandlers();
 
+        // Get informations about the current parser implementation
+        //String parserClassName = System.getProperty("org.xml.sax.driver");
+        //String parserClassName = System.getProperty("javax.xml.parsers.SAXParserFactory");
+        //System.out.println("Parser implementation: " + parserClassName);
+        
         // Make the parser and parse
         try {
+            // Make the parser
             XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+            
+            // Get informations about the current parser implementation
+            System.out.println("Using parser " + xmlReader.getClass().getCanonicalName());
+            
+            // Parse
             xmlReader.setContentHandler(handlers);
             xmlReader.setErrorHandler(handlers);
             xmlReader.parse(fileUrl);
