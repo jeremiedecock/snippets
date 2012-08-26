@@ -1,0 +1,45 @@
+README
+
+
+TO TEST THIS SNIPPET (UNIX ONLY):
+
+ant build
+./hello_jaxb test.xml
+./hello_jaxb testns.xml
+
+
+ANT TARGETS:
+
+* Generate class files
+
+  ant build
+
+* Generate the jar file
+
+  ant jar
+
+* Generate documentation
+
+  ant doc
+
+* Remove class and doc directories and jar and dist files
+
+  ant clean
+
+* Generate the dist file (dist/hello_jaxb.zip)
+
+  ant dist
+
+* Run the project
+
+  ant run
+
+* Display help message
+
+  ant help
+
+* Build a Debian package (requires "javahelper" package to be installed)
+
+  jh_makepkg --package="hello-jaxb" --upstream="1.0.0"
+  [Edit ./debian/* files...]
+  dpkg-buildpackage -rfakeroot -us -uc
