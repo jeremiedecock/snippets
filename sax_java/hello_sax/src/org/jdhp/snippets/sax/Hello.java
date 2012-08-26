@@ -37,7 +37,6 @@ public class Hello {
 
         // Get informations about the current parser implementation
         //String parserClassName = System.getProperty("org.xml.sax.driver");
-        //String parserClassName = System.getProperty("javax.xml.parsers.SAXParserFactory");
         //System.out.println("Parser implementation: " + parserClassName);
         
         // Make the parser and parse
@@ -54,8 +53,10 @@ public class Hello {
             xmlReader.parse(fileUrl);
         } catch(IOException ex) {
             //
+        	ex.printStackTrace();
         } catch(SAXException ex) {
             //
+        	ex.printStackTrace();
         }
     }
     
