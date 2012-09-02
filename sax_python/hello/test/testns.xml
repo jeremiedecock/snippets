@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<library xmlns="http://www.jdhp.org/ns/library">
+	<book date="1998-03-01" isbn="0262193981">
+		<title><![CDATA[Reinforcement Learning: An Introduction]]></title>
+		<author>Richard S. Sutton</author>
+		<author>Andrew G. Barto</author>
+        <tag>Computer Science</tag>
+        <tag>Artificial Intelligence</tag>
+        <tag>Reinforcement Learning</tag>
+    </book>
+	<book date="2009-12-11" isbn="0136042594">
+		<title><![CDATA[Artificial Intelligence: A Modern Approach]]></title>
+		<author>Stuart Russell</author>
+		<author>Peter Norvig</author>
+        <tag>Computer Science</tag>
+        <tag>Artificial Intelligence</tag>
+    </book>
+</library>
