@@ -21,8 +21,19 @@ class MyHandler(ContentHandler, ErrorHandler):
     def endElement(self, name):
         print "End element:", name
 
+    def startElementNS(self, name, qname, attr):
+        """TODO: improve this"""
+        print "Start NS element:", name, qname,
+        for key, value in attr.items():
+            print "[", key, "=", value, "]",
+        print
+
+    def endElementNS(self, name, qname):
+        """TODO: improve this"""
+        print "End NS element:", name, qname
+
     def characters(self, ch):
-        print "Characters element:", ch
+        print "Characters:", ch
 
     # ErrorHandler ##############################
 
