@@ -12,7 +12,7 @@ def main():
     """Main function"""
 
     # Parse program arguments
-    argparser = argparse.ArgumentParser(description='An argparse snippet.')
+    argparser = argparse.ArgumentParser(description='An XML SAX snippet.')
     argparser.add_argument('filenames', nargs='+', metavar='FILE', help='file to read')
     args = argparser.parse_args()
 
