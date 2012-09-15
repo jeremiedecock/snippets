@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library SYSTEM "library.dtd" >
 
 <library>
 	<book date="1998-03-01" isbn="0262193981">
@@ -8,6 +9,7 @@
         <tag>Computer Science</tag>
         <tag>Artificial Intelligence</tag>
         <tag>Reinforcement Learning</tag>
+    <!-- Missing </book> -->
 	<book date="2009-12-11" isbn="0136042594">
 		<title><![CDATA[Artificial Intelligence: A Modern Approach]]></title>
 		<author>Stuart Russell</author>
