@@ -3,6 +3,7 @@ package org.jdhp.snippets.sax;
 import java.io.File;
 import java.io.IOException;
 
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -30,6 +31,7 @@ public class Hello {
         // Get file URL
         String filename = args[0];
         String fileUrl = convertToFileURL(filename);
+        InputSource inpurSource = new InputSource(fileUrl);
         System.out.println("Parsing " + fileUrl);
         
         // Make the handler
@@ -50,7 +52,7 @@ public class Hello {
             // Parse
             xmlReader.setContentHandler(handlers);
             xmlReader.setErrorHandler(handlers);
-            xmlReader.parse(fileUrl);
+            xmlReader.parse(inpurSource);  //xmlReader.parse(fileUrl);
         } catch(IOException ex) {
             //
         	ex.printStackTrace();
