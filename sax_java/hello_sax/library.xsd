@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE schema SYSTEM "XMLSchema.dtd" >
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+	
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			Schema for XML Snippets
+			Copyright (c) 2012 Jérémie DECOCK
+		</xs:documentation>
+	</xs:annotation>
+
+	<!-- Elements declaration -->
+
+	<xs:element name="library">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="book" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="book">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="title" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="author" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="tag" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="date" type="xs:date" use="required" />
+			<xs:attribute name="isbn" type="xs:integer" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="title" type="xs:string" />
+
+	<xs:element name="author" type="xs:string" />
+
+	<xs:element name="tag" type="xs:string" />
+	
+</xs:schema>
