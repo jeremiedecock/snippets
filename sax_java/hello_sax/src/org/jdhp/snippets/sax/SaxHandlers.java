@@ -411,7 +411,7 @@ public class SaxHandlers extends DefaultHandler
     public void processingInstruction(String target, String data)
         throws SAXException
     {
-        // no op
+        System.out.println("processing instruction: target=" + target + ", data=" + data);
     }
 
 
