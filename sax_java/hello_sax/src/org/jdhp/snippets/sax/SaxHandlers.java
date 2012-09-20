@@ -37,6 +37,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SaxHandlers extends DefaultHandler
 {
+	/** Hold onto the locator for location information
+	 * (set by setDocumentLocator). */
+	private Locator locator;
 
 	private String getParseExceptionInfo(SAXParseException ex) {
 		String systemId = ex.getSystemId();
@@ -146,7 +149,8 @@ public class SaxHandlers extends DefaultHandler
      */
     public void setDocumentLocator(Locator locator)
     {
-        // no op
+    	System.out.println("save the locator");
+        this.locator = locator;
     }
 
 
@@ -407,7 +411,7 @@ public class SaxHandlers extends DefaultHandler
     public void processingInstruction(String target, String data)
         throws SAXException
     {
-        // no op
+        System.out.println("processing instruction: target=" + target + ", data=" + data);
     }
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE library SYSTEM "library.dtd" >
 
-<library>
+<library xmlns="http://www.jdhp.org/ns/library">
 	<book date="1998-03-01" isbn="0262193981">
 		<title><![CDATA[Reinforcement Learning: An Introduction]]></title>
 		<author>Richard S. Sutton</author>
