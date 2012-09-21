@@ -31,7 +31,7 @@ from matplotlib import cm
 REAL_RANGE = np.arange(-2.0, 1.0, 0.05).tolist()
 IMAG_RANGE = np.arange(-1.2, 1.2, 0.05).tolist()
 
-DELTA_MAX = 2.
+EPSILON_MAX = 2.
 NUM_IT_MAX = 32
 
 Z_INIT = complex(0, 0)
@@ -42,7 +42,7 @@ def mandelbrot(x, y):
     c = complex(x, y)
 
     # Rem: abs(z) = |z| = math.sqrt(pow(z.imag,2) + pow(z.real,2))
-    while it < NUM_IT_MAX and abs(z) <= DELTA_MAX:
+    while it < NUM_IT_MAX and abs(z) <= EPSILON_MAX:
         z = pow(z, 2) + c
         it += 1
 
