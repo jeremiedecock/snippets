@@ -60,13 +60,9 @@ def main():
 
     # Compute datas #############
 
-    colorgrid = np.zeros([len(REAL_RANGE), len(IMAG_RANGE)]).T
     xgrid, ygrid = np.meshgrid(REAL_RANGE, IMAG_RANGE)
 
-    for x_index, x in enumerate(REAL_RANGE):
-        for y_index, y in enumerate(IMAG_RANGE):
-            colorgrid[y_index, x_index] = mandelbrot(x, y)
-
+    data = np.array([mandelbrot(x, y) for y in IMAG_RANGE for x in REAL_RANGE]).reshape(len(IMAG_RANGE), len(REAL_RANGE))
 
     # Plot data #################
 
@@ -75,7 +71,7 @@ def main():
 
     # Plot mean surface
 
-    ax.plot_surface(xgrid, ygrid, colorgrid, cmap=cm.jet, rstride=1, cstride=1, color='b', shade=True)
+    ax.plot_surface(xgrid, ygrid, data, cmap=cm.jet, rstride=1, cstride=1, color='b', shade=True)
 
     # Title, etc.
 
