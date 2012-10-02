@@ -21,7 +21,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import pdb
+import os
+import sys
+
+symbols = {-1: "x", 0: " ", 1: "o"}
+
+dot_node_declaration = []
+dot_edge_declaration = []
+
+# This variable is used to check if the number of games (that is to say the
+# number of leaf nodes) is correct.
+# See http://en.wikipedia.org/wiki/Tic-tac-toe#Number_of_possible_games
+#     "How many Tic-Tac-Toe games are possible?" Henry Bottomley, 2001
+#     "Mathematical Recreations" Steve Schaeffer, 2002
+number_of_leaf_nodes = 0
 
 class Node:
     """Node class"""
@@ -30,6 +43,8 @@ class Node:
     _child_nodes = []
 
     def __init__(self, value):
+        global number_of_leaf_nodes
+
         self._value = tuple(value)
         self._child_nodes = []      # WARNING: without this line, all "Node" objects share the same list "_child_nodes" !!!
 
@@ -44,20 +59,30 @@ class Node:
                 child_node_value[-1] = player_id * -1
                 
                 self._child_nodes.append(Node(child_node_value))
+        else:
+            # Update the variable used to check the number of games (that is to
+            # say the number of leaf nodes).
+            number_of_leaf_nodes += 1
 
     def isFinal(self):
         is_final = False
 
+        value = self._value[0:9]
+
+        # Check if there is at least one empty square
+        if value.count(0) == 0:
+            is_final = True
+
         # Check lines
-        if abs(sum(self._value[0:3])==3) or abs(sum(self._value[3:6])==3) or abs(sum(self._value[6:9])==3):
+        elif abs(sum(value[0:3]))==3 or abs(sum(value[3:6]))==3 or abs(sum(value[6:9]))==3:
             is_final = True
 
         # Check columns
-        if abs(sum(self._value[0::3])==3) or abs(sum(self._value[1::3])==3) or abs(sum(self._value[2::3])==3):
+        elif abs(sum(value[0:9:3]))==3 or abs(sum(value[1:9:3]))==3 or abs(sum(value[2:9:3]))==3:
             is_final = True
 
         # Check diagonals
-        if abs(sum(self._value[0::4])==3) or abs(sum(self._value[2:6:2])==3):
+        elif abs(sum(value[0:9:4]))==3 or abs(sum(value[2:7:2]))==3:
             is_final = True
 
         return is_final
@@ -73,7 +98,11 @@ def walk(node):
     """The tree traversal function"""
 
     # Do something with node value...
-    print node.getValue()
+    str_val = [symbols[item] for item in node.getValue()[0:9]]       # convert node.value (list of integers) to list of string (tictactoe symbols "x", " " and "o")
+    dot_node_declaration.append('\t%d [shape=record, label="{%s}|{%s}|{%s}"];' % (id(node), "|".join(str_val[0:3]), "|".join(str_val[3:6]), "|".join(str_val[6:9])))
+
+    for child_node in node.getChildNodes():
+        dot_edge_declaration.append('\t%d -> %d;' % (id(node), id(child_node)))
 
     # Recurse on each child node
     for child_node in node.getChildNodes():
@@ -87,11 +116,23 @@ def main():
     """
 
     # Build the game tree
-    root = Node([1, 0, 1,  -1, 0, -1,  0, 0, 0,  1])
+    #root = Node([0, 0, 0,  0, 0, 0,  0, 0, 0,  1])
+    #root = Node([1, 0, 1,  -1, 0, -1,  1, -1, 0,  1])
+    root = Node([0, 0, 1,  0, 0, -1,  1, -1, 0,  1])
 
     # Traverse the tree
     walk(root)
 
+    # Print the "dot" (Graphviz) representation of the tree
+    print "digraph G {"
+    print os.linesep.join(dot_node_declaration)
+    print os.linesep.join(dot_edge_declaration)
+    print "}"
+
+    # Print some statistics about the tree
+    print >> sys.stderr, len(dot_node_declaration), "nodes generated"
+    print >> sys.stderr, len(dot_edge_declaration), "edges generated"
+    print >> sys.stderr, number_of_leaf_nodes, "games generated (number of leaf nodes)"
 
 if __name__ == '__main__':
     main()
