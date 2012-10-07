@@ -1,6 +1,11 @@
-/*
- * To compile this file with GCC, type:
- * g++ hello.cc -lboost_program_options -o hello
+/* 
+ * Chrono: measure time duration between two points with boost.datetime
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: boost.program_options library
+ * Usage: g++ hello.cc -lboost_program_options -o hello
+ *
  */
 
 #include <fstream>
