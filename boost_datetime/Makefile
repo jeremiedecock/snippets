@@ -9,13 +9,13 @@ LIBS =
 all : chrono time_budget_loop timer
 
 chrono : chrono.cc
-	$(CC) -o $@ $(CFLAGS) $(LIBS) $<
+	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
 time_budget_loop : time_budget_loop.cc
-	$(CC) -o $@ $(CFLAGS) $(LIBS) $<
+	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
 timer : timer.cc
-	$(CC) -o $@ $(CFLAGS) $(LIBS) $<
+	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
 clean :
 	rm chrono time_budget_loop timer 2> /dev/null

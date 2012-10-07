@@ -9,7 +9,7 @@ LIBS =
 all : hello
 
 chrono : hello.cc
-	$(CC) -o $@ $(CFLAGS) $(LIBS) $<
+	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
 clean :
 	rm hello 2> /dev/null
