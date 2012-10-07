@@ -1,6 +1,6 @@
 CC = g++
 
-# Boost::datetime don't requires to link a library
+# Boost::datetime doesn't require to link a library
 CFLAGS = 
 LIBS = 
 

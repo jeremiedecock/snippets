@@ -1,6 +1,6 @@
 CC = g++
 
-# Boost::random don't requires to link a library
+# Boost::random doesn't requires to link a library
 CFLAGS = 
 LIBS = 
 

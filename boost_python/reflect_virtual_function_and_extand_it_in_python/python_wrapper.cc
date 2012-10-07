@@ -6,12 +6,12 @@ class HelloWrapper : public Hello, public boost::python::wrapper<Hello>
     public:
         void message() {
             if(boost::python::override message = this->get_override("message")) {
-                // WARNING: here, message() don't return anything, so the wrapper neither.
+                // WARNING: here, message() doesn't return anything, so the wrapper neither.
                 //          If message() had returned something, we would have written:
                 //          "return message();"
                 message();
             } else {
-                // WARNING: here, message() don't return anything, so the wrapper neither.
+                // WARNING: here, message() doesn't return anything, so the wrapper neither.
                 //          If message() had returned something, we would have written:
                 //          "return Hello::message();"
                 Hello::message();
@@ -19,7 +19,7 @@ class HelloWrapper : public Hello, public boost::python::wrapper<Hello>
         }
 
         void default_message() {
-            // WARNING: here, message() don't return anything, so the wrapper neither.
+            // WARNING: here, message() doesn't return anything, so the wrapper neither.
             //          If message() had returned something, we would have written:
             //          "return this->Hello::message();"
             this->Hello::message();

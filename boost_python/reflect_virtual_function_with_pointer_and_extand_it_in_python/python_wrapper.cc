@@ -6,12 +6,12 @@ class GeometryWrapper : public Geometry, public boost::python::wrapper<Geometry>
     public:
         void translate(Point * point) {
             if(boost::python::override translate = this->get_override("translate")) {
-                // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+                // WARNING: here, translate(Point *) doesn't return anything, so the wrapper neither.
                 //          If translate(Point *) had returned something, we would have written:
                 //          "return translate(Point *);"
                 translate(point);
             } else {
-                // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+                // WARNING: here, translate(Point *) doesn't return anything, so the wrapper neither.
                 //          If translate(Point *) had returned something, we would have written:
                 //          "return Geometry::translate(Point *);"
                 Geometry::translate(point);
@@ -19,7 +19,7 @@ class GeometryWrapper : public Geometry, public boost::python::wrapper<Geometry>
         }
 
         void default_translate(Point * point) {
-            // WARNING: here, translate(Point *) don't return anything, so the wrapper neither.
+            // WARNING: here, translate(Point *) doesn't return anything, so the wrapper neither.
             //          If translate(Point *) had returned something, we would have written:
             //          "return this->Geometry::translate(Point *);"
             this->Geometry::translate(point);

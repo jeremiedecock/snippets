@@ -5,7 +5,7 @@ class HelloWrapper : public Hello, public boost::python::wrapper<Hello>
 {
     public:
         void message() {
-            // WARNING: here, message() don't return anything, so the wrapper neither.
+            // WARNING: here, message() doesn't return anything, so the wrapper neither.
             //          If message() had returned something, we would have written:
             //          "return this->get_override("message")();"
             this->get_override("message")();
