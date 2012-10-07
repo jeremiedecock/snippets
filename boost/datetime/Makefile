@@ -1,24 +1,25 @@
 CC = g++
 
-# Boost::datetime doesn't require to link a library
 CFLAGS = 
-LIBS = 
 
 .PHONY : all clean init
 
-all : chrono time_budget_loop timer
+all : chrono time_budget_loop timer time_string_conversion
 
 chrono : chrono.cc
-	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
+	$(CC) -o $@ $(CFLAGS) $<
 
 time_budget_loop : time_budget_loop.cc
-	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
+	$(CC) -o $@ $(CFLAGS) $<
 
 timer : timer.cc
-	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
+	$(CC) -o $@ $(CFLAGS) $<
+
+time_string_conversion : time_string_conversion.cc
+	$(CC) -o $@ $(CFLAGS) $< -lboost_date_time
 
 clean :
-	rm chrono time_budget_loop timer 2> /dev/null
+	rm chrono time_budget_loop timer time_string_conversion 2> /dev/null
 
 init : clean
 
