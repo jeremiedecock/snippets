@@ -1,0 +1,11 @@
+Boost::graph demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ g++ hello.cc
+
