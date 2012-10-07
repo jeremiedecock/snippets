@@ -1,0 +1,10 @@
+Boost::chrono demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ g++ chrono.cc -lboost_chrono -lboost_system -o chrono
