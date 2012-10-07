@@ -1,0 +1,11 @@
+Boost::program_options demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ g++ hello.cc -lboost_program_options -o hello
+
