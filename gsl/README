@@ -9,5 +9,6 @@ or
 
  gcc gsl_fcmp.c -lgsl -lgslcblas -lm
  gcc gsl_vector.c -lgsl -lgslcblas -lm
+ gcc gsl_vector_2.c -lgsl -lgslcblas -lm
  gcc identity_matrix.c -lgsl -lgslcblas -lm
 

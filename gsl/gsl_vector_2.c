@@ -1,3 +1,13 @@
+/* 
+ * Gsl_vector_2: test gsl_vector
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc gsl_vector_2.c -lgsl -lgslcblas -lm
+ *    or: gcc gsl_vector_2.c $(pkg-config --libs gsl)
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <gsl/gsl_vector.h>
@@ -12,7 +22,7 @@ int main(int argc, char * argv[]) {
 
     int i = 0;
     for(i=0 ; i<3 ; i++)
-        fprintf(stdout, "%f\n", gsl_vector_get (vec, i));
+        fprintf(stdout, "%f\n", gsl_vector_get(vec, i));
 
     gsl_vector_fprintf(stdout, vec, "%f");
 

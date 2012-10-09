@@ -5,7 +5,7 @@ LIBS = -lgsl -lgslcblas -lm
 
 .PHONY : all clean init
 
-all : gsl_fcmp gsl_vector identity_matrix
+all : gsl_fcmp gsl_vector gsl_vector_2 identity_matrix
 
 gsl_fcmp : gsl_fcmp.c
 	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
@@ -13,11 +13,14 @@ gsl_fcmp : gsl_fcmp.c
 gsl_vector : gsl_vector.c
 	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
+gsl_vector_2 : gsl_vector_2.c
+	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
+
 identity_matrix : identity_matrix.c
 	$(CC) -o $@ $(CFLAGS) $< $(LIBS)
 
 clean :
-	rm gsl_fcmp gsl_vector identity_matrix 2> /dev/null
+	rm gsl_fcmp gsl_vector gsl_vector_2 identity_matrix 2> /dev/null
 
 init : clean
 

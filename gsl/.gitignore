@@ -2,4 +2,5 @@
 a.out
 gsl_fcmp
 gsl_vector
+gsl_vector_2
 identity_matrix
