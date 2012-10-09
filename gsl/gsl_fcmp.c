@@ -1,3 +1,13 @@
+/* 
+ * Gsl_fcmp: test gsl_fcmp (float comparison)
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc gsl_fcmp.c -lgsl -lgslcblas -lm
+ *    or: gcc gsl_fcmp.c $(pkg-config --libs gsl)
+ */
+
 #include <gsl/gsl_sys.h>
 #include <stdio.h>
 

@@ -1,0 +1,5 @@
+*.o
+a.out
+gsl_fcmp
+gsl_vector
+identity_matrix

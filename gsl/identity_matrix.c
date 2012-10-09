@@ -1,3 +1,13 @@
+/* 
+ * Identity_matrix: test gsl_matrix_set_identity (make an identity matrix)
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc identity_matrix.c -lgsl -lgslcblas -lm
+ *    or: gcc identity_matrix.c $(pkg-config --libs gsl)
+ */
+
 #include <stdio.h>
 #include <gsl/gsl_matrix.h>
 
