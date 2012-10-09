@@ -1,6 +1,8 @@
 *.o
 a.out
 gsl_fcmp
+gsl_matrix
 gsl_vector
 gsl_vector_2
+gsl_vector_3
 identity_matrix
