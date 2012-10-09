@@ -1,3 +1,13 @@
+/* 
+ * Gsl_blas_dgemv: test gsl_blas_dgemv (matrix . vector)
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc gsl_blas_dgemv.c -lgsl -lgslcblas -lm
+ *    or: gcc gsl_blas_dgemv.c $(pkg-config --libs gsl)
+ */
+
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>

@@ -1,11 +1,11 @@
 /* 
- * Blas_gsl_matrix: test gsl_matrix
+ * Gsl_blas_dgemm: test gsl_blas_dgemm (matrix . matrix)
  *
  * Copyright (c) 2012 Jérémie Decock
  *
  * Required: GSL library (libgsl0-dev)
- * Usage: gcc blas_gsl_matrix.c -lgsl -lgslcblas -lm
- *    or: gcc blas_gsl_matrix.c $(pkg-config --libs gsl)
+ * Usage: gcc gsl_blas_dgemm.c -lgsl -lgslcblas -lm
+ *    or: gcc gsl_blas_dgemm.c $(pkg-config --libs gsl)
  */
 
 #include <stdio.h>

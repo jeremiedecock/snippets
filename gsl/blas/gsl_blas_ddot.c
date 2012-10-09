@@ -1,11 +1,11 @@
 /* 
- * Blas_gsl_vector: test gsl_vector
+ * Gsl_blas_ddot: test gsl_blas_ddot (vector . vector)
  *
  * Copyright (c) 2012 Jérémie Decock
  *
  * Required: GSL library (libgsl0-dev)
- * Usage: gcc blas_gsl_vector.c -lgsl -lgslcblas -lm
- *    or: gcc blas_gsl_vector.c $(pkg-config --libs gsl)
+ * Usage: gcc gsl_blas_ddot.c -lgsl -lgslcblas -lm
+ *    or: gcc gsl_blas_ddot.c $(pkg-config --libs gsl)
  */
 
 #include <stdio.h>
