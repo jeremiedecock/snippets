@@ -1,3 +1,13 @@
+/* 
+ * Blas_gsl_vector: test gsl_vector
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc blas_gsl_vector.c -lgsl -lgslcblas -lm
+ *    or: gcc blas_gsl_vector.c $(pkg-config --libs gsl)
+ */
+
 #include <stdio.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>

@@ -1,0 +1,5 @@
+*.o
+a.out
+blas_gsl_matrix
+blas_gsl_matrix_view
+blas_gsl_vector

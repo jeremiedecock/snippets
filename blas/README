@@ -1,0 +1,13 @@
+GSL BLAS demos.
+
+USAGE (USING GCC):
+
+ make
+ make clean
+
+or
+
+ gcc blas_gsl_matrix.c -lgsl -lgslcblas -lm
+ gcc blas_gsl_vector.c -lgsl -lgslcblas -lm
+ gcc blas_gsl_matrix_view.c -lgsl -lgslcblas -lm
+

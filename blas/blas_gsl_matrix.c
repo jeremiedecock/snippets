@@ -1,3 +1,13 @@
+/* 
+ * Blas_gsl_matrix: test gsl_matrix
+ *
+ * Copyright (c) 2012 Jérémie Decock
+ *
+ * Required: GSL library (libgsl0-dev)
+ * Usage: gcc blas_gsl_matrix.c -lgsl -lgslcblas -lm
+ *    or: gcc blas_gsl_matrix.c $(pkg-config --libs gsl)
+ */
+
 #include <stdio.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_matrix.h>
