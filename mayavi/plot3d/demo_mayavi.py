@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from enthought.mayavi import mlab
+# Former version of Debian/Ubuntu
+#from enthought.mayavi import mlab
+
+# Latest version of Debian/Ubuntu
+from mayavi import mlab
 import numpy as np
 
 # Build datas ###############
