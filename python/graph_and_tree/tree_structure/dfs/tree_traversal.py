@@ -24,22 +24,28 @@
 class Node:
     """Node class"""
 
-    value = None
-    child_nodes = []
+    _value = None
+    _child_nodes = []
 
-    def __init__(self, _value, _child_nodes = []):
-        self.value = _value
-        self.child_nodes = _child_nodes
+    def __init__(self, value, child_nodes = []):
+        self._value = value
+        self._child_nodes = child_nodes
+
+    def getValue(self):
+        return self._value
+
+    def getChildNodes(self):
+        return self._child_nodes
 
 
 def walk(node):
-    """The tree traversal function"""
+    """The tree traversal function."""
 
     # Do something with node value...
-    print node.value
+    print node.getValue()
 
     # Recurse on each child node
-    for child_node in node.child_nodes:
+    for child_node in node.getChildNodes():
         walk(child_node)
 
 
