@@ -26,9 +26,6 @@ import sys
 
 symbols = {-1: "x", 0: " ", 1: "o"}
 
-dot_node_declaration = []
-dot_edge_declaration = []
-
 # This variable is used to check if the number of games (that is to say the
 # number of leaf nodes) is correct.
 # See http://en.wikipedia.org/wiki/Tic-tac-toe#Number_of_possible_games
@@ -37,17 +34,17 @@ dot_edge_declaration = []
 number_of_leaf_nodes = 0
 
 class Node:
-    """Node class"""
-
-    _value = None
-    _child_nodes = []
+    """Node class.
+    
+    Build and keep the full tree in memory."""
 
     def __init__(self, value):
         global number_of_leaf_nodes
 
         self._value = tuple(value)
-        self._child_nodes = []      # WARNING: without this line, all "Node" objects share the same list "_child_nodes" !!!
 
+        # Make child nodes
+        self._child_nodes = []
         if not self.isFinal():
             player_id = self._value[-1]
 
@@ -93,6 +90,9 @@ class Node:
     def getChildNodes(self):
         return self._child_nodes
 
+
+dot_node_declaration = []
+dot_edge_declaration = []
 
 def walk(node):
     """The tree traversal function"""
