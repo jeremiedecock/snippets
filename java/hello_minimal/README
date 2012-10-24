@@ -1,0 +1,2 @@
+compile: javac Hello.java
+exec:    java Hello
