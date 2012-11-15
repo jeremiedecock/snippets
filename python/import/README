@@ -1,0 +1,4 @@
+test1: import seul
+test2: form PKG import MODULE
+test3: quand un module (mod2) doit chercher un autre module (mod3) situé "au dessus" de lui dans l'arborescence. Comme le main est à la racine, il n'est pas nécessaire de modifier le path (sys.path).
+test4: quand le main doit chercher un module "au dessus" de lui dans l'arborescence. Comme le main n'est pas à la racine, il est nécessaire de spécifier la racine dans sys.path (ou de rendre le module disponible dans /usr/share/pyshared/).
