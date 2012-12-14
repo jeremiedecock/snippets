@@ -27,5 +27,9 @@ ax = fig.gca(projection='3d')
 ax.plot_surface(xx, yy, z, rstride=5, cstride=5, alpha=0.3)
 cset = ax.contourf(xx, yy, z, zdir='z', offset=0, cmap=cm.coolwarm)
 
+ax.set_xlabel(r'$x_1$')
+ax.set_ylabel(r'$x_2$')
+ax.set_zlabel(r'$||x||_{1}$')
+
 plt.show()
 
