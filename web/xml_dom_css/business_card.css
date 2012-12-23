@@ -12,13 +12,13 @@
     padding          : 0px;
 }
 
-carte {
+businesscard {
     background-color : #eeeeee;
     display          : block;
     text-align       : left;
 }
 
-recto,verso {
+card {
     background-color : white;
 
     border-top       : 1px solid #dddddd;
@@ -40,7 +40,7 @@ recto,verso {
     margin-left      : -42.5mm; /* pour centrer horizontalement */
 }
 
-prenom {
+firstname {
     display          : inline;
     background-color : white;
     font-size        : 3.2mm;
@@ -49,14 +49,14 @@ prenom {
     text-transform   : capitalize; /* pour toujours afficher la première lettre du prénom en majuscule */
 }
 
-nom {
+lastname {
     display          : inline;
     background-color : white;
     font-weight      : bold;
     text-transform   : uppercase; /* pour toujours afficher le nom en majuscule */
 }
 
-societe {
+company {
     background-color : white;
 
     display          : block;
@@ -74,7 +74,7 @@ societe {
     width            : 47mm;
 }
 
-devise {
+motto {
     background-color : white;
     border-top       : 1px solid #aaaaaa;
 
@@ -96,11 +96,11 @@ devise {
     width            : 47mm;
 }
 
-fonction:before {
-    content          : " - "; /* texte à afficher avant le texte de l'élément fonction */
+function:before {
+    content          : " - "; /* texte à afficher avant le texte de l'élément function */
 }
 
-fonction {
+function {
     display             : inline;
     font-weight         : bold;
     margin-bottom       : 1mm;
@@ -128,7 +128,7 @@ email {
     margin-left         : 3mm;
 }
 
-siteweb {
+website {
     background-color : white;
 
     display          : block;
@@ -141,11 +141,11 @@ siteweb {
     text-align       : right;
 }
 
-telmobile:before {
-    content          : "Tel. : "; /* texte à afficher avant le texte de l'élément telmobile */
+phone:before {
+    content          : "Tel. : "; /* texte à afficher avant le texte de l'élément phone */
 }
 
-telmobile {
+phone {
     display             : block;
     margin-left         : 3mm;
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE carte [
+<!DOCTYPE businesscard [
     <!--- Carte de visite -->
-    <!ELEMENT carte (logo,prenom,nom,fonction,email,telmobile,societe,devise,siteweb)>
+    <!ELEMENT businesscard (card)>
+
+    <!--- Carte de visite -->
+    <!ELEMENT card (logo,firstname,lastname,function,email,phone,company,motto,website)>
     
     <!--- Logo de la société -->
     <!ELEMENT logo EMPTY>
@@ -9,47 +12,49 @@
     <!ENTITY logo SYSTEM "./logo.jpeg" NDATA jpeg>
     <!NOTATION jpeg SYSTEM "paint.exe">
     
-    <!--- Prénom du contact -->
-    <!ELEMENT prenom (#PCDATA)>
+    <!--- Prélastname du contact -->
+    <!ELEMENT firstname (#PCDATA)>
     
     <!--- Nom du contact -->
-    <!ELEMENT nom (#PCDATA)>
+    <!ELEMENT lastname (#PCDATA)>
     
     <!--- Fonction dans la société -->
-    <!ELEMENT fonction (#PCDATA)>
+    <!ELEMENT function (#PCDATA)>
     
     <!--- Adresse email du contact -->
     <!ELEMENT email (#PCDATA)>
     
     <!--- Numéro de téléphone du contact -->
-    <!ELEMENT telmobile (#PCDATA)>
+    <!ELEMENT phone (#PCDATA)>
 
     <!--- Société du contact -->
-    <!ELEMENT societe (#PCDATA)>
+    <!ELEMENT company (#PCDATA)>
 
     <!--- Devise de la société -->
-    <!ELEMENT devise (#PCDATA)>
+    <!ELEMENT motto (#PCDATA)>
     
     <!--- Site web de la société -->
-    <!ELEMENT siteweb (#PCDATA)> 
+    <!ELEMENT website (#PCDATA)> 
 ]>
 <?xml-stylesheet type="text/css" href="business_card.css" ?>
 
 <!--
-    Document   : carte_visite.xml
+    Document   : business_card.xml
     Created on : 19 février 2007, 11:57
     Author     : Jérémie DECOCK
     Description: Carte de visite de Jérémie DECOCK.
 -->
 
-<carte>
-    <logo src="logo" />
-    <prenom>jérémie</prenom>
-    <nom>decock</nom>
-    <fonction>Project Manager</fonction>
-    <email>jeremie.decock@metis-live.org</email>
-    <telmobile>+33 6 01 02 03 04</telmobile>
-    <societe>metis live</societe>
-    <devise>Freedom is a choice</devise>
-    <siteweb>www.metis-live.org</siteweb>
-</carte>
+<businesscard>
+    <card>
+        <logo src="logo" />
+        <firstname>jérémie</firstname>
+        <lastname>decock</lastname>
+        <function>Project Manager</function>
+        <email>jeremie.decock@metis-live.org</email>
+        <phone>+33 6 01 02 03 04</phone>
+        <company>metis live</company>
+        <motto>Freedom is a choice</motto>
+        <website>www.metis-live.org</website>
+    </card>
+</businesscard>
