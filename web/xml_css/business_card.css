@@ -1,0 +1,152 @@
+/* jdhp.org - Jérémie DECOCK (2007) */
+
+* {
+    border-width     : 0px;
+
+    color            : #666666;
+    font-family      : "Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size        : 3mm;
+    font-weight      : normal;
+
+    margin           : 0px;
+    padding          : 0px;
+}
+
+carte {
+    background-color : #eeeeee;
+    display          : block;
+    text-align       : left;
+}
+
+recto,verso {
+    background-color : white;
+
+    border-top       : 1px solid #dddddd;
+    border-bottom    : 1px solid #dddddd;
+    border-left      : 1px solid #dddddd;
+    border-right     : 1px solid #dddddd;
+
+    display          : block;
+
+    position         : absolute;
+
+    left             : 50%; 
+    top              : 50%;
+
+    height           : 49mm;
+    width            : 85mm;
+
+    margin-top       : -24.5mm; /* pour centrer verticalement */
+    margin-left      : -42.5mm; /* pour centrer horizontalement */
+}
+
+prenom {
+    display          : inline;
+    background-color : white;
+    font-size        : 3.2mm;
+    font-weight      : bold;
+    margin-left      : 3mm;
+    text-transform   : capitalize; /* pour toujours afficher la première lettre du prénom en majuscule */
+}
+
+nom {
+    display          : inline;
+    background-color : white;
+    font-weight      : bold;
+    text-transform   : uppercase; /* pour toujours afficher le nom en majuscule */
+}
+
+societe {
+    background-color : white;
+
+    display          : block;
+
+    font-size        : 6.5mm;
+    font-weight      : bold;
+
+    letter-spacing   : 0.5mm;
+
+    position         : absolute;
+    right            : 7mm;
+    top              : 7mm;
+
+    text-align       : center;
+    width            : 47mm;
+}
+
+devise {
+    background-color : white;
+    border-top       : 1px solid #aaaaaa;
+
+    display          : block;
+    font-size        : 3mm;
+    font-style       : italic;
+    font-family      : georgia;
+
+    letter-spacing   : 0.5mm;
+
+    position         : absolute;
+
+    padding-top      : 0.5mm;
+
+    right            : 7mm;
+    top              : 16mm;
+
+    text-align       : center;
+    width            : 47mm;
+}
+
+fonction:before {
+    content          : " - "; /* texte à afficher avant le texte de l'élément fonction */
+}
+
+fonction {
+    display             : inline;
+    font-weight         : bold;
+    margin-bottom       : 1mm;
+}
+
+logo {
+    background-image    : url(./logo.jpeg);
+    background-repeat   : no-repeat;
+
+    display             : block;
+
+    height              : 96px;
+    margin-bottom       : 2mm;
+    width               : 101px;
+}
+
+email:before {
+    content          : "Email : "; /* texte à afficher avant le texte de l'élément email */
+}
+
+email {
+    display             : block;
+    margin-bottom       : 1mm;
+    margin-top          : 2.5mm;
+    margin-left         : 3mm;
+}
+
+siteweb {
+    background-color : white;
+
+    display          : block;
+
+    position         : absolute;
+
+    right            : 2mm;
+    top              : 43mm;
+
+    text-align       : right;
+}
+
+telmobile:before {
+    content          : "Tel. : "; /* texte à afficher avant le texte de l'élément telmobile */
+}
+
+telmobile {
+    display             : block;
+    margin-left         : 3mm;
+}
+
