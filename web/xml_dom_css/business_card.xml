@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE carte [
     <!--- Carte de visite -->
-    <!ELEMENT carte (recto|verso)>
-
-    <!--- Le recto de la carte de visite -->
-    <!ELEMENT recto (logo,prenom,nom,fonction,email,telmobile,societe,devise,siteweb)>
-    
-    <!--- Le recto de la carte de visite -->
-    <!ELEMENT verso (logo,prenom,nom,fonction,email,telmobile,societe,devise,siteweb)>
+    <!ELEMENT carte (logo,prenom,nom,fonction,email,telmobile,societe,devise,siteweb)>
     
     <!--- Logo de la société -->
     <!ELEMENT logo EMPTY>
@@ -49,15 +43,13 @@
 -->
 
 <carte>
-    <verso>
-        <logo src="logo" />
-        <prenom>jérémie</prenom>
-        <nom>decock</nom>
-        <fonction>Project Manager</fonction>
-        <email>jeremie.decock@metis-live.org</email>
-        <telmobile>+33 6 01 02 03 04</telmobile>
-        <societe>metis live</societe>
-        <devise>Freedom is a choice</devise>
-        <siteweb>www.metis-live.org</siteweb>
-    </verso>
+    <logo src="logo" />
+    <prenom>jérémie</prenom>
+    <nom>decock</nom>
+    <fonction>Project Manager</fonction>
+    <email>jeremie.decock@metis-live.org</email>
+    <telmobile>+33 6 01 02 03 04</telmobile>
+    <societe>metis live</societe>
+    <devise>Freedom is a choice</devise>
+    <siteweb>www.metis-live.org</siteweb>
 </carte>
