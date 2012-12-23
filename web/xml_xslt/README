@@ -1,0 +1,11 @@
+Output transformation can be viewed by opening input XML files in a browser.
+
+XSLT processors like "xsltproc" (Gnome) or "Xalan" (Apache) can also be used to
+generate the outputfile:
+
+  xsltproc INPUT_FILE.xml
+  xsltproc INPUT_FILE.xml > OUTPUT_FILE.xml/html
+  xsltproc XSLT_FILE.xsl INPUT_FILE.xml
+  
+  xalan -in INPUT_FILE.xml -out OUTPUT_FILE.xml/html -xsl XSLT_FILE.xsl
+
