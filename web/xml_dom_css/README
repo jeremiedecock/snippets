@@ -1,0 +1,5 @@
+Xmllint (Linux):
+
+To check if the document is well formed: xmllint --noout business_card.xml
+To check if the document is valid (DTD): xmllint --noout --valid business_card.xml
+
