@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Hello
+    2012 Jérémie DECOCK
+-->
+
+<root>
+    <message foo="bar">Hello!</message>
+</root>
