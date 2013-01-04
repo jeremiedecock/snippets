@@ -21,8 +21,8 @@ plt.plot(x, yl1, ".", x, yl2, ".", x, y1, ".", x, y2, ".", x, y3, ".", ye, "--")
 plt.xscale('log')
 plt.yscale('log')
 
-plt.xlabel(r'$\log_{10}(x)$')
-plt.ylabel(r'$\log_{10}(y)$')
+plt.xlabel(r'$x$')
+plt.ylabel(r'$f(y)$')
 
 plt.legend(["log(x)", "x log(x)", "x", "x^2", "x^3", "2^x"])
 
