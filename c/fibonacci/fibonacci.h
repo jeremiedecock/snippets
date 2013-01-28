@@ -1,0 +1,1 @@
+long fibonacci(int n);
