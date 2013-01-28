@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="test_xhtml.xslt" ?>
+
+<!--
+    Test XHTML
+    2012 Jérémie DECOCK
+-->
+
+<noms>
+    <nom>Henri</nom>
+    <nom>Christine</nom>
+    <nom>Eric</nom>
+    <nom>Jean</nom>
+    <nom>Dominique</nom>
+    <nom>Hubert</nom>
+</noms>

@@ -1,0 +1,4 @@
+Xmllint (Linux):
+
+To check if the document is well formed: xmllint --noout hello.xml
+

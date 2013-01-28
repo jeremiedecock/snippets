@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="test_xml.xslt" ?>
+
+<!--
+    Test 2
+    2012 Jérémie DECOCK
+-->
+
+<carnet>
+    <nom prenom="Marc" prenom2="Henri" famille="Durieux" />
+    <nom prenom="Celine" prenom2="Marie" famille="Lambert" />
+    <nom prenom="Mireille" prenom2="Catherine" famille="Dupond" />
+</carnet>

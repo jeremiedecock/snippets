@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE businesscard [
+    <!--- Carte de visite -->
+    <!ELEMENT businesscard (card)>
+
+    <!--- Carte de visite -->
+    <!ELEMENT card (logo,firstname,lastname,function,email,phone,company,motto,website)>
+    
+    <!--- Logo de la société -->
+    <!ELEMENT logo EMPTY>
+    <!ATTLIST logo src ENTITY #REQUIRED>
+    <!ENTITY logo SYSTEM "./logo.jpeg" NDATA jpeg>
+    <!NOTATION jpeg SYSTEM "paint.exe">
+    
+    <!--- Prélastname du contact -->
+    <!ELEMENT firstname (#PCDATA)>
+    
+    <!--- Nom du contact -->
+    <!ELEMENT lastname (#PCDATA)>
+    
+    <!--- Fonction dans la société -->
+    <!ELEMENT function (#PCDATA)>
+    
+    <!--- Adresse email du contact -->
+    <!ELEMENT email (#PCDATA)>
+    
+    <!--- Numéro de téléphone du contact -->
+    <!ELEMENT phone (#PCDATA)>
+
+    <!--- Société du contact -->
+    <!ELEMENT company (#PCDATA)>
+
+    <!--- Devise de la société -->
+    <!ELEMENT motto (#PCDATA)>
+    
+    <!--- Site web de la société -->
+    <!ELEMENT website (#PCDATA)> 
+]>
+<?xml-stylesheet type="text/css" href="business_card.css" ?>
+
+<!--
+    Document   : business_card.xml
+    Created on : 19 février 2007, 11:57
+    Author     : Jérémie DECOCK
+    Description: Carte de visite de Jérémie DECOCK.
+-->
+
+<businesscard>
+    <card>
+        <logo src="logo" />
+        <firstname>jérémie</firstname>
+        <lastname>decock</lastname>
+        <function>Project Manager</function>
+        <email>jeremie.decock@metis-live.org</email>
+        <phone>+33 6 01 02 03 04</phone>
+        <company>metis live</company>
+        <motto>Freedom is a choice</motto>
+        <website>www.metis-live.org</website>
+    </card>
+</businesscard>
