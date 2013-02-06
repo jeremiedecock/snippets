@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(int argc, char * argv[], char * envp[])
+extern char ** environ;
+
+int main(int argc, char * argv[])
 {
     // PRINT ALL VAR
-    int i = 0;
-    while(envp[i] != NULL) {
-        printf("%s\n", envp[i]);
-        i++;
+    int i;
+    for(i=0 ; environ[i] != NULL ; i++) {
+        printf("%s\n", environ[i]);
     }
     
     // UPDATE AND PRINT PATH VALUE
