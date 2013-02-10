@@ -1,5 +1,5 @@
 /* 
- * Fork: display and modify the real (GID) and effective (EGID) group ID of the
+ * Group: display and modify the real (GID) and effective (EGID) group ID of the
  *       process.
  *
  * Copyright (c) 2013 Jérémie Decock
@@ -14,6 +14,10 @@
 
 int main(int argc, char * argv[])
 {
+
+
+    // ////////////////////// //
+    
     fprintf(stdout, "Run the two following commands as root to test this program:\n"
                     "chown 1000.1000 %s\n"
                     "chmod g+s %s\n\n", argv[0], argv[0]);

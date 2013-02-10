@@ -1,5 +1,5 @@
 /* 
- * Fork: display and modify the real (UID) and effective (EUID) user ID of the
+ * User: display and modify the real (UID) and effective (EUID) user ID of the
  *       process.
  *
  * Copyright (c) 2013 Jérémie Decock
