@@ -14,9 +14,7 @@
 
 int main(int argc, char * argv[])
 {
-    pid_t proc_id;
-
-    proc_id = fork();
+    pid_t proc_id = fork();
 
     if(proc_id == -1) {
 
@@ -24,19 +22,24 @@ int main(int argc, char * argv[])
         fprintf(stderr, "Fork failure\n");
         exit(1);
 
-    } else if(proc_id == 0) {
+    }
 
-        // Child process
-        fprintf(stdout, "Child : PID=%ld, PPID=%ld\n", (long) getpid(), (long) getppid());
-        exit(0);
+    // Reached by both process (parent and child)
+    fprintf(stdout, "Hello form process %ld\n", (long) getpid());
+
+    if(proc_id == 0) {
+
+        // Reached by child process only
+        fprintf(stdout, "CHILD : PID=%ld, Parent PID=%ld\n", (long) getpid(), (long) getppid());
 
     } else {
 
-        // Parent process
-        fprintf(stdout, "Parent : PID=%ld, PPID=%ld, FORK_RETURN=%ld\n", (long) getpid(), (long) getppid(), (long) proc_id);
+        // Reached by parent process only
+        fprintf(stdout, "PARENT : PID=%ld, Parent PID=%ld, Child PID (fork return)=%ld\n", (long) getpid(), (long) getppid(), (long) proc_id);
 
-        // Wait the end of the child process
-        wait(NULL);
-        exit(0);
     }
+
+    // Reached by both process (parent and child)
+    fprintf(stdout, "Goodbye form process %ld\n", (long) getpid());
+    
 }
