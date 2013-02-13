@@ -12,11 +12,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int global_var = 0;
+int global_var = 3;
 
 int main(int argc, char * argv[])
 {
-    int local_var = 0;
+    int local_var = 3;
 
     pid_t proc_id = fork();
 
