@@ -1,9 +1,9 @@
 /* 
- * Fork: fork the process and display resulting PID and PPID.
+ * Fork: show that child's and parent's variables are independent.
  *
  * Copyright (c) 2013 Jérémie Decock
  *
- * Usage: gcc fork1.c
+ * Usage: gcc fork_vars.c
  * See "man 2 fork" for more info
  *
  */
