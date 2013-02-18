@@ -16,7 +16,7 @@ int main(int argc, char * argv[])
 {
 
     int i;
-    for(i=0 ; i<3 ; i++) {
+    for(i=0 ; i<5 ; i++) {
 
         pid_t proc_id = fork();
 
@@ -27,7 +27,7 @@ int main(int argc, char * argv[])
 
         if(proc_id == 0) {   // CHILD
 
-            printf("%ld -> %ld;\n", (long) getpid(), (long) getppid());
+            printf("%ld -> %ld;\n", (long) getppid(), (long) getpid());
             exit(EXIT_SUCCESS);
 
         }
