@@ -39,7 +39,7 @@ int main(int argc, char * argv[])
         }
         
         // PARENT
-        while(wait(NULL) != -1);
+        wait(NULL);
 
     }
     
