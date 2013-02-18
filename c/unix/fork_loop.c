@@ -1,11 +1,10 @@
 /* 
- * Fork + exec: fork the process and run a program.
+ * Fork: fork the process multiple times.
  *
  * Copyright (c) 2013 Jérémie Decock
  *
- * Usage: gcc fork_execl_loop.c
+ * Usage: gcc fork_loop.c
  * See "man 2 fork" for more info
- * See "man 3 exec" for more info
  *
  */
 
@@ -17,7 +16,7 @@ int main(int argc, char * argv[])
 {
 
     int i;
-    for(i=0 ; i<5 ; i++) {
+    for(i=0 ; i<3 ; i++) {
 
         pid_t proc_id = fork();
 
@@ -28,11 +27,8 @@ int main(int argc, char * argv[])
 
         if(proc_id == 0) {   // CHILD
 
-            execl("/bin/cat", "cat", "/proc/loadavg", NULL);
-
-            /* execl() only returns on error */
-            perror("execl");
-            exit(EXIT_FAILURE);
+            printf("%ld -> %ld;\n", (long) getpid(), (long) getppid());
+            exit(EXIT_SUCCESS);
 
         }
         
