@@ -11,12 +11,16 @@ import optimizers
 
 def main():
 
-    f = objective_functions.SphereFunction(2)
-    opt = optimizers.NaiveMinimizer()
+    #f = objective_functions.SphereFunction(2)
+    f = objective_functions.NoisedSphereFunction(2)
+    #f = objective_functions.TestFunction1()
 
-    best_x = opt.optimize(f, num_samples=3)
+    #opt = optimizers.NaiveMinimizer()
+    opt = optimizers.GradientDescent(delta=0.01)
 
-    print "Best sample: f(", best_x, ") = ", f(best_x.reshape([1,-1]))
+    best_x = opt.optimize(f, num_samples=1000)
+
+    print "Best sample: f(", best_x, ") = ", f(best_x)
 
 if __name__ == '__main__':
     main()
