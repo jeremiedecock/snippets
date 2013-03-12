@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2013 Jérémie Decock
  *
- * Usage: gcc fork_loop.c
+ * Usage: gcc fork_loop2.c
  * See "man 2 fork" for more info
  *
  */
@@ -27,14 +27,16 @@ int main(int argc, char * argv[])
 
         if(proc_id == 0) {   // CHILD
 
-            printf("%ld -> %ld;\n", (long) getppid(), (long) getpid());
+            printf("start %ld\n", (long) getpid());
+            sleep(3);
+            printf("exit %ld\n",  (long) getpid());
             exit(EXIT_SUCCESS);
 
         }
-        
-        // PARENT
-        wait(NULL);
 
     }
+        
+    // PARENT
+    while(wait(NULL) != -1);
     
 }
