@@ -36,6 +36,11 @@ int main(int argc, char * argv[])
             printf("EXITED: %d\n", WEXITSTATUS(status));
         } else if(WIFSIGNALED(status)) {
             printf("SIGNALED: %d\n", WTERMSIG(status));
+            //if(WCOREDUMP(status)) {
+            //    printf("COREDUMP\n");
+            //} else {
+            //    printf("NO COREDUMP\n");
+            //}
         }
 
         exit(EXIT_SUCCESS);
