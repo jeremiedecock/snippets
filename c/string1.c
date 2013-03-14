@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2013 Jérémie Decock
  *
- * Usage: gcc string.c
+ * Usage: gcc string1.c
  *
  */
 
