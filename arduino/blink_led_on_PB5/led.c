@@ -18,6 +18,7 @@
  *
  * See: http://arduino.cc/en/Hacking/PinMapping168
  *      http://forums.trossenrobotics.com/tutorials/introduction-129/avr-basics-3261/
+ *      http://openhardwareplatform.blogspot.fr/2011/03/inside-arduino-build-process.html
  *
  */
 
