@@ -50,9 +50,10 @@ def main():
 
     for path in args.file_paths:
         if not os.path.isfile(path):
-            print "ERROR: {0} is not a file.".format(path)
-            print parser.format_usage(),
-            sys.exit(2)
+            parser.error("{0} is not a file.".format(path))
+
+    if not (args.artist or args.album or args.title or args.track or args.year or args.genre or args.comment):
+        parser.error("One of --artist, --album, --title, --track, --year, --genre or --comment must be given")
         
     check_artist_tag =  args.artist
     check_album_tag =   args.album
@@ -73,31 +74,31 @@ def main():
 
             failed = False
 
-            if check_artist_tag and tags.artist.strip() == u"":
-                    failed = True
+            if check_artist_tag and len(tags.artist.strip()) == 0:
+                failed = True
 
-            if check_album_tag and tags.album.strip() == u"":
-                    failed = True
-            
-            if check_title_tag and tags.title.strip() == u"":
-                    failed = True
-            
+            if check_album_tag and len(tags.album.strip()) == 0:
+                failed = True
+
+            if check_title_tag and len(tags.title.strip()) == 0:
+                failed = True
+
             if check_track_tag and tags.track == 0:
-                    failed = True
-            
+                failed = True
+
             if check_year_tag and tags.year == 0:
-                    failed = True
-            
-            if check_genre_tag and tags.genre.strip() == u"":
-                    failed = True
-            
-            if check_comment_tag and tags.comment.strip() == u"":
-                    failed = True
+                failed = True
+
+            if check_genre_tag and len(tags.genre.strip()) == 0:
+                failed = True
+
+            if check_comment_tag and len(tags.comment.strip()) == 0:
+                failed = True
 
             if failed:
                 print path
 
-        except ValueError as ex:
+        except ValueError:
             print >> sys.stderr, "Wrong file format:", path
 
 if __name__ == '__main__':

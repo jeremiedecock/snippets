@@ -42,9 +42,7 @@ def main():
 
     for path in args.file_paths:
         if not os.path.isfile(path):
-            print "ERROR: {0} is not a file.".format(path)
-            print parser.format_usage(),
-            sys.exit(2)
+            parser.error("{0} is not a file.".format(path))
 
     # READ TAGS ###############################################################
 
