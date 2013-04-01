@@ -31,75 +31,115 @@ DESCRIPTION = "Check whether or not an audio file has tags."
 EPILOG = "Please report bugs to <jd.jdhp@gmail.com>."
 VERSION = "1.0"
 
+CHECK_ARTIST_TAG = False
+CHECK_ALBUM_TAG = False
+CHECK_TITLE_TAG = False
+CHECK_TRACK_TAG = False
+CHECK_YEAR_TAG = False
+CHECK_GENRE_TAG = False
+CHECK_COMMENT_TAG = False
+
+def check_path(path):
+    """Check if the given path has required tags."""
+    try:
+        file_ref = tagpy.FileRef(path)
+        tags = file_ref.tag()
+
+        failed = False
+
+        if CHECK_ARTIST_TAG and len(tags.artist.strip()) == 0:
+            failed = True
+
+        if CHECK_ALBUM_TAG and len(tags.album.strip()) == 0:
+            failed = True
+
+        if CHECK_TITLE_TAG and len(tags.title.strip()) == 0:
+            failed = True
+
+        if CHECK_TRACK_TAG and tags.track == 0:
+            failed = True
+
+        if CHECK_YEAR_TAG and tags.year == 0:
+            failed = True
+
+        if CHECK_GENRE_TAG and len(tags.genre.strip()) == 0:
+            failed = True
+
+        if CHECK_COMMENT_TAG and len(tags.comment.strip()) == 0:
+            failed = True
+
+        if failed:
+            print path
+
+    except ValueError:
+        print >> sys.stderr, "Wrong file format:", path
+
+
 def main():
     """Main function"""
+
+    global CHECK_ARTIST_TAG
+    global CHECK_ALBUM_TAG
+    global CHECK_TITLE_TAG
+    global CHECK_TRACK_TAG
+    global CHECK_YEAR_TAG
+    global CHECK_GENRE_TAG
+    global CHECK_COMMENT_TAG
 
     # PARSE OPTIONS ###########################################################
 
     parser = argparse.ArgumentParser(description=DESCRIPTION, epilog=EPILOG)
     parser.add_argument("file_paths", nargs='+', metavar="FILE", help="file to scan")
-    parser.add_argument("--artist",  "-A",  help="artist tag",  action="store_true")
-    parser.add_argument("--album",   "-a",  help="album tag",   action="store_true")
-    parser.add_argument("--title",   "-T",  help="title tag",   action="store_true")
-    parser.add_argument("--track",   "-t",  help="track tag",   action="store_true")
-    parser.add_argument("--year",    "-y",  help="year tag",    action="store_true")
-    parser.add_argument("--genre",   "-g",  help="genre tag",   action="store_true")
-    parser.add_argument("--comment", "-c",  help="comment tag", action="store_true")
+    parser.add_argument("--recursive", "-r",  help="recursive check", action="store_true")
+    parser.add_argument("--artist",    "-A",  help="artist tag",      action="store_true")
+    parser.add_argument("--album",     "-a",  help="album tag",       action="store_true")
+    parser.add_argument("--title",     "-T",  help="title tag",       action="store_true")
+    parser.add_argument("--track",     "-t",  help="track tag",       action="store_true")
+    parser.add_argument("--year",      "-y",  help="year tag",        action="store_true")
+    parser.add_argument("--genre",     "-g",  help="genre tag",       action="store_true")
+    parser.add_argument("--comment",   "-c",  help="comment tag",     action="store_true")
 
     args = parser.parse_args()
 
     for path in args.file_paths:
-        if not os.path.isfile(path):
-            parser.error("{0} is not a file.".format(path))
+        if args.recursive:
+            # Recursive check -> args have to be directories
+            if not os.path.isdir(path):
+                parser.error("{0} is not a directory.".format(path))
+        else:
+            # Non recursive check -> args have to be files
+            if not os.path.isfile(path):
+                parser.error("{0} is not a file.".format(path))
 
     if not (args.artist or args.album or args.title or args.track or args.year or args.genre or args.comment):
         parser.error("One of --artist, --album, --title, --track, --year, --genre or --comment must be given")
-        
-    check_artist_tag =  args.artist
-    check_album_tag =   args.album
-    check_title_tag =   args.title
-    check_track_tag =   args.track
-    check_year_tag =    args.year 
-    check_genre_tag =   args.genre
-    check_comment_tag = args.comment
+
+    CHECK_ARTIST_TAG =  args.artist
+    CHECK_ALBUM_TAG =   args.album
+    CHECK_TITLE_TAG =   args.title
+    CHECK_TRACK_TAG =   args.track
+    CHECK_YEAR_TAG =    args.year 
+    CHECK_GENRE_TAG =   args.genre
+    CHECK_COMMENT_TAG = args.comment
 
     # READ TAGS ###############################################################
 
     # For each path specified in command line argmuents
     for path in args.file_paths:
 
-        try:
-            file_ref = tagpy.FileRef(path)
-            tags = file_ref.tag()
-
-            failed = False
-
-            if check_artist_tag and len(tags.artist.strip()) == 0:
-                failed = True
-
-            if check_album_tag and len(tags.album.strip()) == 0:
-                failed = True
-
-            if check_title_tag and len(tags.title.strip()) == 0:
-                failed = True
-
-            if check_track_tag and tags.track == 0:
-                failed = True
-
-            if check_year_tag and tags.year == 0:
-                failed = True
-
-            if check_genre_tag and len(tags.genre.strip()) == 0:
-                failed = True
-
-            if check_comment_tag and len(tags.comment.strip()) == 0:
-                failed = True
-
-            if failed:
-                print path
-
-        except ValueError:
-            print >> sys.stderr, "Wrong file format:", path
+        if not args.recursive:
+            # check the file
+            check_path(path)
+        else:
+            # walk through 'path':
+            #  root =  a string, the path to the directory.
+            #  dirs =  a list of the names (strings) of the subdirectories in
+            #          dirpath (excluding '.' and '..').
+            #  files = a list of the names (strings) of the non-directory files
+            #          in dirpath.
+            for root, dirs, files in os.walk(path, topdown=False):
+                for file_str in files:
+                    check_path(os.path.join(root, file_str))
 
 if __name__ == '__main__':
     main()
