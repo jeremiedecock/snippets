@@ -52,8 +52,8 @@ def main():
 
     for path in args.file_paths:
         if not os.path.isfile(path):
-            print "ERROR: {0} is not a file.".format(path)
-            print parser.format_usage(),
+            print >> sys.stderr ,"ERROR: {0} is not a file.".format(path)
+            print >> sys.stderr ,parser.format_usage(),
             sys.exit(2)
 
     # READ TAGS ###############################################################
@@ -74,13 +74,13 @@ def main():
             tags = file_ref.tag()
 
             if args.artist is not None:
-                tags.artist  = args.artist
+                tags.artist  = args.artist.decode("utf-8")
 
             if args.album is not None:
-                tags.album   = args.album
+                tags.album   = args.album.decode("utf-8")
 
             if args.title is not None:
-                tags.title   = args.title
+                tags.title   = args.title.decode("utf-8")
 
             if args.track is not None:
                 tags.track   = args.track
@@ -89,14 +89,15 @@ def main():
                 tags.year    = args.year
 
             if args.genre is not None:
-                tags.genre   = args.genre
+                tags.genre   = args.genre.decode("utf-8")
 
             if args.comment is not None:
-                tags.comment = args.comment
+                tags.comment = args.comment.decode("utf-8")
 
             file_ref.save()
         except ValueError as ex:
             print >> sys.stderr, "Wrong file format:", path
+            #raise
 
 if __name__ == '__main__':
     main()

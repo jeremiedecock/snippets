@@ -19,11 +19,11 @@ def main():
         
         tags.artist = "artist test"
         tags.album = "album test"
-        tags.title = "title test"
+        tags.title = u"a title with accents éèàç"
         tags.track = 1
         tags.year = 2000
         tags.genre = "genre test"
-        tags.comment = "comment test"
+        tags.comment = u"a comment with accents éèàç"
 
         file_ref.save()
 
