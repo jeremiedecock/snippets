@@ -40,9 +40,7 @@ def main():
 
     for path in args.root_paths:
         if not os.path.isdir(path):
-            print "ERROR: {0} is not a directory.".format(path)
-            print parser.format_usage(),
-            sys.exit(2)
+            parser.error("{0} is not a directory.".format(path))
 
     # WALK THROUGH THE TREES ##################################################
 
