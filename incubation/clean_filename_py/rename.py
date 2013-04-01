@@ -72,8 +72,10 @@ def rename(dirname, basename, dry_run=True):
 
     # Remove duplicated (succecive) characters
     for duplicated_char in CHARS_TO_BE_UNDUPLICATED:
-        # TODO: bug -> first and last char shoud be ignored
-        basename = duplicated_char.join([elem for elem in basename.split(duplicated_char) if elem != ""])
+        # keep_char: first and last char shoud be ignored
+        l_basename = basename.split(duplicated_char)
+        keep_char = lambda i, elem: len(elem)>0 or i==0 or i==len(l_basename)-1
+        basename = duplicated_char.join([elem for (i, elem) in enumerate(l_basename) if keep_char(i, elem)])
 
     # Remove the leading and trailing characters
     basename = basename.strip(CHARS_TO_BE_UNSTRIPPED)
@@ -124,7 +126,9 @@ def main():
 
         if not args.recursive:
             # check the file
-            rename(os.path.split(path))
+            dirname = os.path.split(path)[0]
+            basename = os.path.split(path)[1]
+            rename(dirname, basename)
         else:
             # walk through 'path':
             #  root =  a string, the path to the directory.
