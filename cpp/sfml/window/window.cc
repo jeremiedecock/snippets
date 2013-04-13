@@ -7,6 +7,9 @@
  * USAGE:
  *    g++ -c window.cc
  *    g++ -o window window.o -lsfml-window -lsfml-system
+ * 
+ * SEE:
+ *    http://www.sfml-dev.org/tutorials/1.6/window-window.php
  */
 
 #include <iostream>

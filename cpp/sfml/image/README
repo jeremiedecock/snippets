@@ -1,0 +1,6 @@
+A very basic demo of SFML.
+
+USAGE (USING GCC):
+
+ make
+ make clean

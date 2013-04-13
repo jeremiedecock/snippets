@@ -6,21 +6,23 @@
  *
  * USAGE:
  *    g++ -c window.cc
- *    g++ -o window window.o -lsfml-window -lsfml-system
- *
+ *    g++ -o window window.o -lsfml-graphics -lsfml-window -lsfml-system
+ * 
  * SEE:
- *    http://www.sfml-dev.org/tutorials/1.6/window-events.php
+ *    http://www.sfml-dev.org/tutorials/1.6/graphics-window.php
  */
 
 #include <iostream>
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 int main()
 {
-    sf::Window window(sf::VideoMode(640, 480, 24), "SFML Window");
+    sf::RenderWindow window(sf::VideoMode(320, 200, 24), "SFML Window");
 
     // Main Loop
     while(window.IsOpened()) {
+
+        // Events
         sf::Event event;
         while(window.GetEvent(event)) {
             // Window closed
@@ -32,8 +34,18 @@ int main()
             if((event.Type == sf::Event::KeyPressed) && (event.Key.Code == sf::Key::Escape)) {
                 window.Close();
             }
+
+            // 'F1' key pressed -> screenshot
+            if((event.Type == sf::Event::KeyPressed) && (event.Key.Code == sf::Key::F1)) {
+                sf::Image screen = window.Capture();
+                screen.SaveToFile("screenshot.jpg");
+            }
         }
 
+        // Clear the window (with white pixels)
+        window.Clear(sf::Color(255, 0, 0));
+
+        // Display
         window.Display();
     }
 
