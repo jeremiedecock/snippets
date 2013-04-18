@@ -9,8 +9,12 @@ import sys
 
 sys.path.append("src")
 
-import function.objective_functions as function
-import optimizer.optimizers as optimizer
+import function.noised_sphere as function
+#import function.sphere as function
+#import function.test1 as function
+
+#import optimizer.naive as optimizer
+import optimizer.gradient as optimizer
 
 # MAIN ########################################################################
 
