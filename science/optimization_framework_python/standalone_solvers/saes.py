@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 """
-This is a simple Octave implementation of the (mu/mu_I, lambda)-sigmaSA-ES
+This is a simple Python implementation of the (mu/mu_I, lambda)-sigmaSA-ES
 as discussed in 
 http://www.scholarpedia.org/article/Evolution_Strategies
+Based on
+https://homepages.fhv.at/hgb/downloads/mu_mu_I_lambda-ES.oct
 """
 
 import math
@@ -62,9 +64,9 @@ def yahoo(indiv):
     return y
 
 #fitness = sphere_function
-#fitness = sin1
+fitness = sin1
 #fitness = sin2
-fitness = yahoo
+#fitness = yahoo
 
 ###########################################################
 
@@ -76,7 +78,9 @@ class Individual():
         self.x = x
         self.sigma = sigma
         self.cost = fitness(self)
-    # TODO: redef print
+
+    def __str__(self):
+        return "{0} {1} {2}".format(self.x, self.sigma, self.cost)
 
 ###########################################################
 
@@ -115,7 +119,7 @@ def main():
             offspring = Individual(offspring_y, offspring_sigma)
             offspring_pop.append(offspring)
         parent_pop = select_individuals(offspring_pop)
-        print parent_pop[0].x, parent_pop[0].sigma, parent_pop[0].cost
+        print parent_pop[0]
 
 # Remark: Final approximation of the optimizer is in "parent_pop[0].x"
 #         corresponding fitness is in "parent_pop[0].cost" and the final 

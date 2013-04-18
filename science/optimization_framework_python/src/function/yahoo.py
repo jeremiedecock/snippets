@@ -2,6 +2,8 @@
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
+__all__ = ['YahooFunction']
+
 import numpy as np
 from matplotlib.finance import quotes_historical_yahoo
 import datetime

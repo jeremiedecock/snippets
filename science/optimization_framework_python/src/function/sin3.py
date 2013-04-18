@@ -2,6 +2,8 @@
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
+__all__ = ['Sin3Function']
+
 import numpy as np
 import function
 

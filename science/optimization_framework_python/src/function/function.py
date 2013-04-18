@@ -2,6 +2,8 @@
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
+__all__ = ['ObjectiveFunction']
+
 import numpy as np
 
 class ObjectiveFunction:

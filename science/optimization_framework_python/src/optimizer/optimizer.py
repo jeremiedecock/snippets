@@ -2,6 +2,8 @@
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
+__all__ = ['Optimizer', 'Log']
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
@@ -11,7 +13,9 @@ class Optimizer:
 
     def plotSamples(self, x, y):
 
-        assert y.shape[1]==1
+        assert x.ndim == 2, x.ndim
+        assert y.ndim == 2, y.ndim
+        assert y.shape[1] == 1, y.shape
 
         if x.shape[1]==1:
             # 1D case
@@ -43,3 +47,5 @@ class Optimizer:
         plt.plot(y)
         plt.show()
 
+class Log:
+    pass

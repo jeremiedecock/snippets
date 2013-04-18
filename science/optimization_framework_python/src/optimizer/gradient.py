@@ -2,6 +2,8 @@
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
+__all__ = ['GradientDescent']
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
