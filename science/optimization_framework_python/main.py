@@ -4,19 +4,24 @@
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 import numpy as np
-import objective_functions
-import optimizers
+
+import sys
+
+sys.path.append("src")
+
+import function.objective_functions as function
+import optimizer.optimizers as optimizer
 
 # MAIN ########################################################################
 
 def main():
 
-    #f = objective_functions.SphereFunction(2)
-    f = objective_functions.NoisedSphereFunction(2)
-    #f = objective_functions.TestFunction1()
+    #f = function.SphereFunction(2)
+    f = function.NoisedSphereFunction(2)
+    #f = function.TestFunction1()
 
-    #opt = optimizers.NaiveMinimizer()
-    opt = optimizers.GradientDescent(delta=0.01)
+    #opt = optimizer.NaiveMinimizer()
+    opt = optimizer.GradientDescent(delta=0.01)
 
     best_x = opt.optimize(f, num_samples=1000)
 
