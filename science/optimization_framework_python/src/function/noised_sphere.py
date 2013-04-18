@@ -7,6 +7,10 @@ import function
 
 # STOCHASTIC OBJECTIVE FUNCTIONS ##############################################
 
+# TODO: this class should be generic: take an other class as argument
+#       of the constructor and simply add noise on the evaluations of
+#       it.
+
 class NoisedSphereFunction(function.ObjectiveFunction):
 
     def __init__(self, ndim=1, sigma=0.1):
@@ -16,18 +20,14 @@ class NoisedSphereFunction(function.ObjectiveFunction):
 
         self.sigma = sigma
 
-    def __call__(self, *pargs, **kargs):
-        x = pargs[0]
+    def _eval_one_sample(self, x):
+        y = np.dot(x,x)
+        y = y + np.random.normal(0., self.sigma)
+        return y
 
-        if x.ndim == 1:
-            # Only one sample
-            y = np.sum(np.power(x, 2.))
-            y = y + np.random.normal(0., self.sigma)
-        else:
-            # Multiple samples
-            y = np.sum(np.power(x, 2.), 1)
-            y = y + np.random.normal(0., self.sigma, y.shape[0])
-            y = y.reshape([-1,1])
-
+    def _eval_multiple_samples(self, x):
+        y = np.sum(np.power(x, 2.), 1)
+        y = y + np.random.normal(0., self.sigma, y.shape[0])
+        y = y.reshape([-1,1])
         return y
 

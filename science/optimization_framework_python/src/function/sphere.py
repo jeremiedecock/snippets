@@ -12,15 +12,12 @@ class SphereFunction(function.ObjectiveFunction):
         self.domain_min = -1. * np.ones(ndim)
         self.domain_max =  1. * np.ones(ndim)
 
-    def __call__(self, *pargs, **kargs):
-        x = pargs[0]
+    def _eval_one_sample(self, x):
+        y = np.dot(x,x)
+        return y
 
-        if x.ndim == 1:
-            # Only one sample
-            y = np.sum(np.power(x, 2.))
-        else:
-            # Multiple samples
-            y = np.sum(np.power(x, 2.), 1).reshape([-1,1])
-
+    def _eval_multiple_samples(self, x):
+        y = np.sum(np.power(x, 2.), 1)
+        y = y.reshape([-1,1])
         return y
 
