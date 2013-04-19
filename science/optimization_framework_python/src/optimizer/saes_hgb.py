@@ -34,14 +34,18 @@ https://homepages.fhv.at/hgb/downloads/mu_mu_I_lambda-ES.oct
 class SaesHgb(optimizer.Optimizer):
 
     def __init__(self, mu=3, lambda_=12, x_init=None, sigma_init=1, sigma_min=1e-5):
+
+        optimizer.Optimizer.__init__(self)
+
         self.mu = mu                    # number of parents
         self.lambda_ = lambda_          # number of offspring
         self.x_init = x_init            # initial parent vector 
         self.sigma_init = sigma_init    # initial global mutation strength sigma 
         self.sigma_min = sigma_min      # ES stops when sigma is smaller than sigma_min
 
-        self.x_samples = []
-        self.y_samples = []
+        self.log.data["x"] = []
+        self.log.data["sigma"] = []
+        self.log.data["y"] = []
 
     """
     This sorts the population according to the individuals' fitnesses
@@ -95,12 +99,12 @@ class SaesHgb(optimizer.Optimizer):
 
             gen_index += 1
 
-            self.x_samples.append(parent_pop[0].x)  # TODO use a "log" object instead
-            self.y_samples.append(parent_pop[0].y)  # TODO
+            self.log.data["x"].append(parent_pop[0].x)  # TODO use a "log" object instead
+            self.log.data["y"].append(parent_pop[0].y)  # TODO
             print parent_pop[0]
 
-        self.plotSamples(np.array(self.x_samples), np.array(self.y_samples).reshape([-1,1]))
-        self.plotCosts(np.array(self.y_samples).reshape([-1,1]))
+        self.plotSamples(np.array(self.log.data["x"]), np.array(self.log.data["y"]).reshape([-1,1]))
+        self.plotCosts(np.array(self.log.data["y"]).reshape([-1,1]))
 
         return parent_pop[0].x
 

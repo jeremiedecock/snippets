@@ -11,6 +11,9 @@ import warnings
 
 class Optimizer:
 
+    def __init__(self):
+        self.log = Log()
+
     def plotSamples(self, x, y):
 
         assert x.ndim == 2, x.ndim
@@ -48,4 +51,5 @@ class Optimizer:
         plt.show()
 
 class Log:
-    pass
+    def __init__(self):
+        self.data = {}
