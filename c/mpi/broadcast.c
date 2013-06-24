@@ -13,6 +13,9 @@
  *
  * Run:
  *   mpirun -np 4 broadcast
+ *
+ * See:
+ *   http://www.mpiprogramming.com/mpi/
  */
 
 int main(int argc, char ** argv)
@@ -22,13 +25,23 @@ int main(int argc, char ** argv)
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); /* get current process id */
 
-    int data = 1000;
+    int buffer[10];
+    int root = 0;
 
-    if(rank == 0) {
-        MPI_Bcast(&data, 1, MPI_INTEGER, rank, MPI_COMM_WORLD);
+    if(rank == root) {
+        int i;
+        for(i=0 ; i<10 ; i++)
+            buffer[i] = i*2;
     }
 
-    printf("Process %d: received \"%d\" from 0\n", rank, data); 
+    MPI_Bcast(buffer, 10, MPI_INT, root, MPI_COMM_WORLD);
+
+    if(rank!=0){
+        int i;
+        for(i=0 ; i<10 ; i++) {
+            printf("Process %d: buffer[%d]=%d\n", rank, i, buffer[i]);
+        }
+    }
 
     MPI_Finalize();
     
