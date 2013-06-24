@@ -4,8 +4,13 @@
 /*
  * Required packages (Debian): mpi-default-bin, mpi-default-dev
  *
- * mpicc hello.c -o hello
- * mpirun -np 4 hello
+ * Compile:
+ *   mpicc hello.c -o hello
+ *     or
+ *   gcc -o hello -I/usr/include/mpi hello.c -lmpi
+ *
+ * Run:
+ *   mpirun -np 4 hello
  */
 
 int main(int argc, char ** argv)
