@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html> 
+    <body>
+        <span id="span_1"></span>
+
+        <script type="text/javascript">
+
+            function print_datetime() {
+                var today = Date();
+
+                var elem = document.getElementById("span_1");
+                if(elem) {
+                    elem.innerHTML = today;
+                }
+            }
+
+            setInterval(print_datetime, 1000);
+
+        </script>
+    </body> 
+</html>
