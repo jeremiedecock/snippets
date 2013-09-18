@@ -21,7 +21,7 @@ def main():
             frame_dict[frame_key] = [frame.toString() for frame in frame_list]
 
         # Print track_number ('TRCK'), composer ('TCOM') and track_title ('TIT2')
-        print "{} {} - {}".format(frame_dict['TRCK'][0].split("/")[0], frame_dict['TCOM'][0], frame_dict['TIT2'][0])
+        print u"{} {} - {}".format(frame_dict['TRCK'][0].split("/")[0], frame_dict['TCOM'][0], frame_dict['TIT2'][0])
 
 if __name__ == '__main__':
     main()
