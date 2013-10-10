@@ -32,7 +32,7 @@ import PIL.ExifTags
 def main():
     """Main function"""
 
-    img = Image.open("/home/jeremie/Images/TAO/IMG_0193.JPG")
+    img = Image.open("test.jpeg")
 
     # Print the image's EXIF metadata dictionary indexed by EXIF numeric tags
     exif_data_num_dict = img._getexif()
