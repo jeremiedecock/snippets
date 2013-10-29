@@ -21,53 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# SORT_FILES
-#    Sort all picture files (with valid EXIF data) from a given directory (and
-#    recursively all it's subdirectories).
-#    This program generate a new directory tree and move all picture files there.
-#    Sort is done according to EXIF creation dates.
-#
-#    Make directories for each year and sub directories for each month.
-#
-#    For instance, this kind of directory tree is generated:
-#
-#         sorted
-#          |- 2000
-#          |   |- 03
-#          |   |   |- 188984.jpg
-#          |   |   |- 188985.jpg
-#          |   |   |- 188986.jpg
-#          |   |   `- 188987.jpg
-#          |   |- 05
-#          |   |   |- 188988.jpg
-#          |   |   |- 188990.jpg
-#          |   |   |- 188991.jpg
-#          |   |   `- 188992.jpg
-#          |   `- 07
-#          |       |- 188993.jpg
-#          |       |- 188994.jpg
-#          |       |- 188995.jpg
-#          |       `- 188996.jpg
-#          `- 2001
-#              |- 2|00
-#              |   |- 189001.jpg
-#              |   |- 189002.jpg
-#              |   |- 189003.jpg
-#              |   `- 189004.jpg
-#              `- 2|00
-#                  |- 189005.jpg
-#                  |- 189005.jpg
-#                  |- 189005.jpg
-#                  `- 189005.jpg
+# PLOT EXIF DATES
+#    Plot the number of picture files created everyday (according to EXIF
+#    data) from a given directory (and recursively all it's subdirectories).
 
 # TODO
-#    - keep unknown files in place (ie. files with invalid EXIF data)
-#    - add a text file in each directory (append if it already exists) with the
-#      original path of each file (sorted) -> this can help to remember the
-#      context (place, ...) of photos
-#    - remove empty directories
-#    - handle clone files (2 files with the same name in the same output directory)
-#      -> add a suffix if the MD5SUM is not the same, keep only one otherwise
+# - plot one graph per month (otherwise it will be difficult to read it)
 
 # OVERVIEW
 # 1. build the dictionary {'filepath': date, ...}:
@@ -75,8 +34,7 @@
 #    -> use "date = get_exif_date('filepath')"
 #       -> return date or None there is no valid EXIF data
 # 2. for each dictionary's item (ie. for each file with valid EXIF data):
-#    -> make the destination directory if it doesn't exist
-#    -> move the file
+#    -> TODO
 
 import os
 import sys
@@ -124,25 +82,22 @@ def main():
 
     # BUILD {PATH:DATE,...} DICTIONARY (WALK THE TREE) ########################
 
-    file_dict = {}   # dict = {filepath: date, ...}
+    date_list = []
 
     # For each root path specified in command line argmuents
     for path in args.directories_path:
-        local_file_dict = walk(path)
-        file_dict.update(local_file_dict)
+        local_date_list = walk(path)
+        date_list.extend(local_date_list)
 
-    for file_path, exif_date in file_dict.items():
-        move_file(file_path, exif_date)
+    date_dict = {}
+    for exif_date in date_list:
+        if exif_date in date_dict:
+            date_dict[exif_date] += 1
+        else:
+            date_dict[exif_date] = 1
+    
+    print date_dict
 
-
-# FILE TREATMENT ##############################################################
-
-def move_file(file_path, exif_date):
-    # TODO
-    # For each dictionary's item (ie. for each file with valid EXIF data):
-    #    -> make the destination directory if it doesn't exist
-    #    -> move the file
-    print exif_date, file_path
 
 # EXIF UTILITIES ##############################################################
 
@@ -168,7 +123,7 @@ def get_exif_date(file_path):
 
     exif_datetime = exif_data_str_dict[EXIF_DATETIME_TAG.lower()]   # uses lower to avoid case errors
     exif_date = exif_datetime.split()[0]
-    exif_date_tuple = [int(x) for x in exif_date.split(':')]        # TODO: build a date object instead ? (see: http://docs.python.org/2/library/datetime.html#datetime.date)
+    exif_date_tuple = tuple([int(x) for x in exif_date.split(':')])     # TODO: build a date object instead ? (see: http://docs.python.org/2/library/datetime.html#datetime.date)
     #except:    # TODO
     #    pass   # TODO
 
@@ -182,7 +137,7 @@ def walk(root_path):
     """Walk the tree starting from "root_path" and build the {path:date,...}
     dictionary"""
 
-    local_file_dict = {}   # dict = {path: date, ...}
+    local_date_list = []
     
     # current_dir_path = a string, the path to the directory.
     # dir_names        = a list of the names (strings) of the subdirectories in
@@ -202,11 +157,11 @@ def walk(root_path):
             
             if not os.path.islink(file_path):
                 file_date = get_exif_date(file_path)
-                local_file_dict[file_path] = file_date
+                local_date_list.append(file_date)
 #            else:
 #                warnings.warn("ignore link " + file_path, UserWarning)
 
-    return local_file_dict
+    return local_date_list
 
 
 if __name__ == '__main__':
