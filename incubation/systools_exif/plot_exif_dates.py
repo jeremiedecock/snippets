@@ -41,6 +41,9 @@ import sys
 import argparse
 import warnings
 
+import datetime
+#import operator
+
 import Image
 import PIL
 import PIL.ExifTags
@@ -96,7 +99,19 @@ def main():
         else:
             date_dict[exif_date] = 1
     
-    print date_dict
+    plot(date_dict)
+
+
+# PLOT ########################################################################
+
+def plot(date_dict):
+    #for exif_date, num in sorted(date_dict.iteritems(), key=operator.itemgetter(0)):
+    if None in date_dict:
+        print date_dict[None], "errors"
+        del date_dict[None]
+
+    for exif_date, num in sorted(date_dict.items(), key=lambda x: x[0]):
+        print exif_date.strftime("%d/%m/%Y"), num
 
 
 # EXIF UTILITIES ##############################################################
@@ -110,24 +125,31 @@ def get_exif_date(file_path):
     Returns None if the file doesn't have valid EXIF data.
     """
 
-    exif_date_tuple = None
+    exif_date = None
 
-    #try:
-    img = Image.open(file_path)
+    try:
+        img = Image.open(file_path)
 
-    # Metadata dictionary indexed by EXIF numeric tags
-    exif_data_num_dict = img._getexif()
+        # Metadata dictionary indexed by EXIF numeric tags
+        exif_data_num_dict = img._getexif()
 
-    # Metadata dictionary indexed by EXIF tag name strings
-    exif_data_str_dict = {PIL.ExifTags.TAGS[k].lower() : v for k, v in exif_data_num_dict.items() if k in PIL.ExifTags.TAGS}   # uses lower to avoid case errors
+        if exif_data_num_dict is not None:
 
-    exif_datetime = exif_data_str_dict[EXIF_DATETIME_TAG.lower()]   # uses lower to avoid case errors
-    exif_date = exif_datetime.split()[0]
-    exif_date_tuple = tuple([int(x) for x in exif_date.split(':')])     # TODO: build a date object instead ? (see: http://docs.python.org/2/library/datetime.html#datetime.date)
-    #except:    # TODO
-    #    pass   # TODO
+            # Metadata dictionary indexed by EXIF tag name strings
+            exif_data_str_dict = {PIL.ExifTags.TAGS[k].lower() : v for k, v in exif_data_num_dict.items() if k in PIL.ExifTags.TAGS}   # uses lower to avoid case errors
 
-    return exif_date_tuple
+            if EXIF_DATETIME_TAG.lower() in exif_data_str_dict:
+                exif_datetime = exif_data_str_dict[EXIF_DATETIME_TAG.lower()]   # uses lower to avoid case errors
+                exif_date = datetime.datetime.strptime(exif_datetime.split()[0], "%Y:%m:%d")
+
+    except AttributeError:
+        pass   # raised by "img._getexif()"
+    except ValueError:
+        pass   # raised by "datetime.datetime.strptime(...)"
+    except IOError:
+        pass   # raised by "Image.open(...)"
+
+    return exif_date
 
 # TOOLS #######################################################################
 
