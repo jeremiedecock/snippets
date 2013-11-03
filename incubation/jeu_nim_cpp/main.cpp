@@ -61,11 +61,11 @@ int main() {
         do {
             if(joueur == JOUEUR) {
                 // Qu. 4
-                cout << "Saisir le nombre d'allumettes à enlever (entier compris entre " << NB_MIN_ALLUMETTES_ENLEVEES << " et " << NB_MAX_ALLUMETTES_ENLEVEES << ") : ";
+                cout << "Saisir le nombre d'allumettes à enlever (entier compris entre " << NB_MIN_ALLUMETTES_ENLEVEES << " et " << (nb_allumettes < NB_MAX_ALLUMETTES_ENLEVEES ? nb_allumettes : NB_MAX_ALLUMETTES_ENLEVEES) << ") : ";
                 cin >> nb_allumettes_a_retirer;
-                while((nb_allumettes_a_retirer < NB_MIN_ALLUMETTES_ENLEVEES) || (nb_allumettes_a_retirer > NB_MAX_ALLUMETTES_ENLEVEES)) {
+                while((nb_allumettes_a_retirer < NB_MIN_ALLUMETTES_ENLEVEES) || (nb_allumettes_a_retirer > NB_MAX_ALLUMETTES_ENLEVEES) || (nb_allumettes_a_retirer > nb_allumettes)) {
                     cout << "Valeur incorrecte!" << endl;
-                    cout << "Saisir le nombre d'allumettes à enlever (entier compris entre " << NB_MIN_ALLUMETTES_ENLEVEES << " et " << NB_MAX_ALLUMETTES_ENLEVEES << ") : ";
+                    cout << "Saisir le nombre d'allumettes à enlever (entier compris entre " << NB_MIN_ALLUMETTES_ENLEVEES << " et " << (nb_allumettes < NB_MAX_ALLUMETTES_ENLEVEES ? nb_allumettes : NB_MAX_ALLUMETTES_ENLEVEES) << ") : ";
                     cin >> nb_allumettes_a_retirer;
                 }
             } else {
