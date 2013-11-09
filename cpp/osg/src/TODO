@@ -1,0 +1,28 @@
+STEP 1
+- multisample anti-aliasing (SSAA, FSAA, MSAA, FXAA, MLAA, ...) see http://osghelp.com/?p=179  http://osghelp.com/?p=48   https://en.wikipedia.org/wiki/Spatial_anti-aliasing
+- motion blur (see http://forum.openscenegraph.org/viewtopic.php?t=12182)
+- change the background color
+
+STEP 2
+- callbacks, osg basics, ...
+- draw lines (e.g. to draw edges of 3D graphs from .dot files)     http://osghelp.com/?p=48  http://forum.openscenegraph.org/viewtopic.php?t=9658&view=previous  http://svn.openscenegraph.org/osg/OpenSceneGraph/tags/osg_v0_9_7_rc1_sync_release/examples/osggeometry/osggeometry.cpp   http://www.delta3d.org/forum/viewtopic.php?showtopic=16609
+- Animation path (to smoothly move an object from point A to point B) see http://osghelp.com/?p=19 (useful for physics, 3D graphs animations, MCTS, ...)
+- particles
+- create objects form vertices, modify vertices of objects
+
+STEP 3
+- light / shadow
+- colors
+- transparent objects
+- mirror surfaces
+- textures (http://osghelp.com/?p=119)
+
+STEP 4
+- OpenGL shaders (...) see http://trac.openscenegraph.org/projects/osg//wiki/Support/Tutorials/ShadersIntroduction
+- post processing effects (depth of field, ...)
+- soft shadows (radiosity), ...
+- clouds (volumetric), volumetric textures, ...
+
+- artistic stuff : e.g. see http://www.creativeapplications.net/c/openscenegraph-and-cefix-c-ipad/
+
+See http://www.packtpub.com/openscenegrap-3-for-advanced-3d-programming-using-api-cookbook/book
