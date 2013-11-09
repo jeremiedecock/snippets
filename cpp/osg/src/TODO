@@ -7,11 +7,13 @@ STEP 2
 - callbacks, osg basics, ...
 - draw lines (e.g. to draw edges of 3D graphs from .dot files)     http://osghelp.com/?p=48  http://forum.openscenegraph.org/viewtopic.php?t=9658&view=previous  http://svn.openscenegraph.org/osg/OpenSceneGraph/tags/osg_v0_9_7_rc1_sync_release/examples/osggeometry/osggeometry.cpp   http://www.delta3d.org/forum/viewtopic.php?showtopic=16609
 - Animation path (to smoothly move an object from point A to point B) see http://osghelp.com/?p=19 (useful for physics, 3D graphs animations, MCTS, ...)
-- particles
+- particles see osgParticle http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a01599.html
 - create objects form vertices, modify vertices of objects
+- display scene without viewer object (manual render...) + mouse drag & drop of objects (e.g. for damper physics simulation)
+- infinite plane (ground) see the documentation of the Plane class ( http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00601.html ) -> "It can be used to represent an infinite plane. The infinite plane is described by an implicit plane equation a*x+b*y+c*z+d = 0." Use the following constructor : osg::Plane::Plane(const Vec3_type & v1, const Vec3_type & v2, const Vec3_type & v3).  This constructor calculates from the three points describing an infinite plane the internal values.  
 
 STEP 3
-- light / shadow
+- light (spot, diffuse, ...) / shadow see osgShadow nodekit http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a01601.html
 - colors
 - transparent objects
 - mirror surfaces
@@ -21,7 +23,7 @@ STEP 4
 - OpenGL shaders (...) see http://trac.openscenegraph.org/projects/osg//wiki/Support/Tutorials/ShadersIntroduction
 - post processing effects (depth of field, ...)
 - soft shadows (radiosity), ...
-- clouds (volumetric), volumetric textures, ...
+- clouds (volumetric), volumetric textures, ... see osgVolume nodekit http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a01607.html#details
 
 - artistic stuff : e.g. see http://www.creativeapplications.net/c/openscenegraph-and-cefix-c-ipad/
 
