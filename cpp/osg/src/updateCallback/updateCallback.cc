@@ -5,7 +5,12 @@
 #include <osgViewer/Viewer>
 
 class RotateCB : public osg::NodeCallback {
-public :
+    protected :
+
+    double _angle;
+
+    public :
+
     RotateCB() : _angle(0.) {}
 
     virtual void operator() (osg::Node * node, osg::NodeVisitor * nv) {
@@ -16,9 +21,6 @@ public :
 
         traverse(node, nv);
     }
-
-protected :
-    double _angle;
 };
 
 int main(int, char **) {
@@ -38,7 +40,7 @@ int main(int, char **) {
     root->addChild(pat);
 
     // Setup Transform
-    pat->setPosition(osg::Vec3(2,0,0));
+    pat->setPosition(osg::Vec3(2, 0, 0));
     pat->setUpdateCallback(new RotateCB);
 
     // Make the viewer

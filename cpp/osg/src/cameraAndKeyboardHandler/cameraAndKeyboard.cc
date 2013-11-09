@@ -56,14 +56,14 @@ int main(int, char **) {
     osg::Matrix trans;
     osg::Matrix rot;
 
-    trans.makeTranslate(0., 0., -10.);
+    trans.makeTranslate(0., 0., -60.);
 
     osg::ref_ptr<myKeyboardEventHandler> myEventHandler = new myKeyboardEventHandler();
     viewer.addEventHandler(myEventHandler);
 
     // Enter a simulation loop
     while(!viewer.done()) {
-        rot.makeRotate(angle, osg::Vec3(1., 0., 0.));
+        rot.makeRotate(angle, osg::Vec3(0., 0., 1.));
 
         viewer.getCamera()->setViewMatrix(trans * rot); 
 

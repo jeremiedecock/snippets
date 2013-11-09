@@ -20,8 +20,8 @@ int main(int, char **) {
 
     double angle(0.);
     while(!viewer.done()) {
-        trans.makeTranslate(0., 0., angle + 10);
-        rot.makeRotate(angle, osg::Vec3(1., 0., 0.));
+        trans.makeTranslate(0., 0., -40 - angle);
+        rot.makeRotate(angle, osg::Vec3(0., 0., 1.));
         angle += 0.01;
 
         viewer.getCamera()->setViewMatrix(trans * rot); 
