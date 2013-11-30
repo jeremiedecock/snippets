@@ -4,7 +4,7 @@
  * Copyright (c) 2013 Jérémie Decock
  *
  * Required: opencv library (Debian: aptitude install libopencv-dev)
- * Usage: g++ main.cpp $(pkg-config --cflags --libs opencv)
+ * Usage: g++ display_img.cc $(pkg-config --cflags --libs opencv)
  *
  * See: http://docs.opencv.org/doc/tutorials/introduction/display_image/display_image.html#display-image
  *
