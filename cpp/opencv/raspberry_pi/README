@@ -1,0 +1,6 @@
+V4L2 is required to work with OpenCV.
+The Pi camera doesn't have any V4L driver yet (update: it may be ok now using a dedicated driver and UV4L, see: http://www.raspberrypi.org/phpBB3/viewtopic.php?f=43&t=50639 , http://www.recantha.co.uk/blog/?p=5261 and http://www.linux-projects.org/modules/sections/index.php?op=viewarticle&artid=16)
+
+The Pi camera can be used with the MMAL API (Broadcom ABI).
+
+See: http://www.raspberrypi.org/archives/tag/opencv
