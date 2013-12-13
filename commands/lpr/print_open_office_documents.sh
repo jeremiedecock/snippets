@@ -1,13 +1,14 @@
 #!/bin/bash
 
+# Print .od[st] and .docx? files
+
 SOFFICE_RUN=$(ps -e | grep soffice)
 echo "Convertion doesn't work if an instance of Libre Office is already running!"
 
-find orig -type f \( -regex ".*\.docx?" -o -regex ".*\.od[ts]" \) -exec soffice --headless --convert-to pdf --outdir ./ "{}" \;
+FILE=$1
+PRINTER_NAME='c24'
 
-for FILE in *.pdf
-do
-    echo "PRINT $FILE"
-    lp -d 'c24' -o number-up=2 "${FILE}"
-done
+soffice --headless --convert-to pdf --outdir /tmp/ "${FILE}"
+
+lp -d '${PRINTER_NAME}' -o number-up=2 "/tmp/${FILE}.pdf"
 
