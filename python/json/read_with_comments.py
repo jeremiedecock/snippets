@@ -28,7 +28,7 @@ import json
 def load_json_with_comments(filename):
     data = None
 
-    with open("test_with_comments.json", "r") as fd:
+    with open(filename, "r") as fd:
         pos = 0
         for line in fd.readlines():
             if line.lstrip().startswith("//"):
@@ -48,6 +48,9 @@ def main():
     """Main function"""
 
     data = load_json_with_comments("test_with_comments.json")
+    print data
+
+    data = load_json_with_comments("test.json")
     print data
 
 if __name__ == '__main__':

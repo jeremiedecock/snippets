@@ -2,14 +2,9 @@
 // Actualy comments are not allowed with JSON, this file requires a preprocessing to remove comments...
 // See https://plus.google.com/+DouglasCrockfordEsq/posts/RK8qyGVaGSr
 {
-    "key1": "value1", 
+    "key1": "VALUE1", 
     "key2": 2, 
     "key3": 3.14, 
     "key4": true, 
-    "key5": [
-        1, 
-        2, 
-        3, 
-        4
-    ]
+    "key5": [ 1, 2, 3, 4 ]
 }
