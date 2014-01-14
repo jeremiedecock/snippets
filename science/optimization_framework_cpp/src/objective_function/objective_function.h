@@ -24,8 +24,9 @@ class ObjectiveFunction {
 
     public:
 
-        double operator() (const std::vector<double> & x) const;
+        virtual double operator() (const std::vector<double> & x) const = 0;
 
+        // This function can be redefined to speedup computations
         std::vector<double> operator() (const std::vector<std::vector<double> > & x) const;
 
         int getDimension() const;
@@ -36,11 +37,6 @@ class ObjectiveFunction {
 
 
     protected:
-
-        virtual double eval_one_sample(const std::vector<double> & x) const = 0;
-
-        // This function can be redefined to speedup computations
-        virtual std::vector<double> eval_multiple_samples(const std::vector<std::vector<double> > & x) const;
 
         virtual void plot(const std::vector<double> & xmin, const std::vector<double> & xmax) const;
 

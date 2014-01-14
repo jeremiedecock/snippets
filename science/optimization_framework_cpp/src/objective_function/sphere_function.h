@@ -15,7 +15,7 @@ class SphereFunction : public ObjectiveFunction {
 
     protected:
 
-        double eval_one_sample(const std::vector<double> & x) const;
+        double operator() (const std::vector<double> & x) const;
 
 };
 

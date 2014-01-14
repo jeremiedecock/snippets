@@ -3,14 +3,24 @@
  */
 
 #include "sphere_function.h"
+#include <cassert>
 
+/**
+ * 
+ */
 SphereFunction::SphereFunction(int _ndim) {
     this->ndim = _ndim;
     this->domainMin = std::vector<double>(this->ndim, -1.);
     this->domainMax = std::vector<double>(this->ndim,  1.);
 }
 
-double SphereFunction::eval_one_sample(const std::vector<double> & x) const {
+/**
+ * 
+ */
+double SphereFunction::operator() (const std::vector<double> & x) const {
+    // Only one sample
+    assert(x.size() == this->ndim);
+
     double y;
 
     for(int i=0 ; i<x.size() ; i++) {
