@@ -1,9 +1,12 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python point_to_point.py
+#   mpirun -np 4 python broadcast_pickle.py
 #     or
-#   mpiexec -n 4 python point_to_point.py
+#   mpiexec -n 4 python broadcast_pickle.py
 
 from mpi4py import MPI
 

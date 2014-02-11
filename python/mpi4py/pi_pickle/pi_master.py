@@ -4,17 +4,20 @@
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun python master.py
+#   mpirun python pi_master.py
 #     or
-#   mpiexec python master.py
+#   mpiexec python pi_master.py
 
 from mpi4py import MPI
 import sys
 
-comm = MPI.COMM_SELF.Spawn(sys.executable, args=['worker.py'], maxprocs=5)
+comm = MPI.COMM_SELF.Spawn(sys.executable, args=['pi_worker.py'], maxprocs=5)
+
+data = 100
+comm.bcast(data, root=MPI.ROOT)
 
 result = comm.reduce(None, op=MPI.SUM, root=MPI.ROOT)
 
-print "master:", result
+print result
 
 comm.Disconnect()
