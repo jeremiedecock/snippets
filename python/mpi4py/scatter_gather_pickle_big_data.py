@@ -10,7 +10,6 @@
 
 from mpi4py import MPI
 import itertools
-import math
 
 ###############################################################################
 
@@ -29,6 +28,14 @@ def flatten(nested_list):
     else:
         transposed_nested_list = list(itertools.izip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
         return [item for sublist in transposed_nested_list for item in sublist if item is not None]
+
+
+def process_data(data):
+    res = [(item, item.replace('x', 'result_of_x')) for item in data if item is not None]
+    #or simply:
+    #res = [item.replace('x', 'result_of_x') for item in data if item is not None]
+    return res
+
 
 ###############################################################################
 
@@ -58,20 +65,18 @@ print "[3. after scatter] process", rank, ":", data
 
 # PROCESS DATA
 
-data = [(item, item.replace('x', 'result_of_x')) for item in data if item is not None]
-#or simply:
-#data = [item.replace('x', 'result_of_x') for item in data if item is not None]
+res = process_data(data)
 
 # GATHER
 
-print "[4. before gather] process", rank, ":", data
+print "[4. before gather] process", rank, ":", res
 
-data = comm.gather(data, root=0)
+res = comm.gather(res, root=0)
 
-print "[5. after gather] process", rank, ":", data
+print "[5. after gather] process", rank, ":", res
 
 # OUTPUT
 
-output_data = flatten(data)
-print "[6. output]", output_data
+output_res = flatten(res)
+print "[6. output]", output_res
 
