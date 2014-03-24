@@ -14,21 +14,21 @@ import math
 
 ###############################################################################
 
-def grouper(iterable, num_items, fillvalue=None): # TODO
-    '''Collect data into fixed-length chunks or blocks
+def grouper(flat_list, nested_list_size):
+    nested_list = []
+    for index in range(nested_list_size):
+        nested_list_item = flat_list[index::nested_list_size]
+        nested_list.append(nested_list_item)
+    return nested_list
 
-    e.g. grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
-    See: http://stackoverflow.com/questions/10124751/convert-a-flat-list-to-list-of-list-in-python'''
-    args = [iter(iterable)] * num_items
-    return list(itertools.izip_longest(fillvalue=fillvalue, *args))
 
-
-def flatten(l):
+def flatten(nested_list):
     '''Flatten a list (eg. [[1,2,3],[4,5,6], [7], [8,9]] -> [1,2,3,4,5,6,7,8,9]).'''
-    if l is None:
+    if nested_list is None:
         return None
     else:
-        return [item for sublist in l for item in sublist]
+        transposed_nested_list = list(itertools.izip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
+        return [item for sublist in transposed_nested_list for item in sublist if item is not None]
 
 ###############################################################################
 
@@ -40,14 +40,11 @@ print "[1. input]", input_data
 # MPI
 
 comm = MPI.COMM_WORLD
-size = comm.Get_size()
-rank = comm.Get_rank()
+size = comm.Get_size() # num proc
+rank = comm.Get_rank() # proc id
 
 if rank == 0:
-    data_len = 16
-    data = input_data
-    num_item_per_proc = int(math.ceil(float(len(data)) / size)) # TODO
-    data = grouper(data, num_item_per_proc)
+    data = grouper(input_data, size)
 else:
     data = None
 
