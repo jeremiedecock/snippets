@@ -58,7 +58,9 @@ print "[3. after scatter] process", rank, ":", data
 
 # PROCESS DATA
 
-data = [item.replace('x', 'y') for item in data if item is not None]
+data = [(item, item.replace('x', 'result_of_x')) for item in data if item is not None]
+#or simply:
+#data = [item.replace('x', 'result_of_x') for item in data if item is not None]
 
 # GATHER
 
