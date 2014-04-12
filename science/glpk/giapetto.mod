@@ -1,3 +1,5 @@
+# USAGE: glpsol -m giapetto.mod -o giapetto.sol
+#
 # Giapetto's problem
 #
 # This finds the optimal solution for maximizing Giapetto's profit

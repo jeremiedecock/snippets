@@ -1,1 +1,0 @@
-glpsol -m giapetto.mod -o giapetto.sol
