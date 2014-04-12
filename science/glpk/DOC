@@ -1,0 +1,29 @@
+Official documentation:
+
+    For Debian users: /usr/share/doc/glpk-doc/
+
+    The official GLPK documentation is contained within each official GLPK distribution. The key documents are:
+    PDF             Topic                               Comment
+    doc/glpk.pdf    GLPK reference manual               also covers the C language application programming interface (API) 
+    doc/gmpl.pdf    GNU MathProg modeling language      MathProg is sometimes known as GMPL
+    doc/graphs.pdf  GLPK graph and network routines     network programming support
+    doc/cnfsat.pdf  CNF-SAT problems                    special case boolean satisfiability problem support
+
+    The same doc directory contains a number of other PDF and text files of a more specialist nature.
+
+    These official documents change with each release to reflect developments. These documents are intentionally not available from this site in order to reduce the maintenance overhead and latency.
+
+    GNU MathProg modeling language is a subset of AMPL therefore AMPL documentation is relevant for GMPL.
+
+
+See also (some in French):
+
+    http://catalogue.polytechnique.fr/site.php?id=122&fileid=1811
+    http://litis.univ-lehavre.fr/~balev/Teaching/OR/TPglpk.html
+    http://connect.ed-diamond.com/GNU-Linux-Magazine/GLMF-135/Decouverte-du-solveur-GLPK
+    http://spokutta.wordpress.com/the-gnu-linear-programming-kit-glpk/
+
+Source:
+
+    http://en.wikibooks.org/wiki/GLPK/Literature#Official_GLPK_documentation
+

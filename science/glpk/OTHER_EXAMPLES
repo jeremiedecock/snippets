@@ -1,0 +1,15 @@
+Official GLPK examples
+
+The examples directory in the official GLPK distribution contains about 60 MathProg (as well as some application programming) examples:
+
+    sample MathProg model (*.mod) files — with and without embedded data
+    sample MathProg data (*.dat) files — external data
+    sample database (*.dbf) files — table-based external data
+    sample data (*.csv) files — table-based external data
+
+For Debian users, official examples are in the following directory: /usr/share/doc/glpk-utils/examples/
+
+
+
+Few other examples are availables here: http://en.wikibooks.org/wiki/GLPK/GMPL_Examples
+
