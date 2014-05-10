@@ -22,8 +22,7 @@
 # THE SOFTWARE.
 
 
-# See: http://web.archive.org/web/20120501112552/http://zetcode.com/tutorials/pyqt4/layoutmanagement
-#      http://pyqt.sourceforge.net/Docs/PyQt4/qboxlayout.html
+# See: http://web.archive.org/web/20120401070521/http://zetcode.com/tutorials/pyqt4/eventsandsignals/
 
 
 import sys
@@ -33,17 +32,18 @@ class Window(QtGui.QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        # Create push buttons
-        btn1 = QtGui.QPushButton('Btn1')
-        btn2 = QtGui.QPushButton('Btn2')
+        self.num = 0
 
-        # Create the layouts
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(btn1)
-        hbox.addWidget(btn2)
+        # Create the widgets
+        self.label = QtGui.QLabel('0')
+        btn = QtGui.QPushButton('Add')
 
+        btn.clicked.connect(self.buttonClicked)
+
+        # Create the layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.label)
+        vbox.addWidget(btn)
 
         # Set the layout
         self.setLayout(vbox)
@@ -51,6 +51,10 @@ class Window(QtGui.QWidget):
         self.resize(250, 150)
         self.setWindowTitle('Hello')
         self.show()
+
+    def buttonClicked(self):
+        self.num += 1
+        self.label.setText(str(self.num))
 
 def main():
     """Main function"""

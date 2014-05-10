@@ -22,8 +22,7 @@
 # THE SOFTWARE.
 
 
-# See: http://web.archive.org/web/20120501112552/http://zetcode.com/tutorials/pyqt4/layoutmanagement
-#      http://pyqt.sourceforge.net/Docs/PyQt4/qboxlayout.html
+# See: http://web.archive.org/web/20120426224840/http://zetcode.com/tutorials/pyqt4/widgets2
 
 
 import sys
@@ -33,24 +32,25 @@ class Window(QtGui.QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        # Create push buttons
-        btn1 = QtGui.QPushButton('Btn1')
-        btn2 = QtGui.QPushButton('Btn2')
+        # Create a label
+        label = QtGui.QLabel("Press Esc to quit.")
 
-        # Create the layouts
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(btn1)
-        hbox.addWidget(btn2)
-
+        # Create the layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(label)
 
         # Set the layout
         self.setLayout(vbox)
 
         self.resize(250, 150)
         self.setWindowTitle('Hello')
-        self.show()
+
+        #self.show()
+        self.showFullScreen()     # <- Full screen
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
 
 def main():
     """Main function"""

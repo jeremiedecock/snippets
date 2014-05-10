@@ -32,7 +32,7 @@ class Window(QtGui.QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        # Create a push button.
+        # Create push buttons
         btn1 = QtGui.QPushButton('Btn1')
         btn2 = QtGui.QPushButton('Btn2')
         btn3 = QtGui.QPushButton('Btn3')

@@ -22,44 +22,63 @@
 # THE SOFTWARE.
 
 
-# See: http://web.archive.org/web/20120501112552/http://zetcode.com/tutorials/pyqt4/layoutmanagement
-#      http://pyqt.sourceforge.net/Docs/PyQt4/qboxlayout.html
+# See: http://stackoverflow.com/questions/6854947/how-to-display-a-window-on-a-secondary-display-in-pyqt
+#      http://pyqt.sourceforge.net/Docs/PyQt4/qdesktopwidget.html#details
 
 
 import sys
 from PyQt4 import QtGui, QtCore
 
 class Window(QtGui.QWidget):
-    def __init__(self):
+    def __init__(self, name):
         super(Window, self).__init__()
 
-        # Create push buttons
-        btn1 = QtGui.QPushButton('Btn1')
-        btn2 = QtGui.QPushButton('Btn2')
+        # Create a label
+        label = QtGui.QLabel(name + " (press Esc to quit)")
 
-        # Create the layouts
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(btn1)
-        hbox.addWidget(btn2)
-
+        # Create the layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(label)
 
         # Set the layout
         self.setLayout(vbox)
 
         self.resize(250, 150)
-        self.setWindowTitle('Hello')
-        self.show()
+        self.setWindowTitle(name)
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
 
 def main():
     """Main function"""
 
     app = QtGui.QApplication(sys.argv)
 
+    # For an application, the screen where the main widget resides is the
+    # primary screen. This is stored in the primaryScreen property. All windows
+    # opened in the context of the application should be constrained to the
+    # boundaries of the primary screen; for example, it would be inconvenient
+    # if a dialog box popped up on a different screen, or split over two
+    # screens.
+    desktop = QtGui.QDesktopWidget()
+
+    #print(desktop.numScreens())
+    #print(desktop.primaryScreen())
+
     # The default constructor has no parent.
     # A widget with no parent is a window.
-    window = Window()
+    window0 = Window("Window 0")
+    window1 = Window("Window 1")
+
+    qrect0 = desktop.screenGeometry(0)
+    qrect1 = desktop.screenGeometry(1)
+
+    window0.move(qrect0.left(), qrect0.top())
+    window1.move(qrect1.left(), qrect1.top())
+
+    window0.showFullScreen()
+    window1.showFullScreen()
 
     # The mainloop of the application. The event handling starts from this point.
     # The exec_() method has an underscore. It is because the exec is a Python keyword. And thus, exec_() was used instead. 

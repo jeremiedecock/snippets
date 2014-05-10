@@ -22,8 +22,7 @@
 # THE SOFTWARE.
 
 
-# See: http://web.archive.org/web/20120501112552/http://zetcode.com/tutorials/pyqt4/layoutmanagement
-#      http://pyqt.sourceforge.net/Docs/PyQt4/qboxlayout.html
+# See: http://web.archive.org/web/20120426224840/http://zetcode.com/tutorials/pyqt4/widgets2
 
 
 import sys
@@ -33,17 +32,15 @@ class Window(QtGui.QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        # Create push buttons
-        btn1 = QtGui.QPushButton('Btn1')
-        btn2 = QtGui.QPushButton('Btn2')
+        # Create a label with the pixmap
+        pixmap = QtGui.QPixmap("test.png")
 
-        # Create the layouts
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(btn1)
-        hbox.addWidget(btn2)
+        label = QtGui.QLabel(self)
+        label.setPixmap(pixmap)
 
+        # Create the layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(label)
 
         # Set the layout
         self.setLayout(vbox)

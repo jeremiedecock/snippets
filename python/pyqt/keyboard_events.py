@@ -22,8 +22,7 @@
 # THE SOFTWARE.
 
 
-# See: http://web.archive.org/web/20120501112552/http://zetcode.com/tutorials/pyqt4/layoutmanagement
-#      http://pyqt.sourceforge.net/Docs/PyQt4/qboxlayout.html
+# See: http://web.archive.org/web/20120401070521/http://zetcode.com/tutorials/pyqt4/eventsandsignals/
 
 
 import sys
@@ -33,17 +32,12 @@ class Window(QtGui.QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        # Create push buttons
-        btn1 = QtGui.QPushButton('Btn1')
-        btn2 = QtGui.QPushButton('Btn2')
+        # Create a push button.
+        self.label = QtGui.QLabel('Press any key (Esc to quit)')
 
-        # Create the layouts
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(btn1)
-        hbox.addWidget(btn2)
-
+        # Create the layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.label)
 
         # Set the layout
         self.setLayout(vbox)
@@ -51,6 +45,62 @@ class Window(QtGui.QWidget):
         self.resize(250, 150)
         self.setWindowTitle('Hello')
         self.show()
+
+    def keyPressEvent(self, e):
+        # See http://pyqt.sourceforge.net/Docs/PyQt4/qt.html#Key-enum for all keys
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
+
+        elif e.key() == QtCore.Qt.Key_Return:
+            self.label.setText("Return")
+
+        elif e.key() == QtCore.Qt.Key_Space:
+            self.label.setText("Space")
+
+        elif e.key() == QtCore.Qt.Key_PageUp:
+            self.label.setText("PageUp")
+
+        elif e.key() == QtCore.Qt.Key_PageDown:
+            self.label.setText("PageDown")
+
+        elif e.key() == QtCore.Qt.Key_Shift:
+            self.label.setText("Shift")
+
+        elif e.key() == QtCore.Qt.Key_Control:
+            self.label.setText("Control")
+
+        elif e.key() == QtCore.Qt.Key_Alt:
+            self.label.setText("Alt")
+
+        elif e.key() == QtCore.Qt.Key_AltGr:
+            self.label.setText("AltGr")
+
+        elif e.key() == QtCore.Qt.Key_Tab:
+            self.label.setText("Tab")
+
+        elif e.key() == QtCore.Qt.Key_Home:
+            self.label.setText("Home")
+
+        elif e.key() == QtCore.Qt.Key_End:
+            self.label.setText("End")
+
+        elif e.key() == QtCore.Qt.Key_Delete:
+            self.label.setText("Delete")
+
+        elif e.key() == QtCore.Qt.Key_Left:
+            self.label.setText("Left")
+
+        elif e.key() == QtCore.Qt.Key_Right:
+            self.label.setText("Right")
+
+        elif e.key() == QtCore.Qt.Key_Up:
+            self.label.setText("Up")
+
+        elif e.key() == QtCore.Qt.Key_Down:
+            self.label.setText("Down")
+
+        else:
+            self.label.setText(str(e.key()))
 
 def main():
     """Main function"""
