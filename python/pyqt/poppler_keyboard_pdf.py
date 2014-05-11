@@ -39,7 +39,10 @@ class Window(QtGui.QWidget):
         super(Window, self).__init__()
 
         self.doc = popplerqt4.Poppler.Document.load("test.pdf")
-        self.doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing and popplerqt4.Poppler.Document.TextAntialiasing)
+        #self.doc.setRenderBackend(popplerqt4.Poppler.Document.SplashBackend) # ok (default)
+        #self.doc.setRenderBackend(popplerqt4.Poppler.Document.ArthurBackend) # bad
+        self.doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing)
+        self.doc.setRenderHint(popplerqt4.Poppler.Document.TextAntialiasing)
 
         self.current_page_num = 0
         self.num_pages = self.doc.numPages()

@@ -40,7 +40,10 @@ class Window(QtGui.QWidget):
 
         # Poppler (PDF render)
         doc = popplerqt4.Poppler.Document.load("test.pdf")
-        doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing and popplerqt4.Poppler.Document.TextAntialiasing)
+        #doc.setRenderBackend(popplerqt4.Poppler.Document.SplashBackend) # ok (default)
+        #doc.setRenderBackend(popplerqt4.Poppler.Document.ArthurBackend) # bad
+        doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing)
+        doc.setRenderHint(popplerqt4.Poppler.Document.TextAntialiasing)
 
         page = doc.page(0)
 
