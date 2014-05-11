@@ -249,13 +249,39 @@ def main():
     # screens.
     desktop = QtGui.QDesktopWidget()
 
-    screen0 = Screen(0, desktop.screenGeometry(0), desktop.screen(0).frameSize())
-    screen1 = Screen(1, desktop.screenGeometry(1), desktop.screen(1).frameSize())
+    #screen0 = Screen(0, desktop.screenGeometry(0), desktop.screen(0).frameSize())
+    #screen1 = Screen(1, desktop.screenGeometry(1), desktop.screen(1).frameSize())
+
+    # TODO: get the actual screen size with desktop.screen(...).frameSize() and remove the following workaround
+    # WORKAROUND START ################
+    class FrameSize():
+        def __init__(self, width, height):
+            self.width_ = width
+            self.height_ = height
+
+        def width(self):
+            return self.width_
+
+        def height(self):
+            return self.height_
+
+    f0 = FrameSize(1366, 768)
+    f1 = FrameSize(1920, 1080)
+    screen0 = Screen(0, desktop.screenGeometry(0), f0) # laptop
+    screen1 = Screen(1, desktop.screenGeometry(1), f1) # hdmi/vga
+
+    print "screen 0 geometry:", screen0.geometry.left(), screen0.geometry.right(), screen0.geometry.top(), screen0.geometry.bottom()
+    print "screen 1 geometry:", screen1.geometry.left(), screen1.geometry.right(), screen1.geometry.top(), screen1.geometry.bottom()
+    print "screen 0 width:", screen0.size.width(), screen0.size.height()
+    print "screen 1 width:", screen1.size.width(), screen1.size.height()
+    print "wrong screen 0 width:", desktop.screen(0).frameSize().width(), desktop.screen(0).frameSize().height()
+    print "wrong screen 1 width:", desktop.screen(1).frameSize().width(), desktop.screen(1).frameSize().height()
+    # WORKAROUND END ##################
 
     # The default constructor has no parent.
     # A widget with no parent is a window.
-    window_slides = Window("PDF Presenter (Slides)", slides_doc, screen0)
-    window_notes = Window("PDF Presenter (Notes)", notes_doc, screen1)
+    window_slides = Window("PDF Presenter (Slides)", slides_doc, screen1)
+    window_notes = Window("PDF Presenter (Notes)", notes_doc, screen0)
 
     window_slides.move(window_slides.screen.geometry.left(), window_slides.screen.geometry.top())
     window_notes.move(window_notes.screen.geometry.left(), window_notes.screen.geometry.top())
