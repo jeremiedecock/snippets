@@ -46,11 +46,18 @@ from PyQt4 import QtGui, QtCore
 import popplerqt4
 
 class Screen():
-    def __init__(self, num, geometry, size):
+    def __init__(self, num, geometry):
         self.num = num
         self.geometry = geometry
-        self.size = size
+        self.top = geometry.top()
+        self.bottom = geometry.bottom()
+        self.left = geometry.left()
+        self.right = geometry.right()
+        self.width = geometry.width()
+        self.height = geometry.height()
 
+    def __str__(self):
+        return "Screen {0} [{1}, {2}, {3}, {4}] ({5}, {6})".format(self.num, self.top, self.bottom, self.left, self.right, self.width, self.height)
 
 class PDFController():
     # TODO
@@ -122,8 +129,8 @@ class PDFController():
             self.window_slides.showNormal() # required
             self.window_notes.showNormal()  # required
 
-            self.window_slides.move(self.window_slides.screen.geometry.left(), self.window_slides.screen.geometry.top())
-            self.window_notes.move(self.window_notes.screen.geometry.left(), self.window_notes.screen.geometry.top())
+            self.window_slides.move(self.window_slides.screen.left, self.window_slides.screen.top)
+            self.window_notes.move(self.window_notes.screen.left, self.window_notes.screen.top)
 
             self.window_slides.showFullScreen()
             self.window_notes.showFullScreen()
@@ -151,7 +158,8 @@ class Window(QtGui.QWidget):
 
         # Create a label with the pixmap
         self.label = QtGui.QLabel(self)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)  # To center the label (ie the image)
+        #self.label.setAlignment(QtCore.Qt.AlignCenter)  # To center the label (ie the image)
+        self.label.setAlignment(QtCore.Qt.AlignHCenter)  # To center the label (ie the image)
 
         # Create the layout
         vbox = QtGui.QVBoxLayout()
@@ -180,8 +188,8 @@ class Window(QtGui.QWidget):
 
                 #ratio_x = self.scale_factor * self.frameSize().width() / page.pageSize().width()
                 #ratio_y = self.scale_factor * self.frameSize().height() / page.pageSize().height()
-                ratio_x = self.scale_factor * self.screen.size.width() / page.pageSize().width()
-                ratio_y = self.scale_factor * self.screen.size.height() / page.pageSize().height()
+                ratio_x = self.scale_factor * self.screen.width / page.pageSize().width()
+                ratio_y = self.scale_factor * self.screen.height / page.pageSize().height()
                 #ratio_x = self.scale_factor * 1920 / page.pageSize().width()
                 #ratio_y = self.scale_factor * 1080 / page.pageSize().height()
                 ratio = min(ratio_x, ratio_y)
@@ -201,6 +209,7 @@ class Window(QtGui.QWidget):
                 pixmap = QtGui.QPixmap.fromImage(image)
 
                 self.label.setPixmap(pixmap)
+                #self.label.resize(page.pageSize().width(), page.pageSize().height())
                 #self.label.resize(self.label.sizeHint())
             else:
                 self.label.setPixmap(None)
@@ -249,42 +258,24 @@ def main():
     # screens.
     desktop = QtGui.QDesktopWidget()
 
-    #screen0 = Screen(0, desktop.screenGeometry(0), desktop.screen(0).frameSize())
-    #screen1 = Screen(1, desktop.screenGeometry(1), desktop.screen(1).frameSize())
+    screen0 = Screen(0, desktop.screenGeometry(0))
+    screen1 = Screen(1, desktop.screenGeometry(1))
 
-    # TODO: get the actual screen size with desktop.screen(...).frameSize() and remove the following workaround
-    # WORKAROUND START ################
-    class FrameSize():
-        def __init__(self, width, height):
-            self.width_ = width
-            self.height_ = height
+    print screen0
+    print screen1
 
-        def width(self):
-            return self.width_
-
-        def height(self):
-            return self.height_
-
-    f0 = FrameSize(1366, 768)
-    f1 = FrameSize(1920, 1080)
-    screen0 = Screen(0, desktop.screenGeometry(0), f0) # laptop
-    screen1 = Screen(1, desktop.screenGeometry(1), f1) # hdmi/vga
-
-    print "screen 0 geometry:", screen0.geometry.left(), screen0.geometry.right(), screen0.geometry.top(), screen0.geometry.bottom()
-    print "screen 1 geometry:", screen1.geometry.left(), screen1.geometry.right(), screen1.geometry.top(), screen1.geometry.bottom()
-    print "screen 0 width:", screen0.size.width(), screen0.size.height()
-    print "screen 1 width:", screen1.size.width(), screen1.size.height()
-    print "wrong screen 0 width:", desktop.screen(0).frameSize().width(), desktop.screen(0).frameSize().height()
-    print "wrong screen 1 width:", desktop.screen(1).frameSize().width(), desktop.screen(1).frameSize().height()
-    # WORKAROUND END ##################
+    ## WORKAROUND START ################
+    #f0 = FrameSize(1366, 768)
+    #f1 = FrameSize(1920, 1080)
+    ## WORKAROUND END ##################
 
     # The default constructor has no parent.
     # A widget with no parent is a window.
     window_slides = Window("PDF Presenter (Slides)", slides_doc, screen1)
     window_notes = Window("PDF Presenter (Notes)", notes_doc, screen0)
 
-    window_slides.move(window_slides.screen.geometry.left(), window_slides.screen.geometry.top())
-    window_notes.move(window_notes.screen.geometry.left(), window_notes.screen.geometry.top())
+    window_slides.move(window_slides.screen.left, window_slides.screen.top)
+    window_notes.move(window_notes.screen.left, window_notes.screen.top)
 
     window_slides.showFullScreen()
     window_notes.showFullScreen()
