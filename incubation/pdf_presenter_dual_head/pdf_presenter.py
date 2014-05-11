@@ -29,6 +29,14 @@
 #      http://bazaar.launchpad.net/~j-corwin/openlp/pdf/annotate/head:/openlp/plugins/presentations/lib/pdfcontroller.py
 
 
+# TODO
+# - size of pixmaps (+ center + background=black)
+# - improve render quality (with embeded PDF) -> use an other backend (search poppler qt set backend on google)
+# - add a clock on the note screen (and update it every seconds)
+# - implement switch screen (with tab key)
+# - check command options
+
+
 import sys
 import argparse
 
@@ -38,16 +46,92 @@ import popplerqt4
 
 class PDFController():
     # TODO
-    def __init__(self, window_slides, window_notes):
-        pass
+    def __init__(self, window_slides, window_notes, geometry_screen_0, geometry_screen_1):
+        self.window_slides = window_slides
+        self.window_notes = window_notes
+        self.geometry_screen_0 = geometry_screen_0
+        self.geometry_screen_1 = geometry_screen_1
+
+        self.current_page_num = 0
+        self.num_pages = max(self.window_slides.num_pages, self.window_notes.num_pages)
+
+    def update(self, e):
+        # See http://pyqt.sourceforge.net/Docs/PyQt4/qt.html#Key-enum for all keys
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.window_slides.close()
+            self.window_notes.close()
+
+        elif e.key() == QtCore.Qt.Key_Return:
+            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Space:
+            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_PageUp:
+            self.current_page_num = min(self.current_page_num + 5, self.num_pages - 1)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_PageDown:
+            self.current_page_num = max(self.current_page_num - 5, 0)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Home:
+            self.current_page_num = 0
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_End:
+            self.current_page_num = self.num_pages - 1
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Left:
+            self.current_page_num = max(self.current_page_num - 1, 0)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Right:
+            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Up:
+            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Down:
+            self.current_page_num = max(self.current_page_num - 1, 0)
+            self.window_slides.updatePixmap()
+            self.window_notes.updatePixmap()
+
+        elif e.key() == QtCore.Qt.Key_Tab:
+            # Switch screen
+            self.window_slides.showNormal()
+            self.window_notes.showNormal()
+
+            # TODO
+            #self.window_slides.move(qrect0.left(), qrect0.top())
+            #self.window_notes.move(qrect1.left(), qrect1.top())
+
+            self.window_slides.showFullScreen()
+            self.window_notes.showFullScreen()
+
 
 class Window(QtGui.QWidget):
     def __init__(self, name, doc):
         super(Window, self).__init__()
 
+        self.pdf_controller = None
+
         self.doc = doc
 
-        self.current_page_num = 0
         self.num_pages = self.doc.numPages()
 
         # Create a label with the pixmap
@@ -65,77 +149,33 @@ class Window(QtGui.QWidget):
         self.show()
 
     def updatePixmap(self):
-        page = self.doc.page(self.current_page_num)
+        if self.pdf_controller is not None:
+            page = self.doc.page(self.pdf_controller.current_page_num)
 
-        if page is not None:
-            # See http://people.freedesktop.org/~aacid/docs/qt4/classPoppler_1_1Page.html
-            # page.renderToImage(xres=72.0, yres=72.0, x=-1, y=-1, width=-1, height=-1, rotate)
-            # 
-            # Parameters
-            #   x   specifies the left x-coordinate of the box, in pixels.
-            #   y   specifies the top y-coordinate of the box, in pixels.
-            #   w   specifies the width of the box, in pixels.
-            #   h   specifies the height of the box, in pixels.
-            #   xres    horizontal resolution of the graphics device, in dots per inch
-            #   yres    vertical resolution of the graphics device, in dots per inch
-            #   rotate  how to rotate the page
-            #image = page.renderToImage(300.0, 300.0, -1, -1, -1, -1)
-            image = page.renderToImage()
-            pixmap = QtGui.QPixmap.fromImage(image)
+            if page is not None:
+                # See http://people.freedesktop.org/~aacid/docs/qt4/classPoppler_1_1Page.html
+                # page.renderToImage(xres=72.0, yres=72.0, x=-1, y=-1, width=-1, height=-1, rotate)
+                # 
+                # Parameters
+                #   x   specifies the left x-coordinate of the box, in pixels.
+                #   y   specifies the top y-coordinate of the box, in pixels.
+                #   w   specifies the width of the box, in pixels.
+                #   h   specifies the height of the box, in pixels.
+                #   xres    horizontal resolution of the graphics device, in dots per inch
+                #   yres    vertical resolution of the graphics device, in dots per inch
+                #   rotate  how to rotate the page
+                #image = page.renderToImage(300.0, 300.0, -1, -1, -1, -1)
+                image = page.renderToImage()
+                pixmap = QtGui.QPixmap.fromImage(image)
 
-            self.label.setPixmap(pixmap)
-            self.label.resize(self.label.sizeHint())
-
+                self.label.setPixmap(pixmap)
+                self.label.resize(self.label.sizeHint())
+            else:
+                self.label.setPixmap(None)
 
     def keyPressEvent(self, e):
-        # See http://pyqt.sourceforge.net/Docs/PyQt4/qt.html#Key-enum for all keys
-        if e.key() == QtCore.Qt.Key_Escape:
-            self.close()
-
-        elif e.key() == QtCore.Qt.Key_Return:
-            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Space:
-            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_PageUp:
-            self.current_page_num = min(self.current_page_num + 5, self.num_pages - 1)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_PageDown:
-            self.current_page_num = max(self.current_page_num - 5, 0)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Home:
-            self.current_page_num = 0
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_End:
-            self.current_page_num = self.num_pages - 1
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Left:
-            self.current_page_num = max(self.current_page_num - 1, 0)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Right:
-            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Up:
-            self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Down:
-            self.current_page_num = max(self.current_page_num - 1, 0)
-            self.updatePixmap()
-
-        elif e.key() == QtCore.Qt.Key_Tab:
-            # Switch screen
-            # TODO
-            pass
+        if self.pdf_controller is not None:
+            self.pdf_controller.update(e)
 
 def main():
     """Main function"""
@@ -187,6 +227,10 @@ def main():
 
     window_slides.showFullScreen()
     window_notes.showFullScreen()
+
+    pdf_controller = PDFController(window_slides, window_notes, qrect0, qrect1)
+    window_slides.pdf_controller = pdf_controller
+    window_notes.pdf_controller = pdf_controller
 
     # The mainloop of the application. The event handling starts from this point.
     # The exec_() method has an underscore. It is because the exec is a Python keyword. And thus, exec_() was used instead. 
