@@ -54,10 +54,9 @@ class Screen():
 
 class PDFController():
     # TODO
-    def __init__(self, window_slides, window_notes, screen_0, screen_1):
+    def __init__(self, window_slides, window_notes):
         self.window_slides = window_slides
         self.window_notes = window_notes
-        self.screens = (screen_0, screen_1)
 
         self.current_page_num = -1
         self.num_pages = max(self.window_slides.num_pages, self.window_notes.num_pages)
@@ -118,13 +117,13 @@ class PDFController():
 
         elif e.key() == QtCore.Qt.Key_Tab:
             # Switch screen
-            self.screens = (self.screens[1], self.screens[0])
+            self.window_slides.screen, self.window_notes.screen = self.window_notes.screen, self.window_slides.screen
 
             self.window_slides.showNormal() # required
             self.window_notes.showNormal()  # required
 
-            self.window_slides.move(self.screens[0].geometry.left(), self.screens[0].geometry.top())
-            self.window_notes.move(self.screens[1].geometry.left(), self.screens[1].geometry.top())
+            self.window_slides.move(self.window_slides.screen.geometry.left(), self.window_slides.screen.geometry.top())
+            self.window_notes.move(self.window_notes.screen.geometry.left(), self.window_notes.screen.geometry.top())
 
             self.window_slides.showFullScreen()
             self.window_notes.showFullScreen()
@@ -172,12 +171,12 @@ class Window(QtGui.QWidget):
             page = self.doc.page(self.pdf_controller.current_page_num)
 
             if page is not None:
-                print self.name, "---"
-                print self.frameSize().width()
-                print self.frameSize().height()
-                print page.pageSize().width()
-                print page.pageSize().height()
-                print "---"
+                #print self.name, "---"
+                #print self.frameSize().width()
+                #print self.frameSize().height()
+                #print page.pageSize().width()
+                #print page.pageSize().height()
+                #print "---"
 
                 #ratio_x = self.scale_factor * self.frameSize().width() / page.pageSize().width()
                 #ratio_y = self.scale_factor * self.frameSize().height() / page.pageSize().height()
@@ -258,13 +257,13 @@ def main():
     window_slides = Window("PDF Presenter (Slides)", slides_doc, screen0)
     window_notes = Window("PDF Presenter (Notes)", notes_doc, screen1)
 
-    window_slides.move(screen0.geometry.left(), screen0.geometry.top())
-    window_notes.move(screen1.geometry.left(), screen1.geometry.top())
+    window_slides.move(window_slides.screen.geometry.left(), window_slides.screen.geometry.top())
+    window_notes.move(window_notes.screen.geometry.left(), window_notes.screen.geometry.top())
 
     window_slides.showFullScreen()
     window_notes.showFullScreen()
 
-    pdf_controller = PDFController(window_slides, window_notes, screen0, screen1)
+    pdf_controller = PDFController(window_slides, window_notes)
     window_slides.pdf_controller = pdf_controller
     window_notes.pdf_controller = pdf_controller
 
