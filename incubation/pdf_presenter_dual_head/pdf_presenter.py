@@ -49,10 +49,9 @@ class PDFController():
     def __init__(self, window_slides, window_notes, geometry_screen_0, geometry_screen_1):
         self.window_slides = window_slides
         self.window_notes = window_notes
-        self.geometry_screen_0 = geometry_screen_0
-        self.geometry_screen_1 = geometry_screen_1
+        self.geometries = (geometry_screen_0, geometry_screen_1)
 
-        self.current_page_num = 0
+        self.current_page_num = -1
         self.num_pages = max(self.window_slides.num_pages, self.window_notes.num_pages)
 
     def update(self, e):
@@ -63,65 +62,61 @@ class PDFController():
 
         elif e.key() == QtCore.Qt.Key_Return:
             self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Space:
             self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_PageUp:
             self.current_page_num = min(self.current_page_num + 5, self.num_pages - 1)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_PageDown:
             self.current_page_num = max(self.current_page_num - 5, 0)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Home:
             self.current_page_num = 0
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_End:
             self.current_page_num = self.num_pages - 1
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Left:
             self.current_page_num = max(self.current_page_num - 1, 0)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Right:
             self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Up:
             self.current_page_num = min(self.current_page_num + 1, self.num_pages - 1)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Down:
             self.current_page_num = max(self.current_page_num - 1, 0)
-            self.window_slides.updatePixmap()
-            self.window_notes.updatePixmap()
+            self.renderCurrentPage()
 
         elif e.key() == QtCore.Qt.Key_Tab:
             # Switch screen
-            self.window_slides.showNormal()
-            self.window_notes.showNormal()
+            self.geometries = (self.geometries[1], self.geometries[0])
 
-            # TODO
-            #self.window_slides.move(qrect0.left(), qrect0.top())
-            #self.window_notes.move(qrect1.left(), qrect1.top())
+            self.window_slides.showNormal() # required
+            self.window_notes.showNormal()  # required
+
+            self.window_slides.move(self.geometries[0].left(), self.geometries[0].top())
+            self.window_notes.move(self.geometries[1].left(), self.geometries[1].top())
 
             self.window_slides.showFullScreen()
             self.window_notes.showFullScreen()
+
+    def renderCurrentPage(self):
+        self.window_slides.updatePixmap()
+        self.window_notes.updatePixmap()
+
 
 
 class Window(QtGui.QWidget):
@@ -146,7 +141,9 @@ class Window(QtGui.QWidget):
 
         self.resize(800, 600)
         self.setWindowTitle(name)
-        self.show()
+        self.setStyleSheet("background-color:black;")  # TODO: or white ?
+
+        #self.show()
 
     def updatePixmap(self):
         if self.pdf_controller is not None:
