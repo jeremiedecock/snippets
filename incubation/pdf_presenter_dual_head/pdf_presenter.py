@@ -30,11 +30,12 @@
 
 
 # TODO
-# - size of pixmaps (+ center + background=black)
-# - improve render quality (with embeded PDF) -> use an other backend (search poppler qt set backend on google)
-# - add a clock on the note screen (and update it every seconds)
-# - implement switch screen (with tab key)
+# - size of pixmaps
+# - add a clock on the note screen (and update it every seconds) -> cf. QTimer
 # - check command options
+# - fix the bug zoom in then zoom out (vertically recenter the label)
+# - gérer le cas avec 1 seul écran
+# - gérer le cas avec 3 écrans et plus -> permettre de spécifier les numéros d'écrans à utiliser dans les options
 
 
 import sys
@@ -44,12 +45,19 @@ from PyQt4 import QtGui, QtCore
 
 import popplerqt4
 
+class Screen():
+    def __init__(self, num, geometry, size):
+        self.num = num
+        self.geometry = geometry
+        self.size = size
+
+
 class PDFController():
     # TODO
-    def __init__(self, window_slides, window_notes, geometry_screen_0, geometry_screen_1):
+    def __init__(self, window_slides, window_notes, screen_0, screen_1):
         self.window_slides = window_slides
         self.window_notes = window_notes
-        self.geometries = (geometry_screen_0, geometry_screen_1)
+        self.screens = (screen_0, screen_1)
 
         self.current_page_num = -1
         self.num_pages = max(self.window_slides.num_pages, self.window_notes.num_pages)
@@ -100,37 +108,51 @@ class PDFController():
             self.current_page_num = max(self.current_page_num - 1, 0)
             self.renderCurrentPage()
 
+        elif e.key() == QtCore.Qt.Key_Plus:
+            self.window_slides.scale_factor += 0.1
+            self.renderCurrentPage()
+
+        elif e.key() == QtCore.Qt.Key_Minus:
+            self.window_slides.scale_factor -= 0.1
+            self.renderCurrentPage()
+
         elif e.key() == QtCore.Qt.Key_Tab:
             # Switch screen
-            self.geometries = (self.geometries[1], self.geometries[0])
+            self.screens = (self.screens[1], self.screens[0])
 
             self.window_slides.showNormal() # required
             self.window_notes.showNormal()  # required
 
-            self.window_slides.move(self.geometries[0].left(), self.geometries[0].top())
-            self.window_notes.move(self.geometries[1].left(), self.geometries[1].top())
+            self.window_slides.move(self.screens[0].geometry.left(), self.screens[0].geometry.top())
+            self.window_notes.move(self.screens[1].geometry.left(), self.screens[1].geometry.top())
 
             self.window_slides.showFullScreen()
             self.window_notes.showFullScreen()
 
+            self.renderCurrentPage()
+
     def renderCurrentPage(self):
-        self.window_slides.updatePixmap()
-        self.window_notes.updatePixmap()
+        self.window_slides.updatePdfPagePixmap()
+        self.window_notes.updatePdfPagePixmap()
 
 
 
 class Window(QtGui.QWidget):
-    def __init__(self, name, doc):
+    def __init__(self, name, doc, screen):
         super(Window, self).__init__()
 
+        self.name = name
         self.pdf_controller = None
+        self.scale_factor = 1.0
 
         self.doc = doc
+        self.screen = screen
 
         self.num_pages = self.doc.numPages()
 
         # Create a label with the pixmap
         self.label = QtGui.QLabel(self)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)  # To center the label (ie the image)
 
         # Create the layout
         vbox = QtGui.QVBoxLayout()
@@ -145,11 +167,26 @@ class Window(QtGui.QWidget):
 
         #self.show()
 
-    def updatePixmap(self):
+    def updatePdfPagePixmap(self):
         if self.pdf_controller is not None:
             page = self.doc.page(self.pdf_controller.current_page_num)
 
             if page is not None:
+                print self.name, "---"
+                print self.frameSize().width()
+                print self.frameSize().height()
+                print page.pageSize().width()
+                print page.pageSize().height()
+                print "---"
+
+                #ratio_x = self.scale_factor * self.frameSize().width() / page.pageSize().width()
+                #ratio_y = self.scale_factor * self.frameSize().height() / page.pageSize().height()
+                ratio_x = self.scale_factor * self.screen.size.width() / page.pageSize().width()
+                ratio_y = self.scale_factor * self.screen.size.height() / page.pageSize().height()
+                #ratio_x = self.scale_factor * 1920 / page.pageSize().width()
+                #ratio_y = self.scale_factor * 1080 / page.pageSize().height()
+                ratio = min(ratio_x, ratio_y)
+
                 # See http://people.freedesktop.org/~aacid/docs/qt4/classPoppler_1_1Page.html
                 # page.renderToImage(xres=72.0, yres=72.0, x=-1, y=-1, width=-1, height=-1, rotate)
                 # 
@@ -161,12 +198,11 @@ class Window(QtGui.QWidget):
                 #   xres    horizontal resolution of the graphics device, in dots per inch
                 #   yres    vertical resolution of the graphics device, in dots per inch
                 #   rotate  how to rotate the page
-                #image = page.renderToImage(300.0, 300.0, -1, -1, -1, -1)
-                image = page.renderToImage()
+                image = page.renderToImage(72. * ratio, 72. * ratio)
                 pixmap = QtGui.QPixmap.fromImage(image)
 
                 self.label.setPixmap(pixmap)
-                self.label.resize(self.label.sizeHint())
+                #self.label.resize(self.label.sizeHint())
             else:
                 self.label.setPixmap(None)
 
@@ -191,10 +227,16 @@ def main():
     # POPPLER #########################
 
     slides_doc = popplerqt4.Poppler.Document.load(args.fileargs[0])
-    slides_doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing and popplerqt4.Poppler.Document.TextAntialiasing)
+    #slides_doc.setRenderBackend(popplerqt4.Poppler.Document.SplashBackend) # ok (default)
+    #slides_doc.setRenderBackend(popplerqt4.Poppler.Document.ArthurBackend) # bad
+    slides_doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing)
+    slides_doc.setRenderHint(popplerqt4.Poppler.Document.TextAntialiasing)
 
     notes_doc = popplerqt4.Poppler.Document.load(args.notes)
-    notes_doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing and popplerqt4.Poppler.Document.TextAntialiasing)
+    #notes_doc.setRenderBackend(popplerqt4.Poppler.Document.SplashBackend) # ok (default)
+    #notes_doc.setRenderBackend(popplerqt4.Poppler.Document.ArthurBackend) # bad
+    notes_doc.setRenderHint(popplerqt4.Poppler.Document.Antialiasing)
+    notes_doc.setRenderHint(popplerqt4.Poppler.Document.TextAntialiasing)
 
     # QT4 #############################
 
@@ -208,24 +250,21 @@ def main():
     # screens.
     desktop = QtGui.QDesktopWidget()
 
-    #print(desktop.numScreens())
-    #print(desktop.primaryScreen())
+    screen0 = Screen(0, desktop.screenGeometry(0), desktop.screen(0).frameSize())
+    screen1 = Screen(1, desktop.screenGeometry(1), desktop.screen(1).frameSize())
 
     # The default constructor has no parent.
     # A widget with no parent is a window.
-    window_slides = Window("PDF Presenter (Slides)", slides_doc)
-    window_notes = Window("PDF Presenter (Notes)", notes_doc)
+    window_slides = Window("PDF Presenter (Slides)", slides_doc, screen0)
+    window_notes = Window("PDF Presenter (Notes)", notes_doc, screen1)
 
-    qrect0 = desktop.screenGeometry(0)
-    qrect1 = desktop.screenGeometry(1)
-
-    window_slides.move(qrect0.left(), qrect0.top())
-    window_notes.move(qrect1.left(), qrect1.top())
+    window_slides.move(screen0.geometry.left(), screen0.geometry.top())
+    window_notes.move(screen1.geometry.left(), screen1.geometry.top())
 
     window_slides.showFullScreen()
     window_notes.showFullScreen()
 
-    pdf_controller = PDFController(window_slides, window_notes, qrect0, qrect1)
+    pdf_controller = PDFController(window_slides, window_notes, screen0, screen1)
     window_slides.pdf_controller = pdf_controller
     window_notes.pdf_controller = pdf_controller
 
