@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256pt" height="256pt" viewBox="0 0 256 256" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 0 0 L 1 0 L 1 1 L 0 1 Z "/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,0%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 75 L 200 75 " transform="matrix(1,0,0,1,-5,5)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,0%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 75 L 200 75 " transform="matrix(1,0,0,1,-10,10)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,0%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 75 L 200 75 "/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,100%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 49.998426 125.000483 L 200.001944 125.000975 " transform="matrix(0.939693,0.34202,-0.34202,0.939693,0,0)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,100%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 49.999245 125.000105 L 199.998815 125.000241 " transform="matrix(0.766044,0.642788,-0.642788,0.766044,0,0)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,100%,0%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 125 L 200 125 "/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,100%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 175 L 200 175 " transform="matrix(0.6,0,0,0.4,0,0)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,100%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 175 L 200 175 " transform="matrix(0.8,0,0,0.7,0,0)"/>
+<path style="fill:none;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,100%);stroke-opacity:0.5;stroke-miterlimit:10;" d="M 50 175 L 200 175 "/>
+</g>
+</svg>

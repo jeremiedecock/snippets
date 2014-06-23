@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256pt" height="256pt" viewBox="0 0 256 256" version="1.1">
+<g id="surface1">
+<rect x="0" y="0" width="256" height="256" style="fill:rgb(100%,100%,100%);fill-opacity:1;stroke:none;"/>
+<path style="fill:none;stroke-width:0.02;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 0.782837 0.782837 C 0.668442 0.897247 0.496399 0.931458 0.346924 0.869553 C 0.197464 0.807632 0.100006 0.661789 0.100006 0.5 " transform="matrix(256,0,0,256,0,0)"/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,20%,20%);fill-opacity:0.6;" d="M 133.429688 133.429688 C 130.839844 136.019531 126.78125 136.421875 123.734375 134.386719 C 120.6875 132.351562 119.503906 128.445312 120.90625 125.0625 C 122.308594 121.675781 125.90625 119.753906 129.5 120.46875 C 133.09375 121.183594 135.679688 124.335938 135.679688 128 "/>
+<path style="fill:none;stroke-width:0.01;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,20%,20%);stroke-opacity:0.6;stroke-miterlimit:10;" d="M 0.782837 0.782837 L 0.5 0.5 L 0.100006 0.5 L 0.5 0.5 " transform="matrix(256,0,0,256,0,0)"/>
+</g>
+</svg>
