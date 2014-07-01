@@ -1,0 +1,1 @@
+../pyqt/poppler_pdf.py
