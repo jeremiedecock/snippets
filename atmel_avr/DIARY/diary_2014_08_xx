@@ -1,0 +1,3 @@
+- Makefile blink_led
+- Push button without and with (soft) debouncing
+- Push button with hard debouncing (capacitor)
