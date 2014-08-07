@@ -6,5 +6,5 @@
 *.raw
 *.ihex
 *.motorola
-misc
-doc/ext
+MISC
+DOC/ext
