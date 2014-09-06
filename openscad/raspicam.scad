@@ -1,6 +1,7 @@
-// Raspicam
+// Raspicam for Pibow
+// A raspicam support for the Pibow case (Pimoroni).
 
-// Copyright (c) 2014, Jérémie Decock (jd.jdhp@gmail.com)
+// Copyright (c) 2014 Jérémie DECOCK <jd.jdhp@gmail.com>
 
 
 // BODY /////////////////////////////////////
@@ -22,6 +23,8 @@ module body(board_width, board_height, board_depth, board_corner_radius, screw_h
                             body_camera_holes(camera_holes_width, screw_hole_depth);
                         }
                     }
+
+                    body_board_round_corner_mask(radius=board_corner_radius, spacing_x=board_width-2*board_corner_radius, spacing_y=board_height-2*board_corner_radius, depth=screw_hole_depth);
                 }
             }
             translate([-board_width/2, 0, hinge_radius_out - board_depth/2]) {
@@ -38,11 +41,7 @@ module body(board_width, board_height, board_depth, board_corner_radius, screw_h
 
 module body_main_board(width, height, depth, radius) {
 	$fn=50;
-	//minkowski()
-	//{
-		cube([width, height, depth], center=true);
-    //	cylinder(r=radius, h=depth, center=true);
-    //}
+    cube([width, height, depth], center=true);
 }
 
 module body_screw_holes(radius, spacing, depth, num) {
@@ -78,6 +77,11 @@ module body_hinge(radius_in, radius_out, length) {
     }
 }
 
+module body_board_round_corner_mask(radius, spacing_x, spacing_y, depth) {
+    translate([ spacing_x/2,  spacing_y/2, 0]) mirror([1,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([ spacing_x/2, -spacing_y/2, 0]) mirror([1,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+}
+
 
 // HINGE SCREW //////////////////////////////
 
@@ -101,6 +105,7 @@ module feet(board_width, board_height, board_depth, board_corner_radius, screw_h
         feet_main_board(board_width, board_height, board_depth, board_corner_radius);
         #feet_screw_holes(screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y, screw_hole_depth);
         #feet_ventilation_holes(ventilation_holes_radius, screw_hole_depth);
+        #feet_board_round_corner_mask(radius=board_corner_radius, spacing_x=board_width-2*board_corner_radius, spacing_y=board_height-2*board_corner_radius, depth=screw_hole_depth);
     }
 
     translate([board_width/2 + hinge_shelf_width/2, 0, 0]) {
@@ -129,18 +134,38 @@ module feet_screw_holes(radius, spacing_x, spacing_y, depth) {
 module feet_ventilation_holes(radius, depth) {
 	$fn=50;
 	
-    translate([0, 0, 0]) {        
-        cylinder(r=radius, h=depth, center=true);
+    translate([-33, 17, 0]) {        
+        translate([-4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([-4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+    }
+
+    translate([33, -17, 0]) {        
+        translate([-4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([-4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+    }
+
+    translate([8, 0, 0]) {        
+        translate([-4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([-4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+    }
+
+    translate([-8, 0, 0]) {        
+        translate([-4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([-4, +4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, -4, 0]) cylinder(r=radius, h=depth, center=true);
+        translate([+4, +4, 0]) cylinder(r=radius, h=depth, center=true);
     }
 }
 
 module feet_main_board(width, height, depth, radius) {
 	$fn=50;
-	//minkowski()
-	//{
-		cube([width, height, depth], center=true);
-	//	cylinder(r=radius, h=depth, center=true);
-	//}
+    cube([width, height, depth], center=true);
 }
 
 module feet_hinge(radius_in, radius_out, length) {
@@ -150,19 +175,40 @@ module feet_hinge(radius_in, radius_out, length) {
     }
 }
 
+module feet_board_round_corner_mask(radius, spacing_x, spacing_y, depth) {
+    translate([-spacing_x/2,  spacing_y/2, 0]) mirror([0,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([-spacing_x/2, -spacing_y/2, 0]) mirror([0,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([ spacing_x/2,  spacing_y/2, 0]) mirror([1,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([ spacing_x/2, -spacing_y/2, 0]) mirror([1,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+}
+
+// COMMON ///////////////////////////////////
+
+module round_corner_mask(radius, spacing_x, spacing_y, depth) {
+	$fn=50;
+	
+    difference() {
+        cube([2*radius+1, 2*radius+1, depth], center=true);
+        union() {
+            cylinder(r=radius, h=depth+2, center=true);
+            translate([(radius+2)/2, 0, 0]) cube([radius+2, 2*radius+2, depth+2], center=true);
+            translate([0, (radius+2)/2, 0]) cube([2*radius+2, radius+2, depth+2], center=true);
+        }
+    }
+}
 
 /////////////////////////////////////////////
 
 assign(feet_board_width=98,
        feet_board_height=65,
        feet_board_depth=3,
-       feet_board_corner_radius=3,
-       feet_screw_holes_radius=1.5,
-       feet_screw_holes_spacing_x=70,
-       feet_screw_holes_spacing_y=30,
+       feet_board_corner_radius=5,     // TODO
+       feet_screw_holes_radius=1,      // TODO
+       feet_screw_holes_spacing_x=89,  // TODO
+       feet_screw_holes_spacing_y=56,  // TODO
        feet_screw_hole_depth=10,
        feet_hinge_shelf_width=20,
-       feet_ventilation_holes_radius=3,
+       feet_ventilation_holes_radius=2.5,
        body_board_width=100,
        body_board_height=40,
        body_board_depth=3,
