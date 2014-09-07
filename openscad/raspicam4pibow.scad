@@ -6,7 +6,7 @@
 
 // BODY /////////////////////////////////////
 
-module body(board_width, board_height, board_depth, board_corner_radius, screw_hole_radius, screw_hole_spacing, screw_hole_depth, num_screw_holes, camera_screw_holes_radius, camera_screw_holes_spacing_x, camera_screw_holes_spacing_y, camera_holes_width, hinge_radius_in, hinge_radius_out, hinge_slot_length) {
+module body(board_width, board_height, board_depth, board_corner_radius, screw_hole_radius, screw_hole_spacing, screw_hole_depth, num_screw_holes, camera_screw_holes_radius, camera_screw_holes_spacing_x, camera_screw_holes_spacing_y, camera_slot_width, hinge_radius_in, hinge_radius_out, hinge_slot_length) {
     difference() {
         union() {
             difference() {
@@ -20,7 +20,7 @@ module body(board_width, board_height, board_depth, board_corner_radius, screw_h
                     translate([board_width/2 - camera_screw_holes_spacing_x/2 - 10, 0, 0]){
                         body_camera_screw_holes(camera_screw_holes_radius, camera_screw_holes_spacing_x, camera_screw_holes_spacing_y, screw_hole_depth);
                         translate([-camera_screw_holes_spacing_x/2, 0, 0]){
-                            body_camera_holes(camera_holes_width, screw_hole_depth);
+                            body_camera_slot(camera_slot_width, screw_hole_depth);
                         }
                     }
 
@@ -66,7 +66,7 @@ module body_camera_screw_holes(radius, spacing_x, spacing_y, depth) {
 	}
 }
 
-module body_camera_holes(width, depth) {
+module body_camera_slot(width, depth) {
     cube([width, width, depth], center=true);
 }
 
@@ -80,6 +80,14 @@ module body_hinge(radius_in, radius_out, length) {
 module body_board_round_corner_mask(radius, spacing_x, spacing_y, depth) {
     translate([ spacing_x/2,  spacing_y/2, 0]) mirror([1,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
     translate([ spacing_x/2, -spacing_y/2, 0]) mirror([1,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+}
+
+module body_board_camera_protection(board_width, board_height, board_depth, board_corner_radius, screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y) {
+    difference() {
+        cube([board_width, board_height, board_depth], center=true);
+        #four_screw_holes(screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y, board_depth+2);
+        #board_round_4_corner_mask(radius=board_corner_radius, spacing_x=board_width-2*board_corner_radius, spacing_y=board_height-2*board_corner_radius, depth=board_depth+2);
+    }
 }
 
 
@@ -103,9 +111,9 @@ module hinge_screw(radius, head_radius, length, head_length) {
 module feet(board_width, board_height, board_depth, board_corner_radius, screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y, screw_hole_depth, hinge_length, hinge_radius_in, hinge_radius_out, hinge_shelf_width, ventilation_holes_radius) {
     difference() {
         feet_main_board(board_width, board_height, board_depth, board_corner_radius);
-        #feet_screw_holes(screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y, screw_hole_depth);
+        #four_screw_holes(screw_holes_radius, screw_holes_spacing_x, screw_holes_spacing_y, screw_hole_depth);
         #feet_ventilation_holes(ventilation_holes_radius, screw_hole_depth);
-        #feet_board_round_corner_mask(radius=board_corner_radius, spacing_x=board_width-2*board_corner_radius, spacing_y=board_height-2*board_corner_radius, depth=screw_hole_depth);
+        #board_round_4_corner_mask(radius=board_corner_radius, spacing_x=board_width-2*board_corner_radius, spacing_y=board_height-2*board_corner_radius, depth=screw_hole_depth);
     }
 
     translate([board_width/2 + hinge_shelf_width/2, 0, 0]) {
@@ -117,18 +125,6 @@ module feet(board_width, board_height, board_depth, board_corner_radius, screw_h
             feet_hinge(radius_in=hinge_radius_in, radius_out=hinge_radius_out, length=hinge_length);
         }
     }
-}
-
-module feet_screw_holes(radius, spacing_x, spacing_y, depth) {
-	$fn=50;
-	
-	for (i = [-1, 1]) {    
-        for (j = [-1, 1]) {    
-            translate([i*spacing_x/2, j*spacing_y/2, 0]) {        
-                cylinder(r=radius, h=depth, center=true);
-            }
-        }
-	}
 }
 
 module feet_ventilation_holes(radius, depth) {
@@ -164,7 +160,6 @@ module feet_ventilation_holes(radius, depth) {
 }
 
 module feet_main_board(width, height, depth, radius) {
-	$fn=50;
     cube([width, height, depth], center=true);
 }
 
@@ -173,13 +168,6 @@ module feet_hinge(radius_in, radius_out, length) {
         cylinder(r=radius_out, h=length, center=true, $fn=50);
         #cylinder(r=radius_in, h=length+10, center=true, $fn=50);
     }
-}
-
-module feet_board_round_corner_mask(radius, spacing_x, spacing_y, depth) {
-    translate([-spacing_x/2,  spacing_y/2, 0]) mirror([0,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
-    translate([-spacing_x/2, -spacing_y/2, 0]) mirror([0,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
-    translate([ spacing_x/2,  spacing_y/2, 0]) mirror([1,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
-    translate([ spacing_x/2, -spacing_y/2, 0]) mirror([1,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
 }
 
 // COMMON ///////////////////////////////////
@@ -197,13 +185,32 @@ module round_corner_mask(radius, spacing_x, spacing_y, depth) {
     }
 }
 
+module four_screw_holes(radius, spacing_x, spacing_y, depth) {
+	$fn=50;
+	
+	for (i = [-1, 1]) {    
+        for (j = [-1, 1]) {    
+            translate([i*spacing_x/2, j*spacing_y/2, 0]) {        
+                cylinder(r=radius, h=depth, center=true);
+            }
+        }
+	}
+}
+
+module board_round_4_corner_mask(radius, spacing_x, spacing_y, depth) {
+    translate([-spacing_x/2,  spacing_y/2, 0]) mirror([0,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([-spacing_x/2, -spacing_y/2, 0]) mirror([0,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([ spacing_x/2,  spacing_y/2, 0]) mirror([1,1,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+    translate([ spacing_x/2, -spacing_y/2, 0]) mirror([1,0,0]) round_corner_mask(radius, spacing_x, spacing_y, depth);
+}
+
 /////////////////////////////////////////////
 
 assign(feet_board_width=98,
        feet_board_height=65,
        feet_board_depth=3,
        feet_board_corner_radius=5,     // TODO
-       feet_screw_holes_radius=1,      // TODO
+       feet_screw_holes_radius=1.5,    // TODO
        feet_screw_holes_spacing_x=89,  // TODO
        feet_screw_holes_spacing_y=56,  // TODO
        feet_screw_hole_depth=10,
@@ -213,26 +220,27 @@ assign(feet_board_width=98,
        body_board_height=40,
        body_board_depth=3,
        body_board_corner_radius=3,
-       body_screw_hole_radius=1.5,
+       body_screw_hole_radius=1.5,     // TODO
        body_screw_hole_spacing=5,
        body_screw_hole_depth=10,
        body_num_screw_holes=9,
-       body_camera_screw_holes_radius=1,
-       body_camera_screw_holes_spacing_x=12,
-       body_camera_screw_holes_spacing_y=20,
-       body_camera_holes_width=8,
+       body_camera_screw_holes_radius=1.5,
+       body_camera_screw_holes_spacing_x=12,  // TODO
+       body_camera_screw_holes_spacing_y=20,  // TODO
+       body_camera_slot_width=9,
        hinge_radius=1.5,
        hinge_head_radius=4.6,
-       hinge_head_length=5) {
+       hinge_head_length=5,
+       camera_protection_depth=2) {
 
     color([0,0,1]) {
         translate([0, 50, body_board_depth/2]) {
-            body(board_width=body_board_width, board_height=body_board_height, board_depth=body_board_depth, board_corner_radius=body_board_corner_radius, screw_hole_radius=body_screw_hole_radius, screw_hole_spacing=body_screw_hole_spacing, screw_hole_depth=body_screw_hole_depth, num_screw_holes=body_num_screw_holes, camera_screw_holes_radius=body_camera_screw_holes_radius, camera_screw_holes_spacing_x=body_camera_screw_holes_spacing_x, camera_screw_holes_spacing_y=body_camera_screw_holes_spacing_y, camera_holes_width=body_camera_holes_width, hinge_radius_in=hinge_radius + 0.5, hinge_radius_out=hinge_radius + 0.5 + feet_board_depth, hinge_slot_length=body_board_height / 3 + 1);
+            body(board_width=body_board_width, board_height=body_board_height, board_depth=body_board_depth, board_corner_radius=body_board_corner_radius, screw_hole_radius=body_screw_hole_radius, screw_hole_spacing=body_screw_hole_spacing, screw_hole_depth=body_screw_hole_depth, num_screw_holes=body_num_screw_holes, camera_screw_holes_radius=body_camera_screw_holes_radius, camera_screw_holes_spacing_x=body_camera_screw_holes_spacing_x, camera_screw_holes_spacing_y=body_camera_screw_holes_spacing_y, camera_slot_width=body_camera_slot_width, hinge_radius_in=hinge_radius + 0.5, hinge_radius_out=hinge_radius + 0.5 + feet_board_depth, hinge_slot_length=body_board_height / 3 + 1.5);
         }
     }
 
     color([1,0,0]) {
-        translate([0, -50, feet_board_depth/2]) {
+        translate([0, -55, feet_board_depth/2]) {
             feet(board_width=feet_board_width, board_height=feet_board_height, board_depth=feet_board_depth, board_corner_radius=feet_board_corner_radius, screw_holes_radius=feet_screw_holes_radius, screw_holes_spacing_x=feet_screw_holes_spacing_x, screw_holes_spacing_y=feet_screw_holes_spacing_y, screw_hole_depth=feet_screw_hole_depth, hinge_length=body_board_height/3, hinge_radius_in=hinge_radius + 0.5, hinge_radius_out=hinge_radius + 0.5 + feet_board_depth, hinge_shelf_width=feet_hinge_shelf_width, ventilation_holes_radius=feet_ventilation_holes_radius);
         }
     }
@@ -241,6 +249,10 @@ assign(feet_board_width=98,
         translate([-50, 0, 0]) {
             hinge_screw(radius=hinge_radius, head_radius=hinge_head_radius, length=body_board_height + 1 + hinge_head_length, head_length=hinge_head_length);
         }
+    }
+
+    translate([0, 0, camera_protection_depth/2]) {
+        body_board_camera_protection(board_width=body_camera_screw_holes_spacing_x + 10, board_height=body_camera_screw_holes_spacing_y + 10, board_depth=camera_protection_depth, board_corner_radius=1.5, screw_holes_radius=body_camera_screw_holes_radius, screw_holes_spacing_x=body_camera_screw_holes_spacing_x, screw_holes_spacing_y=body_camera_screw_holes_spacing_y);
     }
 }
 
