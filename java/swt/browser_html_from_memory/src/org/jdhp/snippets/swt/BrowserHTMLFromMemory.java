@@ -23,9 +23,9 @@ public class BrowserHTMLFromMemory {
         // Add a widget
         Browser browser;
         try {
-            browser = new Browser(shell, SWT.NONE);       // default
+            //browser = new Browser(shell, SWT.NONE);       // default
             //browser = new Browser(shell, SWT.MOZILLA);  // force mozilla
-            //browser = new Browser(shell, SWT.WEBKIT);   // force webkit
+            browser = new Browser(shell, SWT.WEBKIT);   // force webkit
         } catch (SWTError e) {
             System.out.println("Could not instantiate Browser: " + e.getMessage());
             display.dispose();

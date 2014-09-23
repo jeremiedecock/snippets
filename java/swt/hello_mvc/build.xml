@@ -47,7 +47,6 @@ variable from something like "us.utf8" to "us".
     <!-- PROPERTIES (GLOBAL) -->
     <property name="src_dir" value="${basedir}/src" />
     <property name="class_dir" value="${basedir}/bin" />
-    <property name="lib_dir" value="${basedir}/ext/lib" />
     <property name="javadoc_dir" value="${basedir}/doc/javadoc" />
     <property name="dist_dir" value="${basedir}/dist" />
     <property name="dist_project_dir" value="${dist_dir}/${project_name}" />
@@ -60,8 +59,16 @@ variable from something like "us.utf8" to "us".
     <property name="run_script_file" value="${basedir}/${project_name}" />
 
     <!-- PROPERTIES (LIBS) -->
+    <!-- Use an embedded SWT library -->
+    <!--<property name="lib_dir" value="${basedir}/ext/lib" />-->
+    <!-- Use the system' SWT library -->
+    <property name="lib_dir" value="/usr/share/java" />
+    <!-- Use an embedded 64bits SWT library -->
     <!-- <property name="swt_lib" value="swt-3.7.2-gtk-linux-x86_64.jar" /> -->
-    <property name="swt_lib" value="swt-3.7.2-gtk-linux-x86.jar" />
+    <!-- Use an embedded 32bits SWT library -->
+    <!-- <property name="swt_lib" value="swt-3.7.2-gtk-linux-x86.jar" /> -->
+    <!-- Use the system' SWT library -->
+    <property name="swt_lib" value="swt.jar" />
 
     <property name="classpath" value="${class_dir}:${lib_dir}/${swt_lib}" />
     <property name="jar_classpath" value="./ ./lib/${swt_lib}" />
@@ -118,6 +125,7 @@ variable from something like "us.utf8" to "us".
 
         <!-- Copy libraries -->
         <copy todir="${dist_project_lib_dir}">
+            <!-- TODO copy only required files, not the whole directory... -->
             <fileset dir="${lib_dir}"/>
         </copy>
 
