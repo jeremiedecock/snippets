@@ -23,7 +23,7 @@
 
 # Dependencies (Raspbian):
 #
-#    aptitude install python-rpi.gpio
+#    aptitude install python3-rpi.gpio
 #
 # Pinout:
 #
@@ -62,22 +62,22 @@
 
 # Inspired by "Recipe 9.1" of the "Raspberry Pi Cookbook" by Simon Monk (ed. Oreilly)
 
-# Turn a LED on and off on GPIO pin 18.
+# Turn a LED on and off on GPIO pin 17.
 #
-#    pin 18 ---/\/\/\---|>|--- GND pin
+#    pin 17 ---/\/\/\---|>|--- GND pin
 #                1k
 
-import RPI.GPIO as gpio
+import RPi.GPIO as gpio
 import time
 
 def main():
     """Main function"""
     
-    gpio.setmode(gpio.BCM)
-    gpio.setup(18, gpio.OUT)
-    gpio.output(18, True)
+    gpio.setmode(gpio.BCM)   # Referring to the pins by the "Broadcom SOC channel" number.
+    gpio.setup(17, gpio.OUT)
+    gpio.output(17, True)
     time.sleep(1)
-    gpio.output(18, False)
+    gpio.output(17, False)
 
 if __name__ == '__main__':
     main()
