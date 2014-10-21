@@ -1,0 +1,64 @@
+% Copyright (c) 2014 Jeremie DECOCK (http://www.jdhp.org)
+
+\documentclass{article}
+
+\input{article_packages.tex}
+\input{commands.tex}
+
+\sloppy
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Put a title here}
+
+\author{J\'er\'emie Decock}
+
+%\institute{ \textsuperscript{1}TAO, INRIA-CNRS-LRI, Univ. Paris-Sud, 91190 Gif-sur-Yvette, France}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  Blablabla
+\end{abstract}
+
+% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}\label{sec:intro}
+
+% Section 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{...}\label{sec:sect1}
+
+% Subsection 1 %%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{...}\label{subsec:sect11}
+
+Blablabla.
+\cite{decock:hal-00755663}.
+
+% Subsection 2 %%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{...}\label{subsec:sect12}
+
+Blablabla
+
+% Section CCL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusion}\label{sec:ccl}
+ 
+...
+
+% Bibliography %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\nocite{decock:hal-00755663}  % fait apparaitre le document dans la bibliographie sans le citer !
+%\nocite{*}                    % fait apparaitre TOUS les documents du .bib dans la bibliographie sans les citer !
+
+\bibliographystyle{plain}    % name of the .bst file (bibliography style)
+\bibliography{bibliography}  % name of the .bib file (without the file name extension)
+
+\end{document}
+

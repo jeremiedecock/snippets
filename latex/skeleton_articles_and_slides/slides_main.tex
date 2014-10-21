@@ -1,0 +1,79 @@
+% The following text is common to slides.tex, slides_notes.tex and slides_handout.tex
+
+\input{slides_packages.tex}
+
+\input{commands.tex}
+
+\usetheme[compress]{Dresden}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Put a title here\\on multiple lines if needed}
+\subtitle{Put a subtitle here}
+
+% \author[⟨short author names⟩]{⟨author names⟩}
+% The names should be separated using the command \and.
+\author[Decock]{Jeremie~Decock}
+
+%\institute{Inria}
+
+\date{\today}
+
+% \subject{⟨text⟩}
+% Enters the ⟨text⟩ as the subject text in the pdf document info.
+% It currently has no other effect.
+\subject{The subject of the presentation}
+
+% \keywords{⟨text⟩}
+% Enters the ⟨text⟩ as keywords in the pdf document info.
+% It currently has no other effect. 
+\keywords{put, key, words, here}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% Define the logo
+%\logo{\includegraphics[height=0.7cm]{fig/inr_logo_cherch_UK_coul}}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{
+}
+
+% Redefini le logo : pour tous les slides suivants
+% logo est remplace par le numero de page
+\setbeamercolor*{logo}{fg=black}
+\logo{\insertframenumber}
+%\logo{\insertframenumber/\inserttotalframenumber}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{slides_section_intro.tex}
+
+\begin{frame}{Overview}
+    \tableofcontents[hideallsubsections]
+\end{frame}
+\note{
+}
+
+\input{slides_section_content.tex}
+\input{slides_section_snippets.tex}
+\input{slides_section_ccl.tex}
+
+%\begin{frame}{Thank you for your attention}
+%    \begin{center}
+%        Questions ?
+%    \end{center}
+%\end{frame}
+%\note{
+%}
+
+\input{slides_section_bibliography.tex}
+\input{slides_appendix.tex}
+\input{slides_section_license.tex}
+
+\end{document}
+

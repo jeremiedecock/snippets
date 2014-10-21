@@ -1,0 +1,56 @@
+% Copyright (c) 2014 Jeremie DECOCK (http://www.jdhp.org)
+
+\documentclass{beamer}
+
+%\setbeameroption{show notes}
+%\setbeameroption{hide notes}
+\setbeameroption{show only notes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% SECTIONS %%%%%%%%
+
+%\AtBeginSection[] {
+%    \begin{frame}
+%        \begin{center}
+%            {\LARGE \insertsectionhead}
+%        \end{center}
+%    \end{frame}
+%    \note{
+%    }
+%}
+
+%\AtBeginSection[] {
+%%   \begin{frame}<beamer>{Plan}
+%    \begin{frame}<beamer>
+%        \tableofcontents[currentsection]
+%%       \tableofcontents[currentsection,currentsubsection]
+%    \end{frame}
+%    \note{
+%    }
+%}
+
+% SUB SECTIONS %%%%
+
+\AtBeginSubsection[] {
+    \begin{frame}
+        \begin{center}
+            {\LARGE \insertsubsectionhead}
+        \end{center}
+    \end{frame}
+    \note{
+    }
+}
+
+%\AtBeginSubsection[] {
+%    %\begin{frame}<beamer>{Plan}
+%    \begin{frame}<beamer>
+%        \tableofcontents[currentsection,currentsubsection]
+%    \end{frame}
+%    \note{
+%    }
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{slides_main.tex}
