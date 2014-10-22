@@ -1,0 +1,4 @@
+In order to use N cores, the environment variable OMP_NUM_THREADS should be set:
+
+    export OMP_NUM_THREADS=N
+
