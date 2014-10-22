@@ -1,3 +1,20 @@
+/*
+ * An OpenMP snippet.
+ *
+ * USAGE (GCC):
+ *    g++ -fopenmp -c private_and_share.cc
+ *    g++ -fopenmp private_and_share.o
+ *
+ * In order to use N cores, the shell environment variable OMP_NUM_THREADS
+ * should be set (at execution time not at compilation time):
+ *    export OMP_NUM_THREADS=N
+ *
+ * For instance,
+ *    export OMP_NUM_THREADS=2
+ *    ./private_and_share
+ * will use 2 cores.
+ */
+
 #include <iostream>
 #include <omp.h>
 
