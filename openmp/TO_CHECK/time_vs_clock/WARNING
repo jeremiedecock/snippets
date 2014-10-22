@@ -1,0 +1,2 @@
+Be careful, time doesn't return the actual time but a cumulated time (to be check -> see metis project).
+Use boost::clock instead.
