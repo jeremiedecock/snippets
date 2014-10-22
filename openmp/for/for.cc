@@ -49,15 +49,6 @@ int main()
 
     boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
 
-    //// Forks off the threads
-    //#pragma omp parallel
-    //{
-    //    // Starts the work sharing construct (static / dynamic)
-    //    #pragma omp for schedule(dynamic, CHUNKSIZE)
-    //    for(int i = 0 ; i < N ; i++)
-    //        y[i] = num_F(x[i]);
-    //}
-    
     // Forks off the threads and starts the work sharing construct (static / dynamic)
     #pragma omp parallel for schedule(dynamic, CHUNKSIZE)
     for(int i = 0 ; i < N ; i++)
