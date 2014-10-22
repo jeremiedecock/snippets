@@ -303,27 +303,27 @@ Add some notes\dots
     \begin{scriptsize}
         \begin{algorithmic}
             \REQUIRE ~\\
-                     $\langle \S, \A, T, R \rangle$, an MDP\\
-                     $\discount$, the discount factor\\
+                     $\langle \mathcal{S}, \mathcal{A}, T, R \rangle$, an MDP\\
+                     $\gamma$, the discount factor\\
                      $\epsilon$, the maximum error allowed in the utility of any state in an iteration
             %\ENSURE ~\\
-            %        $U, U'$, vector of utilities for states in $\S$, initially zero\\
+            %        $U, U'$, vector of utilities for states in $\mathcal{S}$, initially zero\\
             %        $\delta$, the maximum change in the utility of any state in an iteration\\
             \STATE \hspace{-1em}\textbf{Local variables:}\\
-                    $U, U'$, vector of utilities for states in $\S$, initially zero\\
+                    $U, U'$, vector of utilities for states in $\mathcal{S}$, initially zero\\
                     $\delta$, the maximum change in the utility of any state in an iteration\\
                     ~
 
             \REPEAT
                 \STATE $U \leftarrow U'$
                 \STATE $\delta \leftarrow 0$
-                \FORALL{$\s \in \S$}
-                    \STATE $U'[\s] \leftarrow R[\s] + \discount \max_a \sum_{\s'} T(s,a,s') U[s']$
-                    \IF{$|U'[\s] - U[\s]| > \delta$}
-                        \STATE $\delta \leftarrow |U'[\s] - U[\s]|$
+                \FORALL{$s \in \mathcal{S}$}
+                    \STATE $U'[s] \leftarrow R[s] + \gamma \max_a \sum_{s'} T(s,a,s') U[s']$
+                    \IF{$|U'[s] - U[s]| > \delta$}
+                        \STATE $\delta \leftarrow |U'[s] - U[s]|$
                     \ENDIF
                 \ENDFOR
-            \UNTIL{$\delta < \epsilon(1-\discount)/\discount$}
+            \UNTIL{$\delta < \epsilon(1-\gamma)/\gamma$}
             ~
 
             \RETURN $U$
