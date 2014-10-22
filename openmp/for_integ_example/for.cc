@@ -31,7 +31,7 @@ void print_tab(const double (& t)[N])
 {
     for(int i=0 ; i<N ; i++) {
         std::cout << std::fixed;
-        std::cout << "num_F(" << i << ") = " << t[i] << " - F(" << i << ") = " << F(i) << std::endl;
+        std::cout << "numerical result of F(" << i << ") = " << t[i] << " ; actual expected result of F(" << i << ") = " << F(i) << std::endl;
     }
 }
 
@@ -46,6 +46,8 @@ int main()
         x[i] = i;
         y[i] = 0;
     }
+
+    std::cout << std::endl << "Numerical computation of F(x) = integ[0,i] x² dx  for different values of i..." << std::endl << std::endl;
 
     boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
 
@@ -63,7 +65,7 @@ int main()
     print_tab(y);
 
     // Print delta_time
-    std::cerr << delta_time << std::endl;
+    std::cout << std::endl << "Computation time:" << delta_time << std::endl;
 
     return 0;
 }

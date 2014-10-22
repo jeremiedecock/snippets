@@ -10,9 +10,7 @@ void print_tab(const int (& t)[N])
 {
     for(int i=0 ; i<N ; i++) {
         std::cout << t[i] << std::endl;
-        //if(i<N-1) std::cout << " ";
     }
-    //std::cout << std::endl;
 }
 
 //////////////////////////////////////////
