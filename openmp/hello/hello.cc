@@ -1,3 +1,11 @@
+/*
+ * A very basic demo of OpenMP.
+ *
+ * USAGE:
+ *    g++ -fopenmp -c hello.cc
+ *    g++ -fopenmp hello.o
+ */
+
 #include <iostream>
 
 int main() {
