@@ -3,7 +3,7 @@
 // preview: F5
 // compile and render: F6
 
-use <lib.scad>
+include <lib.scad>
 
-pipe(20, 10, 100);
+pipe(20, 15, 100);
 
