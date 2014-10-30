@@ -11,3 +11,7 @@ article.pdf
 *.snm
 *.toc
 *.vrb
+*.haux
+*.htoc
+*.html
+article.image.tex

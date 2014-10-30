@@ -22,6 +22,10 @@ article.ps: $(SRCARTICLE)
 	latex article.tex
 	dvips article.dvi
 
+article.html: $(SRCARTICLE)
+	hevea article.tex
+	hevea article.tex
+
 ## CLEAN ##
 
 clean:
