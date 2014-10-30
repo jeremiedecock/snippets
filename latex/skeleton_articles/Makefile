@@ -1,38 +1,61 @@
-all: article.pdf
+NAME=article
+
+JDHP_PDF_DIR=~/git/pub/jdhp/files/pdf
+JDHP_HEVEA_DIR=~/git/pub/jdhp/files/hevea
+JDHP_UPLOAD_SCRIPT=~/git/pub/jdhp/files_upload.sh
+
+#############
+
+all: $(NAME).pdf
+
+.PHONY : all clean init jdhp
 
 ## ARTICLE ##
 
-SRCARTICLE=article.tex\
+SRCARTICLE=$(NAME).tex\
 		   article_packages.tex\
 		   commands.tex\
 		   setup_package_tikz.tex\
 		   setup_package_listings.tex\
 		   bibliography.bib
 
-article.pdf: $(SRCARTICLE)
-	pdflatex article.tex
-	bibtex article     # this is the name of the .aux file, not the .bib file !
-	pdflatex article.tex
-	pdflatex article.tex
+$(NAME).pdf: $(SRCARTICLE)
+	pdflatex $(NAME).tex
+	bibtex $(NAME)     # this is the name of the .aux file, not the .bib file !
+	pdflatex $(NAME).tex
+	pdflatex $(NAME).tex
 
-article.ps: $(SRCARTICLE)
-	latex article.tex
-	bibtex article     # this is the name of the .aux file, not the .bib file !
-	latex article.tex
-	latex article.tex
-	dvips article.dvi
+$(NAME).ps: $(SRCARTICLE)
+	latex $(NAME).tex
+	bibtex $(NAME)     # this is the name of the .aux file, not the .bib file !
+	latex $(NAME).tex
+	latex $(NAME).tex
+	dvips $(NAME).dvi
 
-article.html: $(SRCARTICLE)
-	hevea article.tex
-	hevea article.tex
+$(NAME).html: $(SRCARTICLE)
+	hevea -fix $(NAME).tex
+	hevea -fix $(NAME).tex
+
+jdhp:$(NAME).pdf $(NAME).html
+	# Copy PDF
+	cp -v $(NAME).pdf  $(JDHP_PDF_DIR)/
+	# Copy HTML
+	@rm -rf $(JDHP_HEVEA_DIR)/$(NAME)
+	@mkdir $(JDHP_HEVEA_DIR)/$(NAME)
+	cp -v $(NAME).html $(JDHP_HEVEA_DIR)/$(NAME)
+	cp -vr fig $(JDHP_HEVEA_DIR)/$(NAME)
+	# Sync
+	$(JDHP_UPLOAD_SCRIPT)
 
 ## CLEAN ##
 
 clean:
 	@echo "suppression des fichiers de compilation"
 	@rm -f *.log *.aux *.dvi *.toc *.lot *.lof *.out *.nav *.snm *.bbl *.blg *.vrb
+	@rm -f *.haux *.htoc $(NAME).image.tex
 
 init: clean
 	@echo "suppression des fichiers cibles"
-	@rm -f *.pdf
-	@rm -f *.ps
+	@rm -f $(NAME).pdf
+	@rm -f $(NAME).ps
+	@rm -f $(NAME).html
