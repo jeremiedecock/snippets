@@ -112,13 +112,49 @@ tiny
 
 \begin{figure}
     \centering
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}~
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}~
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }~
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }~
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }
     ~\\
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}~
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}~
-    \subfigure{\includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}}
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }~
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }~
+    \subfigure{
+        \ifpdf
+        \includegraphics[width=.30\linewidth,height=.20\linewidth]{fig/test}
+        \else
+        \imgsrc{fig/test.png}
+        \fi
+    }
 \end{figure}
 
 
