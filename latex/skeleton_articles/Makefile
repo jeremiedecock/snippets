@@ -1,8 +1,11 @@
 NAME=article
 
 JDHP_PDF_DIR=~/git/pub/jdhp/files/pdf
-JDHP_HEVEA_DIR=~/git/pub/jdhp/files/hevea
-JDHP_UPLOAD_SCRIPT=~/git/pub/jdhp/files_upload.sh
+#JDHP_HEVEA_DIR=~/git/pub/jdhp/files/hevea
+# HEVEA doit être mis dans www plutot que dans download pour les stats et le référencement...
+JDHP_HEVEA_DIR=~/git/pub/jdhp/jdhp/hevea
+JDHP_UPLOAD_PDF_SCRIPT=~/git/pub/jdhp/files_upload.sh
+JDHP_UPLOAD_HEVEA_SCRIPT=~/git/pub/jdhp/jdhp/sync_hevea.sh
 
 #############
 
@@ -45,7 +48,8 @@ jdhp:$(NAME).pdf $(NAME).html
 	cp -v $(NAME).html $(JDHP_HEVEA_DIR)/$(NAME)
 	cp -vr fig $(JDHP_HEVEA_DIR)/$(NAME)
 	# Sync
-	$(JDHP_UPLOAD_SCRIPT)
+	$(JDHP_UPLOAD_PDF_SCRIPT)
+	$(JDHP_UPLOAD_HEVEA_SCRIPT)
 
 ## CLEAN ##
 
