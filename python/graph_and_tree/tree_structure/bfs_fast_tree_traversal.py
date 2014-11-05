@@ -21,6 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+Breadth-first search.
+
+A fast implementation using deque as queue.
+"""
+
 from collections import deque
 
 class Node:

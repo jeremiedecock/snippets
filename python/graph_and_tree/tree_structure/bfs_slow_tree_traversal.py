@@ -21,6 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+Breadth-first search.
+
+A slow implementation using list as queue.
+"""
+
 class Node:
     """Node class"""
 
