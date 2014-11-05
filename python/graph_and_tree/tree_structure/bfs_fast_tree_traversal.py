@@ -63,7 +63,7 @@ def walk(start_node):
 
 
 def main():
-    """Main function
+    r"""Main function
 
     Build the following test tree and traverse it.
 
