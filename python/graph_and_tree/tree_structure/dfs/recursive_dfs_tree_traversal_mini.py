@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -27,30 +27,20 @@ class Node:
     value = None
     child_nodes = []
 
-    def __init__(self, value, child_nodes = []):
-        self._value = value
-        self._child_nodes = child_nodes
-
-    def getValue(self):
-        return self._value
-
-    def getChildNodes(self):
-        for node in self._child_nodes:
-            yield node
+    def __init__(self, _value, _child_nodes = []):
+        self.value = _value
+        self.child_nodes = _child_nodes
 
 
 def walk(node):
-    """The tree traversal function.
-    
-    Implemente a recursive generator.
-    Inspired by os.walk function."""
+    """The tree traversal function."""
 
-    yield node
+    # Do something with node value...
+    print(node.value)
 
     # Recurse on each child node
-    for child_node in node.getChildNodes():
-        for x in walk(child_node):   # reminder: walk return an iterator...
-            yield x
+    for child_node in node.child_nodes:
+        walk(child_node)
 
 
 def main():
@@ -76,8 +66,7 @@ def main():
     n1 = Node(1, [n2, n3, n4])
 
     # Traverse the tree
-    for node in walk(n1):
-        print node.getValue()
+    walk(n1)
 
 
 if __name__ == '__main__':

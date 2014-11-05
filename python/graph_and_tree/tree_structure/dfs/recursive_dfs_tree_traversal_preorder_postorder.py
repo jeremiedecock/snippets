@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -24,27 +24,38 @@
 class Node:
     """Node class"""
 
-    value = None
-    child_nodes = []
+    _value = None
+    _child_nodes = []
 
-    def __init__(self, _value, _child_nodes = []):
-        self.value = _value
-        self.child_nodes = _child_nodes
+    def __init__(self, value, child_nodes = []):
+        self._value = value
+        self._child_nodes = child_nodes
+
+    def getValue(self):
+        return self._value
+
+    def getChildNodes(self):
+        return self._child_nodes
 
 
-def walk(node):
+def walk(node, preorder):
     """The tree traversal function."""
 
-    # Do something with node value...
-    print node.value
+    # Pre-order visit (top down)
+    if preorder:
+        print(node.getValue())
 
     # Recurse on each child node
-    for child_node in node.child_nodes:
-        walk(child_node)
+    for child_node in node.getChildNodes():
+        walk(child_node, preorder)
+
+    # Post-order visit (bottom up)
+    if not preorder:
+        print node.getValue()
 
 
 def main():
-    """Main function
+    r"""Main function
 
     Build the following test tree and traverse it.
 
@@ -65,8 +76,21 @@ def main():
     n4 = Node(4)
     n1 = Node(1, [n2, n3, n4])
 
-    # Traverse the tree
-    walk(n1)
+    print r"""
+           1
+          /|\ 
+         2 3 4
+        / \
+       5   6
+    """
+
+    # Pre-order walk
+    print "Pre-order walk (top down)"
+    walk(n1, True)
+
+    # Post-order walk
+    print "\nPost-order walk (bottom up)"
+    walk(n1, False)
 
 
 if __name__ == '__main__':

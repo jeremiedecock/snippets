@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2014 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,7 @@
 class Node:
     """Node class"""
 
-    _value = None
-    _child_nodes = []
-
-    def __init__(self, value, child_nodes = []):
+    def __init__(self, value, child_nodes=[]):
         self._value = value
         self._child_nodes = child_nodes
 
@@ -38,15 +35,22 @@ class Node:
         return self._child_nodes
 
 
-def walk(node):
+def walk(start_node):
     """The tree traversal function."""
 
-    # Do something with node value...
-    print node.getValue()
+    stack = [start_node]
 
-    # Recurse on each child node
-    for child_node in node.getChildNodes():
-        walk(child_node)
+    while len(stack) > 0:
+        # Retrive the last element
+        node = stack.pop()
+
+        # Do something with node value...
+        print(node.getValue())
+
+        # Add child node into the stack
+        stack.extend(reversed(node.getChildNodes()))
+
+        #print([n.getValue() for n in stack])
 
 
 def main():
@@ -60,15 +64,15 @@ def main():
         / \
        5   6
 
-    Top-down traversal should print: 1, 2, 5, 6, 3, 4.
+    Top-down (left-right) traversal should print: 1, 2, 5, 6, 3, 4.
     """
 
     # Build the test tree
     n5 = Node(5)
     n6 = Node(6)
-    n2 = Node(2, [n5, n6])
-    n3 = Node(3)
     n4 = Node(4)
+    n3 = Node(3)
+    n2 = Node(2, [n5, n6])
     n1 = Node(1, [n2, n3, n4])
 
     # Traverse the tree
