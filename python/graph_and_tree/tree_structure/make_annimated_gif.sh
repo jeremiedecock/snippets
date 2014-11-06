@@ -1,1 +1,0 @@
-../../../commands/make_annimated_gif.sh
