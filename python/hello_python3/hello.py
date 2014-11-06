@@ -21,10 +21,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+This module does blah blah.
+
+Here is the description of the module.
+See PEP 257 (http://legacy.python.org/dev/peps/pep-0257/) for more details.
+See also http://stackoverflow.com/questions/2557110/what-to-put-in-a-python-module-docstring.
+
+See also PEP 8 (http://legacy.python.org/dev/peps/pep-0008/) for Python's good practices.
+"""
+
 import sys, os
 
 def main():
-    """Main function"""
+    """
+    This function does blah blah.
+    
+    Here is the description of the function.
+    See PEP 257 (http://legacy.python.org/dev/peps/pep-0257/) for more details.
+
+    See also PEP 8 (http://legacy.python.org/dev/peps/pep-0008/) for Python's good practices.
+    """
 
     # Print the python version
     # The follow syntax only works with Python 3.x: a, b, *rest = sequence
