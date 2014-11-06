@@ -22,28 +22,14 @@
 # THE SOFTWARE.
 
 """
-Depth-first search.
+Recursive (top-down) Depth-First Search tree traversal.
 """
 
-class Node:
-    """Node class"""
-
-    _value = None
-    _child_nodes = []
-
-    def __init__(self, value, child_nodes = []):
-        self._value = value
-        self._child_nodes = child_nodes
-
-    def getValue(self):
-        return self._value
-
-    def getChildNodes(self):
-        return self._child_nodes
-
+#from node import Node as Node
+from node import GraphvizNode as Node
 
 def walk(node):
-    """The tree traversal function."""
+    """The recursive (top-down) Depth-First Search tree traversal function."""
 
     # Do something with node value...
     print(node.getValue())
@@ -53,10 +39,10 @@ def walk(node):
         walk(child_node)
 
 
-def main():
-    r"""Main function
+def test():
+    r"""A test function.
 
-    Build the following test tree and traverse it.
+    This function builds the following test tree and traverse it (top-down).
 
            1
           /|\ 
@@ -64,7 +50,7 @@ def main():
         / \
        5   6
 
-    Top-down traversal should print: 1, 2, 5, 6, 3, 4.
+    It should print: 1, 2, 5, 6, 3, 4.
     """
 
     # Build the test tree
@@ -80,4 +66,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()

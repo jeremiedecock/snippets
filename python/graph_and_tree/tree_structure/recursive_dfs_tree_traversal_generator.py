@@ -22,14 +22,19 @@
 # THE SOFTWARE.
 
 """
-Depth-first search.
+This snippet implement a Depth-First Search using Python's generators.
+
+This implementation of Depth-First Search is inspired by os.walk function.
 """
 
 class Node:
-    """Node class"""
-
-    value = None
-    child_nodes = []
+    """
+    A basic node class for graph and tree traversal snippets.
+    
+    Attributes:
+      _value: the value of the node.
+      _child_nodes: a list of node's children.
+    """
 
     def __init__(self, value, child_nodes = []):
         self._value = value
@@ -57,7 +62,7 @@ def walk(node):
             yield x
 
 
-def main():
+def test():
     r"""Main function
 
     Build the following test tree and traverse it.
@@ -85,4 +90,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()

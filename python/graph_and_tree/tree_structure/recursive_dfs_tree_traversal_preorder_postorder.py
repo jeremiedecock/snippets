@@ -25,22 +25,8 @@
 Depth-first search.
 """
 
-class Node:
-    """Node class"""
-
-    _value = None
-    _child_nodes = []
-
-    def __init__(self, value, child_nodes = []):
-        self._value = value
-        self._child_nodes = child_nodes
-
-    def getValue(self):
-        return self._value
-
-    def getChildNodes(self):
-        return self._child_nodes
-
+from node import Node as Node
+#from node import GraphvizNode as Node
 
 def walk(node, preorder):
     """The tree traversal function."""
@@ -55,10 +41,10 @@ def walk(node, preorder):
 
     # Post-order visit (bottom up)
     if not preorder:
-        print node.getValue()
+        print(node.getValue())
 
 
-def main():
+def test():
     r"""Main function
 
     Build the following test tree and traverse it.
@@ -80,22 +66,22 @@ def main():
     n4 = Node(4)
     n1 = Node(1, [n2, n3, n4])
 
-    print r"""
+    print(r"""
            1
           /|\ 
          2 3 4
         / \
        5   6
-    """
+    """)
 
     # Pre-order walk
-    print "Pre-order walk (top down)"
+    print("Pre-order walk (top down)")
     walk(n1, True)
 
     # Post-order walk
-    print "\nPost-order walk (bottom up)"
+    print("\nPost-order walk (bottom up)")
     walk(n1, False)
 
 
 if __name__ == '__main__':
-    main()
+    test()

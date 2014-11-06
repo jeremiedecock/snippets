@@ -26,10 +26,13 @@ Depth-first search.
 """
 
 class Node:
-    """Node class"""
-
-    value = None
-    child_nodes = []
+    """
+    A basic node class for graph and tree traversal snippets.
+    
+    Attributes:
+      value: the value of the node.
+      child_nodes: a list of node's children.
+    """
 
     def __init__(self, _value, _child_nodes = []):
         self.value = _value
@@ -47,7 +50,7 @@ def walk(node):
         walk(child_node)
 
 
-def main():
+def test():
     r"""Main function
 
     Build the following test tree and traverse it.
@@ -74,4 +77,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()

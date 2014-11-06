@@ -27,19 +27,8 @@ Breadth-first search.
 A slow implementation using list as queue.
 """
 
-class Node:
-    """Node class"""
-
-    def __init__(self, value, child_nodes=[]):
-        self._value = value
-        self._child_nodes = child_nodes
-
-    def getValue(self):
-        return self._value
-
-    def getChildNodes(self):
-        return self._child_nodes
-
+from node import Node as Node
+#from node import GraphvizNode as Node
 
 def walk(start_node):
     """The tree traversal function."""
@@ -60,7 +49,7 @@ def walk(start_node):
         #print([n.getValue() for n in queue])
 
 
-def main():
+def test():
     r"""Main function
 
     Build the following test tree and traverse it.
@@ -87,4 +76,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()
