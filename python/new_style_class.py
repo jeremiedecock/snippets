@@ -21,26 +21,54 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""
+This snippet check the difference between "old style" and "new style" classes.
+"""
 
 class old_style:
+    """
+    An old style class example.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
     def message(self):
-        print("Hello!")
+        print(self.message)
+
+    def __del__(self):
+        pass
 
 
 class new_style(object):
+    """
+    A new style class example.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
     def message(self):
-        print("Hello!")
+        print(self.message)
+
+    def __del__(self):
+        pass
 
 
 def main():
     """Main function"""
 
-    old = old_style()
-    new = new_style()
+    old = old_style("Hello from old style class")
+    new = new_style("Hello from new style class")
 
+    # Should print "<type 'instance'>" with Python 2
+    # Should print "<class '__main__.old_style'>" with Python 3
     print(type(old))
-    print(type(new))
 
+    # Should print "<class '__main__.new_style'>" with Python 2
+    # Should print "<class '__main__.new_style'>" with Python 3
+    print(type(new))
+    
 
 if __name__ == '__main__':
     main()
