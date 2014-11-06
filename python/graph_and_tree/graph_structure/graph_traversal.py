@@ -24,9 +24,6 @@
 class Node:
     """Node class"""
 
-    value = None
-    child_nodes = []
-
     def __init__(self, _value, _child_nodes = []):
         self.value = _value
         self.child_nodes = _child_nodes
