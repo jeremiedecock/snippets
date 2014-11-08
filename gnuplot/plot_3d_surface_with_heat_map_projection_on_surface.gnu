@@ -24,15 +24,13 @@
 
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
-set zeroaxis
-f(x)=cos(x)
-g(x)=sin(x)
+set isosamples 50
+set hidden3d
 
-plot [-pi:pi] [-1:1] f(x), g(x)
+#set pm3d at b       # on base
+set pm3d at s        # on surface
 
-# or simply
-#   plot f(x), g(x)
-# if intervals doesn't need to be set
+splot [-pi:pi][-pi:pi] sin(x**2+y**2)/(x**2+y**2)
 
 pause -1  "Hit return to continue"
 

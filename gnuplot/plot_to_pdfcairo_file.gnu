@@ -24,15 +24,11 @@
 
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
-set zeroaxis
-f(x)=cos(x)
-g(x)=sin(x)
+f(x) = x**2
 
-plot [-pi:pi] [-1:1] f(x), g(x)
-
-# or simply
-#   plot f(x), g(x)
-# if intervals doesn't need to be set
-
-pause -1  "Hit return to continue"
+set terminal pdfcairo
+set output 'test.pdf'
+plot f(x)
+set output             # (! obligatoire sinon le fichier sera endomagé à la prochaine instruction)
+set terminal x11
 

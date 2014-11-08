@@ -25,14 +25,10 @@
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
 set zeroaxis
-f(x)=cos(x)
-g(x)=sin(x)
 
-plot [-pi:pi] [-1:1] f(x), g(x)
+f(x) = cos(x)
 
-# or simply
-#   plot f(x), g(x)
-# if intervals doesn't need to be set
+plot f(x)
 
 pause -1  "Hit return to continue"
 

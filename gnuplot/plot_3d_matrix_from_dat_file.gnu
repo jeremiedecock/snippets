@@ -24,15 +24,15 @@
 
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
-set zeroaxis
-f(x)=cos(x)
-g(x)=sin(x)
+# 2D :
+# - une colonne : les Y (les X valent par défaut {1, 2, 3, ...})
+# - deux colonnes : les X et les Y séparés par un blanc (espace, tabulation, ...)
+# 
+# 3D :
+# - 3 colonnes : X, Y et Z
+# - une matrice de Z
 
-plot [-pi:pi] [-1:1] f(x), g(x)
-
-# or simply
-#   plot f(x), g(x)
-# if intervals doesn't need to be set
+splot "test_3d_matrix_in.dat" matrix with lines
 
 pause -1  "Hit return to continue"
 

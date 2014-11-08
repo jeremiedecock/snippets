@@ -25,14 +25,10 @@
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
 set zeroaxis
-f(x)=cos(x)
-g(x)=sin(x)
+f(x,y) = x*y
+g(x,y) = x+y
 
-plot [-pi:pi] [-1:1] f(x), g(x)
-
-# or simply
-#   plot f(x), g(x)
-# if intervals doesn't need to be set
+splot f(x,y), g(x,y)
 
 pause -1  "Hit return to continue"
 

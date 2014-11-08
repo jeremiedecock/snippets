@@ -24,8 +24,6 @@
 
 # Official Gnuplot snippets are available here: http://gnuplot.sourceforge.net/demo_cvs/
 
-set term table
-set output 'test_out.dat'
+set table 'test_out.dat'
 plot x**2
-set output             # (! obligatoire sinon le fichier sera endomagé à la prochaine instruction)
-set term x11
+unset table
