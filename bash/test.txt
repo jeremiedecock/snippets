@@ -1,1 +1,2 @@
-option off
+OPTION1=OFF
+#OPTION2=
