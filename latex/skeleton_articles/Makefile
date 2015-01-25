@@ -37,6 +37,7 @@ $(NAME).ps: $(SRCARTICLE)
 
 $(NAME).html: $(SRCARTICLE)
 	hevea -fix $(NAME).tex
+	bibhva $(NAME)     # this is the name of the .aux file, not the .bib file !
 	hevea -fix $(NAME).tex
 
 jdhp:$(NAME).pdf $(NAME).html
@@ -56,7 +57,7 @@ jdhp:$(NAME).pdf $(NAME).html
 clean:
 	@echo "suppression des fichiers de compilation"
 	@rm -f *.log *.aux *.dvi *.toc *.lot *.lof *.out *.nav *.snm *.bbl *.blg *.vrb
-	@rm -f *.haux *.htoc $(NAME).image.tex
+	@rm -f *.haux *.htoc *.hbbl $(NAME).image.tex
 
 init: clean
 	@echo "suppression des fichiers cibles"

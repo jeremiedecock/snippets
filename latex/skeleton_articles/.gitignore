@@ -1,4 +1,6 @@
 article.pdf
+article.html
+article.image.tex
 *.aux
 *.bbl
 *.blg
@@ -13,5 +15,4 @@ article.pdf
 *.vrb
 *.haux
 *.htoc
-*.html
-article.image.tex
+*.hbbl
