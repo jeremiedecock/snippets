@@ -1,4 +1,8 @@
-% Copyright (c) 2014 Jeremie DECOCK (http://www.jdhp.org)
+% Copyright (c) 2014,2015 Jeremie DECOCK (http://www.jdhp.org)
+
+% This document is provided under the terms of the "Creative Commons BY-SA" license.
+% For more details, read the "COPYING/legalcode.html" enclosed file or
+% the "http://creativecommons.org/licenses/by-sa/4.0/legalcode" web page.
 
 \documentclass{article}
 
@@ -9,17 +13,18 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Put a title here}
+\title{PUT A TITLE HERE}
 
 \author{Jérémie \textsc{Decock} \\ \url{http://www.jdhp.org}}
 
 %\institute{ \textsuperscript{1}TAO, INRIA-CNRS-LRI, Univ. Paris-Sud, 91190 Gif-sur-Yvette, France}
+\date{DAY MONTH 2015}
 
 \hypersetup{
-	pdftitle={Put a title here},     % title
+	pdftitle={PUT A TITLE HERE},     % title
 	pdfauthor={Jérémie DECOCK},      % author
-	pdfsubject={Put a subject here}, % subject of the document
-	pdfkeywords={key, words}         % list of keywords
+	pdfsubject={PUT A SUBJECT HERE}, % subject of the document
+	pdfkeywords={KEY, WORDS}         % list of keywords
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,7 +34,7 @@
 \maketitle
 
 \begin{abstract}
-  Blablabla
+  BLABLABLA...
 \end{abstract}
 
 \tableofcontents
@@ -38,11 +43,13 @@
 
 \section*{Introduction}\label{sec:intro}
 
+
 % Section 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Test}\label{sec:test}
 
 Blablabla \cite{decock:hal-00755663}.
+
 
 % Section 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -371,29 +378,13 @@ Rate by active learning   & ${\color{blue} \alpha} = \frac{1}{2}$        & ${\co
 \url{http://www.jdhp.org/}  \\
 \href{http://www.jdhp.org/}{JDHP}
 
+
 % Section CCL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Conclusion}\label{sec:ccl}
  
 ...
 
-% Section License %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{License}\label{sec:license}
- 
-...
-% HeVeA
-\begin{rawhtml}
-
-    <div>
-        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-            <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
-        </a>
-        <br />
-        <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">Title...</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.jdhp.org" property="cc:attributionName" rel="cc:attributionURL">Jérémie Decock</a> est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">licence Creative Commons Attribution -  Partage dans les Mêmes Conditions 4.0 International</a>.
-    </div>
-
-\end{rawhtml}
 
 % Bibliography %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -403,5 +394,55 @@ Rate by active learning   & ${\color{blue} \alpha} = \frac{1}{2}$        & ${\co
 \bibliographystyle{plain}    % name of the .bst file (bibliography style)
 \bibliography{bibliography}  % name of the .bib file (without the file name extension)
 
-\end{document}
 
+% Section License %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifpdf
+
+    % PDF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \vfill % Go to the bottom of the page...
+    \begin{center}
+        \href{http://creativecommons.org/licenses/by-sa/4.0/}{\includegraphics[width=.15\linewidth]{fig/cc_by_sa_small}}\\
+        \small{Creative Commons BY-SA}
+    \end{center}
+
+\else
+
+    % HeVeA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section*{License}\label{sec:license}
+
+    % ENGLISH %%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{rawhtml}
+
+        <div>
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
+            </a>
+            <br />
+            <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PUT A TITLE HERE</span>
+            by <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.jdhp.org" property="cc:attributionName" rel="cc:attributionURL">Jérémie Decock</a>
+            is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        </div>
+
+    \end{rawhtml}
+ 
+    % FRENCH %%%%%%%%%%%%%%%%%%%%%%%%%%
+    %\begin{rawhtml}
+
+    %    <div>
+    %        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    %            <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x15.png" />
+    %        </a>
+    %        <br />
+    %        <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">PUT A TITLE HERE</span>
+    %        de <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.jdhp.org" property="cc:attributionName" rel="cc:attributionURL">Jérémie Decock</a>
+    %        est mis à disposition selon les termes de la
+    %        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">licence Creative Commons Attribution -  Partage dans les Mêmes Conditions 4.0 International</a>.
+    %    </div>
+
+    %\end{rawhtml}
+
+\fi
+
+\end{document}

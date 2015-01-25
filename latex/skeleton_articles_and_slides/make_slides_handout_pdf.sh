@@ -3,6 +3,8 @@
 # Debian package required:
 # - aptitude install cups-pdf
 #   (see http://terokarvinen.com/2011/print-pdf-from-command-line-cups-pdf-lpr-p-pdf)
+# - aptitude install cups-bsd
+#   (lpr commands)
 #
 # The default output directory is ~/PDF/
 #
@@ -19,6 +21,11 @@
 #   Use the -o page-set=set option to select the even or odd pages:
 #   lp -o page-set=odd filename
 #   lp -o page-set=even filename
+# - The -o landscape option will rotate the page 90 degrees to print in
+#   landscape orientation
+# - The -o number-up=value option selects N-Up printing. N-Up printing places
+#   multiple document pages on a single printed page. CUPS supports 1, 2, 4, 6,
+#   9, and 16-Up formats; the default format is 1-Up
 #
 # List printer names that lpr can understand:
 # - lpstat -p -d

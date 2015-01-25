@@ -1,5 +1,7 @@
 article.pdf
 slides.pdf
+article.html
+article.image.tex
 *.aux
 *.bbl
 *.blg
@@ -14,5 +16,4 @@ slides.pdf
 *.vrb
 *.haux
 *.htoc
-*.html
-article.image.tex
+*.hbbl

@@ -3,6 +3,8 @@
 # Debian package required:
 # - aptitude install cups-pdf
 #   (see http://terokarvinen.com/2011/print-pdf-from-command-line-cups-pdf-lpr-p-pdf)
+# - aptitude install cups-bsd
+#   (lpr commands)
 #
 # The default output directory is ~/PDF/
 #
@@ -32,13 +34,18 @@ PRINTER_NAME="PDF"
 
 FILE="slides_notes.pdf"
 
-cp "${FILE}" /tmp/odd.pdf
-cp "${FILE}" /tmp/even.pdf
+#cp "${FILE}" /tmp/odd.pdf
+#cp "${FILE}" /tmp/even.pdf
+cp "${FILE}" /tmp/notes.pdf
 
-lpr -P "${PRINTER_NAME}" -o landscape -o fitplot -o page-set=odd /tmp/odd.pdf
-lpr -P "${PRINTER_NAME}" -o landscape -o fitplot -o page-set=even /tmp/even.pdf
+#lpr -P "${PRINTER_NAME}" -o landscape -o fitplot -o page-set=odd /tmp/odd.pdf
+#lpr -P "${PRINTER_NAME}" -o landscape -o fitplot -o page-set=even /tmp/even.pdf
 #mv "~/PDF/${FILE}" ./
+
+lpr -P "${PRINTER_NAME}" -o landscape -o fitplot -o page-set=even /tmp/notes.pdf
 
 echo "Output file: ~/PDF/${FILE}"
 echo "Please wait few seconds for the output file generation..."
+
+echo "Copy it in the current directory then call ~/bin/bin/pdfpc slides.pdf (from the VGA screen)."
 
