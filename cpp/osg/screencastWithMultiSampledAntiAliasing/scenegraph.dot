@@ -1,3 +1,0 @@
-digraph osg_shape {
-	Group -> PositionAttitudeTransform -> Geode -> ShapeDrawable -> Box;
-}
