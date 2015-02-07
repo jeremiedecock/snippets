@@ -1,7 +1,7 @@
 /* 
- * OSG Simple box
+ * OSG Simple box in a window.
  *
- * Copyright (c) 2009 Jérémie Decock
+ * Copyright (c) 2009,2015 Jérémie Decock
  */
 
 #include <osg/Group>

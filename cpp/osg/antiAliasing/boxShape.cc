@@ -1,7 +1,7 @@
 /* 
- * OSG Simple box
+ * OSG Simple box with MSAA (Multi-Sampled Anti-Aliasing).
  *
- * Copyright (c) 2009 Jérémie Decock
+ * Copyright (c) 2009,2015 Jérémie Decock
  */
 
 #include <osg/Group>

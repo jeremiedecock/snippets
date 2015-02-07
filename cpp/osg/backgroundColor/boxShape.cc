@@ -1,5 +1,5 @@
 /* 
- * OSG Simple box
+ * OSG Simple box with a personalized background color.
  *
  * Copyright (c) 2009,2015 Jérémie Decock
  */
