@@ -17,3 +17,4 @@ $(EXEC_NAME): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(EXEC_NAME)
+	rm -v capture*.png video.mp4 av2pass-0.log av2pass-0.log.mbtree
