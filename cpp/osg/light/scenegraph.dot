@@ -1,4 +1,25 @@
 digraph osg_shape {
-	Group -> Geode -> ShapeDrawable -> Sphere;
+    Geode1[label="Geode"];
+    Geode2[label="Geode"];
+    Geode3[label="Geode"];
+    Geode4[label="Geode"];
+    Geode5[label="Geode"];
+
+    ShapeDrawable1[label="ShapeDrawable"];
+    ShapeDrawable2[label="ShapeDrawable"];
+    ShapeDrawable3[label="ShapeDrawable"];
+    ShapeDrawable4[label="ShapeDrawable"];
+    ShapeDrawable5[label="ShapeDrawable"];
+
+    Sphere1[label="Sphere"];
+    Sphere2[label="Sphere"];
+    Sphere3[label="Sphere"];
+    Sphere4[label="Sphere"];
+
+	Group -> Geode1 -> ShapeDrawable1 -> Sphere1;
+	Group -> Geode2 -> ShapeDrawable2 -> Sphere2;
+	Group -> Geode3 -> ShapeDrawable3 -> Sphere3;
+	Group -> Geode4 -> ShapeDrawable4 -> Sphere4;
+	Group -> Geode5 -> ShapeDrawable5 -> Box;
 	Group -> LightSource -> Light;
 }

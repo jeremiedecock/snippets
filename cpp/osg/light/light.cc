@@ -16,15 +16,37 @@ int main(int, char **) {
 
     // SET SCENEGRAPH ///////
     
-    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere( osg::Vec3(0,0,0), 1.0f );
+    osg::ref_ptr<osg::Sphere> sphere1 = new osg::Sphere( osg::Vec3( 3, 3,0), 1.0f );
+    osg::ref_ptr<osg::Sphere> sphere2 = new osg::Sphere( osg::Vec3( 3,-3,0), 1.0f );
+    osg::ref_ptr<osg::Sphere> sphere3 = new osg::Sphere( osg::Vec3(-3, 3,0), 1.0f );
+    osg::ref_ptr<osg::Sphere> sphere4 = new osg::Sphere( osg::Vec3(-3,-3,0), 1.0f );
+    osg::ref_ptr<osg::Box> box = new osg::Box( osg::Vec3(0,0,-3), 1.0f );
+    box->setHalfLengths(osg::Vec3(17, 17, 0.2));
 
-    osg::ref_ptr<osg::ShapeDrawable> boxDrawable = new osg::ShapeDrawable(sphere);
+    osg::ref_ptr<osg::ShapeDrawable> boxDrawableSphere1 = new osg::ShapeDrawable(sphere1);
+    osg::ref_ptr<osg::ShapeDrawable> boxDrawableSphere2 = new osg::ShapeDrawable(sphere2);
+    osg::ref_ptr<osg::ShapeDrawable> boxDrawableSphere3 = new osg::ShapeDrawable(sphere3);
+    osg::ref_ptr<osg::ShapeDrawable> boxDrawableSphere4 = new osg::ShapeDrawable(sphere4);
+    osg::ref_ptr<osg::ShapeDrawable> boxDrawableBox = new osg::ShapeDrawable(box);
 
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-    geode->addDrawable(boxDrawable);
+    osg::ref_ptr<osg::Geode> geodeSphere1 = new osg::Geode;
+    osg::ref_ptr<osg::Geode> geodeSphere2 = new osg::Geode;
+    osg::ref_ptr<osg::Geode> geodeSphere3 = new osg::Geode;
+    osg::ref_ptr<osg::Geode> geodeSphere4 = new osg::Geode;
+    osg::ref_ptr<osg::Geode> geodeBox = new osg::Geode;
+
+    geodeSphere1->addDrawable(boxDrawableSphere1);
+    geodeSphere2->addDrawable(boxDrawableSphere2);
+    geodeSphere3->addDrawable(boxDrawableSphere3);
+    geodeSphere4->addDrawable(boxDrawableSphere4);
+    geodeBox->addDrawable(boxDrawableBox);
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    root->addChild(geode);
+    root->addChild(geodeSphere1);
+    root->addChild(geodeSphere2);
+    root->addChild(geodeSphere3);
+    root->addChild(geodeSphere4);
+    root->addChild(geodeBox);
 
 
     // LIGHT ////////////////
@@ -49,7 +71,7 @@ int main(int, char **) {
     light->setSpecular(osg::Vec4(1.0, 1.0, 1.0, 1.0));
 
     // The light's position
-    light->setPosition(osg::Vec4(3.0, 3.0, 0.0, 1.0)); // last param w = 0.0 directional light (direction)
+    light->setPosition(osg::Vec4(3.0, 3.0, 3.0, 1.0)); // last param w = 0.0 directional light (direction)
                                                        // w = 1.0 point light (position)
 
     // Light source
