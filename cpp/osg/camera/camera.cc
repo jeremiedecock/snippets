@@ -2,6 +2,8 @@
  * OSG Model
  *
  * Copyright (c) 2009 Jérémie Decock
+ *
+ * See http://jeux.developpez.com/tutoriels/openscenegraph/camera/
  */
 
 #include <osgDB/ReadFile>
