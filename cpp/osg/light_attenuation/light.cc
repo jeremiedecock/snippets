@@ -74,6 +74,10 @@ int main(int, char **) {
     light->setPosition(osg::Vec4(3.0, 3.0, 3.0, 1.0)); // last param w = 0.0 directional light (direction)
                                                        // w = 1.0 point light (position)
 
+    light->setConstantAttenuation(0.5);   // L'atténuation constante est une simple atténuation globale de la lumière. Par défaut elle est à 1. En la faisant varier, on fait varier l'intensité de la lumière, mais on ne la fera pas porter plus ou moins loin. 
+    light->setLinearAttenuation(0.2);     // Les atténuations Linéaires et Quadratiques dépendent de la distance. Plus ces paramètres sont élevés, moins la lumière va porter loin.
+    light->setQuadraticAttenuation(0.02);
+
     // Light source
     osg::ref_ptr<osg::LightSource> light_source = new osg::LightSource;    
     light_source->setLight(light);
