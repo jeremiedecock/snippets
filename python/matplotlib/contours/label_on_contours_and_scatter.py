@@ -3,6 +3,8 @@
 
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
+# See http://matplotlib.org/api/axes_api.html?highlight=contour#matplotlib.axes.Axes.contour
+
 import math
 import numpy as np
 
