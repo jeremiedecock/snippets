@@ -42,8 +42,9 @@ def main():
     ax = fig.add_subplot(111)
 
     # Plot contour
-    levels = np.arange(-1., 1., 0.1)
-    CS = ax.contour(Z, levels)           # Plot the levels specified in the "levels" variable
+    #levels = np.arange(-1., 1., 0.1)
+    levels = np.array([-0.3, -0.25, -0.1, 0., 0.1, 0.3])
+    CS = ax.contour(X, Y, Z, levels)           # Plot the levels specified in the "levels" variable
     ax.clabel(CS, inline=1, fontsize=10)
 
     plt.show()
