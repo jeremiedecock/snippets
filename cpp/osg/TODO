@@ -9,12 +9,16 @@ STEP 1
 - textures (http://osghelp.com/?p=119)
 - shadow see osgShadow nodekit http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a01601.html
    http://osgjs.org/examples/shadow/
+- transformations et états (cf. http://jeux.developpez.com/tutoriels/openscenegraph/)
+- gestion des états (cf. http://jeux.developpez.com/tutoriels/openscenegraph/)
+- off-screen rendering (render in images, no X11)
 
 STEP 2
-- off-screen rendering (render in images, no X11)
+- shaders (gouro shading, etc.)
 - super-sample anti-aliasing (SSAA) see http://osghelp.com/?p=179  http://osghelp.com/?p=48   https://en.wikipedia.org/wiki/Spatial_anti-aliasing
 - create objects form vertices, modify vertices of objects
-- infinite plane (ground) see the documentation of the Plane class ( http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00601.html ) -> "It can be used to represent an infinite plane. The infinite plane is described by an implicit plane equation a*x+b*y+c*z+d = 0." Use the following constructor : osg::Plane::Plane(const Vec3_type & v1, const Vec3_type & v2, const Vec3_type & v3).  This constructor calculates from the three points describing an infinite plane the internal values.  
+   -> infinite plane (ground) see the documentation of the Plane class ( http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00601.html ) -> "It can be used to represent an infinite plane. The infinite plane is described by an implicit plane equation a*x+b*y+c*z+d = 0." Use the following constructor : osg::Plane::Plane(const Vec3_type & v1, const Vec3_type & v2, const Vec3_type & v3).  This constructor calculates from the three points describing an infinite plane the internal values.  
+   -> LOD (Level Of Details) : néessaire pour les "infinite planes"
 - display scene without viewer object (manual render...) + mouse drag & drop of objects (e.g. for damper physics simulation)
 - callbacks, osg basics, ...
 
