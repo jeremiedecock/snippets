@@ -27,7 +27,7 @@ int main(int, char **) {
     viewer.setSceneData(root);
 
     // Make the viewer create a 512x512 window and position it at 32, 32
-    viewer.setUpViewInWindow(0, 0, 512, 512);
+    viewer.setUpViewInWindow(32, 32, 512, 512);
 
     viewer.run();
 
