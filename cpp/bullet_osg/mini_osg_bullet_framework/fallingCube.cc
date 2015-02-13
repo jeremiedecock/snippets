@@ -265,7 +265,7 @@ class PhysicsCallback : public osg::NodeCallback {
                                                           bulletTransform.getRotation().w()));
 
                 // Debug
-                std::cout << bulletTransform.getOrigin().getZ() << std::endl;
+                //std::cout << bulletTransform.getOrigin().getZ() << std::endl;
             }
 
             // Continue the traversal
@@ -291,7 +291,6 @@ class OSGEnvironment {
             // Add objects
             std::vector<botsim::Object *>::iterator it;
             for(it = objects_vec->begin() ; it != objects_vec->end() ; it++) {
-                root->addChild((*it)->getOSGGroup());
                 root->addChild((*it)->getOSGPAT());
             }
 
@@ -320,9 +319,9 @@ int main(int, char **) {
     std::vector<botsim::Object *> * objects_vec = new std::vector<botsim::Object *>;
     objects_vec->push_back(new botsim::Ground());
     objects_vec->push_back(new botsim::Box(1., 1., 1., 0., 0., 20., 1.));
+    objects_vec->push_back(new botsim::Box(1., 2., 1., 0., 0., 30., 1.));
     objects_vec->push_back(new botsim::Box(2., 2., 2., 0., 0., 40., 1.));
-    objects_vec->push_back(new botsim::Box(1., 1., 1., 0., 0., 30., 1.));
-    objects_vec->push_back(new botsim::Box(1., 1., 1., 0., 0., 50., 5.));
+    objects_vec->push_back(new botsim::Box(3., 1., 1., 0., 0., 50., 5.));
 
     BulletEnvironment * bullet_environment = new BulletEnvironment(objects_vec);
 
@@ -337,6 +336,7 @@ int main(int, char **) {
     // Clean Bullet /////////////////////////////////////////////////////////////////////
 
     delete bullet_environment;
+    delete osg_environment;
     // TODO: delete object_vec and its contents
 
     return 0;
