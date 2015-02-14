@@ -11,8 +11,8 @@
 
 // TODO:
 // x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
-// - MSAA
-// - Black background
+// x MSAA
+// x Black background
 // - Permettre de configurer le refresh rate ou de passer en mode "temps réel"
 // - Séparer les modules
 // - Ajouter des objets: sphere, cylindre, etc.
@@ -333,6 +333,14 @@ class OSGEnvironment {
             // Make the viewer
             this->viewer = new osgViewer::Viewer();
             this->viewer->setSceneData(root);
+
+            // Set the background color (black here -> (0,0,0,0))
+            this->viewer->getCamera()->setClearColor(osg::Vec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+            // MSAA: multi-sampled_anti-aliasing 
+            // See http://gaming.stackexchange.com/questions/31801/what-are-the-differences-between-the-different-anti-aliasing-multisampling-set
+            //     http://osghelp.com/?p=179
+            osg::DisplaySettings::instance()->setNumMultiSamples(4); // MSAA: multi-sampled_anti-aliasing 
         }
         
         void run() {
