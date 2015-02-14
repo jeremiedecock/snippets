@@ -8,19 +8,32 @@
 #include <osgViewer/Viewer>
 
 // TODO:
-// - Singleton OSG / Bullet ? -> bof...
 // - Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+// - Permettre de configurer le refresh rate ou de passer en mode "temps réel"
 // - Ajouter des objets: sphere, cylindre, etc.
-// - Améliorer scène OSG (MSAA, background, lumière, ...)
-// - Améliorer l'objet "Ground" (tuiles blanches et noires)
-// - Screencast
-// - Créer une arborescence et des modules .h/.cpp
-// - Remplacer le makefile par un cmakelist
-// - Caméra
-// - Ombres
 // - Objets STL
+// - Améliorer scène OSG (MSAA, background, lumière, ...)
+// - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
+// - Key start/stop recording -> screencast
+// - Key take screenshot
+// - Key reset
+// - Ombres
+// - Faire des vidéos et les poster sur jdhp
+//
+// - Logs (JSON ?)
+// - Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
+// - Séparer les modules
+// - Remplacer le makefile par un cmakelist
+// - Créer une arborescence et des modules .h/.cpp
+//
+// - Check units (mm ?, kg ?, ...)
+// - Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
+//
+// - Singleton OSG / Bullet ? -> bof...
+// - Caméra
 // - Hinges
 // - Commandes d'entrée pour hinge
+// - Txt infos (hinge constraints, ...)
 
 // OBJECT.CPP /////////////////////////////////////////////////////////////////
 
