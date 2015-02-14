@@ -8,12 +8,19 @@
 #include <osgViewer/Viewer>
 
 // TODO:
-// - Singleton OSGEnvironment
-// - Mettre les "objets" (cube) de BulletEnvironment dans une classe à part "Ground" et "Box" qui hérite de la classe abstraite "Objet"
-// - Crer un vecteur d'"Objets" dans main()
-// - 
+// - Singleton OSG / Bullet ? -> bof...
+// - Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+// - Ajouter des objets: sphere, cylindre, etc.
+// - Améliorer scène OSG (MSAA, background, lumière, ...)
+// - Améliorer l'objet "Ground" (tuiles blanches et noires)
+// - Screencast
 // - Créer une arborescence et des modules .h/.cpp
 // - Remplacer le makefile par un cmakelist
+// - Caméra
+// - Ombres
+// - Objets STL
+// - Hinges
+// - Commandes d'entrée pour hinge
 
 // OBJECT.CPP /////////////////////////////////////////////////////////////////
 
