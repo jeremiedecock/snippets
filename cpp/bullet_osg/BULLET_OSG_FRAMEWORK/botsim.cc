@@ -1,10 +1,19 @@
+/* 
+ * Bullet OSG Framework.
+ *
+ * Copyright (c) 2015 Jérémie Decock <jd.jdhp@gmail.com>
+ *
+ * www.jdhp.org
+ */
+
 #include <vector>
 #include <iostream>
 
-#include <osg/Group>
 #include <osg/Geode>
-#include <osg/ShapeDrawable>
+#include <osg/Group>
+#include <osg/Material>
 #include <osg/PositionAttitudeTransform>
+#include <osg/ShapeDrawable>
 #include <osgViewer/Viewer>
 
 #include <Eigen/Dense>
@@ -13,11 +22,12 @@
 // x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
 // x MSAA
 // x Black background
+// x Light (directional ?)
 // - Permettre de configurer le refresh rate ou de passer en mode "temps réel"
 // - Séparer les modules
+// - Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
 // - Ajouter des objets: sphere, cylindre, etc.
 // - Objets STL
-// - Light
 // - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
 // - Key start/stop recording -> screencast
 // - Key take screenshot
@@ -330,7 +340,43 @@ class OSGEnvironment {
                 root->addChild((*it)->getOSGPAT());
             }
 
-            // Make the viewer
+            // LIGHT ////////////////
+
+            osg::ref_ptr<osg::Light> light = new osg::Light;
+
+            // OSG (as OpenGL) can handle up to 8 light sources.
+            // Each light must have a unique number
+            //
+            // Light number 0 is the default one (integrated to the camera).
+            //
+            // We do not use light number 0, because we do not want to override the OSG
+            // default headlights.
+            light->setLightNum(1);
+
+            light->setAmbient(osg::Vec4(1.0, 1.0, 1.0, 0.0));
+            light->setDiffuse(osg::Vec4(1.0, 1.0, 1.0, 0.0));
+            light->setSpecular(osg::Vec4(1.0, 1.0, 1.0, 1.0));
+
+            // The light's position
+            light->setPosition(osg::Vec4(10.0, -10.0, 20.0, 1.0)); // last param w = 0.0 directional light (direction)
+                                                                   // w = 1.0 point light (position)
+            // Light source
+            osg::ref_ptr<osg::LightSource> light_source = new osg::LightSource;    
+            light_source->setLight(light);
+            root->addChild(light_source);
+
+            osg::ref_ptr<osg::StateSet> state = root->getOrCreateStateSet();
+            state->setMode(GL_LIGHT0, osg::StateAttribute::OFF); // GL_LIGHT0 is the default light
+            state->setMode(GL_LIGHT1, osg::StateAttribute::ON);  // use GL_LIGHTN for light number N
+
+            // Material
+            osg::ref_ptr<osg::Material> mat = new osg::Material;
+            mat->setDiffuse(osg::Material::FRONT, osg::Vec4(1.0f, 1.0f, 1.0f, 1.f)); // the diffuse color of the material
+            mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f)); // the specular color of the material
+            mat->setShininess(osg::Material::FRONT, 96.f);
+            state->setAttribute(mat.get());
+
+            // MAKE THE VIEWER ////////
             this->viewer = new osgViewer::Viewer();
             this->viewer->setSceneData(root);
 
