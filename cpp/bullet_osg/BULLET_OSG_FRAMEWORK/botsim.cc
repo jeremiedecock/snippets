@@ -7,12 +7,17 @@
 #include <osg/PositionAttitudeTransform>
 #include <osgViewer/Viewer>
 
+#include <Eigen/Dense>
+
 // TODO:
-// - Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+// x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+// - MSAA
+// - Black background
 // - Permettre de configurer le refresh rate ou de passer en mode "temps réel"
+// - Séparer les modules
 // - Ajouter des objets: sphere, cylindre, etc.
 // - Objets STL
-// - Améliorer scène OSG (MSAA, background, lumière, ...)
+// - Light
 // - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
 // - Key start/stop recording -> screencast
 // - Key take screenshot
@@ -22,7 +27,6 @@
 //
 // - Logs (JSON ?)
 // - Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
-// - Séparer les modules
 // - Remplacer le makefile par un cmakelist
 // - Créer une arborescence et des modules .h/.cpp
 //
@@ -77,32 +81,48 @@ namespace botsim {
             osg::Geode * osgGeode;
 
             // Common
-            double width;  // which unit ? mm ?
-            double depth;  // which unit ? mm ?
-            double height; // which unit ? mm ?
-            double mass;   // which unit ? Kg ?
+            Eigen::Vector3d initialDimension;         // which unit ? mm ?
+            Eigen::Vector3d initialPosition;          // which unit ? mm ?
+            Eigen::Vector4d initialAngle;             // which unit ? rad ? deg ?
+            Eigen::Vector3d initialInertia;           // which unit ? mm/s ?
+            Eigen::Vector3d initialVelocity;          // which unit ? mm/s ?
+            Eigen::Vector3d initialAngularVelocity;   // which unit ? mm/s ?
+            double mass;                              // which unit ? Kg ?
 
         public:
-            // TODO: eigenvect dimensions, eigenvect position, eigenvect initial_inertia, double mass
-            Box(double _width, double _depth, double _height, double position_x, double position_y, double position_z, double _mass) : width(_width), depth(_depth), height(_height), mass(_mass) {
+            Box(Eigen::Vector3d initial_dimension, Eigen::Vector3d initial_position, Eigen::Vector4d initial_angle, Eigen::Vector3d initial_velocity, Eigen::Vector3d initial_angular_velocity, Eigen::Vector3d initial_inertia, double mass) {
+
+                this->initialDimension = initial_dimension;
+                this->initialPosition = initial_position;
+                this->initialAngle = initial_angle;
+                this->initialInertia = initial_inertia;
+                this->initialVelocity = initial_velocity;
+                this->initialAngularVelocity = initial_angular_velocity;
+                this->mass = mass; 
 
                 // BULLET
-                this->boxShape = new btBoxShape(btVector3(this->width/2., this->depth/2., this->height/2.)); // ce sont des half lengths
+                btVector3 bt_box_shape(this->initialDimension(0)/2., this->initialDimension(1)/2., this->initialDimension(2)/2.);
+                this->boxShape = new btBoxShape(bt_box_shape); // this is half lengths...
 
-                btScalar mass = this->mass;
-                btVector3 boxInertia(0, 0, 0);
-                this->boxShape->calculateLocalInertia(mass, boxInertia);
+                btScalar bt_mass = this->mass;
+                btVector3 bt_box_inertia(this->initialInertia(0), this->initialInertia(1), this->initialInertia(2));
+                this->boxShape->calculateLocalInertia(bt_mass, bt_box_inertia);
 
-                this->boxMotionState = new btDefaultMotionState(btTransform(btQuaternion(1,1,1,25),
-                                                                btVector3(position_x, position_y, position_z)));
-                btRigidBody::btRigidBodyConstructionInfo boxRigidBodyCI(mass,
-                        this->boxMotionState,
-                        this->boxShape,
-                        boxInertia);
-                this->rigidBody = new btRigidBody(boxRigidBodyCI);
+                btQuaternion bt_angle(this->initialAngle(0), this->initialAngle(1), this->initialAngle(2), this->initialAngle(3));
+                btVector3 bt_position(this->initialPosition(0), this->initialPosition(1), this->initialPosition(2));
+                this->boxMotionState = new btDefaultMotionState(btTransform(bt_angle, bt_position));
+
+                btRigidBody::btRigidBodyConstructionInfo box_rigid_body_ci(mass, this->boxMotionState, this->boxShape, bt_box_inertia);
+                this->rigidBody = new btRigidBody(box_rigid_body_ci);
+
+                btVector3 bt_velocity(this->initialVelocity(0), this->initialVelocity(1), this->initialVelocity(2));
+                this->rigidBody->setLinearVelocity(bt_velocity);
+
+                btVector3 bt_angular_velocity(this->initialAngularVelocity(0), this->initialAngularVelocity(1), this->initialAngularVelocity(2));
+                this->rigidBody->setAngularVelocity(bt_angular_velocity);
 
                 // OSG
-                this->osgBox = new osg::Box(osg::Vec3(0, 0, 0), this->width, this->depth, this->height);
+                this->osgBox = new osg::Box(osg::Vec3(0, 0, 0), this->initialDimension(0), this->initialDimension(1), this->initialDimension(2));
                 this->osgShapeDrawable = new osg::ShapeDrawable(this->osgBox);
                 this->osgGeode = new osg::Geode();
                 this->osgGeode->addDrawable(osgShapeDrawable);
@@ -145,17 +165,13 @@ namespace botsim {
                 // BULLET
                 this->groundShape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
 
-                this->groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),
-                            btVector3(0,0,0)));
-                btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0,
-                        this->groundMotionState,
-                        this->groundShape,
-                        btVector3(0, 0, 0));
+                this->groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)));
+                btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, this->groundMotionState, this->groundShape, btVector3(0, 0, 0));
                 this->rigidBody = new btRigidBody(groundRigidBodyCI);
 
                 // OSG
                 this->osgBox = new osg::Box(osg::Vec3(0, 0, -1), 1.0f);
-                this->osgBox->setHalfLengths(osg::Vec3(15, 15, 1));
+                this->osgBox->setHalfLengths(osg::Vec3(20, 20, 1));
                 this->osgShapeDrawable = new osg::ShapeDrawable(this->osgBox);
                 this->osgGeode = new osg::Geode();
                 this->osgGeode->addDrawable(osgShapeDrawable);
@@ -338,10 +354,10 @@ int main(int, char **) {
 
     std::vector<botsim::Object *> * objects_vec = new std::vector<botsim::Object *>;
     objects_vec->push_back(new botsim::Ground());
-    objects_vec->push_back(new botsim::Box(1., 1., 1., 0., 0., 20., 1.));
-    objects_vec->push_back(new botsim::Box(1., 2., 1., 0., 0., 30., 1.));
-    objects_vec->push_back(new botsim::Box(2., 2., 2., 0., 0., 40., 1.));
-    objects_vec->push_back(new botsim::Box(3., 1., 1., 0., 0., 50., 5.));
+    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.));
+    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
+    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(2., 2., 2.), Eigen::Vector3d(0., 0., 40.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 3.));
+    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
 
     BulletEnvironment * bullet_environment = new BulletEnvironment(objects_vec);
 

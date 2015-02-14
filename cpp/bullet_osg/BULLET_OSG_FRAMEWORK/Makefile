@@ -1,7 +1,7 @@
 CC = g++
 
-CFLAGS  = `pkg-config --cflags bullet openscenegraph` -Wall -pedantic
-LDFLAGS = `pkg-config --libs bullet openscenegraph`
+CFLAGS  = `pkg-config --cflags bullet openscenegraph eigen3` -Wall -pedantic
+LDFLAGS = `pkg-config --libs bullet openscenegraph eigen3`
 
 EXEC_NAME = demo
 SRC = $(wildcard *.cc)
