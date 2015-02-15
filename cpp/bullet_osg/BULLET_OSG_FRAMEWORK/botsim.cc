@@ -23,24 +23,26 @@
 // x MSAA
 // x Black background
 // x Light (directional ?)
-// - Permettre de configurer le refresh rate ou de passer en mode "temps réel"
-// - Séparer les modules
+// - Ajouter et utiliser asseseurs dans Objects
+// - Renommer Objects -> Parts
 // - Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
-// - Ajouter des objets: sphere, cylindre, etc.
-// - Objets STL
+// - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
+// - Check units (mm ?, kg ?, ...)
 // - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
+// - Ombres
+// - Séparer les modules
 // - Key start/stop recording -> screencast
 // - Key take screenshot
 // - Key reset
-// - Ombres
 // - Faire des vidéos et les poster sur jdhp
+// - Ajouter des objets: sphere, cylindre, etc.
+// - Objets STL
 //
 // - Logs (JSON ?)
 // - Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
 // - Remplacer le makefile par un cmakelist
 // - Créer une arborescence et des modules .h/.cpp
 //
-// - Check units (mm ?, kg ?, ...)
 // - Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
 //
 // - Singleton OSG / Bullet ? -> bof...
@@ -53,7 +55,17 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace botsim {
+namespace simulator {
+
+    btVector3 vec3_eigen_to_bullet(Eigen::Vector3d eigen_vector) {
+        btVector3 bt_vector(eigen_vector(0), eigen_vector(1), eigen_vector(2));
+        return bt_vector;
+    }
+
+    btQuaternion vec4_eigen_to_bullet(Eigen::Vector4d eigen_vector) {
+        btQuaternion bt_vector(eigen_vector(0), eigen_vector(1), eigen_vector(2), eigen_vector(3));
+        return bt_vector;
+    }
 
     class Object {
         protected:
@@ -79,7 +91,7 @@ namespace botsim {
     };
 
 
-    class Box: public botsim::Object {
+    class Box: public simulator::Object {
         protected:
             // Bullet
             btCollisionShape * boxShape; // TODO: rename this
@@ -111,24 +123,34 @@ namespace botsim {
                 this->mass = mass; 
 
                 // BULLET
-                btVector3 bt_box_shape(this->initialDimension(0)/2., this->initialDimension(1)/2., this->initialDimension(2)/2.);
-                this->boxShape = new btBoxShape(bt_box_shape); // this is half lengths...
+                
+                /*
+                 * By default, Bullet considers the following units:
+                 * - distances are in meters
+                 * - masses are in kg
+                 * - time is in seconds
+                 * - gravity is in meters per square second (9.8 m/s^2)
+                 *
+                 * See http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Scaling_The_World
+                 */
+                btVector3 bt_box_shape = simulator::vec3_eigen_to_bullet(this->initialDimension / 2.); // this is half lengths...
+                this->boxShape = new btBoxShape(bt_box_shape);
 
                 btScalar bt_mass = this->mass;
-                btVector3 bt_box_inertia(this->initialInertia(0), this->initialInertia(1), this->initialInertia(2));
+                btVector3 bt_box_inertia = simulator::vec3_eigen_to_bullet(this->initialInertia);
                 this->boxShape->calculateLocalInertia(bt_mass, bt_box_inertia);
 
-                btQuaternion bt_angle(this->initialAngle(0), this->initialAngle(1), this->initialAngle(2), this->initialAngle(3));
-                btVector3 bt_position(this->initialPosition(0), this->initialPosition(1), this->initialPosition(2));
+                btQuaternion bt_angle = simulator::vec4_eigen_to_bullet(this->initialAngle);
+                btVector3 bt_position = simulator::vec3_eigen_to_bullet(this->initialPosition);
                 this->boxMotionState = new btDefaultMotionState(btTransform(bt_angle, bt_position));
 
                 btRigidBody::btRigidBodyConstructionInfo box_rigid_body_ci(mass, this->boxMotionState, this->boxShape, bt_box_inertia);
                 this->rigidBody = new btRigidBody(box_rigid_body_ci);
 
-                btVector3 bt_velocity(this->initialVelocity(0), this->initialVelocity(1), this->initialVelocity(2));
+                btVector3 bt_velocity = simulator::vec3_eigen_to_bullet(this->initialVelocity);
                 this->rigidBody->setLinearVelocity(bt_velocity);
 
-                btVector3 bt_angular_velocity(this->initialAngularVelocity(0), this->initialAngularVelocity(1), this->initialAngularVelocity(2));
+                btVector3 bt_angular_velocity = simulator::vec3_eigen_to_bullet(this->initialAngularVelocity);
                 this->rigidBody->setAngularVelocity(bt_angular_velocity);
 
                 // OSG
@@ -159,7 +181,7 @@ namespace botsim {
     };
 
 
-    class Ground: public botsim::Object {
+    class Ground: public simulator::Object {
         private:
             // Bullet
             btCollisionShape * groundShape;
@@ -222,12 +244,12 @@ class BulletEnvironment {
         btCollisionDispatcher * collisionDispatcher;
         btSequentialImpulseConstraintSolver * constraintSolver;
 
-        std::vector<botsim::Object *> * objectsVec;
+        std::vector<simulator::Object *> * objectsVec;
 
         double gravity;
 
     public:
-        BulletEnvironment(std::vector<botsim::Object *> * objects_vec) {
+        BulletEnvironment(std::vector<simulator::Object *> * objects_vec) {
             this->gravity = -10.;
 
             this->broadphase = new btDbvtBroadphase();
@@ -246,7 +268,7 @@ class BulletEnvironment {
             this->objectsVec = objects_vec;
 
             // Add rigid bodies
-            std::vector<botsim::Object *>::iterator it;
+            std::vector<simulator::Object *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
             }
@@ -259,7 +281,7 @@ class BulletEnvironment {
 
 
         ~BulletEnvironment() {
-            std::vector<botsim::Object *>::iterator it;
+            std::vector<simulator::Object *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 delete (*it);
             }
@@ -282,10 +304,10 @@ class PhysicsCallback : public osg::NodeCallback {
     // should be updated once per traversal.
     private:
         BulletEnvironment * bulletEnvironment;
-        std::vector<botsim::Object *> * objectsVec; //
+        std::vector<simulator::Object *> * objectsVec; //
 
     public:
-        PhysicsCallback(BulletEnvironment * bullet_environment, std::vector<botsim::Object *> * objects_vec) {
+        PhysicsCallback(BulletEnvironment * bullet_environment, std::vector<simulator::Object *> * objects_vec) {
             this->bulletEnvironment = bullet_environment;
             this->objectsVec = objects_vec;
         }
@@ -295,7 +317,7 @@ class PhysicsCallback : public osg::NodeCallback {
             this->bulletEnvironment->getDynamicsWorld()->stepSimulation(1 / 60.f, 10);
 
             // Update the position of each objects
-            std::vector<botsim::Object *>::iterator it;
+            std::vector<simulator::Object *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 // Bullet
                 btTransform bulletTransform;
@@ -328,14 +350,14 @@ class OSGEnvironment {
         osgViewer::Viewer * viewer;
 
     public:
-        OSGEnvironment(BulletEnvironment * bullet_environment, std::vector<botsim::Object *> * objects_vec) {
+        OSGEnvironment(BulletEnvironment * bullet_environment, std::vector<simulator::Object *> * objects_vec) {
 
             // Make the scene graph
             osg::Group * root = new osg::Group();
             root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
 
             // Add objects
-            std::vector<botsim::Object *>::iterator it;
+            std::vector<simulator::Object *>::iterator it;
             for(it = objects_vec->begin() ; it != objects_vec->end() ; it++) {
                 root->addChild((*it)->getOSGPAT());
             }
@@ -406,12 +428,12 @@ int main(int, char **) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::vector<botsim::Object *> * objects_vec = new std::vector<botsim::Object *>;
-    objects_vec->push_back(new botsim::Ground());
-    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.));
-    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
-    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(2., 2., 2.), Eigen::Vector3d(0., 0., 40.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 3.));
-    objects_vec->push_back(new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
+    std::vector<simulator::Object *> * objects_vec = new std::vector<simulator::Object *>;
+    objects_vec->push_back(new simulator::Ground());
+    objects_vec->push_back(new simulator::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.));
+    objects_vec->push_back(new simulator::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
+    objects_vec->push_back(new simulator::Box(Eigen::Vector3d(2., 2., 2.), Eigen::Vector3d(0., 0., 40.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 3.));
+    objects_vec->push_back(new simulator::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
 
     BulletEnvironment * bullet_environment = new BulletEnvironment(objects_vec);
 
