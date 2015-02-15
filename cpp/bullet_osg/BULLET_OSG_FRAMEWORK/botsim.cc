@@ -23,7 +23,7 @@
 // x MSAA
 // x Black background
 // x Light (directional ?)
-// - Ajouter et utiliser asseseurs dans Objects
+// x Ajouter et utiliser asseseurs dans Objects
 // - Renommer Objects -> Parts
 // - Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
 // - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
@@ -83,6 +83,27 @@ namespace simulator {
 
             osg::Node * getOSGGroup() {
                 return this->osgGroup;
+            }
+
+            Eigen::Vector3d getPosition() {
+                btTransform bulletTransform;
+                this->rigidBody->getMotionState()->getWorldTransform(bulletTransform);
+
+                Eigen::Vector3d position(bulletTransform.getOrigin().getX(),
+                                         bulletTransform.getOrigin().getY(),
+                                         bulletTransform.getOrigin().getZ());
+                return position;
+            }
+
+            Eigen::Vector4d getAngle() {
+                btTransform bulletTransform;
+                this->rigidBody->getMotionState()->getWorldTransform(bulletTransform);
+
+                Eigen::Vector4d angle(bulletTransform.getRotation().x(),
+                                      bulletTransform.getRotation().y(),
+                                      bulletTransform.getRotation().z(),
+                                      bulletTransform.getRotation().w());
+                return angle;
             }
 
             osg::PositionAttitudeTransform * getOSGPAT() {
@@ -333,7 +354,8 @@ class PhysicsCallback : public osg::NodeCallback {
                                                           bulletTransform.getRotation().w()));
 
                 // Debug
-                //std::cout << bulletTransform.getOrigin().getZ() << std::endl;
+                //std::cout << (*it)->getPosition() << std::endl;
+                //std::cout << (*it)->getAngle() << std::endl;
             }
 
             // Continue the traversal
