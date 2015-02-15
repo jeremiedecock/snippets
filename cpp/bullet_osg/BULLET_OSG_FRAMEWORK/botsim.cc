@@ -24,17 +24,17 @@
 // x Black background
 // x Light (directional ?)
 // x Ajouter et utiliser asseseurs dans Objects
-// - Renommer Objects -> Parts
-// - Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
+// x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
+// x Renommer Objects -> Parts
 // - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
-// - Check units (mm ?, kg ?, ...)
+// - Scale units factor (mm ?, kg ?, ...)
 // - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
 // - Ombres
-// - Séparer les modules
-// - Key start/stop recording -> screencast
-// - Key take screenshot
 // - Key reset
+// - Key take screenshot
+// - Key start/stop recording -> screencast
 // - Faire des vidéos et les poster sur jdhp
+// - Séparer les modules
 // - Ajouter des objets: sphere, cylindre, etc.
 // - Objets STL
 //
@@ -67,7 +67,7 @@ namespace simulator {
         return bt_vector;
     }
 
-    class Object {
+    class Part {
         protected:
             // Bullet
             btRigidBody * rigidBody;
@@ -112,7 +112,7 @@ namespace simulator {
     };
 
 
-    class Box: public simulator::Object {
+    class Box: public simulator::Part {
         protected:
             // Bullet
             btCollisionShape * boxShape; // TODO: rename this
@@ -202,7 +202,7 @@ namespace simulator {
     };
 
 
-    class Ground: public simulator::Object {
+    class Ground: public simulator::Part {
         private:
             // Bullet
             btCollisionShape * groundShape;
@@ -265,12 +265,12 @@ class BulletEnvironment {
         btCollisionDispatcher * collisionDispatcher;
         btSequentialImpulseConstraintSolver * constraintSolver;
 
-        std::vector<simulator::Object *> * objectsVec;
+        std::vector<simulator::Part *> * objectsVec;
 
         double gravity;
 
     public:
-        BulletEnvironment(std::vector<simulator::Object *> * objects_vec) {
+        BulletEnvironment(std::vector<simulator::Part *> * objects_vec) {
             this->gravity = -10.;
 
             this->broadphase = new btDbvtBroadphase();
@@ -289,7 +289,7 @@ class BulletEnvironment {
             this->objectsVec = objects_vec;
 
             // Add rigid bodies
-            std::vector<simulator::Object *>::iterator it;
+            std::vector<simulator::Part *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
             }
@@ -302,7 +302,7 @@ class BulletEnvironment {
 
 
         ~BulletEnvironment() {
-            std::vector<simulator::Object *>::iterator it;
+            std::vector<simulator::Part *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 delete (*it);
             }
@@ -325,10 +325,10 @@ class PhysicsCallback : public osg::NodeCallback {
     // should be updated once per traversal.
     private:
         BulletEnvironment * bulletEnvironment;
-        std::vector<simulator::Object *> * objectsVec; //
+        std::vector<simulator::Part *> * objectsVec; //
 
     public:
-        PhysicsCallback(BulletEnvironment * bullet_environment, std::vector<simulator::Object *> * objects_vec) {
+        PhysicsCallback(BulletEnvironment * bullet_environment, std::vector<simulator::Part *> * objects_vec) {
             this->bulletEnvironment = bullet_environment;
             this->objectsVec = objects_vec;
         }
@@ -338,7 +338,7 @@ class PhysicsCallback : public osg::NodeCallback {
             this->bulletEnvironment->getDynamicsWorld()->stepSimulation(1 / 60.f, 10);
 
             // Update the position of each objects
-            std::vector<simulator::Object *>::iterator it;
+            std::vector<simulator::Part *>::iterator it;
             for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
                 // Bullet
                 btTransform bulletTransform;
@@ -372,14 +372,14 @@ class OSGEnvironment {
         osgViewer::Viewer * viewer;
 
     public:
-        OSGEnvironment(BulletEnvironment * bullet_environment, std::vector<simulator::Object *> * objects_vec) {
+        OSGEnvironment(BulletEnvironment * bullet_environment, std::vector<simulator::Part *> * objects_vec) {
 
             // Make the scene graph
             osg::Group * root = new osg::Group();
             root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
 
             // Add objects
-            std::vector<simulator::Object *>::iterator it;
+            std::vector<simulator::Part *>::iterator it;
             for(it = objects_vec->begin() ; it != objects_vec->end() ; it++) {
                 root->addChild((*it)->getOSGPAT());
             }
@@ -450,7 +450,7 @@ int main(int, char **) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::vector<simulator::Object *> * objects_vec = new std::vector<simulator::Object *>;
+    std::vector<simulator::Part *> * objects_vec = new std::vector<simulator::Part *>;
     objects_vec->push_back(new simulator::Ground());
     objects_vec->push_back(new simulator::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.));
     objects_vec->push_back(new simulator::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.));
