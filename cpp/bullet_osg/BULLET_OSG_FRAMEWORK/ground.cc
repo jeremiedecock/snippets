@@ -29,6 +29,28 @@ simulator::Ground::Ground() {
 
     // OSG
     this->osgGroup = new osg::Group();
+    
+    // Create and set tiles material
+    // See http://www.sm.luth.se/csee/courses/smm/011/l/t2.pdf
+    osg::ref_ptr<osg::StateSet> stateSetBlackTile = new osg::StateSet();
+    osg::ref_ptr<osg::StateSet> stateSetWhiteTile = new osg::StateSet();
+
+    osg::ref_ptr<osg::Material> materialBlackTile = new osg::Material();
+    osg::ref_ptr<osg::Material> materialWhiteTile = new osg::Material();
+
+    materialBlackTile->setAmbient(osg::Material::FRONT_AND_BACK,  osg::Vec4(0.0f, 0.0f, 0.0f, 1.f));
+    materialBlackTile->setDiffuse(osg::Material::FRONT_AND_BACK,  osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));    // The "base color" of the object
+    materialBlackTile->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));
+    materialBlackTile->setShininess(osg::Material::FRONT_AND_BACK, 63.f);    // 0. to 128.
+
+    materialWhiteTile->setAmbient(osg::Material::FRONT_AND_BACK,  osg::Vec4(1.0f, 1.0f, 1.0f, 1.f));
+    materialWhiteTile->setDiffuse(osg::Material::FRONT_AND_BACK,  osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));  // The "base color" of the object
+    materialWhiteTile->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));
+    materialWhiteTile->setShininess(osg::Material::FRONT_AND_BACK, 63.f);    // 0. to 128.
+
+    // Associate material with the stateset
+    stateSetBlackTile->setAttribute(materialBlackTile);
+    stateSetWhiteTile->setAttribute(materialWhiteTile);
 
     int num_tiles = 25;
     double tiles_size = 10.;
@@ -40,13 +62,14 @@ simulator::Ground::Ground() {
             p_osg_box->setHalfLengths(osg::Vec3(tiles_size/2., tiles_size/2., 1));
 
             osg::ref_ptr<osg::ShapeDrawable> p_osg_shape_drawable = new osg::ShapeDrawable(p_osg_box);
+            osg::ref_ptr<osg::Geode> p_osg_geode = new osg::Geode();
+
             if((tile_pos_x%2 == 0) != (tile_pos_y%2 == 0)) {    // != is the XOR logical operator...
-                p_osg_shape_drawable->setColor(osg::Vec4(1.0f, 1.0f, 1.0f, 0.0f)); // TODO: annulé par le "material" défini plus bas...
+                p_osg_geode->setStateSet(stateSetBlackTile);
             } else {
-                p_osg_shape_drawable->setColor(osg::Vec4(0.0f, 0.0f, 0.0f, 0.0f)); // TODO: annulé par le "material" défini plus bas...
+                p_osg_geode->setStateSet(stateSetWhiteTile);
             }
 
-            osg::ref_ptr<osg::Geode> p_osg_geode = new osg::Geode();
             p_osg_geode->addDrawable(p_osg_shape_drawable);
 
             this->osgGroup->addChild(p_osg_geode);
