@@ -16,4 +16,6 @@ $(EXEC_NAME): $(OBJECTS)
 
 clean:
 	rm -f $(OBJECTS)
+
+init : clean
 	rm -f $(EXEC_NAME)
