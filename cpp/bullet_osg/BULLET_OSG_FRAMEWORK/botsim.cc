@@ -26,20 +26,21 @@
 // x Ajouter et utiliser asseseurs dans Objects
 // x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
 // x Renommer Objects -> Parts
-// - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
-// - Scale units factor (mm ?, kg ?, ...)
 // - Améliorer l'objet "Ground" (tuiles blanches et noires) + fog + LOD
 // - Ombres
 // - Key reset
 // - Key take screenshot
 // - Key start/stop recording -> screencast
 // - Faire des vidéos et les poster sur jdhp
-// - Séparer les modules
+// - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
+// - Scale units factor (mm ?, kg ?, ...)
 // - Ajouter des objets: sphere, cylindre, etc.
 // - Objets STL
 //
+// - Séparer les modules
 // - Logs (JSON ?)
 // - Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
+//
 // - Remplacer le makefile par un cmakelist
 // - Créer une arborescence et des modules .h/.cpp
 //
@@ -208,11 +209,6 @@ namespace simulator {
             btCollisionShape * groundShape;
             btDefaultMotionState * groundMotionState;
 
-            // Osg
-            osg::Box * osgBox;
-            osg::ShapeDrawable * osgShapeDrawable;
-            osg::Geode * osgGeode;
-
         public:
             Ground() {
                 // BULLET
@@ -223,14 +219,30 @@ namespace simulator {
                 this->rigidBody = new btRigidBody(groundRigidBodyCI);
 
                 // OSG
-                this->osgBox = new osg::Box(osg::Vec3(0, 0, -1), 1.0f);
-                this->osgBox->setHalfLengths(osg::Vec3(20, 20, 1));
-                this->osgShapeDrawable = new osg::ShapeDrawable(this->osgBox);
-                this->osgGeode = new osg::Geode();
-                this->osgGeode->addDrawable(osgShapeDrawable);
-
                 this->osgGroup = new osg::Group();
-                this->osgGroup->addChild(this->osgGeode);
+
+                int num_tiles = 25;
+                double tiles_size = 10.;
+
+                for(int tile_pos_x=0 ; tile_pos_x < num_tiles ; tile_pos_x++) {
+                    for(int tile_pos_y=0 ; tile_pos_y < num_tiles ; tile_pos_y++) {
+                        osg::Vec3 tile_pos(tile_pos_x*tiles_size - (num_tiles*tiles_size)/2., tile_pos_y*tiles_size - (num_tiles*tiles_size)/2., -1);
+                        osg::ref_ptr<osg::Box> p_osg_box = new osg::Box(tile_pos, 1.0f);
+                        p_osg_box->setHalfLengths(osg::Vec3(tiles_size/2., tiles_size/2., 1));
+
+                        osg::ref_ptr<osg::ShapeDrawable> p_osg_shape_drawable = new osg::ShapeDrawable(p_osg_box);
+                        if((tile_pos_x%2 == 0) != (tile_pos_y%2 == 0)) {    // != is the XOR logical operator...
+                            p_osg_shape_drawable->setColor(osg::Vec4(1.0f, 1.0f, 1.0f, 0.0f)); // TODO: annulé par le "material" défini plus bas...
+                        } else {
+                            p_osg_shape_drawable->setColor(osg::Vec4(0.0f, 0.0f, 0.0f, 0.0f)); // TODO: annulé par le "material" défini plus bas...
+                        }
+
+                        osg::ref_ptr<osg::Geode> p_osg_geode = new osg::Geode();
+                        p_osg_geode->addDrawable(p_osg_shape_drawable);
+
+                        this->osgGroup->addChild(p_osg_geode);
+                    }
+                }
                 
                 this->osgPAT = new osg::PositionAttitudeTransform();
                 this->osgPAT->addChild(this->osgGroup);
@@ -243,9 +255,6 @@ namespace simulator {
                 delete this->groundShape;
                 delete this->groundMotionState;
 
-                //delete this->osgBox;
-                //delete this->osgShapeDrawable;
-                //delete this->osgGeode;
                 //delete this->osgPAT;
             }
     };
@@ -416,7 +425,7 @@ class OSGEnvironment {
             // Material
             osg::ref_ptr<osg::Material> mat = new osg::Material;
             mat->setDiffuse(osg::Material::FRONT, osg::Vec4(1.0f, 1.0f, 1.0f, 1.f)); // the diffuse color of the material
-            mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f)); // the specular color of the material
+            mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f));   // the specular color of the material
             mat->setShininess(osg::Material::FRONT, 96.f);
             state->setAttribute(mat.get());
 
