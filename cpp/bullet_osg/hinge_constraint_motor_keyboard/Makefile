@@ -16,4 +16,7 @@ $(EXEC_NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(EXEC_NAME) $(OBJ)
+	rm -f $(OBJ)
+
+init : clean
+	rm -f $(EXEC_NAME)
