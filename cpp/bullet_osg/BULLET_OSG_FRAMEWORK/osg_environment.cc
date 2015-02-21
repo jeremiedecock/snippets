@@ -13,6 +13,7 @@
 
 #include <osg/Group>
 #include <osg/Material>
+#include <osgGA/TrackballManipulator>
 #include <osgShadow/ShadowedScene>
 #include <osgShadow/ShadowMap>
 #include <osgViewer/Viewer>
@@ -137,6 +138,16 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     // See http://gaming.stackexchange.com/questions/31801/what-are-the-differences-between-the-different-anti-aliasing-multisampling-set
     //     http://osghelp.com/?p=179
     osg::DisplaySettings::instance()->setNumMultiSamples(4); // MSAA: multi-sampled_anti-aliasing 
+
+    // Setup the default camera
+    osg::Vec3d look_from(20.0, 20.0, 10.0); // point 3D qui définit la position de la caméra
+    osg::Vec3d look_at(0.0, 0.0, 0.0);     // point 3D qui définit le point regardé par la caméra
+    osg::Vec3d up(0.0, 0.0, 1.0);          // point 3D qui définit l'axe vertical de la caméra. En général il est défini selon l'axe vertical du repère.
+
+    osg::ref_ptr<osgGA::TrackballManipulator> p_camera_manipulator = new osgGA::TrackballManipulator();
+    p_camera_manipulator->setHomePosition(look_from, look_at, up, false);
+
+    this->viewer->setCameraManipulator(p_camera_manipulator);
 }
 
 void simulator::OSGEnvironment::run() {
