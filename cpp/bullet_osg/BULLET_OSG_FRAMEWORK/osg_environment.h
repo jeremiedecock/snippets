@@ -46,6 +46,9 @@ namespace simulator {
             osgViewer::Viewer * viewer;
 
         public:
+            static const unsigned int receivesShadowTraversalMask;
+            static const unsigned int castsShadowTraversalMask;
+
             OSGEnvironment(BulletEnvironment * bullet_environment,
                            std::vector<simulator::Part *> * objects_vec);
             

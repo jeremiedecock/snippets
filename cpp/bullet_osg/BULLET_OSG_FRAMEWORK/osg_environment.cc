@@ -13,11 +13,16 @@
 
 #include <osg/Group>
 #include <osg/Material>
+#include <osgShadow/ShadowedScene>
+#include <osgShadow/ShadowMap>
 #include <osgViewer/Viewer>
 
 #include <Eigen/Dense>
 
 #include <btBulletDynamicsCommon.h>
+
+
+// PhysicsCallback ////////////////////////////////////////////////////////////
 
 simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment,
                                             std::vector<simulator::Part *> * objects_vec) {
@@ -54,13 +59,19 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
     traverse(node, nv);
 }
 
-///////////////////
+
+// OSGEnvironment /////////////////////////////////////////////////////////////
+
+const unsigned int simulator::OSGEnvironment::receivesShadowTraversalMask = 0x1;
+const unsigned int simulator::OSGEnvironment::castsShadowTraversalMask = 0x2;
 
 simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment,
                                           std::vector<simulator::Part *> * objects_vec) {
 
     // Make the scene graph
-    osg::Group * root = new osg::Group();
+    //osg::Group * root = new osg::Group();
+    osg::ref_ptr<osgShadow::ShadowedScene> root = new osgShadow::ShadowedScene();  // To allow shadows, root must be a special group node named "ShadowedScene"
+
     root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
 
     // Add objects
@@ -99,11 +110,21 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     state->setMode(GL_LIGHT1, osg::StateAttribute::ON);  // use GL_LIGHTN for light number N
 
     // Material
-    osg::ref_ptr<osg::Material> mat = new osg::Material;
-    mat->setDiffuse(osg::Material::FRONT, osg::Vec4(1.0f, 1.0f, 1.0f, 1.f)); // the diffuse color of the material
-    mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f));   // the specular color of the material
-    mat->setShininess(osg::Material::FRONT, 96.f);
-    state->setAttribute(mat.get());
+    osg::ref_ptr<osg::Material> p_mat = new osg::Material;
+    p_mat->setDiffuse(osg::Material::FRONT, osg::Vec4(1.0f, 1.0f, 1.0f, 1.f)); // the diffuse color of the material
+    p_mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f));   // the specular color of the material
+    p_mat->setShininess(osg::Material::FRONT, 96.f);
+    state->setAttribute(p_mat.get());
+
+    // Set shadows
+    osg::ref_ptr<osgShadow::ShadowMap> p_shadow_map = new osgShadow::ShadowMap();
+    p_shadow_map->setLight(light_source);
+    p_shadow_map->setTextureSize(osg::Vec2s(2048, 2048));
+    p_shadow_map->setTextureUnit(1);
+
+    root->setShadowTechnique(p_shadow_map.get());
+    root->setReceivesShadowTraversalMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
+    root->setCastsShadowTraversalMask(simulator::OSGEnvironment::castsShadowTraversalMask);
 
     // MAKE THE VIEWER ////////
     this->viewer = new osgViewer::Viewer();

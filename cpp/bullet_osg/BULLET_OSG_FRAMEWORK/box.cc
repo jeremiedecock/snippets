@@ -8,6 +8,7 @@
  */
 
 #include "box.h"
+#include "osg_environment.h"
 #include "tools.h"
 
 #include <osg/Geode>
@@ -74,6 +75,9 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
 
     this->osgGroup = new osg::Group();
     this->osgGroup->addChild(this->osgGeode);
+
+    // Set the mask for shadows -> this object casts and receives shadows
+    this->osgGroup->setNodeMask(simulator::OSGEnvironment::castsShadowTraversalMask | simulator::OSGEnvironment::receivesShadowTraversalMask);
     
     this->osgPAT = new osg::PositionAttitudeTransform();
     this->osgPAT->addChild(this->osgGroup);

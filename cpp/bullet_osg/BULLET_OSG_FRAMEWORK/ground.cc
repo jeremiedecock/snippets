@@ -8,6 +8,7 @@
  */
 
 #include "ground.h"
+#include "osg_environment.h"
 
 #include <osg/Geode>
 #include <osg/Group>
@@ -75,6 +76,9 @@ simulator::Ground::Ground() {
             this->osgGroup->addChild(p_osg_geode);
         }
     }
+
+    // Set the mask for shadows -> this object receives shadows
+    this->osgGroup->setNodeMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
     
     this->osgPAT = new osg::PositionAttitudeTransform();
     this->osgPAT->addChild(this->osgGroup);
