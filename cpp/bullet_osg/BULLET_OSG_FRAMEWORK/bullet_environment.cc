@@ -10,6 +10,7 @@
 #include "bullet_environment.h"
 
 #include <vector>
+#include <iostream>
 
 #include <Eigen/Dense>
 
@@ -18,6 +19,7 @@
 
 simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> * objects_vec) {
     this->gravity = -10.;
+    this->simulationTime = 0.;
 
     this->broadphase = new btDbvtBroadphase();
 
@@ -44,6 +46,13 @@ simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> *
 
 btDiscreteDynamicsWorld * simulator::BulletEnvironment::getDynamicsWorld() const {
     return this->dynamicsWorld;
+}
+
+
+void simulator::BulletEnvironment::stepSimulation(const double time_step) {
+    this->simulationTime += time_step;
+    this->getDynamicsWorld()->stepSimulation(time_step, 10); // TODO http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World
+    //std::cout << this->simulationTime << std::endl;
 }
 
 

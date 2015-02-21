@@ -35,10 +35,14 @@ namespace simulator {
 
             double gravity;
 
+            double simulationTime;
+
         public:
             BulletEnvironment(std::vector<simulator::Part *> * objects_vec);
 
             btDiscreteDynamicsWorld * getDynamicsWorld() const;
+
+            void stepSimulation(const double time_step);
 
             ~BulletEnvironment();
     };
