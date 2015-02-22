@@ -56,7 +56,8 @@ Copier dans BOTSIM v2.0:
 -> Créer des contrôleurs
    -> SAES + sinusoïdes
    -> SAES + convolution de sinusoïdes
-   -> PIC (pendule inversé)
+   -> SAES + neural net (?)
+   -> PID (pendule inversé)
    -> Contrôle manuel via un joypad (pour les robots à roues)
 -> Modéliser, créer les objets et créer les contrôleurs pour des robots
    -> Créer un robot à 4 roues
