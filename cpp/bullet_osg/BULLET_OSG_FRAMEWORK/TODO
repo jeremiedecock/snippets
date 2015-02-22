@@ -1,0 +1,77 @@
+TODO
+
+x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+x MSAA
+x Black background
+x Light (directional ?)
+x Ajouter et utiliser asseseurs dans Objects
+x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
+x Renommer Objects -> Parts
+x Séparer les modules
+x Ombres
+x Caméra
+
+- Ajouter les fichiers AUTHORS et COPYING
+- Ajouter des matériaux pour les objets "Part"
+
+- Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
+- Key take screenshot
+- Key start/stop recording -> screencast
+
+- Améliorer le rendu: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
+- Faire des vidéos et les poster sur jdhp
+
+- Remplacer le makefile par un cmakelist
+- Créer une arborescence et des modules .h/.cpp
+- Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
+
+- Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
+  -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
+- Améliorer le réalisme des simulations physiques
+- Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
+- Scale units factor (mm ?, kg ?, ...)
+
+- Ajouter des objets: sphere, cylindre, etc.
+- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...)
+
+- Charnières: classe "Hinge"
+- Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
+- Créer un OSG_Bullet_Qt_Lab pour tester interactivement les propriétés physique des objets et du simulateur (des widgets permettent de "voir" immédiatement l'impact sur la simulation de la modification de certains paramètres)
+- Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
+  -> accéléromètre (facile ?)
+  -> position absolue/pseudo GPS (facile ?)
+  -> odomètre (facile ?)
+  -> gyroscope (facile ?)
+  -> position angulaire des actuateurs (facile ?)
+  -> caméra (difficile ?)
+  -> capteurs de force/de contact/de pression (difficile ?)
+  -> capteur de distance IR/ultrasons (difficile ?)
+- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
+- Contrôleurs: classe "Controler" -> pattern listener : écoute les sensors et agit sur les actuators
+  -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
+- Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
+- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
+
+Copier dans BOTSIM v2.0:
+-> Créer des contrôleurs
+   -> SAES + sinusoïdes
+   -> SAES + convolution de sinusoïdes
+   -> PIC (pendule inversé)
+   -> Contrôle manuel via un joypad (pour les robots à roues)
+-> Modéliser, créer les objets et créer les contrôleurs pour des robots
+   -> Créer un robot à 4 roues
+   -> Créer un robot à 2 roues (pendule inversé)
+   -> Créer un robot à 4 pattes
+   -> Créer un robot à 6 ou 8 pattes
+
+- Améliorer le rendu: fog + LOD
+- Améliorer le rendu: GLSL (shaders)
+- Améliorer le rendu: motion blur
+
+- Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
+
+- Singleton OSG / Bullet ? -> bof...
+- Txt infos (hinge constraints, ...)
+
+- Permettre aux objets "Part", etc. d'être chargés dynamiquement sous la forme de plugins
+

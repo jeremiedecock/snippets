@@ -18,40 +18,6 @@
 
 #include <Eigen/Dense>
 
-// TODO:
-// x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
-// x MSAA
-// x Black background
-// x Light (directional ?)
-// x Ajouter et utiliser asseseurs dans Objects
-// x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
-// x Renommer Objects -> Parts
-// x Séparer les modules
-// - Ombres
-// - Key reset
-// - Key take screenshot
-// - Key start/stop recording -> screencast
-// - Faire des vidéos et les poster sur jdhp
-// - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
-// - Scale units factor (mm ?, kg ?, ...)
-// - Ajouter des objets: sphere, cylindre, etc.
-// - Objets STL
-// - Améliorer l'objet "Ground" + fog + LOD
-//
-// - Logs (JSON ?)
-// - Permettre de lancer une simulation sans interface graphique (sans osg) -> permetter de remplacer le "physicsCallback"
-//
-// - Remplacer le makefile par un cmakelist
-// - Créer une arborescence et des modules .h/.cpp
-//
-// - Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
-//
-// - Singleton OSG / Bullet ? -> bof...
-// - Caméra
-// - Hinges
-// - Commandes d'entrée pour hinge
-// - Txt infos (hinge constraints, ...)
-
 
 int main(int, char **) {
 
