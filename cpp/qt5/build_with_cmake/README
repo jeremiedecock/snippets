@@ -1,0 +1,11 @@
+DEBIAN PACKAGE REQUIRED: qt5-default (on Debian Jessie)
+
+USAGE:
+  mkdir build
+  cd build
+  cmake ..
+  make
+
+FOR MORE INFOS, SEE:
+  http://doc.qt.io/qt-5/cmake-manual.html
+  http://kdab.developpez.com/tutoriels/cmake-qt-5/
