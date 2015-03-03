@@ -9,7 +9,7 @@
 
 #include "box.h"
 #include "osg_environment.h"
-#include "tools.h"
+#include "tools/tools.h"
 
 #include <osg/Geode>
 #include <osg/Group>

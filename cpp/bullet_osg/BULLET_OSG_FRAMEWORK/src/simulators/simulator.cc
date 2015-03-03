@@ -6,12 +6,12 @@
  * www.jdhp.org
  */
 
-#include "box.h"
+#include "parts/box.h"
+#include "parts/ground.h"
 #include "bullet_environment.h"
-#include "ground.h"
 #include "osg_environment.h"
 #include "part.h"
-#include "tools.h"
+#include "tools/tools.h"
 
 #include <vector>
 #include <iostream>
