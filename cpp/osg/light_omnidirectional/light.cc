@@ -79,6 +79,8 @@ int main(int, char **) {
     light_source->setLight(light);
     root->addChild(light_source);
 
+    // Modify the StateSet for the root node i.e. a StateSet shared and applied
+    // to all nodes (see http://www.sm.luth.se/csee/courses/smm/011/l/t2.pdf slide 35)
     osg::ref_ptr<osg::StateSet> state = root->getOrCreateStateSet();
     state->setMode(GL_LIGHT0, osg::StateAttribute::OFF); // GL_LIGHT0 is the default light
     state->setMode(GL_LIGHT1, osg::StateAttribute::ON);  // use GL_LIGHTN for light number N
