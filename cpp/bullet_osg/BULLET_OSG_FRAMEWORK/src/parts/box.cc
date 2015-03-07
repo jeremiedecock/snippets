@@ -13,6 +13,7 @@
 
 #include <osg/Geode>
 #include <osg/Group>
+#include <osg/Material>
 #include <osg/PositionAttitudeTransform>
 #include <osg/ShapeDrawable>
 
@@ -75,6 +76,23 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
 
     this->osgGroup = new osg::Group();
     this->osgGroup->addChild(this->osgGeode);
+    
+    // Create and set material
+    // See http://www.sm.luth.se/csee/courses/smm/011/l/t2.pdf
+    osg::ref_ptr<osg::StateSet> p_state_set = new osg::StateSet();
+
+    osg::ref_ptr<osg::Material> p_material = new osg::Material();
+
+    p_material->setAmbient(osg::Material::FRONT_AND_BACK,  osg::Vec4(1.0f, 1.0f, 1.0f, 1.f));
+    p_material->setDiffuse(osg::Material::FRONT_AND_BACK,  osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));  // The "base color" of the object
+    p_material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(1.0f, 0.5f, 0.1f, 1.f));
+    p_material->setShininess(osg::Material::FRONT_AND_BACK, 63.f);    // 0. to 128.
+
+    // Associate material with the stateset
+    p_state_set->setAttribute(p_material);
+
+    // Associate stateset with the geode
+    this->osgGeode->setStateSet(p_state_set);
 
     // Set the mask for shadows -> this object casts and receives shadows
     this->osgGroup->setNodeMask(simulator::OSGEnvironment::castsShadowTraversalMask | simulator::OSGEnvironment::receivesShadowTraversalMask);
