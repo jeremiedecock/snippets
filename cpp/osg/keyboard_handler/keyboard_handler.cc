@@ -93,6 +93,9 @@ int main(int, char **) {
     osg::ref_ptr<KeyboardEventHandler> keyboard_event_handler = new KeyboardEventHandler();
     viewer.addEventHandler(keyboard_event_handler);
 
+    // Make the viewer create a 512x512 window and position it at 32, 32
+    viewer.setUpViewInWindow(32, 32, 512, 512);
+
     // Run the viewer
     viewer.run();
 
