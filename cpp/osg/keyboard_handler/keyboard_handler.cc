@@ -26,7 +26,7 @@ class KeyboardEventHandler : public osgGA::GUIEventHandler {
 
             switch(event_adapter.getEventType()) {
 
-                case(osgGA::GUIEventAdapter::KEYDOWN):
+                case(osgGA::GUIEventAdapter::KEYDOWN):  // KEYDOWN == key pressed
                     {
                         switch(event_adapter.getKey()) {
                             // See http://trac.openscenegraph.org/documentation/OpenSceneGraphReferenceDocs/a00359.html for the list of OSG key symbols
@@ -62,7 +62,7 @@ class KeyboardEventHandler : public osgGA::GUIEventHandler {
                     }
                     break;
 
-                case(osgGA::GUIEventAdapter::KEYUP):
+                case(osgGA::GUIEventAdapter::KEYUP):  // KEYUP == key released
                     {
                         switch(event_adapter.getKey()) {
                             case 'q':
