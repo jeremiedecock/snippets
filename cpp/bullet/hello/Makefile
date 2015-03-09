@@ -17,7 +17,5 @@ $(EXEC_NAME): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS)
 
-init:
+init : clean
 	rm -f $(EXEC_NAME)
-	rm res.dat
-	rm res.pdf
