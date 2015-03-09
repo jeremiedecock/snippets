@@ -5,8 +5,9 @@
  *
  * See "OpenSceneGraph 3.0" by Rui Wang and Xuelei Qian (ed. Packt publishing 2010) p.134
  *
- * Note that this snippet doesn't work when used with shadow techniques:
+ * Note that this snippet doesn't work when used with shader based shadow techniques:
  * http://forum.openscenegraph.org/viewtopic.php?t=6228&view=previous
+ * http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow
  */
 
 #include <osg/Fog>
