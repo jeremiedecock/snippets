@@ -21,6 +21,7 @@ x Ajouter des matériaux pour les objets "Part"
 - Add OSG fog
 
 - Améliorer le rendu: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
+  + improve shadow technics
 - Faire des vidéos et les poster sur jdhp
 
 - Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"

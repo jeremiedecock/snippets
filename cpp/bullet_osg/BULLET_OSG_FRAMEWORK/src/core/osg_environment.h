@@ -17,6 +17,7 @@
 
 #include <osg/Group>
 #include <osg/Material>
+#include <osgGA/GUIEventHandler>
 #include <osgViewer/Viewer>
 
 #include <Eigen/Dense>
@@ -38,12 +39,27 @@ namespace simulator {
             virtual void operator() (osg::Node * node, osg::NodeVisitor * nv);
     };
 
+
+    class KeyboardEventHandler : public osgGA::GUIEventHandler {
+        public:
+            KeyboardEventHandler();
+
+            /**
+             * osgGA::GUIEventAdapter  supplies the received events
+             * osgGA::GUIActionAdapter parameter for feedback
+             */
+            virtual bool handle(const osgGA::GUIEventAdapter& event_adapter, osgGA::GUIActionAdapter& action_adapter);
+    };
+
+
     class OSGEnvironment {
 
         // TODO: cette classe devrait être un singleton ?!
 
         private:
             osgViewer::Viewer * viewer;
+            bool useFogEffect;
+            bool useFullScreen;
 
         public:
             static const unsigned int receivesShadowTraversalMask;
