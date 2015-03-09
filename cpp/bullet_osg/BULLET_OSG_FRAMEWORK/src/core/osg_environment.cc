@@ -71,19 +71,19 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
 
     // Make the scene graph
     //osg::Group * root = new osg::Group();
-    osg::ref_ptr<osgShadow::ShadowedScene> root = new osgShadow::ShadowedScene();  // To allow shadows, root must be a special group node named "ShadowedScene"
+    osg::ref_ptr<osgShadow::ShadowedScene> p_root = new osgShadow::ShadowedScene();  // To allow shadows, root must be a special group node named "ShadowedScene"
 
-    root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
+    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
 
     // Add objects
     std::vector<simulator::Part *>::iterator it;
     for(it = objects_vec->begin() ; it != objects_vec->end() ; it++) {
-        root->addChild((*it)->getOSGPAT());
+        p_root->addChild((*it)->getOSGPAT());
     }
 
     // LIGHT ////////////////
 
-    osg::ref_ptr<osg::Light> light = new osg::Light;
+    osg::ref_ptr<osg::Light> p_light = new osg::Light();
 
     // OSG (as OpenGL) can handle up to 8 light sources.
     // Each light must have a unique number
@@ -92,44 +92,45 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     //
     // We do not use light number 0, because we do not want to override the OSG
     // default headlights.
-    light->setLightNum(1);
+    p_light->setLightNum(1);
 
-    light->setAmbient(osg::Vec4(1.0, 1.0, 1.0, 0.0));
-    light->setDiffuse(osg::Vec4(1.0, 1.0, 1.0, 0.0));
-    light->setSpecular(osg::Vec4(1.0, 1.0, 1.0, 1.0));
+    p_light->setAmbient(osg::Vec4(1.0, 1.0, 1.0, 0.0));
+    p_light->setDiffuse(osg::Vec4(1.0, 1.0, 1.0, 0.0));
+    p_light->setSpecular(osg::Vec4(1.0, 1.0, 1.0, 1.0));
 
     // The light's position
-    light->setPosition(osg::Vec4(10.0, -10.0, 20.0, 1.0)); // last param w = 0.0 directional light (direction)
+    p_light->setPosition(osg::Vec4(10.0, -10.0, 20.0, 1.0)); // last param w = 0.0 directional light (direction)
                                                            // w = 1.0 point light (position)
     // Light source
-    osg::ref_ptr<osg::LightSource> light_source = new osg::LightSource;    
-    light_source->setLight(light);
-    root->addChild(light_source);
+    osg::ref_ptr<osg::LightSource> p_light_source = new osg::LightSource(); 
+    p_light_source->setLight(p_light);
+    p_root->addChild(p_light_source);
 
-    osg::ref_ptr<osg::StateSet> state = root->getOrCreateStateSet();
-    state->setMode(GL_LIGHT0, osg::StateAttribute::OFF); // GL_LIGHT0 is the default light
-    state->setMode(GL_LIGHT1, osg::StateAttribute::ON);  // use GL_LIGHTN for light number N
+    osg::ref_ptr<osg::StateSet> p_state = p_root->getOrCreateStateSet();
+    p_state->setMode(GL_LIGHT0, osg::StateAttribute::OFF); // GL_LIGHT0 is the default light
+    p_state->setMode(GL_LIGHT1, osg::StateAttribute::ON);  // use GL_LIGHTN for light number N
 
-    // Material
-    osg::ref_ptr<osg::Material> p_mat = new osg::Material;
+    // Default material
+    osg::ref_ptr<osg::Material> p_mat = new osg::Material();
     p_mat->setDiffuse(osg::Material::FRONT, osg::Vec4(1.0f, 1.0f, 1.0f, 1.f)); // the diffuse color of the material
     p_mat->setSpecular(osg::Material::FRONT, osg::Vec4(1.f, 1.f, 1.f, 0.f));   // the specular color of the material
     p_mat->setShininess(osg::Material::FRONT, 96.f);
-    state->setAttribute(p_mat.get());
+    p_state->setAttribute(p_mat.get());
 
     // Set shadows
     osg::ref_ptr<osgShadow::ShadowMap> p_shadow_map = new osgShadow::ShadowMap();
-    p_shadow_map->setLight(light_source);
+    p_shadow_map->setLight(p_light_source);
     p_shadow_map->setTextureSize(osg::Vec2s(2048, 2048));
     p_shadow_map->setTextureUnit(1);
 
-    root->setShadowTechnique(p_shadow_map.get());
-    root->setReceivesShadowTraversalMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
-    root->setCastsShadowTraversalMask(simulator::OSGEnvironment::castsShadowTraversalMask);
+    p_root->setShadowTechnique(p_shadow_map.get());
+    p_root->setReceivesShadowTraversalMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
+    p_root->setCastsShadowTraversalMask(simulator::OSGEnvironment::castsShadowTraversalMask);
 
     // MAKE THE VIEWER ////////
+    
     this->viewer = new osgViewer::Viewer();
-    this->viewer->setSceneData(root);
+    this->viewer->setSceneData(p_root);
 
     // Set the background color (black here -> (0,0,0,0))
     this->viewer->getCamera()->setClearColor(osg::Vec4(0.0f, 0.0f, 0.0f, 0.0f));
