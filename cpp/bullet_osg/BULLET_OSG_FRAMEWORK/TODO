@@ -11,16 +11,14 @@ x Séparer les modules
 x Ombres
 x Caméra
 x Ajouter les fichiers AUTHORS et COPYING
-
-- Remplacer le makefile par un cmakelist
-  -> Créer une arborescence et des modules .h/.cpp
-- Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
-
-- Ajouter des matériaux pour les objets "Part"
+x Remplacer le makefile par un cmakelist -> Créer une arborescence et des modules .h/.cpp
+x Ajouter des matériaux pour les objets "Part"
 
 - Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
+- Key print camera coordinates
 - Key take screenshot
 - Key start/stop recording -> screencast
+- Add OSG fog
 
 - Améliorer le rendu: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
 - Faire des vidéos et les poster sur jdhp
@@ -30,12 +28,14 @@ x Ajouter les fichiers AUTHORS et COPYING
 - Améliorer le réalisme des simulations physiques
 - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
 - Scale units factor (mm ?, kg ?, ...)
+- Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
-- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + faire des démos
-+ Charnières: classe "Hinge" qui hérite de "Part" + faire des démos
+- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
 
++ Charnières: classe "Hinge" qui hérite de "Part" + faire des démos
 + Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
+
 - Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
   -> accéléromètre (facile ?)
   -> position absolue/pseudo GPS (facile ?)
