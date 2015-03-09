@@ -4,6 +4,9 @@
  * Copyright (c) 2015 Jérémie Decock
  *
  * See "OpenSceneGraph 3.0" by Rui Wang and Xuelei Qian (ed. Packt publishing 2010) p.134
+ *
+ * Note that this snippet doesn't work when used with shadow techniques:
+ * http://forum.openscenegraph.org/viewtopic.php?t=6228&view=previous
  */
 
 #include <osg/Fog>
