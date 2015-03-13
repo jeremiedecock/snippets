@@ -15,14 +15,31 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_BUILD_TYPE Debug)
 
+# C++11 ###############################
+
+# Taken from http://stackoverflow.com/questions/10851247/how-to-activate-c-11-in-cmake
+
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+
 # OPTIONS #############################
 
-## LLVM CLANG
-#option(USE_CLANG "Use LLVM Clang" OFF)
-#if(USE_CLANG)
-#    set(CMAKE_CXX_COMPILER clang++)
-#endif(USE_CLANG)
-#
+# LLVM CLANG
+option(USE_CLANG "Use LLVM Clang" OFF)
+if(USE_CLANG)
+    set(CMAKE_CXX_COMPILER clang++)
+endif(USE_CLANG)
+
 ## STATIC COMPILATION (GNU only ?)
 #option(USE_STATIC "Enable static compilation" OFF)
 #if(USE_STATIC)
@@ -31,23 +48,23 @@ set(CMAKE_BUILD_TYPE Debug)
 #    set(Boost_USE_STATIC_LIBS ON)
 #    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 #endif(USE_STATIC)
-#
-## GPROF (GNU only)
-#option(USE_GPROF "Enable gprof" OFF)
-#if(USE_GPROF)
-#    set(CMAKE_BUILD_TYPE Debug)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg"  )
-#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg"  )
-#endif(USE_GPROF)
-#
-## GCOV (GNU only)
-#option(USE_GCOV "Enable gcov" OFF)
-#if(USE_GCOV)
-#    set(CMAKE_BUILD_TYPE Debug)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage"  )
-#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage"  )
-#endif(USE_GCOV)
-#
+
+# GPROF (GNU only)
+option(USE_GPROF "Enable gprof" OFF)
+if(USE_GPROF)
+    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg"  )
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg"  )
+endif(USE_GPROF)
+
+# GCOV (GNU only)
+option(USE_GCOV "Enable gcov" OFF)
+if(USE_GCOV)
+    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage"  )
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage"  )
+endif(USE_GCOV)
+
 ## NATIVE OPTIMIZATIONS (GCC ONLY)
 #option(GCC_NATIVE "Optimize executable for modern hosts CPUs (GCC ONLY)" OFF)
 #if(GCC_NATIVE)
