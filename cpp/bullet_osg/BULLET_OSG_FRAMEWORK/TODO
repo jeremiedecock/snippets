@@ -26,7 +26,7 @@ x Add OSG fog
   + improve shadow technics
 - Faire des vidéos et les poster sur jdhp
 
-- Doxygen
+x Doxygen
 - Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
 - Améliorer le réalisme des simulations physiques
@@ -34,6 +34,8 @@ x Add OSG fog
 - Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
 - Scale units factor (mm ?, kg ?, ...)
 - Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
+- Exporter un fichier stat (dat ou json ?) : Simulation time, User time, Time step, Fixed sub time step, Sub steps, Max sub steps
+- Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
