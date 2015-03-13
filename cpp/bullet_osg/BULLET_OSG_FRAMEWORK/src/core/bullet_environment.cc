@@ -55,6 +55,23 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step) {
     //std::cout << this->simulationTime << std::endl;
 }
 
+void simulator::BulletEnvironment::resetSimulation() {
+    std::cout << "Reset simulation" << std::endl;
+
+    // TODO
+
+    //this->constraintSolver->reset();
+    //this->dynamicsWorld->clearForces();
+    //this->broadphase->resetPool(this->collisionDispatcher);
+    ////m_clock.reset();
+
+    //btOverlappingPairCache* pair_cache = this->dynamicsWorld->getBroadphase()->getOverlappingPairCache();
+    //btBroadphasePairArray& pair_array = pair_cache->getOverlappingPairArray();
+    //for(int i = 0; i < pair_array.size(); i++) {
+    //    pair_cache->cleanOverlappingPair(pair_array[i], this->dynamicsWorld->getDispatcher());
+    //}
+    // TODO: reset the initial position, angle, velocity, mass, ... of each parts.
+}
 
 simulator::BulletEnvironment::~BulletEnvironment() {
     std::vector<simulator::Part *>::iterator it;

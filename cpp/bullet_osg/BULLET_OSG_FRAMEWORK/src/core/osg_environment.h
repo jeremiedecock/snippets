@@ -41,8 +41,12 @@ namespace simulator {
 
 
     class KeyboardEventHandler : public osgGA::GUIEventHandler {
+        
+        private:
+            BulletEnvironment * bulletEnvironment;
+
         public:
-            KeyboardEventHandler();
+            KeyboardEventHandler(BulletEnvironment * bullet_environment);
 
             /**
              * osgGA::GUIEventAdapter  supplies the received events

@@ -44,6 +44,8 @@ namespace simulator {
 
             void stepSimulation(const double time_step);
 
+            void resetSimulation();
+
             ~BulletEnvironment();
     };
 

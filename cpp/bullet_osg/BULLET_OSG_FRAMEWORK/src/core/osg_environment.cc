@@ -80,8 +80,8 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
  * and http://jeux.developpez.com/tutoriels/openscenegraph/evenements/
  */
 
-simulator::KeyboardEventHandler::KeyboardEventHandler() {
-    // Put here the data to manipulate...
+simulator::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet_environment) {
+    this->bulletEnvironment = bullet_environment;
 }
 
 /**
@@ -100,7 +100,7 @@ bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event
                     
                     case RESET_CHAR:
                         // TODO
-                        std::cout << "Reset" << std::endl;
+                        this->bulletEnvironment->resetSimulation();
                         break;
 
                     case PRINT_CAMERA_CHAR:
@@ -287,7 +287,7 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     // KEYBOARD HANDLER /////////////////////////
     
     // Set the keyboard handler
-    osg::ref_ptr<KeyboardEventHandler> p_keyboard_event_handler = new KeyboardEventHandler();
+    osg::ref_ptr<KeyboardEventHandler> p_keyboard_event_handler = new KeyboardEventHandler(bullet_environment);
     this->viewer->addEventHandler(p_keyboard_event_handler);
 }
 
