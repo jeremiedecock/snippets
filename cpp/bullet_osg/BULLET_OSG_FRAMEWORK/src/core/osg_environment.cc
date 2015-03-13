@@ -45,7 +45,8 @@ simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environme
 
 void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
     // Update the physics
-    this->bulletEnvironment->stepSimulation(1. / 60.);
+    //this->bulletEnvironment->stepSimulation(1. / 300.);
+    this->bulletEnvironment->stepSimulation();
 
     // Update the position of each objects
     std::vector<simulator::Part *>::iterator it;

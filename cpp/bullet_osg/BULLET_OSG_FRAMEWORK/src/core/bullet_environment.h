@@ -12,6 +12,7 @@
 
 #include "part.h"
 
+#include <chrono>
 #include <vector>
 
 #include <Eigen/Dense>
@@ -35,16 +36,40 @@ namespace simulator {
 
             double gravity;
 
-            double simulationTime;
+            /**
+             * The time within the simulation.
+             */
+            double simulationTimeSec;
+
+            /**
+             * The actual user start time (i.e. outside the simulation).
+             */
+            std::chrono::time_point<std::chrono::system_clock> userStartTime;
+
+            int bulletMaxSubSteps;
+
+            double bulletFixedTimeSubStepSec;
 
         public:
             BulletEnvironment(std::vector<simulator::Part *> * objects_vec);
 
             btDiscreteDynamicsWorld * getDynamicsWorld() const;
 
-            void stepSimulation(const double time_step);
+            void stepSimulation(const double time_step_sec);
+
+            void stepSimulation();
 
             void resetSimulation();
+
+            /**
+             * Return the time within the simulation.
+             */
+            double getElapsedSimulationTimeSec() const;
+
+            /**
+             * Return the actual user time i.e. outside the simulation.
+             */
+            double getElapsedUserTimeSec() const;
 
             ~BulletEnvironment();
     };
