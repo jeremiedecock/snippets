@@ -1,0 +1,11 @@
+Physics Lab
+
+BUILD:
+  mkdir build
+  cd build
+  cmake ..
+  make
+
+MAKE DOCUMENTATION:
+  doxygen
+
