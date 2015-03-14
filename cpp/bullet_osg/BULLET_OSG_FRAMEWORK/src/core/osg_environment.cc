@@ -81,8 +81,9 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
  * and http://jeux.developpez.com/tutoriels/openscenegraph/evenements/
  */
 
-simulator::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet_environment) {
+simulator::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
     this->bulletEnvironment = bullet_environment;
+    this->osgEnvironment = osg_environment;
 }
 
 /**
@@ -105,8 +106,15 @@ bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event
                         break;
 
                     case PRINT_CAMERA_CHAR:
-                        // TODO
-                        std::cout << "Print camera's settings" << std::endl;
+                        osg::Vec3d eye;
+                        osg::Vec3d center;
+                        osg::Vec3d up;
+                        this->osgEnvironment->getViewer()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
+
+                        std::cout << "Camera's settings" << std::endl;
+                        std::cout << "eye: ("    << eye[0]    << ", " << eye[1]    << ", " << eye[2]    << ")" << std::endl;
+                        std::cout << "center: (" << center[0] << ", " << center[1] << ", " << center[2] << ")" << std::endl;
+                        std::cout << "up: ("     << up[0]     << ", " << up[1]     << ", " << up[2]     << ")" << std::endl;
                         break;
                 } 
             }
@@ -288,8 +296,12 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     // KEYBOARD HANDLER /////////////////////////
     
     // Set the keyboard handler
-    osg::ref_ptr<KeyboardEventHandler> p_keyboard_event_handler = new KeyboardEventHandler(bullet_environment);
+    osg::ref_ptr<KeyboardEventHandler> p_keyboard_event_handler = new KeyboardEventHandler(bullet_environment, this);
     this->viewer->addEventHandler(p_keyboard_event_handler);
+}
+
+osgViewer::Viewer * simulator::OSGEnvironment::getViewer() const {
+    return this->viewer;
 }
 
 void simulator::OSGEnvironment::run() {

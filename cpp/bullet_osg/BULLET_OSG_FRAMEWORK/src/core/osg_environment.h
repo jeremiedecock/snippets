@@ -24,6 +24,30 @@
 
 namespace simulator {
 
+    class OSGEnvironment {
+
+        // TODO: cette classe devrait être un singleton ?!
+
+        private:
+            osgViewer::Viewer * viewer;
+            bool useFogEffect;
+            bool useFullScreen;
+
+        public:
+            static const unsigned int receivesShadowTraversalMask;
+            static const unsigned int castsShadowTraversalMask;
+
+            OSGEnvironment(BulletEnvironment * bullet_environment,
+                           std::vector<simulator::Part *> * objects_vec);
+            
+            osgViewer::Viewer * getViewer() const;
+
+            void run();
+
+            ~OSGEnvironment();
+    };
+
+
     class PhysicsCallback : public osg::NodeCallback {
         // This callback should be applied only to the root osgNode as physics
         // should be updated once per traversal.
@@ -44,37 +68,16 @@ namespace simulator {
         
         private:
             BulletEnvironment * bulletEnvironment;
+            OSGEnvironment * osgEnvironment;
 
         public:
-            KeyboardEventHandler(BulletEnvironment * bullet_environment);
+            KeyboardEventHandler(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment);
 
             /**
              * osgGA::GUIEventAdapter  supplies the received events
              * osgGA::GUIActionAdapter parameter for feedback
              */
             virtual bool handle(const osgGA::GUIEventAdapter& event_adapter, osgGA::GUIActionAdapter& action_adapter);
-    };
-
-
-    class OSGEnvironment {
-
-        // TODO: cette classe devrait être un singleton ?!
-
-        private:
-            osgViewer::Viewer * viewer;
-            bool useFogEffect;
-            bool useFullScreen;
-
-        public:
-            static const unsigned int receivesShadowTraversalMask;
-            static const unsigned int castsShadowTraversalMask;
-
-            OSGEnvironment(BulletEnvironment * bullet_environment,
-                           std::vector<simulator::Part *> * objects_vec);
-            
-            void run();
-
-            ~OSGEnvironment();
     };
 
 }
