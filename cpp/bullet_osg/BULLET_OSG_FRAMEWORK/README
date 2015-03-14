@@ -4,6 +4,8 @@ BUILD:
   mkdir build
   cd build
   cmake ..
+  ccmake
+     select options then press 'c' then 'g'
   make
 
 MAKE DOCUMENTATION:
