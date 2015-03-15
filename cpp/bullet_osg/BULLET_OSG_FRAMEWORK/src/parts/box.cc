@@ -11,6 +11,8 @@
 #include "osg_environment.h"
 #include "tools/tools.h"
 
+#include <iostream>
+
 #include <osg/Geode>
 #include <osg/Group>
 #include <osg/Material>
@@ -20,6 +22,8 @@
 #include <Eigen/Dense>
 
 #include <btBulletDynamicsCommon.h>
+
+int simulator::Box::numInstances = 0;
 
 simulator::Box::Box(Eigen::Vector3d initial_dimension,
                     Eigen::Vector3d initial_position,
@@ -36,6 +40,15 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     this->initialVelocity = initial_velocity;
     this->initialAngularVelocity = initial_angular_velocity;
     this->mass = mass; 
+
+    // Define the name of this instance
+    // TODO: this should be the *default* name in case the actual name is not given to the constructor
+    // if(...) {
+    //    ...
+    // } else {
+    Box::numInstances++;
+    this->name = "box" + std::to_string(Box::numInstances); // C++11 only ; see http://stackoverflow.com/questions/191757/c-concatenate-string-and-int
+    // }
 
     // BULLET
     
@@ -112,5 +125,9 @@ simulator::Box::~Box() {
     //delete this->osgShapeDrawable;
     //delete this->osgGeode;
     //delete this->osgPAT;
+}
+
+std::string simulator::Box::getName() const {
+    return this->name;
 }
 

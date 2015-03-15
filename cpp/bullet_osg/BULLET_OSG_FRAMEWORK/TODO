@@ -17,23 +17,16 @@ x Remplacer le makefile par un cmakelist -> Créer une arborescence et des modul
 x Ajouter des matériaux pour les objets "Part"
 
 - Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
-+ Key print camera coordinates
+x Key print camera coordinates
 x Key take screenshot
 x Key start/stop recording -> screencast
 x Add OSG fog
-
-- Améliorer le rendu graphique: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
-  + improve shadow technics
-- Faire des vidéos et les poster sur jdhp
 
 x Doxygen
 x Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
 x Améliorer le réalisme des simulations physiques
 x Renommer le répertoire "simulation" -> "scenes"
   adapter le cmakelist pour créer plusieurs scenes co. ds metis (chaque scene = 1 exe)
-+ Permettre de lancer une simulation sans interface graphique (sans osg)
-  permetter de remplacer le "physicsCallback"
-  ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
 + Exporter un fichier stat (dat ou json ?)
   -> classe Log qui utilise le pattern Observateur (+ s'inspirer des logs de metis)
      - Part = sujet
@@ -50,12 +43,21 @@ x Renommer le répertoire "simulation" -> "scenes"
      - Simulation time, User time, Time step, Fixed sub time step, Sub steps, Max sub steps + FPS
      - Forces, accélérations, vitesse, position, énergie, ... des Parts
      - Forces, accélérations, vitesse, position, énergie, ... des Objets
-+ Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
++ Permettre de lancer une simulation sans interface graphique (sans osg)
+  permetter de remplacer le "physicsCallback"
+  ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
 + Vérifier le code physique, ...
 + Classe Object qui contient un vecteur de Parts
+
++ Charnières: classe "Hinge" qui hérite de "Part" + faire des démos
+- Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
+  btHingeConstraint.enableAngularMotor(...)
++ Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
+  créer une classe fille de osgViewer::ScreenCaptureHandler::WriteToFile avec un compteur de temps (attention: pas le temps réel mais le temps de la simulation)...
+
 - Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
-- Fonctions virtuelles pures dans Parts et Objects
+- Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
 - Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
 - Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
 - Scale units factor (mm ?, kg ?, ...)
@@ -63,9 +65,6 @@ x Renommer le répertoire "simulation" -> "scenes"
 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
-
-+ Charnières: classe "Hinge" qui hérite de "Part" + faire des démos
-- Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
 
 - Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
   -> accéléromètre (facile ?)
@@ -89,6 +88,10 @@ x Renommer le répertoire "simulation" -> "scenes"
 - Contrôleurs: classe "Controler" -> pattern listener : écoute les sensors et agit sur les actuators
   -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
 - Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
+
+- Améliorer le rendu graphique: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
+  + improve shadow technics
+- Faire des vidéos et les poster sur jdhp
 
 Copier dans BOTSIM v2.0:
 -> Créer des contrôleurs

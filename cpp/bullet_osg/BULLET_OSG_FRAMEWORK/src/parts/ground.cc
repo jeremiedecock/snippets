@@ -94,3 +94,7 @@ simulator::Ground::~Ground() {
     //delete this->osgPAT;
 }
 
+std::string simulator::Ground::getName() const {
+    return "Ground";
+}
+

@@ -10,6 +10,8 @@
 #ifndef PART_H
 #define PART_H
 
+#include <string>
+
 #include <osg/Group>
 #include <osg/PositionAttitudeTransform>
 
@@ -29,6 +31,8 @@ namespace simulator {
             osg::PositionAttitudeTransform * osgPAT;
 
         public:
+            virtual std::string getName() const = 0;
+
             btRigidBody * getRigidBody() const;
 
             osg::Node * getOSGGroup() const;

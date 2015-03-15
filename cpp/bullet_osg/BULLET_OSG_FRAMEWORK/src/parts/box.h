@@ -35,6 +35,7 @@ namespace simulator {
             osg::Geode * osgGeode;
 
             // Common
+            std::string name;                         // the name of this instance
             Eigen::Vector3d initialDimension;         // which unit ? mm ?
             Eigen::Vector3d initialPosition;          // which unit ? mm ?
             Eigen::Vector4d initialAngle;             // which unit ? rad ? deg ?
@@ -42,6 +43,9 @@ namespace simulator {
             Eigen::Vector3d initialVelocity;          // which unit ? mm/s ?
             Eigen::Vector3d initialAngularVelocity;   // which unit ? mm/s ?
             double mass;                              // which unit ? Kg ?
+
+        protected:
+            static int numInstances;
 
         public:
             Box(Eigen::Vector3d initial_dimension,
@@ -53,6 +57,8 @@ namespace simulator {
                 double mass);
 
             ~Box();
+
+            std::string getName() const;
     };
 
 }

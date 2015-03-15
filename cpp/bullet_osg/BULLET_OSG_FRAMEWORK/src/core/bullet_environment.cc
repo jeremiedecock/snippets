@@ -94,12 +94,13 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_sec) {
      */
     this->getDynamicsWorld()->stepSimulation(bullet_time_step, bullet_max_sub_steps, bullet_fixed_time_sub_step);
 
-    std::cout << "Simulation time = " << this->getElapsedSimulationTimeSec() << " - ";
-    std::cout << "User time = " << this->getElapsedUserTimeSec() << " - ";
-    std::cout << "Time step = " << bullet_time_step << " - ";
-    std::cout << "Fixed sub time step = " << bullet_fixed_time_sub_step << " - ";
-    std::cout << "Sub steps = " << bullet_time_step / bullet_fixed_time_sub_step << " - ";
-    std::cout << "Max sub steps = " << bullet_max_sub_steps << std::endl;
+    //// TODO: log this
+    //std::cout << "Simulation time = " << this->getElapsedSimulationTimeSec() << " - ";
+    //std::cout << "User time = " << this->getElapsedUserTimeSec() << " - ";
+    //std::cout << "Time step = " << bullet_time_step << " - ";
+    //std::cout << "Fixed sub time step = " << bullet_fixed_time_sub_step << " - ";
+    //std::cout << "Sub steps = " << bullet_time_step / bullet_fixed_time_sub_step << " - ";
+    //std::cout << "Max sub steps = " << bullet_max_sub_steps << std::endl;
 }
 
 

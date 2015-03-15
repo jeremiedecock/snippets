@@ -34,6 +34,8 @@ namespace simulator {
             Ground();
 
             ~Ground();
+
+            std::string getName() const;
     };
 }
 
