@@ -54,7 +54,8 @@ namespace simulator {
                 Eigen::Vector3d initial_velocity,
                 Eigen::Vector3d initial_angular_velocity,
                 Eigen::Vector3d initial_inertia,
-                double mass);
+                double mass,
+                std::string name="");
 
             ~Box();
 

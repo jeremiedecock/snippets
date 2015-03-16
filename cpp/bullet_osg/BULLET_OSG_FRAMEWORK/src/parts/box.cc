@@ -31,7 +31,8 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
                     Eigen::Vector3d initial_velocity,
                     Eigen::Vector3d initial_angular_velocity,
                     Eigen::Vector3d initial_inertia,
-                    double mass) {
+                    double mass,
+                    std::string name) {
 
     this->initialDimension = initial_dimension;
     this->initialPosition = initial_position;
@@ -42,13 +43,15 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     this->mass = mass; 
 
     // Define the name of this instance
-    // TODO: this should be the *default* name in case the actual name is not given to the constructor
-    // if(...) {
-    //    ...
-    // } else {
-    Box::numInstances++;
-    this->name = "box" + std::to_string(Box::numInstances); // C++11 only ; see http://stackoverflow.com/questions/191757/c-concatenate-string-and-int
-    // }
+    if(name != "") {
+        this->name = name;
+    } else {
+        // Default name
+        Box::numInstances++;
+        this->name = "box" + std::to_string(Box::numInstances); // C++11 only ; see http://stackoverflow.com/questions/191757/c-concatenate-string-and-int
+    }
+
+    //std::cout << "build " << this->name << std::endl;
 
     // BULLET
     
