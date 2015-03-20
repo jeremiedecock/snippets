@@ -20,7 +20,7 @@
 simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> * objects_vec) {
     // Set bullet constants
     this->gravity = -10.;
-    this->bulletMaxSubSteps = 50;                                 // TODO
+    this->bulletMaxSubSteps = 1000;                                 // TODO
     this->bulletFixedTimeSubStepSec = btScalar(1.) / btScalar(300.); // TODO
 
     // Setup bullet
