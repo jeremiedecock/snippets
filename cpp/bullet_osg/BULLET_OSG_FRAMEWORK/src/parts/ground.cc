@@ -85,11 +85,11 @@ simulator::Ground::Ground() {
 }
 
 simulator::Ground::~Ground() {
+    delete this->groundMotionState;
+    delete this->groundShape;
+
     delete this->rigidBody->getMotionState(); // TODO ?
     delete this->rigidBody; // TODO ?
-
-    delete this->groundShape;
-    delete this->groundMotionState;
 
     //delete this->osgPAT;
 }

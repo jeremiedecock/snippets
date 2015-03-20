@@ -13,7 +13,7 @@
 #include "part.h"
 
 #include <chrono>
-#include <vector>
+#include <set>
 
 #include <Eigen/Dense>
 
@@ -32,8 +32,6 @@ namespace simulator {
             btCollisionDispatcher * collisionDispatcher;
             btSequentialImpulseConstraintSolver * constraintSolver;
 
-            std::vector<simulator::Part *> * objectsVec;
-
             double gravity;
 
             /**
@@ -51,7 +49,12 @@ namespace simulator {
             double bulletFixedTimeSubStepSec;
 
         public:
-            BulletEnvironment(std::vector<simulator::Part *> * objects_vec);
+            std::set<simulator::Part *> * partsSet;
+
+        public:
+            BulletEnvironment(std::set<simulator::Part *> * parts_set);
+
+            ~BulletEnvironment();
 
             btDiscreteDynamicsWorld * getDynamicsWorld() const;
 
@@ -70,8 +73,6 @@ namespace simulator {
              * Return the actual user time i.e. outside the simulation.
              */
             double getElapsedUserTimeSec() const;
-
-            ~BulletEnvironment();
     };
 
 }

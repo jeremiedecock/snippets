@@ -10,14 +10,13 @@
 #include "bullet_environment.h"
 
 #include <iostream>
-#include <vector>
 
 #include <Eigen/Dense>
 
 #include <btBulletDynamicsCommon.h>
 
 
-simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> * objects_vec) {
+simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> * parts_set) {
     // Set bullet constants
     this->gravity = -10.;
     this->bulletMaxSubSteps = 1000;                                 // TODO
@@ -37,11 +36,11 @@ simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> *
             this->collisionConfiguration);
     this->dynamicsWorld->setGravity(btVector3(0, 0, this->gravity));
 
-    this->objectsVec = objects_vec;
+    this->partsSet = parts_set;
 
     // Add rigid bodies
-    std::vector<simulator::Part *>::iterator it;
-    for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
+    std::set<simulator::Part *>::iterator it;
+    for(it = this->partsSet->begin() ; it != this->partsSet->end() ; it++) {
         this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
     }
 
@@ -52,6 +51,14 @@ simulator::BulletEnvironment::BulletEnvironment(std::vector<simulator::Part *> *
     this->simulationTimeSec = 0.;
 }
 
+simulator::BulletEnvironment::~BulletEnvironment() {
+    delete this->dynamicsWorld;
+
+    delete this->constraintSolver;
+    delete this->collisionConfiguration;
+    delete this->collisionDispatcher;
+    delete this->broadphase;
+}
 
 btDiscreteDynamicsWorld * simulator::BulletEnvironment::getDynamicsWorld() const {
     return this->dynamicsWorld;
@@ -161,18 +168,3 @@ void simulator::BulletEnvironment::resetSimulation() {
     //}
     // TODO: reset the initial position, angle, velocity, mass, ... of each parts.
 }
-
-simulator::BulletEnvironment::~BulletEnvironment() {
-    //std::vector<simulator::Part *>::iterator it;
-    //for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
-    //    delete (*it);  // TODO: fix SIGSEGV, Segmentation fault here
-    //}
-
-    delete this->dynamicsWorld;
-
-    delete this->constraintSolver;
-    delete this->collisionConfiguration;
-    delete this->collisionDispatcher;
-    delete this->broadphase;
-}
-

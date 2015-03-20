@@ -13,7 +13,7 @@
 #include "part.h"
 #include "tools/tools.h"
 
-#include <vector>
+#include <set>
 #include <iostream>
 
 #include <Eigen/Dense>
@@ -23,9 +23,9 @@ int main(int, char **) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::vector<simulator::Part *> * objects_vec = new std::vector<simulator::Part *>;
+    std::set<simulator::Part *> * parts_set = new std::set<simulator::Part *>;
 
-    objects_vec->push_back(new simulator::Ground());
+    parts_set->insert(new simulator::Ground());
 
     double cube_size = 0.9;
 
@@ -41,16 +41,16 @@ int main(int, char **) {
                 double mass = 1.;
 
                 simulator::Part * p_part = new simulator::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
-                objects_vec->push_back(p_part);
+                parts_set->insert(p_part);
             }
         }
     }
 
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(objects_vec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(parts_set);
 
     // Init OSG /////////////////////////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * osg_environment = new simulator::OSGEnvironment(bullet_environment, objects_vec);
+    simulator::OSGEnvironment * osg_environment = new simulator::OSGEnvironment(bullet_environment, parts_set);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
     
@@ -60,7 +60,7 @@ int main(int, char **) {
 
     delete bullet_environment;
     delete osg_environment;
-    // TODO: delete object_vec and its contents
+    // TODO: delete parts_set and its contents
 
     return 0;
 }

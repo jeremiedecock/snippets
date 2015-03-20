@@ -13,7 +13,7 @@
 #include "bullet_environment.h"
 #include "part.h"
 
-#include <vector>
+#include <set>
 
 #include <osg/Group>
 #include <osg/Material>
@@ -38,7 +38,7 @@ namespace simulator {
             static const unsigned int castsShadowTraversalMask;
 
             OSGEnvironment(BulletEnvironment * bullet_environment,
-                           std::vector<simulator::Part *> * objects_vec);
+                           std::set<simulator::Part *> * parts_set);
             
             osgViewer::Viewer * getViewer() const;
 
@@ -54,11 +54,11 @@ namespace simulator {
         
         private:
             BulletEnvironment * bulletEnvironment;
-            std::vector<simulator::Part *> * objectsVec; //
+            std::set<simulator::Part *> * partsSet; //
 
         public:
             PhysicsCallback(BulletEnvironment * bullet_environment,
-                            std::vector<simulator::Part *> * objects_vec);
+                            std::set<simulator::Part *> * parts_set);
 
             virtual void operator() (osg::Node * node, osg::NodeVisitor * nv);
     };

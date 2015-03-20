@@ -10,7 +10,6 @@
 #include "osg_environment.h"
 
 #include <iostream>
-#include <vector>
 
 #include <osg/Fog>
 #include <osg/Group>
@@ -38,9 +37,9 @@ const int PRINT_CAMERA_CHAR = 'c';
 // PhysicsCallback ////////////////////////////////////////////////////////////
 
 simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment,
-                                            std::vector<simulator::Part *> * objects_vec) {
+                                            std::set<simulator::Part *> * parts_set) {
     this->bulletEnvironment = bullet_environment;
-    this->objectsVec = objects_vec;
+    this->partsSet = parts_set;
 }
 
 void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
@@ -49,8 +48,8 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
     this->bulletEnvironment->stepSimulation();
 
     // Update the position of each objects
-    std::vector<simulator::Part *>::iterator it;
-    for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
+    std::set<simulator::Part *>::iterator it;
+    for(it = this->partsSet->begin() ; it != this->partsSet->end() ; it++) {
         // Bullet
         btTransform bulletTransform;
         (*it)->getRigidBody()->getMotionState()->getWorldTransform(bulletTransform);
@@ -134,7 +133,7 @@ const unsigned int simulator::OSGEnvironment::receivesShadowTraversalMask = 0x1;
 const unsigned int simulator::OSGEnvironment::castsShadowTraversalMask = 0x2;
 
 simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment,
-                                          std::vector<simulator::Part *> * objects_vec) {
+                                          std::set<simulator::Part *> * parts_set) {
 
     // Note: the fog effect won't work if shader based shadow technique is used.
     // See http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow
@@ -157,11 +156,11 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
         osg::ref_ptr<osg::Group> p_root = new osg::Group();
 #endif // USE_SHADOW
 
-    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, objects_vec)); // Physics is updated when root is traversed
+    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, parts_set)); // Physics is updated when root is traversed
 
     // Add objects
-    std::vector<simulator::Part *>::iterator it;
-    for(it = objects_vec->begin() ; it != objects_vec->end() ; it++) {
+    std::set<simulator::Part *>::iterator it;
+    for(it = parts_set->begin() ; it != parts_set->end() ; it++) {
         p_root->addChild((*it)->getOSGPAT());
     }
 
