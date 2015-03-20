@@ -30,7 +30,12 @@ namespace simulator {
             osg::Group * osgGroup;
             osg::PositionAttitudeTransform * osgPAT;
 
+//        protected:
+//            Part() {};
+
         public:
+            virtual ~Part() {};
+
             virtual std::string getName() const = 0;
 
             btRigidBody * getRigidBody() const;

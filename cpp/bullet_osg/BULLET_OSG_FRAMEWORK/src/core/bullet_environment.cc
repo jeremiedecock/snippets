@@ -163,10 +163,10 @@ void simulator::BulletEnvironment::resetSimulation() {
 }
 
 simulator::BulletEnvironment::~BulletEnvironment() {
-    std::vector<simulator::Part *>::iterator it;
-    for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
-        delete (*it);
-    }
+    //std::vector<simulator::Part *>::iterator it;
+    //for(it = this->objectsVec->begin() ; it != this->objectsVec->end() ; it++) {
+    //    delete (*it);  // TODO: fix SIGSEGV, Segmentation fault here
+    //}
 
     delete this->dynamicsWorld;
 
