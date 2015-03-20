@@ -43,17 +43,24 @@ x Renommer le répertoire "simulation" -> "scenes"
      - Simulation time, User time, Time step, Fixed sub time step, Sub steps, Max sub steps + FPS
      - Forces, accélérations, vitesse, position, énergie, ... des Parts
      - Forces, accélérations, vitesse, position, énergie, ... des Objets
+- get OSG FPS
 + Permettre de lancer une simulation sans interface graphique (sans osg)
   permetter de remplacer le "physicsCallback"
   ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
 + Vérifier le code physique, ...
-+ Classe Object qui contient un vecteur de Parts
++ Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
++ Ajouter le "part" sphere (ou ball ?)
++ Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
 
-+ Charnières: classe "Hinge" qui hérite de "Part" + faire des démos
 - Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
   btHingeConstraint.enableAngularMotor(...)
 + Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
   créer une classe fille de osgViewer::ScreenCaptureHandler::WriteToFile avec un compteur de temps (attention: pas le temps réel mais le temps de la simulation)...
+  ou + simple, cf. src/osgViewer/Viewer.cpp "--run-max-frame-rate" ("frame rate capping")
+     https://groups.google.com/forum/#!topic/osg-users/MgMCDb2qv4c
+     http://forum.openscenegraph.org/viewtopic.php?t=2364
+     http://alphapixel.com/content/what-are-all-openscenegraph-environment-variables
+     http://comments.gmane.org/gmane.comp.graphics.openscenegraph.user/58547
 
 - Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
@@ -65,6 +72,10 @@ x Renommer le répertoire "simulation" -> "scenes"
 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
+
+- transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
+
+- Afficher les vecteurs force, etc. ac. OSG
 
 - Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
   -> accéléromètre (facile ?)
