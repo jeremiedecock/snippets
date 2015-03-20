@@ -54,7 +54,7 @@ x Renommer le répertoire "simulation" -> "scenes"
 
 - Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
   btHingeConstraint.enableAngularMotor(...)
-+ Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
+- Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
   créer une classe fille de osgViewer::ScreenCaptureHandler::WriteToFile avec un compteur de temps (attention: pas le temps réel mais le temps de la simulation)...
   ou + simple, cf. src/osgViewer/Viewer.cpp "--run-max-frame-rate" ("frame rate capping")
      https://groups.google.com/forum/#!topic/osg-users/MgMCDb2qv4c
@@ -65,10 +65,11 @@ x Renommer le répertoire "simulation" -> "scenes"
 - Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
 - Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
-- Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
-- Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets + check memleak with Valgrind
++ Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
++ Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets
++ check memleak with Valgrind + check code with lint-like static analysers (cppcheck, llvm, ...)
 - Scale units factor (mm ?, kg ?, ...)
-- Compléter la doc en ligne (doxygen)
++ Compléter la doc en ligne (doxygen)
 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
