@@ -36,10 +36,8 @@ const int PRINT_CAMERA_CHAR = 'c';
 
 // PhysicsCallback ////////////////////////////////////////////////////////////
 
-simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment,
-                                            std::set<simulator::Part *> * parts_set) {
+simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment) {
     this->bulletEnvironment = bullet_environment;
-    this->partsSet = parts_set;
 }
 
 void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
@@ -49,7 +47,7 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
 
     // Update the position of each objects
     std::set<simulator::Part *>::iterator it;
-    for(it = this->partsSet->begin() ; it != this->partsSet->end() ; it++) {
+    for(it = this->bulletEnvironment->partsSet->begin() ; it != this->bulletEnvironment->partsSet->end() ; it++) {
         // Bullet
         btTransform bulletTransform;
         (*it)->getRigidBody()->getMotionState()->getWorldTransform(bulletTransform);
@@ -132,8 +130,7 @@ bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event
 const unsigned int simulator::OSGEnvironment::receivesShadowTraversalMask = 0x1;
 const unsigned int simulator::OSGEnvironment::castsShadowTraversalMask = 0x2;
 
-simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment,
-                                          std::set<simulator::Part *> * parts_set) {
+simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment) {
 
     // Note: the fog effect won't work if shader based shadow technique is used.
     // See http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow
@@ -156,11 +153,11 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
         osg::ref_ptr<osg::Group> p_root = new osg::Group();
 #endif // USE_SHADOW
 
-    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, parts_set)); // Physics is updated when root is traversed
+    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment)); // Physics is updated when root is traversed
 
     // Add objects
     std::set<simulator::Part *>::iterator it;
-    for(it = parts_set->begin() ; it != parts_set->end() ; it++) {
+    for(it = bullet_environment->partsSet->begin() ; it != bullet_environment->partsSet->end() ; it++) {
         p_root->addChild((*it)->getOSGPAT());
     }
 

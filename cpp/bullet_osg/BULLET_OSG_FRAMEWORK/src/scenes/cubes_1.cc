@@ -41,7 +41,7 @@ int main(int, char **) {
 
     // Init OSG /////////////////////////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * osg_environment = new simulator::OSGEnvironment(bullet_environment, parts_set);
+    simulator::OSGEnvironment * osg_environment = new simulator::OSGEnvironment(bullet_environment);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
     

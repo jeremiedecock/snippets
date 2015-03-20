@@ -37,8 +37,7 @@ namespace simulator {
             static const unsigned int receivesShadowTraversalMask;
             static const unsigned int castsShadowTraversalMask;
 
-            OSGEnvironment(BulletEnvironment * bullet_environment,
-                           std::set<simulator::Part *> * parts_set);
+            OSGEnvironment(BulletEnvironment * bullet_environment);
             
             osgViewer::Viewer * getViewer() const;
 
@@ -54,11 +53,9 @@ namespace simulator {
         
         private:
             BulletEnvironment * bulletEnvironment;
-            std::set<simulator::Part *> * partsSet; //
 
         public:
-            PhysicsCallback(BulletEnvironment * bullet_environment,
-                            std::set<simulator::Part *> * parts_set);
+            PhysicsCallback(BulletEnvironment * bullet_environment);
 
             virtual void operator() (osg::Node * node, osg::NodeVisitor * nv);
     };
