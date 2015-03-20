@@ -23,7 +23,7 @@ int main(int, char **) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> * parts_set = new std::set<simulator::Part *>;
+    std::set<simulator::Part *> parts_set;
 
     simulator::Box box1(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.);
     simulator::Box box2(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
@@ -31,11 +31,11 @@ int main(int, char **) {
     simulator::Box box4(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
     simulator::Ground ground;
 
-    parts_set->insert(&ground);
-    parts_set->insert(&box1);
-    parts_set->insert(&box2);
-    parts_set->insert(&box3);
-    parts_set->insert(&box4);
+    parts_set.insert(&ground);
+    parts_set.insert(&box1);
+    parts_set.insert(&box2);
+    parts_set.insert(&box3);
+    parts_set.insert(&box4);
 
     simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(parts_set);
 

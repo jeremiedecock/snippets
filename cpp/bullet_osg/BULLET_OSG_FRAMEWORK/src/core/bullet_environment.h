@@ -49,10 +49,10 @@ namespace simulator {
             double bulletFixedTimeSubStepSec;
 
         public:
-            std::set<simulator::Part *> * partsSet;
+            std::set<simulator::Part *> partsSet;
 
         public:
-            BulletEnvironment(std::set<simulator::Part *> * parts_set);
+            BulletEnvironment(std::set<simulator::Part *> parts_set);
 
             ~BulletEnvironment();
 

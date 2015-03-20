@@ -16,7 +16,7 @@
 #include <btBulletDynamicsCommon.h>
 
 
-simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> * parts_set) {
+simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> parts_set) : partsSet(parts_set) {
     // Set bullet constants
     this->gravity = -10.;
     this->bulletMaxSubSteps = 1000;                                 // TODO
@@ -36,11 +36,9 @@ simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> * pa
             this->collisionConfiguration);
     this->dynamicsWorld->setGravity(btVector3(0, 0, this->gravity));
 
-    this->partsSet = parts_set;
-
     // Add rigid bodies
     std::set<simulator::Part *>::iterator it;
-    for(it = this->partsSet->begin() ; it != this->partsSet->end() ; it++) {
+    for(it = this->partsSet.begin() ; it != this->partsSet.end() ; it++) {
         this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
     }
 

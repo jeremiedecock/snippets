@@ -23,9 +23,9 @@ int main(int, char **) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> * parts_set = new std::set<simulator::Part *>;
+    std::set<simulator::Part *> parts_set;
 
-    parts_set->insert(new simulator::Ground());
+    parts_set.insert(new simulator::Ground());
 
     double cube_size = 0.9;
 
@@ -41,7 +41,7 @@ int main(int, char **) {
                 double mass = 1.;
 
                 simulator::Part * p_part = new simulator::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
-                parts_set->insert(p_part);
+                parts_set.insert(p_part);
             }
         }
     }
