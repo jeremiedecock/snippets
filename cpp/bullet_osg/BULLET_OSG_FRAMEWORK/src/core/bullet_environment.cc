@@ -15,11 +15,31 @@
 
 #include <btBulletDynamicsCommon.h>
 
+std::map<btDynamicsWorld *, simulator::BulletEnvironment *> simulator::BulletEnvironment::tickCallbackPointerMap;
+
+/*
+ * TODO
+ * Well... it sucks; because of the way it has been designed in Bullet, this
+ * callback *must* be a static function...
+ * This is dirty and not convenient at all...
+ */
+void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScalar time_step) {
+    //std::cout << "The world just ticked by " << static_cast<float>(time_step) << " seconds" << std::endl;
+
+    std::map<btDynamicsWorld *, BulletEnvironment *>::iterator it;
+    it = simulator::BulletEnvironment::tickCallbackPointerMap.find(world);
+
+    if(it != simulator::BulletEnvironment::tickCallbackPointerMap.end()) {
+        // Element found;
+        it->second->notifyTick();
+    }
+}
+
 
 simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> parts_set) : partsSet(parts_set) {
     // Set bullet constants
     this->gravity = -10.;
-    this->bulletMaxSubSteps = 1000;                                 // TODO
+    this->bulletMaxSubSteps = 1000;                                  // TODO
     this->bulletFixedTimeSubStepSec = btScalar(1.) / btScalar(300.); // TODO
 
     // Setup bullet
@@ -36,6 +56,14 @@ simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> part
             this->collisionConfiguration);
     this->dynamicsWorld->setGravity(btVector3(0, 0, this->gravity));
 
+    // This is a workaround for btDynamicsWorld::setInternalTickCallback().
+    simulator::BulletEnvironment::tickCallbackPointerMap[this->dynamicsWorld] = this;
+
+    // setInternalTickCallback() attachs a callback for internal ticks (substeps).
+    // Only one callback can be attached (this is not an "observer pattern").
+    // See: http://bulletphysics.org/mediawiki-1.5.8/index.php/Simulation_Tick_Callbacks
+    this->dynamicsWorld->setInternalTickCallback(simulator::BulletEnvironment::tickCallback);
+
     // Add rigid bodies
     std::set<simulator::Part *>::iterator it;
     for(it = this->partsSet.begin() ; it != this->partsSet.end() ; it++) {
@@ -50,6 +78,8 @@ simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> part
 }
 
 simulator::BulletEnvironment::~BulletEnvironment() {
+    simulator::BulletEnvironment::tickCallbackPointerMap.erase(this->dynamicsWorld);
+
     delete this->dynamicsWorld;
 
     delete this->constraintSolver;
@@ -106,6 +136,7 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_sec) {
     //std::cout << "Fixed sub time step = " << bullet_fixed_time_sub_step << " - ";
     //std::cout << "Sub steps = " << bullet_time_step / bullet_fixed_time_sub_step << " - ";
     //std::cout << "Max sub steps = " << bullet_max_sub_steps << std::endl;
+    this->notifyTimeStep();
 }
 
 
@@ -129,6 +160,60 @@ void simulator::BulletEnvironment::stepSimulation() {
 }
 
 
+void simulator::BulletEnvironment::resetSimulation() {
+    std::cout << "Reset simulation" << std::endl;
+
+    // TODO
+
+    //this->constraintSolver->reset();
+    //this->dynamicsWorld->clearForces();
+    //this->broadphase->resetPool(this->collisionDispatcher);
+    ////m_clock.reset();
+
+    //btOverlappingPairCache* pair_cache = this->dynamicsWorld->getBroadphase()->getOverlappingPairCache();
+    //btBroadphasePairArray& pair_array = pair_cache->getOverlappingPairArray();
+    //for(int i = 0; i < pair_array.size(); i++) {
+    //    pair_cache->cleanOverlappingPair(pair_array[i], this->dynamicsWorld->getDispatcher());
+    //}
+    // TODO: reset the initial position, angle, velocity, mass, ... of each parts.
+}
+
+
+void simulator::BulletEnvironment::attachTickObserver(simulator::BulletTickObserver * p_observer) {
+    this->tickObserverSet.insert(p_observer);
+}
+
+
+void simulator::BulletEnvironment::detachTickObserver(simulator::BulletTickObserver * p_observer) {
+    this->tickObserverSet.erase(p_observer);
+}
+
+
+void simulator::BulletEnvironment::attachTimeStepObserver(simulator::TimeStepObserver * p_observer) {
+    this->timeStepObserverSet.insert(p_observer);
+}
+
+
+void simulator::BulletEnvironment::detachTimeStepObserver(simulator::TimeStepObserver * p_observer) {
+    this->timeStepObserverSet.erase(p_observer);
+}
+
+
+void simulator::BulletEnvironment::notifyTick() {
+    std::set<simulator::BulletTickObserver *>::iterator it;
+    for(it = this->tickObserverSet.begin() ; it != this->tickObserverSet.end() ; it++) {
+        (*it)->update(this);
+    }
+}
+
+
+void simulator::BulletEnvironment::notifyTimeStep() {
+    std::set<simulator::TimeStepObserver *>::iterator it;
+    for(it = this->timeStepObserverSet.begin() ; it != this->timeStepObserverSet.end() ; it++) {
+        (*it)->update(this);
+    }
+}
+
 /**
  * return the simulation time (i.e. the time within the simulation) elapsed
  * since the beginning of the simulation.
@@ -146,23 +231,4 @@ double simulator::BulletEnvironment::getElapsedUserTimeSec() const {
     std::chrono::time_point<std::chrono::system_clock> current_user_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_user_time - this->userStartTime;
     return elapsed_seconds.count();
-}
-
-
-void simulator::BulletEnvironment::resetSimulation() {
-    std::cout << "Reset simulation" << std::endl;
-
-    // TODO
-
-    //this->constraintSolver->reset();
-    //this->dynamicsWorld->clearForces();
-    //this->broadphase->resetPool(this->collisionDispatcher);
-    ////m_clock.reset();
-
-    //btOverlappingPairCache* pair_cache = this->dynamicsWorld->getBroadphase()->getOverlappingPairCache();
-    //btBroadphasePairArray& pair_array = pair_cache->getOverlappingPairArray();
-    //for(int i = 0; i < pair_array.size(); i++) {
-    //    pair_cache->cleanOverlappingPair(pair_array[i], this->dynamicsWorld->getDispatcher());
-    //}
-    // TODO: reset the initial position, angle, velocity, mass, ... of each parts.
 }

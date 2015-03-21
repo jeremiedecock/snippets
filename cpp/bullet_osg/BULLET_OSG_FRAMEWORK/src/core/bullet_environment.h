@@ -13,6 +13,7 @@
 #include "part.h"
 
 #include <chrono>
+#include <map>
 #include <set>
 
 #include <Eigen/Dense>
@@ -21,11 +22,34 @@
 
 namespace simulator {
 
+    class BulletEnvironment;
+
+    class BulletTickObserver {
+        public:
+            virtual ~BulletTickObserver() {}; 
+
+            virtual void update(BulletEnvironment * bullet_environment) = 0;
+    };
+
+
+    class TimeStepObserver {
+        public:
+            virtual ~TimeStepObserver() {}; 
+
+            virtual void update(BulletEnvironment * bullet_environment) = 0;
+    };
+
+
     class BulletEnvironment {
-
-        // TODO: cette classe devrait être un singleton ?!
-
         private:
+            /**
+             * This is a workaround for btDynamicsWorld::setInternalTickCallback().
+             */
+            static std::map<btDynamicsWorld *, BulletEnvironment *> tickCallbackPointerMap;
+
+            std::set<BulletTickObserver *> tickObserverSet;
+            std::set<TimeStepObserver *> timeStepObserverSet;
+
             btDiscreteDynamicsWorld * dynamicsWorld;
             btDbvtBroadphase * broadphase;
             btDefaultCollisionConfiguration * collisionConfiguration;
@@ -51,6 +75,17 @@ namespace simulator {
         public:
             std::set<simulator::Part *> partsSet;
 
+
+        private:
+            /**
+             * This is a workaround for btDynamicsWorld::setInternalTickCallback().
+             */
+            static void tickCallback(btDynamicsWorld * world, btScalar time_step);
+
+            void notifyTick();
+
+            void notifyTimeStep();
+
         public:
             BulletEnvironment(std::set<simulator::Part *> parts_set);
 
@@ -63,6 +98,14 @@ namespace simulator {
             void stepSimulation();
 
             void resetSimulation();
+
+            void attachTickObserver(BulletTickObserver * p_observer);
+
+            void detachTickObserver(BulletTickObserver * p_observer);
+
+            void attachTimeStepObserver(TimeStepObserver * p_observer);
+
+            void detachTimeStepObserver(TimeStepObserver * p_observer);
 
             /**
              * Return the time within the simulation.

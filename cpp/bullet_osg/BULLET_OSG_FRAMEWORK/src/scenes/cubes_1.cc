@@ -11,6 +11,7 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 #include "part.h"
+#include "tools/part_logger_dat.h"
 #include "tools/tools.h"
 
 #include <set>
@@ -39,6 +40,11 @@ int main(int, char **) {
 
     simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(parts_set);
 
+    // Init log /////////////////////////////////////////////////////////////////////////
+
+    simulator::PartLoggerDat * p_dat_logger = new simulator::PartLoggerDat(parts_set, "log.dat");
+    bullet_environment->attachTimeStepObserver(p_dat_logger);
+
     // Init OSG /////////////////////////////////////////////////////////////////////////
 
     simulator::OSGEnvironment * osg_environment = new simulator::OSGEnvironment(bullet_environment);
@@ -51,7 +57,6 @@ int main(int, char **) {
 
     delete bullet_environment;
     delete osg_environment;
-    // TODO: delete parts_set and its contents
 
     return 0;
 }
