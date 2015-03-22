@@ -7,29 +7,33 @@
  * www.jdhp.org
  */
 
-#ifndef PART_LOGGER_DAT_H
-#define PART_LOGGER_DAT_H
+#ifndef PART_LOGGER_JSON_H
+#define PART_LOGGER_JSON_H
 
 #include "bullet_environment.h"
 #include "part.h"
 
 #include <fstream>
+#include <map>
 #include <set>
 #include <string>
+#include <vector>
 
 namespace simulator {
 
-    class PartLoggerDat : public TimeStepObserver {
+    class LoggerTimeStepsPartsJson : public TimeStepObserver {
         private:
             std::string filepath;
             std::ofstream * ofs;
             std::set<simulator::Part *> observedPartSet;
 
+            std::map<std::string, std::vector<double> > dataMap;
+
         public:
-            PartLoggerDat(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
+            LoggerTimeStepsPartsJson(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
                           std::string filepath="");
 
-            ~PartLoggerDat();
+            ~LoggerTimeStepsPartsJson();
 
             void update(BulletEnvironment * bullet_environment);
 
@@ -37,4 +41,4 @@ namespace simulator {
     };
 }
 
-#endif // PART_LOGGER_DAT_H
+#endif // PART_LOGGER_JSON_H

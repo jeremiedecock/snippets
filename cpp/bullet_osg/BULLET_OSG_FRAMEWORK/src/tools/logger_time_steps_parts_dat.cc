@@ -7,18 +7,14 @@
  * www.jdhp.org
  */
 
-#include "part_logger_dat.h"
+#include "logger_time_steps_parts_dat.h"
 
 #include <iostream>
 
-const std::string DEFAULT_FILE_PATH = "log.dat"; // TODO ?
+const std::string DEFAULT_FILE_PATH = "time_steps_parts.dat"; // TODO ?
 
-simulator::PartLoggerDat::PartLoggerDat(std::set<simulator::Part *> observed_parts_set, std::string filepath) {
-    //// Set logged parts
-    //std::set<Part *>::iterator it;
-    //for(it = observed_parts_set.begin() ; it != observed_parts_set.end() ; it++) {
-    //    this->attach(*it);
-    //}
+simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set, std::string filepath) {
+    // Set the observed parts set
     this->observedPartSet = observed_parts_set;
 
     // Set filepath
@@ -36,7 +32,7 @@ simulator::PartLoggerDat::PartLoggerDat(std::set<simulator::Part *> observed_par
     (* this->ofs) << "#foo" << std::endl; // TODO
 }
 
-simulator::PartLoggerDat::~PartLoggerDat() {
+simulator::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
     // Close the log file
     std::cout << "Close " << this->filepath << std::endl;
     this->ofs->flush();
@@ -46,14 +42,13 @@ simulator::PartLoggerDat::~PartLoggerDat() {
     delete this->ofs;
 }
 
-void simulator::PartLoggerDat::update(BulletEnvironment * bullet_environment) {
+void simulator::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_environment) {
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
-        // TODO: find ... if ...
         (* this->ofs) << (*it)->getPosition() << std::endl;
     }
 }
 
-std::string simulator::PartLoggerDat::getFilepath() const {
+std::string simulator::LoggerTimeStepsPartsDat::getFilepath() const {
     return this->filepath;
 }

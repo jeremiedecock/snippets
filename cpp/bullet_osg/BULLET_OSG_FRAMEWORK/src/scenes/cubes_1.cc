@@ -11,7 +11,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 #include "part.h"
-#include "tools/part_logger_dat.h"
+#include "tools/logger_time_steps_parts_dat.h"
+#include "tools/logger_time_steps_parts_json.h"
 #include "tools/tools.h"
 
 #include <set>
@@ -42,8 +43,13 @@ int main(int, char **) {
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
-    simulator::PartLoggerDat * p_dat_logger = new simulator::PartLoggerDat(parts_set, "log.dat");
+    // Dat log
+    simulator::LoggerTimeStepsPartsDat * p_dat_logger = new simulator::LoggerTimeStepsPartsDat(parts_set);
     bullet_environment->attachTimeStepObserver(p_dat_logger);
+
+    // Json log
+    simulator::LoggerTimeStepsPartsJson * p_json_logger = new simulator::LoggerTimeStepsPartsJson(parts_set);
+    bullet_environment->attachTimeStepObserver(p_json_logger);
 
     // Init OSG /////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +60,9 @@ int main(int, char **) {
     osg_environment->run();
 
     // Clean Bullet /////////////////////////////////////////////////////////////////////
+
+    delete p_dat_logger;
+    delete p_json_logger;
 
     delete bullet_environment;
     delete osg_environment;
