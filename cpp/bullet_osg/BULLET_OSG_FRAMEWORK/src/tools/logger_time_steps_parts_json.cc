@@ -39,6 +39,8 @@ simulator::LoggerTimeStepsPartsJson::LoggerTimeStepsPartsJson(std::set<simulator
     // Initialize the dataMap
     this->dataMap = std::map<std::string, std::vector<double> >();
 
+    this->dataMap["elapsed_simulation_time_sec"] = std::vector<double>();
+
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();
@@ -74,6 +76,9 @@ simulator::LoggerTimeStepsPartsJson::~LoggerTimeStepsPartsJson() {
 }
 
 void simulator::LoggerTimeStepsPartsJson::update(BulletEnvironment * bullet_environment) {
+    double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
+    this->dataMap["elapsed_simulation_time_sec"].push_back(elapsed_simulation_time_sec);
+
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();

@@ -14,6 +14,7 @@
 #include "part.h"
 
 #include <fstream>
+#include <map>
 #include <set>
 #include <string>
 
@@ -21,19 +22,16 @@ namespace simulator {
 
     class LoggerTimeStepsPartsDat : public TimeStepObserver {
         private:
-            std::string filepath;
-            std::ofstream * ofs;
             std::set<simulator::Part *> observedPartSet;
 
+            std::map<std::string, std::ofstream *> fileMap;
+
         public:
-            LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
-                                    std::string filepath="");
+            LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set);
 
             ~LoggerTimeStepsPartsDat();
 
             void update(BulletEnvironment * bullet_environment);
-
-            std::string getFilepath() const;
     };
 }
 
