@@ -62,6 +62,7 @@ namespace simulator {
              * The time within the simulation.
              */
             double simulationTimeSec;
+            double simulationTimeSecTickRes;
 
             /**
              * The actual user start time (i.e. outside the simulation).
@@ -111,6 +112,7 @@ namespace simulator {
              * Return the time within the simulation.
              */
             double getElapsedSimulationTimeSec() const;
+            double getElapsedSimulationTimeSecTickRes() const;
 
             /**
              * Return the actual user time i.e. outside the simulation.

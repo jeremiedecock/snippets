@@ -75,6 +75,7 @@ simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> part
     
     // Init the simulation clock
     this->simulationTimeSec = 0.;
+    this->simulationTimeSecTickRes = 0.;
 }
 
 simulator::BulletEnvironment::~BulletEnvironment() {
@@ -200,6 +201,8 @@ void simulator::BulletEnvironment::detachTimeStepObserver(simulator::TimeStepObs
 
 
 void simulator::BulletEnvironment::notifyTick() {
+    this->simulationTimeSecTickRes += this->bulletFixedTimeSubStepSec;
+
     std::set<simulator::BulletTickObserver *>::iterator it;
     for(it = this->tickObserverSet.begin() ; it != this->tickObserverSet.end() ; it++) {
         (*it)->update(this);
@@ -214,12 +217,22 @@ void simulator::BulletEnvironment::notifyTimeStep() {
     }
 }
 
+
 /**
  * return the simulation time (i.e. the time within the simulation) elapsed
  * since the beginning of the simulation.
  */
 double simulator::BulletEnvironment::getElapsedSimulationTimeSec() const {
     return this->simulationTimeSec;
+}
+
+
+/**
+ * return the simulation time (i.e. the time within the simulation) elapsed
+ * since the beginning of the simulation.
+ */
+double simulator::BulletEnvironment::getElapsedSimulationTimeSecTickRes() const {
+    return this->simulationTimeSecTickRes;
 }
 
 

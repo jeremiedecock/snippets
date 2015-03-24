@@ -57,7 +57,7 @@ simulator::LoggerTicksPartsDat::~LoggerTicksPartsDat() {
 }
 
 void simulator::LoggerTicksPartsDat::update(BulletEnvironment * bullet_environment) {
-    double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
+    double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSecTickRes();
 
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {

@@ -97,7 +97,7 @@ simulator::LoggerTicksPartsJson::~LoggerTicksPartsJson() {
 }
 
 void simulator::LoggerTicksPartsJson::update(BulletEnvironment * bullet_environment) {
-    double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
+    double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSecTickRes();
     this->dataMap["elapsed_simulation_time_sec"].push_back(elapsed_simulation_time_sec);
 
     std::set<Part *>::iterator it;
