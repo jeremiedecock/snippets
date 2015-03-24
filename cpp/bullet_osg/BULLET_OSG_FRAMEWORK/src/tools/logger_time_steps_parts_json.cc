@@ -48,6 +48,27 @@ simulator::LoggerTimeStepsPartsJson::LoggerTimeStepsPartsJson(std::set<simulator
         this->dataMap[part_name + "_position_x"] = std::vector<double>();
         this->dataMap[part_name + "_position_y"] = std::vector<double>();
         this->dataMap[part_name + "_position_z"] = std::vector<double>();
+
+        this->dataMap[part_name + "_angle_x"] = std::vector<double>();
+        this->dataMap[part_name + "_angle_y"] = std::vector<double>();
+        this->dataMap[part_name + "_angle_z"] = std::vector<double>();
+        this->dataMap[part_name + "_angle_w"] = std::vector<double>();
+
+        this->dataMap[part_name + "_linear_velocity_x"] = std::vector<double>();
+        this->dataMap[part_name + "_linear_velocity_y"] = std::vector<double>();
+        this->dataMap[part_name + "_linear_velocity_z"] = std::vector<double>();
+
+        this->dataMap[part_name + "_angular_velocity_x"] = std::vector<double>();
+        this->dataMap[part_name + "_angular_velocity_y"] = std::vector<double>();
+        this->dataMap[part_name + "_angular_velocity_z"] = std::vector<double>();
+
+        this->dataMap[part_name + "_total_force_x"] = std::vector<double>();
+        this->dataMap[part_name + "_total_force_y"] = std::vector<double>();
+        this->dataMap[part_name + "_total_force_z"] = std::vector<double>();
+
+        this->dataMap[part_name + "_total_troque_x"] = std::vector<double>();
+        this->dataMap[part_name + "_total_troque_y"] = std::vector<double>();
+        this->dataMap[part_name + "_total_troque_z"] = std::vector<double>();
     }
 }
 
@@ -82,11 +103,38 @@ void simulator::LoggerTimeStepsPartsJson::update(BulletEnvironment * bullet_envi
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();
-        const Eigen::Vector3d part_position = (*it)->getPosition();
+
+        const Eigen::Vector3d part_position         = (*it)->getPosition();
+        const Eigen::Vector4d part_angle            = (*it)->getAngle();
+        const Eigen::Vector3d part_linear_velocity  = (*it)->getLinearVelocity();
+        const Eigen::Vector3d part_angular_velicity = (*it)->getAngularVelocity();
+        const Eigen::Vector3d part_total_force      = (*it)->getTotalForce();
+        const Eigen::Vector3d part_total_torque     = (*it)->getTotalTorque();
 
         this->dataMap[part_name + "_position_x"].push_back(part_position[0]);
         this->dataMap[part_name + "_position_y"].push_back(part_position[1]);
         this->dataMap[part_name + "_position_z"].push_back(part_position[2]);
+
+        this->dataMap[part_name + "_angle_x"].push_back(part_angle[0]);
+        this->dataMap[part_name + "_angle_y"].push_back(part_angle[1]);
+        this->dataMap[part_name + "_angle_z"].push_back(part_angle[2]);
+        this->dataMap[part_name + "_angle_w"].push_back(part_angle[3]);
+
+        this->dataMap[part_name + "_linear_velocity_x"].push_back(part_linear_velocity[0]);
+        this->dataMap[part_name + "_linear_velocity_y"].push_back(part_linear_velocity[1]);
+        this->dataMap[part_name + "_linear_velocity_z"].push_back(part_linear_velocity[2]);
+
+        this->dataMap[part_name + "_angular_velocity_x"].push_back(part_angular_velicity[0]);
+        this->dataMap[part_name + "_angular_velocity_y"].push_back(part_angular_velicity[1]);
+        this->dataMap[part_name + "_angular_velocity_z"].push_back(part_angular_velicity[2]);
+
+        this->dataMap[part_name + "_total_force_x"].push_back(part_total_force[0]);
+        this->dataMap[part_name + "_total_force_y"].push_back(part_total_force[1]);
+        this->dataMap[part_name + "_total_force_z"].push_back(part_total_force[2]);
+
+        this->dataMap[part_name + "_total_troque_x"].push_back(part_total_torque[0]);
+        this->dataMap[part_name + "_total_troque_y"].push_back(part_total_torque[1]);
+        this->dataMap[part_name + "_total_troque_z"].push_back(part_total_torque[2]);
     }
 }
 

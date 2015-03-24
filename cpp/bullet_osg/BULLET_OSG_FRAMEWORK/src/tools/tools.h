@@ -20,12 +20,22 @@ namespace simulator {
     /**
      *
      */
-    btVector3 vec3_eigen_to_bullet(const Eigen::Vector3d &eigen_vector);
+    btVector3 vec3_eigen_to_bullet(const Eigen::Vector3d &eigen_vector); // TODO: inline
 
     /**
      *
      */
-    btQuaternion vec4_eigen_to_bullet(const Eigen::Vector4d &eigen_vector);
+    btQuaternion vec4_eigen_to_bullet(const Eigen::Vector4d &eigen_vector); // TODO: inline
+
+    /**
+     *
+     */
+    Eigen::Vector3d vec3_bullet_to_eigen(const btVector3 &bt_vector); // TODO: inline
+
+    /**
+     *
+     */
+    Eigen::Vector4d vec4_bullet_to_eigen(const btVector4 &bt_vector); // TODO: inline
 
     /**
      * Get a std::string representation of an eigen vector.

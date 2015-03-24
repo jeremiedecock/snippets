@@ -42,7 +42,6 @@ namespace simulator {
             Eigen::Vector3d initialInertia;           // which unit ? mm/s ?
             Eigen::Vector3d initialVelocity;          // which unit ? mm/s ?
             Eigen::Vector3d initialAngularVelocity;   // which unit ? mm/s ?
-            double mass;                              // which unit ? Kg ?
 
         protected:
             static int numInstances;

@@ -30,23 +30,44 @@ namespace simulator {
             osg::Group * osgGroup;
             osg::PositionAttitudeTransform * osgPAT;
 
+            double mass;                              // which unit ? Kg ?
+
 //        protected:
 //            Part() {};
 
         public:
             virtual ~Part() {};
 
-            virtual std::string getName() const = 0;
 
-            btRigidBody * getRigidBody() const;
+            // Bullet accessors (return bullet objects)
+
+            btRigidBody * getRigidBody() const; // TODO: should be protected...
+
+
+            // OSG accessors (return OSG objects)
 
             osg::Node * getOSGGroup() const;
+
+            osg::PositionAttitudeTransform * getOSGPAT() const;
+
+
+            // General accessors (return scalars, stl objects or eigen matrices)
+
+            virtual std::string getName() const = 0;
 
             Eigen::Vector3d getPosition() const;
 
             Eigen::Vector4d getAngle() const;
 
-            osg::PositionAttitudeTransform * getOSGPAT() const;
+            Eigen::Vector3d getLinearVelocity() const;
+
+            Eigen::Vector3d getAngularVelocity() const;
+
+            Eigen::Vector3d getTotalForce() const;
+
+            Eigen::Vector3d getTotalTorque() const;
+
+            double getMass() const;
     };
 
 }

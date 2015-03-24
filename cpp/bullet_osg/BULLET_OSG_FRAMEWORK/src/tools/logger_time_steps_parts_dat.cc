@@ -29,7 +29,14 @@ simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::
         this->fileMap[file_path] = new std::ofstream(file_path.c_str());
 
         // Write the header
-        (* this->fileMap[file_path]) << "#time(sec) position_x position_y position_z" << std::endl; // TODO
+        (* this->fileMap[file_path]) << "#time(sec)  ";
+        (* this->fileMap[file_path]) << "position_x position_y position_z  ";
+        (* this->fileMap[file_path]) << "angle_x angle_y angle_z angle_w  ";
+        (* this->fileMap[file_path]) << "linear_velocity_x linear_velocity_y linear_velocity_z  ";
+        (* this->fileMap[file_path]) << "angular_velocity_x angular_velocity_y angular_velocity_z  ";
+        (* this->fileMap[file_path]) << "total_force_x total_force_y total_force_z  ";
+        (* this->fileMap[file_path]) << "total_troque_x total_torque_y total_torque_z  ";
+        (* this->fileMap[file_path]) << std::endl;
     }
 }
 
@@ -57,8 +64,20 @@ void simulator::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_envir
         std::string part_name = (*it)->getName();
         std::string file_path = part_name + ".dat";
 
-        Eigen::Vector3d position_vector = (*it)->getPosition();
+        const Eigen::Vector3d position_vector         = (*it)->getPosition();
+        const Eigen::Vector4d angle_vector            = (*it)->getAngle();
+        const Eigen::Vector3d linear_velocity_vector  = (*it)->getLinearVelocity();
+        const Eigen::Vector3d angular_velicity_vector = (*it)->getAngularVelocity();
+        const Eigen::Vector3d total_force_vector      = (*it)->getTotalForce();
+        const Eigen::Vector3d total_torque_vector     = (*it)->getTotalTorque();
 
-        (* this->fileMap[file_path]) << elapsed_simulation_time_sec  << " " << simulator::eigen_vector_to_string(position_vector, " ") << std::endl;
+        (* this->fileMap[file_path]) << elapsed_simulation_time_sec << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(position_vector, " ") << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(angle_vector, " ") << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(linear_velocity_vector, " ") << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(angular_velicity_vector, " ") << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(total_force_vector, " ") << " ";
+        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(total_torque_vector, " ") << " ";
+        (* this->fileMap[file_path]) << std::endl;
     }
 }
