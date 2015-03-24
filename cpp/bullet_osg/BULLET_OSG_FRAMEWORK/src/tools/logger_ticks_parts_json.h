@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef LOGGER_TIME_STEPS_PARTS_JSON_H
-#define LOGGER_TIME_STEPS_PARTS_JSON_H
+#ifndef LOGGER_TICKS_PARTS_JSON_H
+#define LOGGER_TICKS_PARTS_JSON_H
 
 #include "bullet_environment.h"
 #include "part.h"
@@ -21,7 +21,7 @@
 
 namespace simulator {
 
-    class LoggerTimeStepsPartsJson : public TimeStepObserver {
+    class LoggerTicksPartsJson : public BulletTickObserver {
         private:
             std::string filepath;
             std::ofstream * ofs;
@@ -30,10 +30,10 @@ namespace simulator {
             std::map<std::string, std::vector<double> > dataMap;
 
         public:
-            LoggerTimeStepsPartsJson(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
+            LoggerTicksPartsJson(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
                           std::string filepath="");
 
-            ~LoggerTimeStepsPartsJson();
+            ~LoggerTicksPartsJson();
 
             void update(BulletEnvironment * bullet_environment);
 
@@ -41,4 +41,4 @@ namespace simulator {
     };
 }
 
-#endif // LOGGER_TIME_STEPS_PARTS_JSON_H
+#endif // LOGGER_TICKS_PARTS_JSON_H

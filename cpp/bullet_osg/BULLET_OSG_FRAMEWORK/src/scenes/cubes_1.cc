@@ -11,6 +11,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 #include "part.h"
+#include "tools/logger_ticks_parts_dat.h"
+#include "tools/logger_ticks_parts_json.h"
 #include "tools/logger_time_steps_parts_dat.h"
 #include "tools/logger_time_steps_parts_json.h"
 #include "tools/tools.h"
@@ -43,13 +45,21 @@ int main(int, char **) {
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
-    // Dat log
-    simulator::LoggerTimeStepsPartsDat * p_dat_logger = new simulator::LoggerTimeStepsPartsDat(parts_set);
-    bullet_environment->attachTimeStepObserver(p_dat_logger);
+    // Parts time steps dat log
+    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(parts_set);
+    bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
-    // Json log
-    simulator::LoggerTimeStepsPartsJson * p_json_logger = new simulator::LoggerTimeStepsPartsJson(parts_set);
-    bullet_environment->attachTimeStepObserver(p_json_logger);
+    // Parts time steps json log
+    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(parts_set);
+    bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
+
+    // Parts ticks dat log
+    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(parts_set);
+    bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
+
+    // Parts ticks json log
+    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(parts_set);
+    bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
     // Init OSG /////////////////////////////////////////////////////////////////////////
 
@@ -61,8 +71,10 @@ int main(int, char **) {
 
     // Clean Bullet /////////////////////////////////////////////////////////////////////
 
-    delete p_dat_logger;
-    delete p_json_logger;
+    delete p_logger_time_steps_parts_dat;
+    delete p_logger_time_steps_parts_json;
+    delete p_logger_ticks_parts_dat;
+    delete p_logger_ticks_parts_json;
 
     delete bullet_environment;
     delete osg_environment;

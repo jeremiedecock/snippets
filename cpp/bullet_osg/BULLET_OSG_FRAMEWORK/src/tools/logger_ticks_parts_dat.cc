@@ -7,12 +7,12 @@
  * www.jdhp.org
  */
 
-#include "logger_time_steps_parts_dat.h"
+#include "logger_ticks_parts_dat.h"
 #include "tools/tools.h"
 
 #include <iostream>
 
-simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set) {
+simulator::LoggerTicksPartsDat::LoggerTicksPartsDat(std::set<simulator::Part *> observed_parts_set) {
     // Set the observed parts set
     this->observedPartSet = observed_parts_set;
     
@@ -22,7 +22,7 @@ simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();
-        std::string file_path = part_name + "_time_steps.dat";
+        std::string file_path = part_name + "_ticks.dat";
 
         // Open the log file
         std::cout << "Open " << file_path << std::endl;
@@ -40,12 +40,12 @@ simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::
     }
 }
 
-simulator::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
+simulator::LoggerTicksPartsDat::~LoggerTicksPartsDat() {
     // Close the log file
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();
-        std::string file_path = part_name + "_time_steps.dat";
+        std::string file_path = part_name + "_ticks.dat";
 
         // Open the log file
         std::cout << "Close " << file_path << std::endl;
@@ -56,13 +56,13 @@ simulator::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
     }
 }
 
-void simulator::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_environment) {
+void simulator::LoggerTicksPartsDat::update(BulletEnvironment * bullet_environment) {
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
 
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
         std::string part_name = (*it)->getName();
-        std::string file_path = part_name + "_time_steps.dat";
+        std::string file_path = part_name + "_ticks.dat";
 
         const Eigen::Vector3d position_vector         = (*it)->getPosition();
         const Eigen::Vector4d angle_vector            = (*it)->getAngle();

@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef LOGGER_TIME_STEPS_PARTS_DAT_H
-#define LOGGER_TIME_STEPS_PARTS_DAT_H
+#ifndef LOGGER_TICKS_PARTS_DAT_H
+#define LOGGER_TICKS_PARTS_DAT_H
 
 #include "bullet_environment.h"
 #include "part.h"
@@ -20,19 +20,19 @@
 
 namespace simulator {
 
-    class LoggerTimeStepsPartsDat : public TimeStepObserver {
+    class LoggerTicksPartsDat : public BulletTickObserver {
         private:
             std::set<simulator::Part *> observedPartSet;
 
             std::map<std::string, std::ofstream *> fileMap;
 
         public:
-            LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set);
+            LoggerTicksPartsDat(std::set<simulator::Part *> observed_parts_set);
 
-            ~LoggerTimeStepsPartsDat();
+            ~LoggerTicksPartsDat();
 
             void update(BulletEnvironment * bullet_environment);
     };
 }
 
-#endif // LOGGER_TIME_STEPS_PARTS_DAT_H
+#endif // LOGGER_TICKS_PARTS_DAT_H

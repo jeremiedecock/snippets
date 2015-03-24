@@ -95,6 +95,6 @@ simulator::Ground::~Ground() {
 }
 
 std::string simulator::Ground::getName() const {
-    return "Ground";
+    return "ground";
 }
 
