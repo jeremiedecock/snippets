@@ -39,19 +39,19 @@ namespace simulator {
             virtual ~Part() {};
 
 
-            // Bullet accessors (return bullet objects)
+            // Bullet accessors (return bullet objects) ///////////////////////////////////////////
 
             btRigidBody * getRigidBody() const; // TODO: should be protected...
 
 
-            // OSG accessors (return OSG objects)
+            // OSG accessors (return OSG objects) /////////////////////////////////////////////////
 
             osg::Node * getOSGGroup() const;
 
             osg::PositionAttitudeTransform * getOSGPAT() const;
 
 
-            // General accessors (return scalars, stl objects or eigen matrices)
+            // General accessors (return scalars, stl objects or eigen matrices) //////////////////
 
             virtual std::string getName() const = 0;
 
@@ -63,8 +63,18 @@ namespace simulator {
 
             Eigen::Vector3d getAngularVelocity() const;
 
+            /**
+             * TotalForce is always equals to 0 outside the Bullet's "internalTickCallback".
+             * See http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=9688 :
+             * "[...] one of the last lines of StepSim is ClearForces [...]."
+             */
             Eigen::Vector3d getTotalForce() const;
 
+            /**
+             * TotalTorque is always equals to 0 outside the Bullet's "internalTickCallback".
+             * See http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=9688 :
+             * "[...] one of the last lines of StepSim is ClearForces [...]."
+             */
             Eigen::Vector3d getTotalTorque() const;
 
             double getMass() const;
