@@ -145,6 +145,20 @@ Copier dans BOTSIM v2.0:
          => distinguer également:
             - le rendu *d'images* offline (luxrender, yafaray, povray, ...)
             - l'export *de scenes* (fichiers texte) offline (luxrender, yafaray, povray, ...)
+  => il faut déléguer le rendu de chaque part (material, textures, ...) dans
+     des méthodes à appeler dans le callback de rendu. Pour permettre le rendu
+     d'une instance d'une classe fille de "Part", la classe correspondant doit
+     implémenter l'interface "PartX" avec "X" le nom du moteur (ex: "Box" doit
+     implémenter "PartPovray" pour être rendu avec Povray, "PartOSG" pour être
+     rendu dans OSG, ...). => permet de supprimer toute dépendance à OSG dans le
+     module "Part".  Ces interfaces ("PartOSG", "PartPovray", ...) déclarent une
+     seul méthode (appelée par le callback de rendu).
+     Seul le maillage de la pièce (un fichier STL) est commun à tous les moteurs
+     de rendu et donc défini directement dans "Part" => ça permet de pouvoir
+     faire quand même un rendu de "Box" avec OSG (par exemple) même s'il
+     n'implémente pas l'interface "PartOSG": seules les les textures,
+     matérials, etc. seront ignorées (car non défini pour le moteur de
+     rendu utilisé...).
 
 - Singleton OSG / Bullet ? -> bof...
 - Txt infos (hinge constraints, ...)
