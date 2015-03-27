@@ -29,9 +29,9 @@ x Renommer le répertoire "simulation" -> "scenes"
   adapter le cmakelist pour créer plusieurs scenes co. ds metis (chaque scene = 1 exe)
 + Exporter un fichier stat (dat ou json ?)
   -> classe Log qui utilise le pattern Observateur (+ s'inspirer des logs de metis)
-     - Part = sujet
-     - LogJson / LogDat = observateur
-     + faire un snippet C++
+     x Part = sujet
+       LogJson / LogDat = observateur
+     x faire un snippet C++
        snippets/cpp/designpatterns/doxyfile
                                    listener
                                        subject.cpp
@@ -41,12 +41,12 @@ x Renommer le répertoire "simulation" -> "scenes"
                                    ...
   -> systeme de log générique comme pour metis:
      - Simulation time, User time, Time step, Fixed sub time step, Sub steps, Max sub steps + FPS
-     - Forces, accélérations, vitesse, position, énergie, ... des Parts
+     x Forces, accélérations, vitesse, position, énergie, ... des Parts
      - Forces, accélérations, vitesse, position, énergie, ... des Objets
 - get OSG FPS
 + Permettre de lancer une simulation sans interface graphique (sans osg)
-  permetter de remplacer le "physicsCallback"
   ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
+  cette fonction membre doit prendre en paramètre le temps que doit durer la simulation (utiliser boost pour transmettre cette valeur à l'appel de l'executable (~=getopt))
 + Vérifier le code physique, ...
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
 + Ajouter le "part" sphere (ou ball ?)
@@ -62,10 +62,10 @@ x Renommer le répertoire "simulation" -> "scenes"
      http://alphapixel.com/content/what-are-all-openscenegraph-environment-variables
      http://comments.gmane.org/gmane.comp.graphics.openscenegraph.user/58547
 
-- Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
+x Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
+x Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
-- Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
-+ Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
+x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
 + Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets
 + check memleak with Valgrind + check code with lint-like static analysers (cppcheck, llvm, ...)
 - Scale units factor (mm ?, kg ?, ...)
@@ -75,6 +75,7 @@ x Renommer le répertoire "simulation" -> "scenes"
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
 
 - transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
+- changer de licence ? (GPL ? CeCILL ? ou MIT ?)
 
 - Afficher les vecteurs force, etc. ac. OSG
 
@@ -124,6 +125,26 @@ Copier dans BOTSIM v2.0:
 - Améliorer le rendu: fog + LOD
 - Améliorer le rendu: GLSL (shaders)
 - Améliorer le rendu: motion blur
+
+- Utiliser d'autres moteurs de rendu => créer une couche d'abstraction neutre pour la partie graphique de botsim:
+  - luxrender : directement via l'api C ou via l'export de fichiers scene luxrender (ascii) pour un rendu "offline"
+                http://www.luxrender.net/en_GB/developer_api
+                http://www.luxrender.net/wiki/API_Usage_example
+                http://www.luxrender.net/wiki/LuxCore
+                http://www.luxrender.net/wiki/Scene_file_format#Introduction
+                http://www.luxrender.net/wiki/Frequently_Asked_Questions
+                http://www.luxrender.net/wiki/LuxRays
+                http://www.luxrender.net/wiki/Main_Page
+  - yafaray : directement via l'api C++ (prévu pour ?) ou via l'export de fichiers scene yafaray XML pour un rendu "offline"
+                http://www.yafaray.org/documentation/userguide
+                http://www.yafaray.org/documentation/tutorials
+  - povray : directement via l'api C++ (prévu pour ?) ou via l'export de fichiers scene PovRay (ascii) pour un rendu "offline"
+  => nécessite de distinguer:
+     - le rendu temps réel "à l'écran" (OpenGL, OSG, ...) => la boucle principale est dans l'API graphique (osgenvironment.run() par exemple) + callback pour le moteur physique à chaque frame
+     - le rendu offline "sur fichiers" (luxrender, yafaray, povray, OSG(?), blender, ...) => la boucle principale est dans l'API physique (bulletenvironment.run()) + implémenter un callback pour le moteur de rendu à chaque "timestep"
+         => distinguer également:
+            - le rendu *d'images* offline (luxrender, yafaray, povray, ...)
+            - l'export *de scenes* (fichiers texte) offline (luxrender, yafaray, povray, ...)
 
 - Singleton OSG / Bullet ? -> bof...
 - Txt infos (hinge constraints, ...)
