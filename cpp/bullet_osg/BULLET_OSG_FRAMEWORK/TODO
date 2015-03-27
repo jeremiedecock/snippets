@@ -102,7 +102,8 @@ x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient 
   -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
 - Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
 
-- Améliorer le rendu graphique: régler correctement les matériaux -> faire une appli dédiée OSG_Qt_Lab ?
+- Améliorer le rendu graphique: régler correctement les matériaux
+  => faire une appli dédiée OSG_Qt_Lab (ex: http://www.it.hiof.no/~borres/j3d/explain/light/p-mated.html )
   + improve shadow technics
 - Faire des vidéos et les poster sur jdhp
 
