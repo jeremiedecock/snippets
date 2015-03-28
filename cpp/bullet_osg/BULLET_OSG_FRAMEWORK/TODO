@@ -74,6 +74,11 @@ x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
 
+- set custom restitution, static and kinetic friction per objects
+  http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
+  http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
+  see also blender physics part.
+
 - transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
 - changer de licence ? (GPL ? CeCILL ? ou MIT ?)
 
@@ -136,13 +141,32 @@ Copier dans BOTSIM v2.0:
                 http://www.luxrender.net/wiki/Frequently_Asked_Questions
                 http://www.luxrender.net/wiki/LuxRays
                 http://www.luxrender.net/wiki/Main_Page
-  - yafaray : directement via l'api C++ (prévu pour ?) ou via l'export de fichiers scene yafaray XML pour un rendu "offline"
-                http://www.yafaray.org/documentation/userguide
-                http://www.yafaray.org/documentation/tutorials
-  - povray : directement via l'api C++ (prévu pour ?) ou via l'export de fichiers scene PovRay (ascii) pour un rendu "offline"
+    d'importer les fichiers STL (ce que ne semble pas faire Yafaray et ce que
+    Povray ne peut faire qu'à l'aide d'un outil externe...): http://www.luxrender.net/wiki/New_in_0-8 .
+  - sunflow : http://sunflow.sourceforge.net/index.php?pg=feat
+  - PBRT : http://www.pbrt.org/index.php
+  - yafaray : directement via l'api C++ (ne semble pas vraiment prévu pour ?)
+              ou via l'export de fichiers scene yafaray XML pour un rendu "offline"
+              http://www.yafaray.org/documentation/userguide
+              http://www.yafaray.org/documentation/tutorials
+  - povray : directement via l'api C++ (ne semble pas vraiment prévu pour ?) ou
+             via l'export de fichiers scene PovRay (ascii) pour un rendu "offline"
+  À priori, luxrender est à privilégier, il dispose bien d'une
+  API conçue pour faciliter l'intégration à d'autres projets et permet
+  en plus d'importer des fichiers STL.
+  Sunflow et PovRay sont les seuls disponibles directement dans Debian Jessie.
+  En revanche, le développement de sunflow est arrêté depuis 2008 ! (le dernier
+  commit date de 2008 et le site web n'a pas été mis à jours depuis 2007)
+  À noter aussi que sunflow est écrit en Java et non en C++ et son API semble
+  tournée uniquement vers Java.
   => nécessite de distinguer:
-     - le rendu temps réel "à l'écran" (OpenGL, OSG, ...) => la boucle principale est dans l'API graphique (osgenvironment.run() par exemple) + callback pour le moteur physique à chaque frame
-     - le rendu offline "sur fichiers" (luxrender, yafaray, povray, OSG(?), blender, ...) => la boucle principale est dans l'API physique (bulletenvironment.run()) + implémenter un callback pour le moteur de rendu à chaque "timestep"
+     - le rendu temps réel "à l'écran" (OpenGL, OSG, ...) => la boucle
+       principale est dans l'API graphique (osgenvironment.run() par exemple) +
+       callback pour le moteur physique à chaque frame
+     - le rendu offline "sur fichiers" (luxrender, yafaray, povray, OSG(?),
+       blender, ...) => la boucle principale est dans l'API physique
+       (bulletenvironment.run()) + implémenter un callback pour le moteur de
+       rendu à chaque "timestep"
          => distinguer également:
             - le rendu *d'images* offline (luxrender, yafaray, povray, ...)
             - l'export *de scenes* (fichiers texte) offline (luxrender, yafaray, povray, ...)
@@ -160,6 +184,39 @@ Copier dans BOTSIM v2.0:
      n'implémente pas l'interface "PartOSG": seules les les textures,
      matérials, etc. seront ignorées (car non défini pour le moteur de
      rendu utilisé...).
+
+- Rendu offline avec Blender:
+  il y a une API en Python mais pas en C/C++ ("Blender n'est pas une librairie") cf. http://www.blender.org/forum/viewtopic.php?t=27482&sid=b6f1c87a8c54ca3d3b24eea7787efc0c .
+  L'API python:
+  - Old <= 2.49
+  - New >= 2.5
+  Les 2 versions (old / new) sont incompatibles.
+  Execution d'un script python blender sans lancer l'interface blender : option "--background"
+     http://www.blender.org/api/blender_python_api_2_61_0/info_tips_and_tricks.html#don-t-use-blender 
+     http://wiki.blender.org/index.php/Doc:2.6/Manual/Render/Command_Line
+     blender --background --python myscript.py
+     ou
+     blender myscene.blend --background --python myscript.py
+  Render and saving images:
+     http://stackoverflow.com/questions/14982836/rendering-and-saving-images-through-blender-python
+     bpy.data.scenes['Scene'].render.filepath = '/home/user/Documents/image.jpg'
+     bpy.ops.render.render( write_still=True )
+
+     http://wiki.blender.org/index.php/Dev:2.5/Py/Scripts/Cookbook/Code_snippets/World_view_renderer
+     render = bpy.context.scene.render
+     render.resolution_x = 720
+     render.resolution_y = 576
+     render.resolution_percentage = 100
+     render.fps = 24    
+     render.use_raytrace = False
+     render.use_color_management = True
+     render.use_sss = False
+  Create objects:
+     http://wiki.blender.org/index.php/Dev:2.5/Py/Scripts/Cookbook/Code_snippets/Three_ways_to_create_objects
+  Manual http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python
+         http://www.blender.org/api/blender_python_api_2_74_0/
+  Import STL files: http://stackoverflow.com/questions/25083566/import-stl-script-blender
+     bpy.ops.import_mesh.stl(filepath="C://Users//Dom//Documents//DomCorp.//mymodel.stl", filter_glob="*.stl",  files=[{"name":"mymodel.stl", "name":"mymodel.stl"}], directory="C://Users//Dom//Documents//DomCorp.")
 
 - Singleton OSG / Bullet ? -> bof...
 - Txt infos (hinge constraints, ...)
