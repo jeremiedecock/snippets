@@ -1,0 +1,43 @@
+Il y a une API en Python mais pas en C/C++ ("Blender n'est pas une librairie") cf. http://www.blender.org/forum/viewtopic.php?t=27482&sid=b6f1c87a8c54ca3d3b24eea7787efc0c .
+L'API python:
+  - Old <= 2.49
+  - New >= 2.5
+Les 2 versions (old / new) sont incompatibles.
+
+
+Manual http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python
+       http://www.blender.org/api/blender_python_api_2_74_0/
+
+
+Execution d'un script python blender sans lancer l'interface blender : option "--background"
+     http://www.blender.org/api/blender_python_api_2_61_0/info_tips_and_tricks.html#don-t-use-blender 
+     http://wiki.blender.org/index.php/Doc:2.6/Manual/Render/Command_Line
+
+     blender --background --python myscript.py
+     ou
+     blender myscene.blend --background --python myscript.py
+
+
+Render and saving images:
+     http://wiki.blender.org/index.php/Dev:2.5/Py/Scripts/Cookbook/Code_snippets/World_view_renderer
+     render = bpy.context.scene.render
+     render.resolution_x = 720
+     render.resolution_y = 576
+     render.resolution_percentage = 100
+     render.fps = 24    
+     render.use_raytrace = False
+     render.use_color_management = True
+     render.use_sss = False
+
+     http://stackoverflow.com/questions/14982836/rendering-and-saving-images-through-blender-python
+     bpy.data.scenes['Scene'].render.filepath = '/home/user/Documents/image.jpg'
+     bpy.ops.render.render( write_still=True )
+
+
+Create objects:
+     http://wiki.blender.org/index.php/Dev:2.5/Py/Scripts/Cookbook/Code_snippets/Three_ways_to_create_objects
+
+
+Import STL files: http://stackoverflow.com/questions/25083566/import-stl-script-blender
+     bpy.ops.import_mesh.stl(filepath="C://Users//Dom//Documents//DomCorp.//mymodel.stl", filter_glob="*.stl",  files=[{"name":"mymodel.stl", "name":"mymodel.stl"}], directory="C://Users//Dom//Documents//DomCorp.")
+
