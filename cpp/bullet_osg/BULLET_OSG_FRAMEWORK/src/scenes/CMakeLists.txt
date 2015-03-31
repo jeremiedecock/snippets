@@ -20,6 +20,7 @@ endmacro()
 # Set options
 option(BUILD_DEMO "Build the default demo (falling cubes)" ON)
 option(BUILD_CUBES_1 "Build cubes 1 (4 falling cubes with various sizes and weights)" OFF)
+option(BUILD_FALLING_SPHERE "Build falling sphere (1 falling sphere)" OFF)
 
 # Set executables
 if(BUILD_DEMO)
@@ -30,3 +31,6 @@ if(BUILD_CUBES_1)
     config_and_add_executable(cubes_1 cubes_1.cc)
 endif(BUILD_CUBES_1)
 
+if(BUILD_FALLING_SPHERE)
+    config_and_add_executable(falling_sphere falling_sphere.cc)
+endif(BUILD_FALLING_SPHERE)
