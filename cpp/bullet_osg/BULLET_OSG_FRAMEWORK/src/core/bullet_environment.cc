@@ -245,3 +245,17 @@ double simulator::BulletEnvironment::getElapsedUserTimeSec() const {
     std::chrono::duration<double> elapsed_seconds = current_user_time - this->userStartTime;
     return elapsed_seconds.count();
 }
+
+/**
+ * 
+ */
+double simulator::BulletEnvironment::getBulletFixedTimeSubStepSec() const {
+    return this->bulletFixedTimeSubStepSec;
+}
+
+/**
+ * 
+ */
+double simulator::BulletEnvironment::getBulletMaxSubSteps() const {
+    return this->bulletMaxSubSteps;
+}

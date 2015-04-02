@@ -15,6 +15,8 @@
 #include "tools/logger_ticks_parts_json.h"
 #include "tools/logger_time_steps_parts_dat.h"
 #include "tools/logger_time_steps_parts_json.h"
+#include "tools/logger_time_steps_bullet_environment_dat.h"
+#include "tools/logger_time_steps_bullet_environment_json.h"
 #include "tools/tools.h"
 
 #include <set>
@@ -47,6 +49,14 @@ int main(int, char **) {
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
+    // Bullet time steps dat log
+    simulator::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new simulator::LoggerTimeStepsBulletEnvironmentDat();
+    bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_dat);
+
+    // Bullet time steps json log
+    simulator::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new simulator::LoggerTimeStepsBulletEnvironmentJson();
+    bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
+
     // Parts time steps dat log
     simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(parts_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
@@ -73,6 +83,8 @@ int main(int, char **) {
 
     // Clean Bullet /////////////////////////////////////////////////////////////////////
 
+    delete p_logger_time_steps_bullet_environment_dat;
+    delete p_logger_time_steps_bullet_environment_json;
     delete p_logger_time_steps_parts_dat;
     delete p_logger_time_steps_parts_json;
     delete p_logger_ticks_parts_dat;

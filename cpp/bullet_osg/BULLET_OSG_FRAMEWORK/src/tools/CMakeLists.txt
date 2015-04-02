@@ -3,6 +3,8 @@
 set(tools_src tools.h tools.cc
               logger_time_steps_parts_dat.h  logger_time_steps_parts_dat.cc
               logger_time_steps_parts_json.h logger_time_steps_parts_json.cc
+              logger_time_steps_bullet_environment_dat.h  logger_time_steps_bullet_environment_dat.cc
+              logger_time_steps_bullet_environment_json.h logger_time_steps_bullet_environment_json.cc
               logger_ticks_parts_dat.h  logger_ticks_parts_dat.cc
               logger_ticks_parts_json.h logger_ticks_parts_json.cc)
 

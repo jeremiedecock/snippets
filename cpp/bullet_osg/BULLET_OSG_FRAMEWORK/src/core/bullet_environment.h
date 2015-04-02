@@ -118,6 +118,16 @@ namespace simulator {
              * Return the actual user time i.e. outside the simulation.
              */
             double getElapsedUserTimeSec() const;
+
+            /**
+             * 
+             */
+            double getBulletFixedTimeSubStepSec() const;
+
+            /**
+             * 
+             */
+            double getBulletMaxSubSteps() const;
     };
 
 }
