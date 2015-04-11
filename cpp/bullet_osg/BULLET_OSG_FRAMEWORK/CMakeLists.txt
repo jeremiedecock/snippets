@@ -79,13 +79,19 @@ endif(USE_GCOV)
 #endif(USE_EXPERIMENTAL)
 
 
-## EIGEN ######################################################################
+## BOOST ######################################################################
 
-# Find and setup Eigen 3 for this project
-find_package(Eigen3)
+# See http://stackoverflow.com/questions/6646405/how-do-you-add-boost-libraries-in-cmakelists-txt
 
-# Eigen 3 includes
-include_directories(${EIGEN3_INCLUDE_DIR})
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+
+# Find and setup Boost for this project
+find_package(Boost 1.55.0 COMPONENTS program_options)
+
+# Boost includes
+include_directories(${Boost_INCLUDE_DIRS})
 
 
 ## BULLET #####################################################################
@@ -95,6 +101,15 @@ find_package(Bullet)
 
 # Bullet includes
 include_directories(${BULLET_INCLUDE_DIRS})
+
+
+## EIGEN ######################################################################
+
+# Find and setup Eigen 3 for this project
+find_package(Eigen3)
+
+# Eigen 3 includes
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 
 ## OSG ########################################################################
