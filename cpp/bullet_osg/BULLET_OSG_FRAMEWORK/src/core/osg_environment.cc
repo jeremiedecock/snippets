@@ -36,14 +36,28 @@ const int PRINT_CAMERA_CHAR = 'c';
 
 // PhysicsCallback ////////////////////////////////////////////////////////////
 
-simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment) {
+simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
     this->bulletEnvironment = bullet_environment;
+    this->osgEnvironment = osg_environment;
 }
 
 void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
+    // Quit ?
+    double simulation_duration_sec = this->bulletEnvironment->getSimulationDurationSec();
+    if((simulation_duration_sec > 0.) && (this->bulletEnvironment->getElapsedSimulationTimeSec() > simulation_duration_sec)) {
+        // Quit
+        this->osgEnvironment->getViewer()->setDone(true);
+    }
+
     // Update the physics
-    //this->bulletEnvironment->stepSimulation(1. / 300.);
-    this->bulletEnvironment->stepSimulation();
+    double time_step_duration_sec = this->bulletEnvironment->getBulletTimeStepDurationSec();
+    if(time_step_duration_sec > 0.) {
+        // Fixed time mode
+        this->bulletEnvironment->stepSimulation(time_step_duration_sec);
+    } else {
+        // "Realtime" mode
+        this->bulletEnvironment->stepSimulation();
+    }
 
     // Update the position of each objects
     std::set<simulator::Part *>::iterator it;
@@ -130,14 +144,12 @@ bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event
 const unsigned int simulator::OSGEnvironment::receivesShadowTraversalMask = 0x1;
 const unsigned int simulator::OSGEnvironment::castsShadowTraversalMask = 0x2;
 
-simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment) {
+simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment, bool use_full_screen_mode) : useFullScreen(use_full_screen_mode) {
 
     // Note: the fog effect won't work if shader based shadow technique is used.
     // See http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow
     // and http://forum.openscenegraph.org/viewtopic.php?t=6228&view=previous
     this->useFogEffect = true;
-
-    this->useFullScreen = false;
 
 
     // MAKE THE VIEWER //////////////////////////
@@ -153,7 +165,7 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
         osg::ref_ptr<osg::Group> p_root = new osg::Group();
 #endif // USE_SHADOW
 
-    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment)); // Physics is updated when root is traversed
+    p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, this)); // Physics is updated when root is traversed
 
     // Add objects
     std::set<simulator::Part *>::iterator it;

@@ -30,14 +30,14 @@ namespace simulator {
 
         private:
             osgViewer::Viewer * viewer;
-            bool useFogEffect;
-            bool useFullScreen;
+            bool useFogEffect; // TODO: const
+            const bool useFullScreen;
 
         public:
             static const unsigned int receivesShadowTraversalMask;
             static const unsigned int castsShadowTraversalMask;
 
-            OSGEnvironment(BulletEnvironment * bullet_environment);
+            OSGEnvironment(BulletEnvironment * bullet_environment, bool use_full_screen_mode = false);
             
             osgViewer::Viewer * getViewer() const;
 
@@ -53,9 +53,10 @@ namespace simulator {
         
         private:
             BulletEnvironment * bulletEnvironment;
+            OSGEnvironment * osgEnvironment;
 
         public:
-            PhysicsCallback(BulletEnvironment * bullet_environment);
+            PhysicsCallback(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment);
 
             virtual void operator() (osg::Node * node, osg::NodeVisitor * nv);
     };

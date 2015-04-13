@@ -36,11 +36,20 @@ void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScala
 }
 
 
-simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> parts_set) : partsSet(parts_set) {
+simulator::BulletEnvironment::BulletEnvironment(
+        std::set<simulator::Part *> parts_set,
+        double bullet_time_step_duration_sec,
+        double bullet_tick_duration_sec,
+        int bullet_max_ticks_per_time_step,
+        double simulation_duration_sec) :
+            partsSet(parts_set),
+            bulletTimeStepDurationSec(bullet_time_step_duration_sec),
+            bulletTickDurationSec(bullet_tick_duration_sec),
+            bulletMaxTicksPerTimeStep(bullet_max_ticks_per_time_step),
+            simulationDurationSec(simulation_duration_sec) {
+
     // Set bullet constants
     this->gravity = -10.;
-    this->bulletMaxSubSteps = 1000;                                  // TODO
-    this->bulletFixedTimeSubStepSec = btScalar(1.) / btScalar(300.); // TODO
 
     // Setup bullet
     this->broadphase = new btDbvtBroadphase();
@@ -74,8 +83,8 @@ simulator::BulletEnvironment::BulletEnvironment(std::set<simulator::Part *> part
     this->userStartTime = std::chrono::system_clock::now();
     
     // Init the simulation clock
-    this->simulationTimeSec = 0.;
-    this->simulationTimeSecTickRes = 0.;
+    this->elapsedSimulationTimeSec = 0.;
+    this->elapsedSimulationTimeSecTickRes = 0.;
 }
 
 simulator::BulletEnvironment::~BulletEnvironment() {
@@ -97,16 +106,42 @@ btDiscreteDynamicsWorld * simulator::BulletEnvironment::getDynamicsWorld() const
 /**
  *
  */
-void simulator::BulletEnvironment::stepSimulation(const double time_step_sec) {
-    this->simulationTimeSec += time_step_sec;
+void simulator::BulletEnvironment::run() {
 
-    btScalar bullet_time_step = btScalar(time_step_sec);
-    int bullet_max_sub_steps = this->bulletMaxSubSteps;
-    btScalar bullet_fixed_time_sub_step = this->bulletFixedTimeSubStepSec;
+    // Check some variables ///////////////////////////////
+    
+    // assert this->getBulletTimeStepDurationSec() > 0.
+    if(this->getBulletTimeStepDurationSec() <= 0.) {
+        throw std::invalid_argument("BulletEnvironment::bulletTimeStepDurationSec received a negative value. Within \"healless\" mode, this variable must receive a positive value.");
+    }
+
+    // assert this->getSimulationDurationSec() > 0.
+    if(this->getSimulationDurationSec() <= 0.) {
+        throw std::invalid_argument("BulletEnvironment::simulationDurationSec received a negative value. Within \"healless\" mode, this variable must receive a positive value.");
+    }
+    
+    // Main loop (simulation loop) ////////////////////////
+    
+    while( this->getElapsedSimulationTimeSec() < this->getSimulationDurationSec() ) {
+        // Update the physics
+        this->stepSimulation(this->getBulletTimeStepDurationSec());
+    }
+}
+
+
+/**
+ *
+ */
+void simulator::BulletEnvironment::stepSimulation(const double time_step_duration_sec) {
+    this->elapsedSimulationTimeSec += time_step_duration_sec;
+
+    btScalar bullet_time_step_duration_sec = btScalar(time_step_duration_sec);
+    btScalar bullet_tick_duration_sec = this->bulletTickDurationSec;
+    int bullet_max_ticks_per_time_step = this->bulletMaxTicksPerTimeStep;
 
     // Warn the user if timeStep > maxSubSteps * fixedTimeStep
     // cf. http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World
-    if(bullet_time_step > (bullet_max_sub_steps * bullet_fixed_time_sub_step)) {
+    if(bullet_time_step_duration_sec > (bullet_max_ticks_per_time_step * bullet_tick_duration_sec)) {
         std::cerr << "Warning: simulation time will be lost (timeStep > maxSubSteps * fixedTimeStep)" << std::endl; // TODO: improve this message...
     }
 
@@ -128,15 +163,8 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_sec) {
      * time step], then you must increase the number of maxSubSteps to
      * compensate for this, otherwise your simulation is "losing" time. 
      */
-    this->getDynamicsWorld()->stepSimulation(bullet_time_step, bullet_max_sub_steps, bullet_fixed_time_sub_step);
+    this->getDynamicsWorld()->stepSimulation(bullet_time_step_duration_sec, bullet_max_ticks_per_time_step, bullet_tick_duration_sec);
 
-    //// TODO: log this
-    //std::cout << "Simulation time = " << this->getElapsedSimulationTimeSec() << " - ";
-    //std::cout << "User time = " << this->getElapsedUserTimeSec() << " - ";
-    //std::cout << "Time step = " << bullet_time_step << " - ";
-    //std::cout << "Fixed sub time step = " << bullet_fixed_time_sub_step << " - ";
-    //std::cout << "Sub steps = " << bullet_time_step / bullet_fixed_time_sub_step << " - ";
-    //std::cout << "Max sub steps = " << bullet_max_sub_steps << std::endl;
     this->notifyTimeStep();
 }
 
@@ -151,13 +179,13 @@ void simulator::BulletEnvironment::stepSimulation() {
     // Get the elapsed user time (in seconds) since the previous time step.
     std::chrono::time_point<std::chrono::system_clock> current_user_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds_since_previous_step = current_user_time - previous_user_time;
-    double time_step_sec = elapsed_seconds_since_previous_step.count();
+    double time_step_duration_sec = elapsed_seconds_since_previous_step.count();
 
     // Update previous_user_time
     previous_user_time = std::chrono::system_clock::now();
 
     // Step simulation
-    this->stepSimulation(time_step_sec);
+    this->stepSimulation(time_step_duration_sec);
 }
 
 
@@ -201,7 +229,7 @@ void simulator::BulletEnvironment::detachTimeStepObserver(simulator::TimeStepObs
 
 
 void simulator::BulletEnvironment::notifyTick() {
-    this->simulationTimeSecTickRes += this->bulletFixedTimeSubStepSec;
+    this->elapsedSimulationTimeSecTickRes += this->bulletTickDurationSec;
 
     std::set<simulator::BulletTickObserver *>::iterator it;
     for(it = this->tickObserverSet.begin() ; it != this->tickObserverSet.end() ; it++) {
@@ -223,7 +251,7 @@ void simulator::BulletEnvironment::notifyTimeStep() {
  * since the beginning of the simulation.
  */
 double simulator::BulletEnvironment::getElapsedSimulationTimeSec() const {
-    return this->simulationTimeSec;
+    return this->elapsedSimulationTimeSec;
 }
 
 
@@ -232,7 +260,7 @@ double simulator::BulletEnvironment::getElapsedSimulationTimeSec() const {
  * since the beginning of the simulation.
  */
 double simulator::BulletEnvironment::getElapsedSimulationTimeSecTickRes() const {
-    return this->simulationTimeSecTickRes;
+    return this->elapsedSimulationTimeSecTickRes;
 }
 
 
@@ -249,13 +277,27 @@ double simulator::BulletEnvironment::getElapsedUserTimeSec() const {
 /**
  * 
  */
+double simulator::BulletEnvironment::getBulletTimeStepDurationSec() const {
+    return this->bulletTimeStepDurationSec;
+}
+
+/**
+ * 
+ */
 double simulator::BulletEnvironment::getBulletFixedTimeSubStepSec() const {
-    return this->bulletFixedTimeSubStepSec;
+    return this->bulletTickDurationSec;
 }
 
 /**
  * 
  */
 double simulator::BulletEnvironment::getBulletMaxSubSteps() const {
-    return this->bulletMaxSubSteps;
+    return this->bulletMaxTicksPerTimeStep;
+}
+
+/**
+ * 
+ */
+double simulator::BulletEnvironment::getSimulationDurationSec() const {
+    return this->simulationDurationSec;
 }

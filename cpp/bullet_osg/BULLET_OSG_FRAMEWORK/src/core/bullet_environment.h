@@ -58,23 +58,25 @@ namespace simulator {
 
             double gravity;
 
+            const double simulationDurationSec;
+
             /**
              * The time within the simulation.
              */
-            double simulationTimeSec;
-            double simulationTimeSecTickRes;
+            double elapsedSimulationTimeSec;
+            double elapsedSimulationTimeSecTickRes;
 
             /**
              * The actual user start time (i.e. outside the simulation).
              */
             std::chrono::time_point<std::chrono::system_clock> userStartTime;
 
-            int bulletMaxSubSteps;
-
-            double bulletFixedTimeSubStepSec;
+            const double bulletTimeStepDurationSec;
+            const double bulletTickDurationSec;
+            const int bulletMaxTicksPerTimeStep;
 
         public:
-            std::set<simulator::Part *> partsSet;
+            const std::set<simulator::Part *> partsSet;
 
 
         private:
@@ -88,11 +90,17 @@ namespace simulator {
             void notifyTimeStep();
 
         public:
-            BulletEnvironment(std::set<simulator::Part *> parts_set);
+            BulletEnvironment(std::set<simulator::Part *> parts_set,
+                              double bullet_time_step_duration_sec=-1.0,
+                              double bullet_tick_duration_sec=0.003,
+                              int bullet_max_ticks_per_time_step=1000,
+                              double simulation_duration_sec=-1.0);
 
             ~BulletEnvironment();
 
             btDiscreteDynamicsWorld * getDynamicsWorld() const;
+
+            void run();
 
             void stepSimulation(const double time_step_sec);
 
@@ -122,12 +130,22 @@ namespace simulator {
             /**
              * 
              */
+            double getBulletTimeStepDurationSec() const;
+
+            /**
+             * 
+             */
             double getBulletFixedTimeSubStepSec() const;
 
             /**
              * 
              */
             double getBulletMaxSubSteps() const;
+
+            /**
+             * 
+             */
+            double getSimulationDurationSec() const;
     };
 
 }
