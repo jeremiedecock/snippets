@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <set>
+#include <string>
 
 #include <Eigen/Dense>
 
@@ -41,6 +42,8 @@ static int max_ticks_per_time_step = 1000;
 
 static double simulation_duration_sec = -1.0;
 
+static std::string config_file = "";
+
 /*
  * MAIN FUNCTION
  */
@@ -51,28 +54,52 @@ int main(int argc, char * argv[]) {
      * PARSE PROGRAM PARAMS
      */
 
-    // Declare the supported options.
-    po::options_description options_desc("Allowed options");
-    options_desc.add_options()
+    // Declare the group of options that are allowed on command line and config file.
+    po::options_description common_options_desc("Allowed options");
+    common_options_desc.add_options()
         ("help,h", "produce help message")
-        ("full_screen,F",                 po::value<bool>(),        (std::string("set full screen mode. Default is: ") +                          simulator::to_string(use_full_screen_mode)).c_str())
-        ("head_less,q",                   po::value<bool>(),        (std::string("set head less mode. Default is: ") +                            simulator::to_string(use_head_less_mode)).c_str())
-//        ("config",                        po::value<std::string>(), (std::string("set the config filename. Default is: ") +                       to_string(config_filename)).c_str())
+        ("full_screen,F",                 po::value<bool>(),        (std::string("set full screen mode. Take 0 or 1. Default is: ") +                                     simulator::to_string(use_full_screen_mode)).c_str())
+        ("head_less,q",                   po::value<bool>(),        (std::string("set head less mode. Take 0 or 1. Default is: ") +                                       simulator::to_string(use_head_less_mode)).c_str())
+        ("tick_duration_sec,t",           po::value<double>(),      (std::string("setup tick duration (in seconds). Take a real number. Default is: ") +                  simulator::to_string(tick_duration_sec)).c_str())
+        ("time_step_duration_sec,T",      po::value<double>(),      (std::string("setup time step duration (in seconds). Take a real number. Default is: ") +             simulator::to_string(time_step_duration_sec)).c_str())
+        ("max_ticks_per_time_step,m",     po::value<int>(),         (std::string("set the maximum number of ticks per time step. Take an integer number. Default is: ") + simulator::to_string(max_ticks_per_time_step)).c_str())
+        ("simulation_duration_sec,d",     po::value<double>(),      (std::string("setup simulation duration (in seconds). Take a real number. Default is: ") +            simulator::to_string(simulation_duration_sec)).c_str())
+        ("config,c",                      po::value<std::string>(), (std::string("name of the configuration file. Default is: \"") +                                      simulator::to_string(config_file) + std::string("\"")).c_str())
 //        ("random_seed",                   po::value<time_t>(),      (std::string("set random seed value (if seed!=0 then use a deterministic pseudo random numbers sequence). Default is: ") + to_string(seed)).c_str())
-        ("tick_duration_sec,t",           po::value<double>(),      (std::string("setup tick duration (in seconds). Take a real number. Default is: ") +           simulator::to_string(tick_duration_sec)).c_str())
-        ("time_step_duration_sec,T",      po::value<double>(),      (std::string("setup time step duration (in seconds). Take a real number. Default is: ") +      simulator::to_string(time_step_duration_sec)).c_str())
-        ("max_ticks_per_time_step,m",     po::value<int>(),         (std::string("set the maximum number of ticks per time step. Default is: ") +              simulator::to_string(max_ticks_per_time_step)).c_str())
-        ("simulation_duration_sec,d",     po::value<double>(),      (std::string("setup simulation duration (in seconds). Take a real number. Default is: ") + simulator::to_string(simulation_duration_sec)).c_str())
     ;
+
+    // Declare the group of options that are allowed on command line and config file.
+//    po::options_description local_options_desc("Allowed options");
+//    local_options_desc.add_options()
+//        ("foo,f",     po::value<int>(),         (std::string("set the maximum number of ticks per time step. Default is: ") +              simulator::to_string(max_ticks_per_time_step)).c_str())
+//    ;
 
     // Parse commandline options
     po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, options_desc), vm);
+    po::store(po::parse_command_line(argc, argv, common_options_desc), vm);
     po::notify(vm);
+
+    // Parse config file //////////////
+    
+    if(vm.count("config")) {
+        config_file = vm["config"].as<std::string>();
+    }
+
+    if(config_file != "") {
+        std::ifstream ifs(config_file.c_str());
+        if(!ifs) {
+            std::cout << "Can not open config file: " << config_file << std::endl;
+            return 0;
+        } else {
+            po::store(po::parse_config_file(ifs, common_options_desc), vm);
+            po::notify(vm);
+        }
+    }
 
     // Help
     if(vm.count("help")) {
-        std::cout << options_desc << std::endl;
+        std::cout << "This is a snippet using botsim.org, a robotic simulation framework." << std::endl << std::endl;
+        std::cout << common_options_desc << std::endl;
         return 0;
     }
 
