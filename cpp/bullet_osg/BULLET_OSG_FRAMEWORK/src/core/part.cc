@@ -83,6 +83,10 @@ double simulator::Part::getFriction() const {
     return this->friction;
 }
 
+double simulator::Part::getRollingFriction() const {
+    return this->rollingFriction;
+}
+
 double simulator::Part::getRestitution() const {
     return this->restitution;
 }

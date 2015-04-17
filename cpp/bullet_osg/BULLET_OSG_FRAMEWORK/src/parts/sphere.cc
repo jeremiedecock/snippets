@@ -33,6 +33,7 @@ simulator::Sphere::Sphere(double initial_radius,
                           Eigen::Vector3d initial_inertia,
                           double mass,
                           double friction,
+                          double rolling_friction,
                           double restitution,
                           std::string name) {
 
@@ -44,6 +45,7 @@ simulator::Sphere::Sphere(double initial_radius,
     this->initialAngularVelocity = initial_angular_velocity;
     this->mass = mass; 
     this->friction = friction; 
+    this->rollingFriction = rolling_friction; 
     this->restitution = restitution; 
 
     // Define the name of this instance
@@ -88,7 +90,7 @@ simulator::Sphere::Sphere(double initial_radius,
     //sphere_rigid_body_ci.m_linearDamping = 0.;
     //sphere_rigid_body_ci.m_angularDamping = 0.;
     sphere_rigid_body_ci.m_friction = this->friction;
-    //sphere_rigid_body_ci.m_rollingFriction = 0.;
+    sphere_rigid_body_ci.m_rollingFriction = this->rollingFriction;
     sphere_rigid_body_ci.m_restitution = this->restitution;
     //sphere_rigid_body_ci.m_linearSleepingThreshold = 0.;
     //sphere_rigid_body_ci.m_angularSleepingThreshold = 0.;

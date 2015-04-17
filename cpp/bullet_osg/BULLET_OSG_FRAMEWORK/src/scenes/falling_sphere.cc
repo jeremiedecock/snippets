@@ -39,6 +39,7 @@ namespace po = boost::program_options;
 static double radius = 1.;
 static double mass = 1.;
 static double friction = 0.5;
+static double rolling_friction = 0.;
 static double restitution = 0.;
 
 static Eigen::Vector3d initial_position;
@@ -77,6 +78,7 @@ int main(int argc, char * argv[]) {
     local_options_desc.add_options()
         ("mass",             po::value<double>(&mass)->default_value(mass), "set the sphere mass (in kilograms). Expects a decimal number.")
         ("friction",         po::value<double>(&friction)->default_value(friction), "set the sphere and the ground friction value. Expects a decimal number (ideally between 0. and 1.). Best simulation results when friction is non-zero.")
+        ("rolling_friction", po::value<double>(&rolling_friction)->default_value(rolling_friction), "set the sphere rolling friction value. Expects a decimal number (ideally between 0. and 1.).")
         ("restitution",      po::value<double>(&restitution)->default_value(restitution), "set the sphere and the ground restitution value. Expects a decimal number (ideally between 0. and 1.). Best simulation results using zero restitution.")
         ("radius",           po::value<double>(&radius)->default_value(radius), "set the sphere radius (in meters). Expects a decimal number.")
         ("position",         po::value<std::string>(&initial_position_str_opt)->default_value(initial_position_str_opt), "set the initial position vector of the sphere (in meters). Expects a vector of 3 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0\").")
@@ -107,6 +109,7 @@ int main(int argc, char * argv[]) {
     if(options.verbose) {
         std::cout << "MASS: " << mass << "kg" << std::endl;
         std::cout << "FRICTION: " << friction << std::endl;
+        std::cout << "ROLLING FRICTION: " << rolling_friction << std::endl;
         std::cout << "RESTITUTION: " << restitution << std::endl;
         std::cout << "RADIUS: " << radius << "m" << std::endl;
         std::cout << "INITIAL POSITION: " << simulator::eigen_vector_to_string(initial_position) << std::endl;
@@ -120,8 +123,8 @@ int main(int argc, char * argv[]) {
 
     std::set<simulator::Part *> parts_set;
 
-    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, restitution);
-    simulator::Ground ground(friction, restitution);
+    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
+    simulator::Ground ground(friction, rolling_friction, restitution);
 
     parts_set.insert(&sphere);
     parts_set.insert(&ground);

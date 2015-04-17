@@ -33,6 +33,7 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
                     Eigen::Vector3d initial_inertia,
                     double mass,
                     double friction,
+                    double rolling_friction,
                     double restitution,
                     std::string name) {
 
@@ -44,6 +45,7 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     this->initialAngularVelocity = initial_angular_velocity;
     this->mass = mass; 
     this->friction = friction; 
+    this->rollingFriction = rolling_friction; 
     this->restitution = restitution; 
 
     // Define the name of this instance
@@ -89,7 +91,7 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     //box_rigid_body_ci.m_linearDamping = 0.;
     //box_rigid_body_ci.m_angularDamping = 0.;
     box_rigid_body_ci.m_friction = this->friction;
-    //box_rigid_body_ci.m_rollingFriction = 0.;
+    box_rigid_body_ci.m_rollingFriction = this->rollingFriction;
     box_rigid_body_ci.m_restitution = this->restitution;
     //box_rigid_body_ci.m_linearSleepingThreshold = 0.;
     //box_rigid_body_ci.m_angularSleepingThreshold = 0.;

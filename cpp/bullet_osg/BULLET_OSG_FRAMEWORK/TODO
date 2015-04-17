@@ -51,6 +51,11 @@ x Permettre de lancer une simulation sans interface graphique (sans osg)
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
 x Ajouter le "part" sphere (ou ball ?)
 x Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
+- boost::Program_options:
+  - set OSG resolution
+  - set OSG FSAA on/off
+  - set OSG shadow on/off
+  - set OSG gauraud shading on/off
 
 - Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
   btHingeConstraint.enableAngularMotor(...)

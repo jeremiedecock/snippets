@@ -21,9 +21,11 @@
 #include <btBulletDynamicsCommon.h>
 
 simulator::Ground::Ground(double friction,
+                          double rolling_friction,
                           double restitution) {
 
     this->friction = friction; 
+    this->rollingFriction = rolling_friction; 
     this->restitution = restitution; 
 
     // BULLET
@@ -40,7 +42,7 @@ simulator::Ground::Ground(double friction,
     //ground_rigid_body_ci.m_linearDamping = 0.;
     //ground_rigid_body_ci.m_angularDamping = 0.;
     ground_rigid_body_ci.m_friction = this->friction;
-    //ground_rigid_body_ci.m_rollingFriction = 0.;
+    ground_rigid_body_ci.m_rollingFriction = this->rollingFriction;
     ground_rigid_body_ci.m_restitution = this->restitution;
     //ground_rigid_body_ci.m_linearSleepingThreshold = 0.;
     //ground_rigid_body_ci.m_angularSleepingThreshold = 0.;

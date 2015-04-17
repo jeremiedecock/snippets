@@ -55,6 +55,7 @@ namespace simulator {
                    Eigen::Vector3d initial_inertia,
                    double mass,
                    double friction=0.5,
+                   double rolling_friction=0.,
                    double restitution=0.,
                    std::string name="");
 

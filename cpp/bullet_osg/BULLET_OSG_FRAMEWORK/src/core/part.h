@@ -32,8 +32,9 @@ namespace simulator {
 
             double mass;                              // which unit ? Kg ?
 
-            double friction;                          // which unit ?
-            double restitution;                       // which unit ?
+            double friction;                          // Resistance of the part to movement
+            double rollingFriction;                   // Resistance of the part to movement. It prevents rounded shapes, such as spheres, cylinders and capsules from rolling forever.
+            double restitution;                       // Tendency of the part to bounce after colliding with another (0=stays still, 1=perfectly elastic)
 
 //        protected:
 //            Part() {};
@@ -83,6 +84,8 @@ namespace simulator {
             double getMass() const;
 
             double getFriction() const;
+
+            double getRollingFriction() const;
 
             double getRestitution() const;
     };

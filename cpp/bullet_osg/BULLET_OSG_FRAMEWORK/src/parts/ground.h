@@ -32,6 +32,7 @@ namespace simulator {
 
         public:
             Ground(double friction=0.5,
+                   double rolling_friction=0.,
                    double restitution=0.);
 
             ~Ground();
