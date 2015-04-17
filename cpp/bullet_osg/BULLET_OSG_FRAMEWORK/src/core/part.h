@@ -32,6 +32,9 @@ namespace simulator {
 
             double mass;                              // which unit ? Kg ?
 
+            double friction;                          // which unit ?
+            double restitution;                       // which unit ?
+
 //        protected:
 //            Part() {};
 
@@ -78,6 +81,10 @@ namespace simulator {
             Eigen::Vector3d getTotalTorque() const;
 
             double getMass() const;
+
+            double getFriction() const;
+
+            double getRestitution() const;
     };
 
 }

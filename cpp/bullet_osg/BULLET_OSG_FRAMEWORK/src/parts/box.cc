@@ -32,6 +32,8 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
                     Eigen::Vector3d initial_angular_velocity,
                     Eigen::Vector3d initial_inertia,
                     double mass,
+                    double friction,
+                    double restitution,
                     std::string name) {
 
     this->initialDimension = initial_dimension;
@@ -41,6 +43,8 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     this->initialVelocity = initial_velocity;
     this->initialAngularVelocity = initial_angular_velocity;
     this->mass = mass; 
+    this->friction = friction; 
+    this->restitution = restitution; 
 
     // Define the name of this instance
     if(name != "") {
@@ -76,6 +80,24 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     this->boxMotionState = new btDefaultMotionState(btTransform(bt_angle, bt_position));
 
     btRigidBody::btRigidBodyConstructionInfo box_rigid_body_ci(mass, this->boxMotionState, this->boxShape, bt_box_inertia);
+    /* 
+     * Restitution and friction
+     * see: http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
+     *      http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
+     *      http://bulletphysics.org/Bullet/BulletFull/structbtRigidBody_1_1btRigidBodyConstructionInfo.html
+     */
+    //box_rigid_body_ci.m_linearDamping = 0.;
+    //box_rigid_body_ci.m_angularDamping = 0.;
+    box_rigid_body_ci.m_friction = this->friction;
+    //box_rigid_body_ci.m_rollingFriction = 0.;
+    box_rigid_body_ci.m_restitution = this->restitution;
+    //box_rigid_body_ci.m_linearSleepingThreshold = 0.;
+    //box_rigid_body_ci.m_angularSleepingThreshold = 0.;
+    //box_rigid_body_ci.m_additionalDamping = false;
+    //box_rigid_body_ci.m_additionalDampingFactor = 0.;
+    //box_rigid_body_ci.m_additionalLinearDampingThresholdSqr = 0.;
+    //box_rigid_body_ci.m_additionalAngularDampingThresholdSqr = 0.;
+    //box_rigid_body_ci.m_additionalAngularDampingFactor = 0.;
     this->rigidBody = new btRigidBody(box_rigid_body_ci);
 
     btVector3 bt_velocity = simulator::vec3_eigen_to_bullet(this->initialVelocity);

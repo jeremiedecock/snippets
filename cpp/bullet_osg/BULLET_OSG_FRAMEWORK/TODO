@@ -44,13 +44,13 @@ x Renommer le répertoire "simulation" -> "scenes"
      x Forces, accélérations, vitesse, position, énergie, ... des Parts
      - Forces, accélérations, vitesse, position, énergie, ... des Objets
 - get OSG FPS
-+ Permettre de lancer une simulation sans interface graphique (sans osg)
+x Permettre de lancer une simulation sans interface graphique (sans osg)
   ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
   cette fonction membre doit prendre en paramètre le temps que doit durer la simulation (utiliser boost pour transmettre cette valeur à l'appel de l'executable (~=getopt))
 + Vérifier le code physique, ...
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
-+ Ajouter le "part" sphere (ou ball ?)
-+ Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
+x Ajouter le "part" sphere (ou ball ?)
+x Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
 
 - Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
   btHingeConstraint.enableAngularMotor(...)
@@ -74,7 +74,7 @@ x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient 
 - Ajouter des objets: sphere, cylindre, etc. + faire des démos
 - Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
 
-- set custom restitution, static and kinetic friction per objects
++ set custom restitution, static and kinetic friction per objects
   http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
   http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
   see also blender physics part.

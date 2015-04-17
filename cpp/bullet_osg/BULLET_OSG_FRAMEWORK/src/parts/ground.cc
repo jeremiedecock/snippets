@@ -20,13 +20,36 @@
 
 #include <btBulletDynamicsCommon.h>
 
-simulator::Ground::Ground() {
+simulator::Ground::Ground(double friction,
+                          double restitution) {
+
+    this->friction = friction; 
+    this->restitution = restitution; 
+
     // BULLET
     this->groundShape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
 
     this->groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)));
-    btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, this->groundMotionState, this->groundShape, btVector3(0, 0, 0));
-    this->rigidBody = new btRigidBody(groundRigidBodyCI);
+    btRigidBody::btRigidBodyConstructionInfo ground_rigid_body_ci(0, this->groundMotionState, this->groundShape, btVector3(0, 0, 0));
+    /* 
+     * Restitution and friction
+     * see: http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
+     *      http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
+     *      http://bulletphysics.org/Bullet/BulletFull/structbtRigidBody_1_1btRigidBodyConstructionInfo.html
+     */
+    //ground_rigid_body_ci.m_linearDamping = 0.;
+    //ground_rigid_body_ci.m_angularDamping = 0.;
+    ground_rigid_body_ci.m_friction = this->friction;
+    //ground_rigid_body_ci.m_rollingFriction = 0.;
+    ground_rigid_body_ci.m_restitution = this->restitution;
+    //ground_rigid_body_ci.m_linearSleepingThreshold = 0.;
+    //ground_rigid_body_ci.m_angularSleepingThreshold = 0.;
+    //ground_rigid_body_ci.m_additionalDamping = false;
+    //ground_rigid_body_ci.m_additionalDampingFactor = 0.;
+    //ground_rigid_body_ci.m_additionalLinearDampingThresholdSqr = 0.;
+    //ground_rigid_body_ci.m_additionalAngularDampingThresholdSqr = 0.;
+    //ground_rigid_body_ci.m_additionalAngularDampingFactor = 0.;
+    this->rigidBody = new btRigidBody(ground_rigid_body_ci);
 
     // OSG
     this->osgGroup = new osg::Group();

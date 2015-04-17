@@ -79,3 +79,11 @@ double simulator::Part::getMass() const {
     return this->mass;
 }
 
+double simulator::Part::getFriction() const {
+    return this->friction;
+}
+
+double simulator::Part::getRestitution() const {
+    return this->restitution;
+}
+

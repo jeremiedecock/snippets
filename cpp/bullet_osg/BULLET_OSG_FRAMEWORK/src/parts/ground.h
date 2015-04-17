@@ -31,7 +31,8 @@ namespace simulator {
             btDefaultMotionState * groundMotionState;
 
         public:
-            Ground();
+            Ground(double friction=0.5,
+                   double restitution=0.);
 
             ~Ground();
 
