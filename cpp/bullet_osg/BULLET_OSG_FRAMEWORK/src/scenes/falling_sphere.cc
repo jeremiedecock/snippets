@@ -36,14 +36,20 @@ namespace po = boost::program_options;
  * LOCAL OPTIONS
  */
 
-static double initial_radius = 1.;
-static Eigen::Vector3d initial_position = Eigen::Vector3d(0., 0., 50.);
-static Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
-static Eigen::Vector3d initial_velocity = Eigen::Vector3d(1., 0., 0.);
-static Eigen::Vector3d initial_angular_velocity = Eigen::Vector3d(0., 0., 0.);
-static Eigen::Vector3d initial_inertia = Eigen::Vector3d(0., 0., 0.);
+static double radius = 1.;
 static double mass = 1.;
 
+static Eigen::Vector3d initial_position;
+static Eigen::Vector4d initial_angle;
+static Eigen::Vector3d initial_velocity;
+static Eigen::Vector3d initial_angular_velocity;
+static Eigen::Vector3d initial_inertia;
+
+static std::string initial_position_str_opt         = "0.,0.,50.";
+static std::string initial_angle_str_opt            = "0.,0.,0.,1.";
+static std::string initial_velocity_str_opt         = "1.,0.,0.";
+static std::string initial_angular_velocity_str_opt = "0.,0.,0.";
+static std::string initial_inertia_str_opt          = "0.,0.,0.";
 
 /*
  * MAIN FUNCTION
@@ -67,7 +73,13 @@ int main(int argc, char * argv[]) {
 
     po::options_description local_options_desc;
     local_options_desc.add_options()
-        ("mass",     po::value<double>(&mass)->default_value(mass), "set the sphere mass (in kilogram). Expects a decimal number.")
+        ("mass",     po::value<double>(&mass)->default_value(mass), "set the sphere mass (in kilograms). Expects a decimal number.")
+        ("radius",   po::value<double>(&radius)->default_value(radius), "set the sphere radius (in meters). Expects a decimal number.")
+        ("position", po::value<std::string>(&initial_position_str_opt)->default_value(initial_position_str_opt), "set the initial position vector of the sphere (in meters). Expects a vector of 3 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0\").")
+        ("angle", po::value<std::string>(&initial_angle_str_opt)->default_value(initial_angle_str_opt), "set the initial angle of the sphere using a quaternion representation. Expects a vector of 4 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0,4.0\").")
+        ("velocity", po::value<std::string>(&initial_velocity_str_opt)->default_value(initial_velocity_str_opt), "set the initial velocity vector of the sphere. Expects a vector of 3 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0\").")
+        ("angular_velocity", po::value<std::string>(&initial_angular_velocity_str_opt)->default_value(initial_angular_velocity_str_opt), "set the initial angular velocity vector of the sphere. Expects a vector of 3 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0\").")
+        ("inertia", po::value<std::string>(&initial_inertia_str_opt)->default_value(initial_inertia_str_opt), "set the initial inertia vector of the sphere. Expects a vector of 3 decimal numbers separated with a comma and without space character (e.g. \"1.0,2.0,3.0\").")
     ;
 
     // Parse programm options (local and common)
@@ -78,17 +90,31 @@ int main(int argc, char * argv[]) {
         return options.exitValue;
     }
 
+    // Assign some options value (vectors)
+    
+    initial_position = simulator::string_to_eigen_vector3(initial_position_str_opt);
+    initial_angle = simulator::string_to_eigen_vector4(initial_angle_str_opt);
+    initial_velocity = simulator::string_to_eigen_vector3(initial_velocity_str_opt);
+    initial_angular_velocity = simulator::string_to_eigen_vector3(initial_angular_velocity_str_opt);
+    initial_inertia = simulator::string_to_eigen_vector3(initial_inertia_str_opt);
+
     // Print options value
 
     if(options.verbose) {
         std::cout << "MASS: " << mass << "kg" << std::endl;
+        std::cout << "RADIUS: " << radius << "m" << std::endl;
+        std::cout << "INITIAL POSITION: " << simulator::eigen_vector_to_string(initial_position) << std::endl;
+        std::cout << "INITIAL ANGLE: " << simulator::eigen_vector_to_string(initial_angle) << std::endl;
+        std::cout << "INITIAL VELOCITY: " << simulator::eigen_vector_to_string(initial_velocity) << std::endl;
+        std::cout << "INITIAL ANGULAR VELOCITY: " << simulator::eigen_vector_to_string(initial_angular_velocity) << std::endl;
+        std::cout << "INITIAL INERTIA: " << simulator::eigen_vector_to_string(initial_inertia) << std::endl;
     }
 
     // Init Bullet ////////////////////////////////////////////////////////////
 
     std::set<simulator::Part *> parts_set;
 
-    simulator::Sphere sphere = simulator::Sphere(initial_radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
+    simulator::Sphere sphere = simulator::Sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
     simulator::Ground ground;
 
     parts_set.insert(&sphere);
