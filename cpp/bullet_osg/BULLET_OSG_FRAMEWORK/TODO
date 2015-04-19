@@ -2,120 +2,14 @@ TODO
 
 Exemple de qualité physique et visuelle à atteindre: https://www.youtube.com/watch?v=BGAwRKPlpCw
 
-x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
-x MSAA
-x Black background
-x Light (directional ?)
-x Ajouter et utiliser asseseurs dans Objects
-x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
-x Renommer Objects -> Parts
-x Séparer les modules
-x Ombres
-x Caméra
-x Ajouter les fichiers AUTHORS et COPYING
-x Remplacer le makefile par un cmakelist -> Créer une arborescence et des modules .h/.cpp
-x Ajouter des matériaux pour les objets "Part"
 
-- Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
-x Key print camera coordinates
-x Key take screenshot
-x Key start/stop recording -> screencast
-x Add OSG fog
-
-x Doxygen
-x Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
-x Améliorer le réalisme des simulations physiques
-x Renommer le répertoire "simulation" -> "scenes"
-  adapter le cmakelist pour créer plusieurs scenes co. ds metis (chaque scene = 1 exe)
-+ Exporter un fichier stat (dat ou json ?)
-  -> classe Log qui utilise le pattern Observateur (+ s'inspirer des logs de metis)
-     x Part = sujet
-       LogJson / LogDat = observateur
-     x faire un snippet C++
-       snippets/cpp/designpatterns/doxyfile
-                                   listener
-                                       subject.cpp
-                                       listener.cpp
-                                   singleton
-                                       ...
-                                   ...
-  -> systeme de log générique comme pour metis:
-     - Simulation time, User time, Time step, Fixed sub time step, Sub steps, Max sub steps + FPS
-     x Forces, accélérations, vitesse, position, énergie, ... des Parts
-     - Forces, accélérations, vitesse, position, énergie, ... des Objets
-- get OSG FPS
-x Permettre de lancer une simulation sans interface graphique (sans osg)
-  ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
-  cette fonction membre doit prendre en paramètre le temps que doit durer la simulation (utiliser boost pour transmettre cette valeur à l'appel de l'executable (~=getopt))
-+ Vérifier le code physique, ...
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
-x Ajouter le "part" sphere (ou ball ?)
-x Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
-- boost::Program_options:
-  - set OSG resolution
-  - set OSG FSAA on/off
-  - set OSG shadow on/off
-  - set OSG gauraud shading on/off
-
-- Servomoteurs: classe "Actuator" qui hérite de la classe "Hinge"
+  + Vérifier le code physique, ...
+- Servomoteurs: classe "Actuator" qui hérite de la classe "HingeJoint" ???
   btHingeConstraint.enableAngularMotor(...)
-- Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
-  créer une classe fille de osgViewer::ScreenCaptureHandler::WriteToFile avec un compteur de temps (attention: pas le temps réel mais le temps de la simulation)...
-  ou + simple, cf. src/osgViewer/Viewer.cpp "--run-max-frame-rate" ("frame rate capping")
-     https://groups.google.com/forum/#!topic/osg-users/MgMCDb2qv4c
-     http://forum.openscenegraph.org/viewtopic.php?t=2364
-     http://alphapixel.com/content/what-are-all-openscenegraph-environment-variables
-     http://comments.gmane.org/gmane.comp.graphics.openscenegraph.user/58547
-
-x Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
-x Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
-  -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
-x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
-+ Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets
-+ check memleak with Valgrind + check code with lint-like static analysers (cppcheck, llvm, ...)
-- Scale units factor (mm ?, kg ?, ...)
-+ Compléter la doc en ligne (doxygen)
-
-- Ajouter des objets: sphere, cylindre, etc. + faire des démos
-- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
-
-+ set custom restitution, static and kinetic friction per objects
-  http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
-  http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
-  see also blender physics part.
-
 - transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
 - changer de licence ? (GPL ? CeCILL ? ou MIT ?)
 
-- Afficher les vecteurs force, etc. ac. OSG
-
-- Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
-  -> accéléromètre (facile ?)
-  -> position absolue/pseudo GPS (facile ?)
-  -> odomètre (facile ?)
-  -> gyroscope (facile ?)
-  -> position angulaire des actuateurs (facile ?)
-  -> caméra (difficile ?)
-  -> capteurs de force/de contact/de pression (difficile ?)
-  -> capteur de distance IR/ultrasons (difficile ?)
-- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
-- Créer un OSG_Bullet_Qt_Lab pour tester interactivement les propriétés physique des objets et du simulateur (des widgets permettent de "voir" immédiatement l'impact sur la simulation de la modification de certains paramètres)
-  -> charnières: impulsions, mesure du couple appliqué, mesure de l'énergie donné en entrée/dissipée/etc., résistance, autres forces (centrifuge, ...)
-  -> friction, frottements, ...
-  -> énergie des objets (cinétique, potentielle, ...) + forces appliquées
-  -> absorption/restitution de l'énergie lors des chocs
-  -> soft bodies
-  -> mesurer les vraies propriétés physique des charnières et des servo moteurs, les retranscrire sur les modèles numériques et comparer les simulations à la réalité sur des objets simples
-  -> ...
-- Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
-- Contrôleurs: classe "Controler" -> pattern listener : écoute les sensors et agit sur les actuators
-  -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
-- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
-
-- Améliorer le rendu graphique: régler correctement les matériaux
-  => faire une appli dédiée OSG_Qt_Lab (ex: http://www.it.hiof.no/~borres/j3d/explain/light/p-mated.html )
-  + improve shadow technics ( http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow )
-- Faire des vidéos et les poster sur jdhp
 
 Copier dans BOTSIM v2.0:
 -> Créer des contrôleurs
@@ -132,6 +26,102 @@ Copier dans BOTSIM v2.0:
    -> Créer un robot à 6 ou 8 pattes
 -> Optimisation les contrôleurs -> quelle "interface" dans l'API ?
    -> Permettre d'optimiser les contrôleurs de manière répartie (MPI, OpenMP, ...)
+
+
++ boost::Program_options: logs...
+  --log_bullet    filename.dat            or   filename.json
+  --log_part      partname,filename.dat   or   partname,filename.json
+  --log_part_tick partname,filename.dat   or   partname,filename.json
+
++ harmoniser les noms
+  "substeps" vs "ticks" (bullet env + logs)
+  "callback" vs "handler"
++ corriger l'erreur de segmentation: afficher un message dans chaque destructeur pour voir celui qui est en cause
++ Fichiers Dat: pour la 1ere colonne, préciser dans l'entête si il s'agit du "simulation_time" ou du "user_time"
++ scripts plot génériques
+  plot_part    --key key [--key key, ...] FILE [FILE, ...]   [--list_keys] -> list available keys
+  plot_bullet  --key key FILE   [--list_keys] -> list available keys
+  plot_3d_path
+  .dat  -> cf. DVS
+  .json -> cf. PCP
++ set damping, ... per parts
+  http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
+  http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
+  see also blender physics part.
+  Regarder les bulles d'aide Blender pour la documentation en ligne.
+- boost::Program_options:
+  - set OSG resolution
+  - set OSG MSAA on/off
+  - set OSG shadow on/off
+  - set OSG gauraud shading on/off
+- check memleak with Valgrind + check code with lint-like static analysers (cppcheck, llvm, ...)
+- ajouter une méthode getCenterOfMassPosition() pour Part et Object
+
+
+~ Supprimer le lien fort qui lie les Parts et OSG + clarification du rôle des classes "Part" et "Object":
+  Il ne doit plus y avoir le moindre code OSG dans les classes Part.
+  La classe "Part" = formes pour le moteur physique seulement !
+                     correspond à une primitives Bullet: box, sphère, capsule, ... avec des propriétés physiques (largeur, longueur, profondeur pour un box, masse, etc.).
+                     La description graphique des Part est dynamique (pas fixée à la compilation), elle est définie par un fichier STL et par diverses propriétés numériques (propriétas GL_MATERIAL, ...) qui est transmis au constructeur de la classe Part
+                     mais les Part on quand même une description graphique par défaut qui correspond exactement leur forme physique (un box aux bonnes dimensions pour un box physique, ...) dans le cas où on ne transmet pas de fichier STL.
+                     Un Objet et un Part doit pouvoir être entièrement décrit par un fichier XML (+ STL)... => remetre en cause l'utilisation de sous-classes box, sphere, ... et utiliser un enum pour l'argument "physicsShape" de Part ??? ou simplement faire en sorte que ce soit le parseur XML qui appelle le bon constructeur ?
+                       -> qu'est-ce qui différencie les box, sphere, ... hors mis les propriétés dimension (largeur-profondeur-hauteur vs rayon vs ...) ? est-ce suffisant pour justifier ces sous classes ?
+                          -> quelque soit la réponse, le code de ces classes DOIT être factorisé (via des fonctions d'aide pour le constructeur dans la classe mère Part par ex.), il y a très peu de différences entre ces classes hors mis les noms de variable... !!!
+                     Ces fichier XML pourraient être réutilisés par les moteurs de rendu externes pour un rendu graphique offline (Blender, Sunflow, Yafaray, ...).
+  Permettre aux "Objet" d'être chargés dynamiquement sous la forme de plugins
+  -> objets décrits en XML 
+
+
++ renommer "botsim" -> "botsim.org" + supprimer le référentiel svn de la page jdhp
++ créer une "main features" list sur le site web (et sur jdhp.org)
++ créer un tutoriel utilisateur de l'utilisation de la librarie sur le site web
++ faire en sorte que la bibliothèque compile et soit utilisable sur Windows et MacOS X + tester/adapter le tutoriel sur ces pates-formes
++ compléter la doc en ligne (doxygen)
+- rendre optionnel OpenSceneGraph à la compilation
++ créer une manpage
++ créer un paquet Debian
++ créer un paquet RPM (?)
+
+
+- Créer un OSG_Bullet_Qt_Lab pour tester interactivement les propriétés physique des objets et du simulateur (des widgets permettent de "voir" immédiatement l'impact sur la simulation de la modification de certains paramètres)
+  -> charnières: impulsions, mesure du couple appliqué, mesure de l'énergie donné en entrée/dissipée/etc., résistance, autres forces (centrifuge, ...)
+  -> friction, frottements, ...
+  -> énergie des objets (cinétique, potentielle, ...) + forces appliquées
+  -> absorption/restitution de l'énergie lors des chocs
+  -> soft bodies
+  -> mesurer les vraies propriétés physique des charnières et des servo moteurs, les retranscrire sur les modèles numériques et comparer les simulations à la réalité sur des objets simples
+  -> ...
+- Améliorer le rendu graphique: régler correctement les matériaux
+  => faire une appli dédiée OSG_Qt_Lab (ex: http://www.it.hiof.no/~borres/j3d/explain/light/p-mated.html )
+  + improve shadow technics ( http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow )
+- Faire des vidéos et les poster sur jdhp
+
+
+
+
+
+- Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
+- get OSG FPS
+- Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets
+- Scale units factor (mm ?, kg ?, ...)
+- Ajouter des objets: sphere, cylindre, etc. + faire des démos
+- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
+- Afficher les vecteurs force, etc. ac. OSG
+
+- Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
+  -> accéléromètre (facile ?)
+  -> position absolue/pseudo GPS (facile ?)
+  -> odomètre (facile ?)
+  -> gyroscope (facile ?)
+  -> position angulaire des actuateurs (facile ?)
+  -> caméra (difficile ?)
+  -> capteurs de force/de contact/de pression (difficile ?)
+  -> capteur de distance IR/ultrasons (difficile ?)
+- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
+- Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
+- Contrôleurs: classe "Controler" -> pattern listener : écoute les sensors et agit sur les actuators
+  -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
+- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
 
 - Améliorer le rendu: fog + LOD
 - Améliorer le rendu: GLSL (shaders)
@@ -223,11 +213,51 @@ Copier dans BOTSIM v2.0:
   Import STL files: http://stackoverflow.com/questions/25083566/import-stl-script-blender
      bpy.ops.import_mesh.stl(filepath="C://Users//Dom//Documents//DomCorp.//mymodel.stl", filter_glob="*.stl",  files=[{"name":"mymodel.stl", "name":"mymodel.stl"}], directory="C://Users//Dom//Documents//DomCorp.")
 
-- Singleton OSG / Bullet ? -> bof...
+- Singleton OSG / Bullet ? -> bof... retire la possibilité de faire du multithread...
 - Txt infos (hinge constraints, ...)
 
-- Permettre aux objets "Part", etc. d'être chargés dynamiquement sous la forme de plugins
-  -> objets décrits en XML 
 - Faire une interface graphique pour construire les robots, lancer les simulations et récupérer les résultats interactivement (ie rendre le logiciel utilisable pour le "grand public")
   -> robots décrits en XML (format de sauvegarde)
 
+
+DONE (pseudo changelog):
+
+x Utiliser eigen pour les vecteur donnés aux constructeurs des Objets
+x MSAA
+x Black background
+x Light (directional ?)
+x Ajouter et utiliser asseseurs dans Objects
+x Ajouter des fonctions wrapper vec3_eigen_to_bullet, ...
+x Renommer Objects -> Parts
+x Séparer les modules
+x Ombres
+x Caméra
+x Ajouter les fichiers AUTHORS et COPYING
+x Remplacer le makefile par un cmakelist -> Créer une arborescence et des modules .h/.cpp
+x Ajouter des matériaux pour les objets "Part"
+x Key print camera coordinates
+x Key take screenshot
+x Key start/stop recording -> screencast
+x Add OSG fog
+x Doxygen
+x Permettre de configurer le refresh rate ou de passer en mode "temps réel" (-1)
+x Améliorer le réalisme des simulations physiques
+x Renommer le répertoire "simulation" -> "scenes"
+  adapter le cmakelist pour créer plusieurs scenes co. ds metis (chaque scene = 1 exe)
+x Exporter un fichier stat (dat ou json ?)
+x Permettre de lancer une simulation sans interface graphique (sans osg)
+  ajouter une méthode run(time) dans BulletEnvironment qui ne fait qu'appeler autant de fois que nécessaire this->stepSimulation()
+  cette fonction membre doit prendre en paramètre le temps que doit durer la simulation (utiliser boost pour transmettre cette valeur à l'appel de l'executable (~=getopt))
+x Ajouter le "part" sphere (ou ball ?)
+x Ajouter une scene avec seulement une sphere qui tombe pour vérifier les logs
+x Screencast : ajouter un option pour permettre de capturer les images à un framerate constant (de 25fps).
+  créer une classe fille de osgViewer::ScreenCaptureHandler::WriteToFile avec un compteur de temps (attention: pas le temps réel mais le temps de la simulation)...
+  ou + simple, cf. src/osgViewer/Viewer.cpp "--run-max-frame-rate" ("frame rate capping")
+     https://groups.google.com/forum/#!topic/osg-users/MgMCDb2qv4c
+     http://forum.openscenegraph.org/viewtopic.php?t=2364
+     http://alphapixel.com/content/what-are-all-openscenegraph-environment-variables
+     http://comments.gmane.org/gmane.comp.graphics.openscenegraph.user/58547
+x Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -> au moins une fonction virtuelle pure (constructeur ?)
+x Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
+  -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
+x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
