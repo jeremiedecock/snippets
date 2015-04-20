@@ -62,7 +62,7 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> parts_set;
+    std::set<simulator::Part *> part_set;
 
     simulator::Box box1(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.);
     simulator::Box box2(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
@@ -70,30 +70,30 @@ int main(int argc, char * argv[]) {
     simulator::Box box4(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
     simulator::Ground ground;
 
-    parts_set.insert(&ground);
-    parts_set.insert(&box1);
-    parts_set.insert(&box2);
-    parts_set.insert(&box3);
-    parts_set.insert(&box4);
+    part_set.insert(&ground);
+    part_set.insert(&box1);
+    part_set.insert(&box2);
+    part_set.insert(&box3);
+    part_set.insert(&box4);
 
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(parts_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(parts_set);
+    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(parts_set);
+    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(parts_set);
+    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(parts_set);
+    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 

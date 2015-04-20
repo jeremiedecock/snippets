@@ -27,7 +27,7 @@ namespace simulator {
             std::map<std::string, std::ofstream *> fileMap;
 
         public:
-            LoggerTicksPartsDat(std::set<simulator::Part *> observed_parts_set);
+            LoggerTicksPartsDat(std::set<simulator::Part *> observed_part_set);
 
             ~LoggerTicksPartsDat();
 

@@ -80,9 +80,9 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> parts_set;
+    std::set<simulator::Part *> part_set;
 
-    parts_set.insert(new simulator::Ground());
+    part_set.insert(new simulator::Ground());
 
     for(int x_index=0 ; x_index <= 3 ; x_index++) {
         for(int y_index=0 ; y_index <= 3 ; y_index++) {
@@ -91,12 +91,12 @@ int main(int argc, char * argv[]) {
                 Eigen::Vector3d initial_position = Eigen::Vector3d(x_index, y_index, z_index + height);
 
                 simulator::Part * p_part = new simulator::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
-                parts_set.insert(p_part);
+                part_set.insert(p_part);
             }
         }
     }
 
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(parts_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
 

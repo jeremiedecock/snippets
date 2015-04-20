@@ -76,7 +76,7 @@ namespace simulator {
             const int bulletMaxTicksPerTimeStep;
 
         public:
-            const std::set<simulator::Part *> partsSet;
+            const std::set<simulator::Part *> partSet;
 
 
         private:
@@ -90,7 +90,7 @@ namespace simulator {
             void notifyTimeStep();
 
         public:
-            BulletEnvironment(std::set<simulator::Part *> parts_set,
+            BulletEnvironment(std::set<simulator::Part *> part_set,
                               double bullet_time_step_duration_sec=-1.0,
                               double bullet_tick_duration_sec=0.003,
                               int bullet_max_ticks_per_time_step=1000,

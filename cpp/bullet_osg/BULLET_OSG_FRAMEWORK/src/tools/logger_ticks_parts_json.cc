@@ -14,14 +14,14 @@
 
 const std::string DEFAULT_FILE_PATH = "ticks_parts.json"; // TODO ?
 
-simulator::LoggerTicksPartsJson::LoggerTicksPartsJson(std::set<simulator::Part *> observed_parts_set, std::string filepath) {
+simulator::LoggerTicksPartsJson::LoggerTicksPartsJson(std::set<simulator::Part *> observed_part_set, std::string filepath) {
     // Set the observed parts set
-    this->observedPartSet = observed_parts_set;
+    this->observedPartSet = observed_part_set;
 
     // TODO: if a part is not in the environment, remove it from the set ?
     //// Set logged parts
     //std::set<Part *>::iterator it;
-    //for(it = observed_parts_set.begin() ; it != observed_parts_set.end() ; it++) {
+    //for(it = observed_part_set.begin() ; it != observed_part_set.end() ; it++) {
     //    this->attach(*it);
     //}
 

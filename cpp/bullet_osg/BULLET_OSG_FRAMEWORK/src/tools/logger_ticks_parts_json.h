@@ -30,7 +30,7 @@ namespace simulator {
             std::map<std::string, std::vector<double> > dataMap;
 
         public:
-            LoggerTicksPartsJson(std::set<simulator::Part *> observed_parts_set, //=std::set<simulator::Part *>(),
+            LoggerTicksPartsJson(std::set<simulator::Part *> observed_part_set, //=std::set<simulator::Part *>(),
                           std::string filepath="");
 
             ~LoggerTicksPartsJson();

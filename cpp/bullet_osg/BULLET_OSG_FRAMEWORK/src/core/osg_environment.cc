@@ -61,7 +61,7 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
 
     // Update the position of each objects
     std::set<simulator::Part *>::iterator it;
-    for(it = this->bulletEnvironment->partsSet.begin() ; it != this->bulletEnvironment->partsSet.end() ; it++) {
+    for(it = this->bulletEnvironment->partSet.begin() ; it != this->bulletEnvironment->partSet.end() ; it++) {
         // Bullet
         btTransform bulletTransform;
         (*it)->getRigidBody()->getMotionState()->getWorldTransform(bulletTransform);
@@ -169,7 +169,7 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
 
     // Add objects
     std::set<simulator::Part *>::iterator it;
-    for(it = bullet_environment->partsSet.begin() ; it != bullet_environment->partsSet.end() ; it++) {
+    for(it = bullet_environment->partSet.begin() ; it != bullet_environment->partSet.end() ; it++) {
         p_root->addChild((*it)->getOSGPAT());
     }
 

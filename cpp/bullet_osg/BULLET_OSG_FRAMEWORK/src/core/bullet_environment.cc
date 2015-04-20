@@ -37,12 +37,12 @@ void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScala
 
 
 simulator::BulletEnvironment::BulletEnvironment(
-        std::set<simulator::Part *> parts_set,
+        std::set<simulator::Part *> part_set,
         double bullet_time_step_duration_sec,
         double bullet_tick_duration_sec,
         int bullet_max_ticks_per_time_step,
         double simulation_duration_sec) :
-            partsSet(parts_set),
+            partSet(part_set),
             bulletTimeStepDurationSec(bullet_time_step_duration_sec),
             bulletTickDurationSec(bullet_tick_duration_sec),
             bulletMaxTicksPerTimeStep(bullet_max_ticks_per_time_step),
@@ -75,7 +75,7 @@ simulator::BulletEnvironment::BulletEnvironment(
 
     // Add rigid bodies
     std::set<simulator::Part *>::iterator it;
-    for(it = this->partsSet.begin() ; it != this->partsSet.end() ; it++) {
+    for(it = this->partSet.begin() ; it != this->partSet.end() ; it++) {
         this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
     }
 

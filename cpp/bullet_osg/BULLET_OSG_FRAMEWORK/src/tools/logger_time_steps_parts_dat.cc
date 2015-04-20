@@ -12,9 +12,9 @@
 
 #include <iostream>
 
-simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_parts_set) {
+simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_part_set) {
     // Set the observed parts set
-    this->observedPartSet = observed_parts_set;
+    this->observedPartSet = observed_part_set;
     
     // Initialize the fileMap
     this->fileMap = std::map<std::string, std::ofstream *>();
