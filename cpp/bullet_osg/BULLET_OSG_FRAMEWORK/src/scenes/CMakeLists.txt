@@ -6,7 +6,7 @@ macro(config_and_add_executable EXEC_NAME SRC_FILE)
     add_executable(${EXEC_NAME} ${SRC_FILE})
 
     # Link to the internal libraries
-    target_link_libraries(${EXEC_NAME} core parts tools)
+    target_link_libraries(${EXEC_NAME} core joints parts tools)
 
     # Link to Boost libraries
     target_link_libraries(${EXEC_NAME} ${Boost_LIBRARIES})

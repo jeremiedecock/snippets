@@ -31,7 +31,12 @@ namespace simulator {
                   Eigen::Vector3d pivot_in_part2,
                   Eigen::Vector3d axis_in_part1,
                   Eigen::Vector3d axis_in_part2,
-                  std::string name="");
+                  std::string _name="");
+
+            Hinge(simulator::Part * part,
+                  Eigen::Vector3d pivot,
+                  Eigen::Vector3d axis,
+                  std::string _name="");
 
             ~Hinge();
 

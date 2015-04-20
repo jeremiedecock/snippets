@@ -9,6 +9,10 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 
+#include "joints/hinge.h"
+
+#include "object.h"
+
 #include "part.h"
 #include "parts/sphere.h"
 #include "parts/ground.h"
@@ -121,12 +125,21 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet ////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> part_set;
+    std::set<simulator::Part *> part_set; // TODO: remove this ?
+    std::set<simulator::Part *> pendulum_part_set;
 
     simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
     simulator::Ground ground(friction, rolling_friction, restitution);
 
-    part_set.insert(&sphere);
+    pendulum_part_set.insert(&sphere);
+    simulator::Object pendulum(pendulum_part_set, "pendulum");
+
+    Eigen::Vector3d pendulum_hinge_pivot(-5., 0., 0.);
+    Eigen::Vector3d pendulum_hinge_axis(0., 1., 0.);
+
+    simulator::Hinge hinge(&sphere, pendulum_hinge_pivot, pendulum_hinge_axis, "pendulum_hinge");
+
+    part_set.insert(&sphere); // TODO: remove this
     part_set.insert(&ground);
 
     simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
