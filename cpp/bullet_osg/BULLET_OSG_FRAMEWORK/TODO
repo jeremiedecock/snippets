@@ -3,36 +3,56 @@ TODO
 Exemple de qualité physique et visuelle à atteindre: https://www.youtube.com/watch?v=BGAwRKPlpCw
 
 
+STEP 1: objets, actuateurs, contrôleurs
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
   + Vérifier le code physique, ...
-- Servomoteurs: classe "Actuator" qui hérite de la classe "HingeJoint" ???
-  btHingeConstraint.enableAngularMotor(...)
+  Servomoteurs: classe "Actuator" qui hérite de la classe "HingeJoint" ???
+    btHingeConstraint.enableAngularMotor(...)
+
+~ Créer une classe Controler: foncteur qui prend en entrée des percepts (temps, position, ...) et retourne une commande pour le/les actuateurs qu'il contrôle
+    -> Controler: attaché à un Actuator ou un Objet complet (ie plusieurs actuateurs) ?
+  Contrôleurs: classe "Controler" -> pattern listener ? : écoute les sensors et agit sur les actuators
+    -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
+~ Senseurs -> créer une interface (ou une classe abstraite) "Sensor" ?
+  -> accéléromètre (facile ?)
+  -> position absolue/pseudo GPS (facile ?)
+  -> odomètre (facile ?)
+  -> gyroscope (facile ?)
+  -> position angulaire des actuateurs (facile ?)
+  -> caméra (difficile ?)
+  -> capteurs de force/de contact/de pression (difficile ?)
+  -> capteur de distance IR/ultrasons (difficile ?)
+- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
+- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
+
 - transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
-- changer de licence ? (GPL ? CeCILL ? ou MIT ?)
+  copier tous les commits dans une nouvelle branche BOTSIM v2.0 (nouvelle branche principale) (ne pas oublier de tagguer botsim-v1 avant)
+- renommer "botsim" -> "botsim.org" + supprimer le référentiel svn de la page jdhp
+- changer de licence ??? (GPL ? CeCILL ? ou MIT ?)
 
 
-Copier dans BOTSIM v2.0:
--> Créer des contrôleurs
-   -> SAES + sinusoïdes
-   -> SAES + convolution de sinusoïdes
-   -> SAES + neural net (?)
-   -> PID (pendule inversé)
-   -> Reinforcement learning
-   -> Contrôle manuel via un joypad (pour les robots à roues)
--> Modéliser, créer les objets et créer les contrôleurs pour des robots
-   -> Créer un robot à 4 roues
-   -> Créer un robot à 2 roues (pendule inversé)
-   -> Créer un robot à 4 pattes
-   -> Créer un robot à 6 ou 8 pattes
--> Optimisation les contrôleurs -> quelle "interface" dans l'API ?
-   -> Permettre d'optimiser les contrôleurs de manière répartie (MPI, OpenMP, ...)
+STEP 2: optimisation/IA (enfin !)
+- Créer des contrôleurs
+  - SAES + sinusoïdes
+  - SAES + convolution de sinusoïdes
+  - SAES + neural net (?)
+  - PID (pendule inversé)
+  - Reinforcement learning
+  - Contrôle manuel via un joypad (pour les robots à roues)
+- Modéliser, créer les objets et créer les contrôleurs pour des robots
+  - Créer un robot à 4 roues
+  - Créer un robot à 2 roues (pendule inversé)
+  - Créer un robot à 4 pattes
+  - Créer un robot à 6 ou 8 pattes
+- Optimisation les contrôleurs -> quelle "interface" dans l'API ?
+  - Permettre d'optimiser les contrôleurs de manière répartie (MPI, OpenMP, ...)
 
 
+STEP 3: petits ajouts faciles et utiles
 + boost::Program_options: logs...
   --log_bullet    filename.dat            or   filename.json
   --log_part      partname,filename.dat   or   partname,filename.json
   --log_part_tick partname,filename.dat   or   partname,filename.json
-
 + harmoniser les noms
   "substeps" vs "ticks" (bullet env + logs)
   "callback" vs "handler"
@@ -58,7 +78,27 @@ Copier dans BOTSIM v2.0:
 - ajouter une méthode getCenterOfMassPosition() pour Part et Object
 
 
-~ Supprimer le lien fort qui lie les Parts et OSG + clarification du rôle des classes "Part" et "Object":
+STEP 4: com
++ créer le site web botsim.org (utiliser le moteur Pelican ?)
++ créer une "main features" list sur le site web (et sur jdhp.org)
++ créer un tutoriel utilisateur de l'utilisation de la librarie sur le site web
++ faire en sorte que la bibliothèque compile et soit utilisable sur Windows et MacOS X + tester/adapter le tutoriel sur ces pates-formes
++ compléter la doc en ligne (doxygen)
+- rendre optionnel OpenSceneGraph à la compilation
++ créer une manpage
++ créer un paquet Debian
++ créer un paquet RPM (?)
+
+- Améliorer le rendu graphique: régler correctement les matériaux
+  => faire une appli dédiée OSG_Qt_Lab (ex: http://www.it.hiof.no/~borres/j3d/explain/light/p-mated.html )
+  + improve shadow technics ( http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow )
+- Faire des vidéos et les poster sur jdhp
+
+
+STEP 5: adaptation de l'architecture -> botsim v3 ?
+- Ajouter des objets: sphere, cylindre, etc. + faire des démos
+- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
+~ Supprimer le lien fort qui lie les Parts et OSG + clarification du rôle des classes "Part" et "Object" -> Botsim v3.0 ?:
   Il ne doit plus y avoir le moindre code OSG dans les classes Part.
   La classe "Part" = formes pour le moteur physique seulement !
                      correspond à une primitives Bullet: box, sphère, capsule, ... avec des propriétés physiques (largeur, longueur, profondeur pour un box, masse, etc.).
@@ -72,17 +112,7 @@ Copier dans BOTSIM v2.0:
   -> objets décrits en XML 
 
 
-+ renommer "botsim" -> "botsim.org" + supprimer le référentiel svn de la page jdhp
-+ créer une "main features" list sur le site web (et sur jdhp.org)
-+ créer un tutoriel utilisateur de l'utilisation de la librarie sur le site web
-+ faire en sorte que la bibliothèque compile et soit utilisable sur Windows et MacOS X + tester/adapter le tutoriel sur ces pates-formes
-+ compléter la doc en ligne (doxygen)
-- rendre optionnel OpenSceneGraph à la compilation
-+ créer une manpage
-+ créer un paquet Debian
-+ créer un paquet RPM (?)
-
-
+STEP 6: divers
 - Créer un OSG_Bullet_Qt_Lab pour tester interactivement les propriétés physique des objets et du simulateur (des widgets permettent de "voir" immédiatement l'impact sur la simulation de la modification de certains paramètres)
   -> charnières: impulsions, mesure du couple appliqué, mesure de l'énergie donné en entrée/dissipée/etc., résistance, autres forces (centrifuge, ...)
   -> friction, frottements, ...
@@ -91,37 +121,14 @@ Copier dans BOTSIM v2.0:
   -> soft bodies
   -> mesurer les vraies propriétés physique des charnières et des servo moteurs, les retranscrire sur les modèles numériques et comparer les simulations à la réalité sur des objets simples
   -> ...
-- Améliorer le rendu graphique: régler correctement les matériaux
-  => faire une appli dédiée OSG_Qt_Lab (ex: http://www.it.hiof.no/~borres/j3d/explain/light/p-mated.html )
-  + improve shadow technics ( http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow )
-- Faire des vidéos et les poster sur jdhp
-
-
-
-
 
 - Key reset -> ajouter une méthode "reset()" dans "BulletEnvironment"
 - get OSG FPS
 - Renommer correctement les variables (p_...) + utiliser les smart pointers sur tous les objets OSG + détruire correctement les autre objets
 - Scale units factor (mm ?, kg ?, ...)
-- Ajouter des objets: sphere, cylindre, etc. + faire des démos
-- Objets STL (balle de golf, charnières 1DOF, charnières 2DOF, ...) + ceiling + faire des démos
 - Afficher les vecteurs force, etc. ac. OSG
 
-- Senseurs -> créer une interface (ou une classe abstraite) "Sensor"
-  -> accéléromètre (facile ?)
-  -> position absolue/pseudo GPS (facile ?)
-  -> odomètre (facile ?)
-  -> gyroscope (facile ?)
-  -> position angulaire des actuateurs (facile ?)
-  -> caméra (difficile ?)
-  -> capteurs de force/de contact/de pression (difficile ?)
-  -> capteur de distance IR/ultrasons (difficile ?)
-- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
 - Vérifier à la main une simulation simple (calculer à la main l'équation d'un objet qui tombe et comparer avec bullet)
-- Contrôleurs: classe "Controler" -> pattern listener : écoute les sensors et agit sur les actuators
-  -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
-- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
 
 - Améliorer le rendu: fog + LOD
 - Améliorer le rendu: GLSL (shaders)
@@ -218,6 +225,7 @@ Copier dans BOTSIM v2.0:
 
 - Faire une interface graphique pour construire les robots, lancer les simulations et récupérer les résultats interactivement (ie rendre le logiciel utilisable pour le "grand public")
   -> robots décrits en XML (format de sauvegarde)
+
 
 
 DONE (pseudo changelog):

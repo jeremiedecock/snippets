@@ -1,6 +1,7 @@
 # Copyright (c) 2015 Jérémie DECOCK
 
 set(core_src part.h part.cc
+             object.h object.cc 
              bullet_environment.h bullet_environment.cc 
              osg_environment.h osg_environment.cc
 )
