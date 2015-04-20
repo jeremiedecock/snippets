@@ -54,8 +54,8 @@ STEP 3: petits ajouts faciles et utiles
   --log_part      partname,filename.dat   or   partname,filename.json
   --log_part_tick partname,filename.dat   or   partname,filename.json
 + harmoniser les noms
-  "substeps" vs "ticks" (bullet env + logs)
-  "callback" vs "handler"
+  x "substeps" vs "ticks" (bullet env + logs)
+  + "callback" vs "handler"
 + corriger l'erreur de segmentation: afficher un message dans chaque destructeur pour voir celui qui est en cause
 + Fichiers Dat: pour la 1ere colonne, préciser dans l'entête si il s'agit du "simulation_time" ou du "user_time"
 + scripts plot génériques

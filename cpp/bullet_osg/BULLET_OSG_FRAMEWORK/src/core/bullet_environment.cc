@@ -139,10 +139,10 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_duratio
     btScalar bullet_tick_duration_sec = this->bulletTickDurationSec;
     int bullet_max_ticks_per_time_step = this->bulletMaxTicksPerTimeStep;
 
-    // Warn the user if timeStep > maxSubSteps * fixedTimeStep
+    // Warn the user if timeStepDuration > maxTicksPerTimeStep * tickDuration
     // cf. http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World
     if(bullet_time_step_duration_sec > (bullet_max_ticks_per_time_step * bullet_tick_duration_sec)) {
-        std::cerr << "Warning: simulation time will be lost (timeStep > maxSubSteps * fixedTimeStep)" << std::endl; // TODO: improve this message...
+        std::cerr << "Warning: simulation time will be lost (timeStepDuration > maxTicksPerTimeStep * tickDuration)" << std::endl; // TODO: improve this message...
     }
 
     /*
@@ -160,7 +160,7 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_duratio
      * The second parameter is the maximum number of steps that Bullet is
      * allowed to take each time you call it. If you pass a very large timeStep
      * as the first parameter [say, five times the size of the fixed internal
-     * time step], then you must increase the number of maxSubSteps to
+     * time step], then you must increase the number of maxTicksPerTimeStep to
      * compensate for this, otherwise your simulation is "losing" time. 
      */
     this->getDynamicsWorld()->stepSimulation(bullet_time_step_duration_sec, bullet_max_ticks_per_time_step, bullet_tick_duration_sec);
@@ -284,14 +284,14 @@ double simulator::BulletEnvironment::getBulletTimeStepDurationSec() const {
 /**
  * 
  */
-double simulator::BulletEnvironment::getBulletFixedTimeSubStepSec() const {
+double simulator::BulletEnvironment::getBulletTickDurationSec() const {
     return this->bulletTickDurationSec;
 }
 
 /**
  * 
  */
-double simulator::BulletEnvironment::getBulletMaxSubSteps() const {
+double simulator::BulletEnvironment::getBulletMaxTicksPerTimeStep() const {
     return this->bulletMaxTicksPerTimeStep;
 }
 

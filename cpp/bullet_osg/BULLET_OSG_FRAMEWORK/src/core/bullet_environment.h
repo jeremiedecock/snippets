@@ -135,12 +135,12 @@ namespace simulator {
             /**
              * 
              */
-            double getBulletFixedTimeSubStepSec() const;
+            double getBulletTickDurationSec() const;
 
             /**
              * 
              */
-            double getBulletMaxSubSteps() const;
+            double getBulletMaxTicksPerTimeStep() const;
 
             /**
              * 

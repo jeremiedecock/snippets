@@ -33,9 +33,9 @@ simulator::LoggerTimeStepsBulletEnvironmentJson::LoggerTimeStepsBulletEnvironmen
     this->dataMap["elapsed_simulation_time_sec"] = std::vector<double>();
     this->dataMap["elapsed_user_time_sec"] = std::vector<double>();
     //this->dataMap["time_step_sec"] = std::vector<double>();
-    this->dataMap["fixed_sub_time_step_sec"] = std::vector<double>();
-    //this->dataMap["num_sub_steps"] = std::vector<double>();
-    this->dataMap["max_sub_steps"] = std::vector<double>();
+    this->dataMap["tick_duration_sec"] = std::vector<double>();
+    //this->dataMap["num_ticks"] = std::vector<double>();
+    this->dataMap["max_ticks_per_time_step"] = std::vector<double>();
 }
 
 simulator::LoggerTimeStepsBulletEnvironmentJson::~LoggerTimeStepsBulletEnvironmentJson() {
@@ -66,16 +66,16 @@ void simulator::LoggerTimeStepsBulletEnvironmentJson::update(BulletEnvironment *
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
     double elapsed_user_time_sec = bullet_environment->getElapsedUserTimeSec();
     //double time_step_sec = bullet_environment->();
-    double fixed_sub_time_step_sec = bullet_environment->getBulletFixedTimeSubStepSec();
-    //double num_sub_steps = time_step_sec / fixed_sub_time_step_sec;
-    double max_sub_steps = bullet_environment->getBulletMaxSubSteps();
+    double tick_duration_sec = bullet_environment->getBulletTickDurationSec();
+    //double num_ticks = time_step_sec / tick_duration_sec;
+    double max_ticks_per_time_step = bullet_environment->getBulletMaxTicksPerTimeStep();
 
     this->dataMap["elapsed_simulation_time_sec"].push_back(elapsed_simulation_time_sec);
     this->dataMap["elapsed_user_time_sec"].push_back(elapsed_user_time_sec);
     //this->dataMap["time_step_sec"].push_back(time_step_sec);
-    this->dataMap["fixed_sub_time_step_sec"].push_back(fixed_sub_time_step_sec);
-    //this->dataMap["num_sub_steps"].push_back(num_sub_steps);
-    this->dataMap["max_sub_steps"].push_back(max_sub_steps);
+    this->dataMap["tick_duration_sec"].push_back(tick_duration_sec);
+    //this->dataMap["num_ticks"].push_back(num_ticks);
+    this->dataMap["max_ticks_per_time_step"].push_back(max_ticks_per_time_step);
 }
 
 std::string simulator::LoggerTimeStepsBulletEnvironmentJson::getFilepath() const {

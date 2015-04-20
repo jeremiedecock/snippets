@@ -30,9 +30,9 @@ simulator::LoggerTimeStepsBulletEnvironmentDat::LoggerTimeStepsBulletEnvironment
     (* this->ofs) << "#elapsed_simulation_time_sec  ";
     (* this->ofs) << "elapsed_user_time_sec  ";
     //(* this->ofs) << "time_step_sec  ";
-    (* this->ofs) << "fixed_sub_time_step_sec  ";
-    //(* this->ofs) << "num_sub_steps  ";
-    (* this->ofs) << "max_sub_steps  ";
+    (* this->ofs) << "tick_duration_sec  ";
+    //(* this->ofs) << "num_ticks  ";
+    (* this->ofs) << "max_ticks_per_time_step  ";
     (* this->ofs) << std::endl;
 }
 
@@ -50,16 +50,16 @@ void simulator::LoggerTimeStepsBulletEnvironmentDat::update(BulletEnvironment * 
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
     double elapsed_user_time_sec = bullet_environment->getElapsedUserTimeSec();
     //double time_step_sec = bullet_environment->();
-    double fixed_sub_time_step_sec = bullet_environment->getBulletFixedTimeSubStepSec();
-    //double num_sub_steps = time_step_sec / fixed_sub_time_step_sec;
-    double max_sub_steps = bullet_environment->getBulletMaxSubSteps();
+    double tick_duration_sec = bullet_environment->getBulletTickDurationSec();
+    //double num_ticks = time_step_sec / tick_duration_sec;
+    double max_ticks_per_time_step = bullet_environment->getBulletMaxTicksPerTimeStep();
     
     (* this->ofs) << elapsed_simulation_time_sec << " ";
     (* this->ofs) << elapsed_user_time_sec << " ";
     //(* this->ofs) << time_step_sec << " ";
-    (* this->ofs) << fixed_sub_time_step_sec << " ";
-    //(* this->ofs) << num_sub_steps << " ";
-    (* this->ofs) << max_sub_steps << " ";
+    (* this->ofs) << tick_duration_sec << " ";
+    //(* this->ofs) << num_ticks << " ";
+    (* this->ofs) << max_ticks_per_time_step << " ";
     (* this->ofs) << std::endl;
 }
 
