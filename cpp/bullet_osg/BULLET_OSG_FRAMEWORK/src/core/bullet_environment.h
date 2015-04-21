@@ -77,8 +77,8 @@ namespace simulator {
             const int bulletMaxTicksPerTimeStep;
 
         public:
-            const std::set<simulator::Object *> objectSet;
-            const std::set<simulator::Part *> partSet;
+            std::set<simulator::Object *> objectSet;
+            std::set<simulator::Part *> partSet;
 
         private:
             /**

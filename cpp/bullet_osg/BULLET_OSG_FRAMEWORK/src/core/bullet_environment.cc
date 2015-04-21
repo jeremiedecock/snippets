@@ -75,10 +75,44 @@ simulator::BulletEnvironment::BulletEnvironment(
     // See: http://bulletphysics.org/mediawiki-1.5.8/index.php/Simulation_Tick_Callbacks
     this->dynamicsWorld->setInternalTickCallback(simulator::BulletEnvironment::tickCallback);
 
-    // Add rigid bodies
-    std::set<simulator::Part *>::iterator it;
-    for(it = this->partSet.begin() ; it != this->partSet.end() ; it++) {
-        this->dynamicsWorld->addRigidBody((*it)->getRigidBody());
+    // Add rigid bodies ///////////////
+    
+    // Objects
+    std::set<simulator::Object *>::iterator object_it;
+    std::set<simulator::Part *>::iterator part_it;
+
+    for(object_it = this->objectSet.begin() ; object_it != this->objectSet.end() ; object_it++) {
+        std::set<simulator::Part *> part_set = (*object_it)->getPartSet();
+        
+        /*
+         * Directly adding object's parts to this->dynamicsWorld from here is
+         * probably a bad idea:
+         * - there are a risk to have the same part multiple times in
+         *   this->ObjectSet and this->partSet;
+         * - requires to update other modules like osgEnvironment (requires to
+         *   add another loop to get objects parts to display for instance).
+         * Instead, see the alternative method below.
+         */
+        //for(part_it = part_set.begin() ; part_it != part_set.end() ; part_it++) {
+        //    this->dynamicsWorld->addRigidBody((*part_it)->getRigidBody());
+        //}
+
+        /*
+         * Take each part of the object and add it to this->partSet.
+         * This method has multiple advantages:
+         * - no risk to have the same part multiple times in this->ObjectSet
+         *   and this->partSet ; this->partSet is the only set of parts
+         *   considered by bullet, open scene graph, ...
+         * - no needs to update other modules like osgEnvironment (no need to
+         *   add another loop to get objects parts to display for instance).
+         */
+        this->partSet.insert(part_set.begin(), part_set.end());
+    }
+
+    // Parts
+    for(part_it = this->partSet.begin() ; part_it != this->partSet.end() ; part_it++) {
+        std::cout << "Add " << (*part_it)->getName() << std::endl;
+        this->dynamicsWorld->addRigidBody((*part_it)->getRigidBody());
     }
 
     // Start the user clock
