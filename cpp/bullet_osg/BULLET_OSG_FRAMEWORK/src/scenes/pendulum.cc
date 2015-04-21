@@ -125,24 +125,32 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet ////////////////////////////////////////////////////////////
 
-    std::set<simulator::Part *> part_set; // TODO: remove this ?
+    // Pendulum object ////////////////
+
+    // Pendulum parts
+    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution, "pendulum sphere");
+
     std::set<simulator::Part *> pendulum_part_set;
-
-    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
-    simulator::Ground ground(friction, rolling_friction, restitution);
-
     pendulum_part_set.insert(&sphere);
-    simulator::Object pendulum(pendulum_part_set, "pendulum");
 
+    // Pendulum joints
     Eigen::Vector3d pendulum_hinge_pivot(-5., 0., 0.);
     Eigen::Vector3d pendulum_hinge_axis(0., 1., 0.);
+    simulator::Hinge pendulum_hinge(&sphere, pendulum_hinge_pivot, pendulum_hinge_axis, "pendulum_hinge");
 
-    simulator::Hinge hinge(&sphere, pendulum_hinge_pivot, pendulum_hinge_axis, "pendulum_hinge");
+    std::set<simulator::Joint *> pendulum_joint_set;
+    pendulum_joint_set.insert(&pendulum_hinge);
 
-    part_set.insert(&sphere); // TODO: remove this
-    part_set.insert(&ground);
+    // Pendulum object
+    simulator::Object pendulum(pendulum_part_set, pendulum_joint_set, "pendulum");
 
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    // Other parts
+    simulator::Ground ground(friction, rolling_friction, restitution);
+    std::set<simulator::Part *> bullet_misc_part_set;
+    bullet_misc_part_set.insert(&sphere); // TODO: remove this
+    bullet_misc_part_set.insert(&ground);
+
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_misc_part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log ///////////////////////////////////////////////////////////////
 
@@ -155,19 +163,19 @@ int main(int argc, char * argv[]) {
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(part_set);
+    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(bullet_misc_part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(part_set);
+    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(bullet_misc_part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(part_set);
+    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(bullet_misc_part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(part_set);
+    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(bullet_misc_part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 

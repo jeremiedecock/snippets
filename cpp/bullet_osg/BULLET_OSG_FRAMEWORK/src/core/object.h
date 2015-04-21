@@ -11,6 +11,7 @@
 #define OBJECT_H
 
 #include "part.h"
+#include "joint.h"
 
 #include <set>
 #include <string>
@@ -24,10 +25,16 @@ namespace simulator {
         protected:
             std::set<simulator::Part *> partSet;
 
+            std::set<simulator::Joint *> jointSet;
+
         public:
-            Object(std::set<simulator::Part *> part_set, std::string _name);
+            Object(std::set<simulator::Part *> part_set,
+                   std::set<simulator::Joint *> joint_set,
+                   std::string _name="");
 
             std::set<simulator::Part *> getPartSet() const;
+
+            std::set<simulator::Joint *> getJointSet() const;
 
             std::string getName() const;
     };
