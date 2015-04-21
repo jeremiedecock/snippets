@@ -9,6 +9,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 
+#include "object.h"
+
 #include "part.h"
 #include "parts/box.h"
 #include "parts/ground.h"
@@ -79,10 +81,14 @@ int main(int argc, char * argv[]) {
     }
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
+    
+    // Bullet object set
+    std::set<simulator::Object *> bullet_object_set;
 
-    std::set<simulator::Part *> part_set;
+    // Bullet part set
+    std::set<simulator::Part *> bullet_part_set;
 
-    part_set.insert(new simulator::Ground());
+    bullet_part_set.insert(new simulator::Ground());
 
     for(int x_index=0 ; x_index <= 3 ; x_index++) {
         for(int y_index=0 ; y_index <= 3 ; y_index++) {
@@ -91,12 +97,13 @@ int main(int argc, char * argv[]) {
                 Eigen::Vector3d initial_position = Eigen::Vector3d(x_index, y_index, z_index + height);
 
                 simulator::Part * p_part = new simulator::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
-                part_set.insert(p_part);
+                bullet_part_set.insert(p_part);
             }
         }
     }
 
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    // Bullet environment
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
 

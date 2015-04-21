@@ -10,6 +10,7 @@
 #ifndef BULLET_ENVIRONMENT_H
 #define BULLET_ENVIRONMENT_H
 
+#include "object.h"
 #include "part.h"
 
 #include <chrono>
@@ -76,8 +77,8 @@ namespace simulator {
             const int bulletMaxTicksPerTimeStep;
 
         public:
+            const std::set<simulator::Object *> objectSet;
             const std::set<simulator::Part *> partSet;
-
 
         private:
             /**
@@ -90,7 +91,8 @@ namespace simulator {
             void notifyTimeStep();
 
         public:
-            BulletEnvironment(std::set<simulator::Part *> part_set,
+            BulletEnvironment(std::set<simulator::Object *> object_set,
+                              std::set<simulator::Part *> part_set,
                               double bullet_time_step_duration_sec=-1.0,
                               double bullet_tick_duration_sec=0.003,
                               int bullet_max_ticks_per_time_step=1000,

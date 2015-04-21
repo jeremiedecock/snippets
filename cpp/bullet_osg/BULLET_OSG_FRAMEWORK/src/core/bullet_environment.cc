@@ -37,11 +37,13 @@ void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScala
 
 
 simulator::BulletEnvironment::BulletEnvironment(
+        std::set<simulator::Object *> object_set,
         std::set<simulator::Part *> part_set,
         double bullet_time_step_duration_sec,
         double bullet_tick_duration_sec,
         int bullet_max_ticks_per_time_step,
         double simulation_duration_sec) :
+            objectSet(object_set),
             partSet(part_set),
             bulletTimeStepDurationSec(bullet_time_step_duration_sec),
             bulletTickDurationSec(bullet_tick_duration_sec),
