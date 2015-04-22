@@ -128,7 +128,7 @@ int main(int argc, char * argv[]) {
     // Pendulum object ////////////////
 
     // Pendulum parts
-    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution, "pendulum sphere");
+    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution, "pendulum_sphere");
 
     std::set<simulator::Part *> pendulum_part_set;
     pendulum_part_set.insert(&sphere);

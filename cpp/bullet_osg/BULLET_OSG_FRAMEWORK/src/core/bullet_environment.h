@@ -11,6 +11,7 @@
 #define BULLET_ENVIRONMENT_H
 
 #include "object.h"
+#include "joint.h"
 #include "part.h"
 
 #include <chrono>

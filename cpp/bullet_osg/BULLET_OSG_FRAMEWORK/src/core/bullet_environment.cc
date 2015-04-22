@@ -80,6 +80,7 @@ simulator::BulletEnvironment::BulletEnvironment(
     // Objects
     std::set<simulator::Object *>::iterator object_it;
     std::set<simulator::Part *>::iterator part_it;
+    std::set<simulator::Joint *>::iterator joint_it;
 
     for(object_it = this->objectSet.begin() ; object_it != this->objectSet.end() ; object_it++) {
         std::set<simulator::Part *> part_set = (*object_it)->getPartSet();
@@ -107,6 +108,14 @@ simulator::BulletEnvironment::BulletEnvironment(
          *   add another loop to get objects parts to display for instance).
          */
         this->partSet.insert(part_set.begin(), part_set.end());
+
+        /*
+         * Add object's joints (i.e. Bullet's constraints).
+         */
+        std::set<simulator::Joint *> joint_set = (*object_it)->getJointSet();
+        for(joint_it = joint_set.begin() ; joint_it != joint_set.end() ; joint_it++) {
+            this->dynamicsWorld->addConstraint((*joint_it)->getBulletTypedConstraint());
+        }
     }
 
     // Parts
