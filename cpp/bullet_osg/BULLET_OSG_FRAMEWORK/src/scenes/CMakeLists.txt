@@ -24,7 +24,8 @@ endmacro()
 option(BUILD_DEMO "Build the default demo (falling cubes)." ON)
 option(BUILD_CUBES_1 "Build the falling cubes demo (4 falling cubes with various sizes and weights)." OFF)
 option(BUILD_FALLING_SPHERE "Build the falling sphere demo (1 falling sphere)." OFF)
-option(BUILD_PENDULUM "Build the pendulum demo." OFF)
+option(BUILD_PENDULUM_HINGE "Build the pendulum demo (using hinge joints)." OFF)
+option(BUILD_PENDULUM_P2P "Build the pendulum demo (using point_to_point joints)." OFF)
 
 # Set executables
 if(BUILD_DEMO)
@@ -39,6 +40,10 @@ if(BUILD_FALLING_SPHERE)
     config_and_add_executable(falling_sphere falling_sphere.cc)
 endif(BUILD_FALLING_SPHERE)
 
-if(BUILD_PENDULUM)
-    config_and_add_executable(pendulum pendulum.cc)
-endif(BUILD_PENDULUM)
+if(BUILD_PENDULUM_HINGE)
+    config_and_add_executable(pendulum_hinge pendulum_hinge.cc)
+endif(BUILD_PENDULUM_HINGE)
+
+if(BUILD_PENDULUM_P2P)
+    config_and_add_executable(pendulum_point_to_point pendulum_point_to_point.cc)
+endif(BUILD_PENDULUM_P2P)

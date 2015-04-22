@@ -52,7 +52,7 @@ static Eigen::Vector3d initial_velocity;
 static Eigen::Vector3d initial_angular_velocity;
 static Eigen::Vector3d initial_inertia;
 
-static std::string initial_position_str_opt         = "0.,0.,50.";
+static std::string initial_position_str_opt         = "0.,0.,10.";
 static std::string initial_angle_str_opt            = "0.,0.,0.,1.";
 static std::string initial_velocity_str_opt         = "1.,0.,0.";
 static std::string initial_angular_velocity_str_opt = "0.,0.,0.";
