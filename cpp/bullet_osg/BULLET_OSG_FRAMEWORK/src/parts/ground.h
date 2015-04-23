@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef GROUND_H
-#define GROUND_H
+#ifndef BOTSIM_GROUND_H
+#define BOTSIM_GROUND_H
 
 #include "part.h"
 
@@ -41,4 +41,4 @@ namespace simulator {
     };
 }
 
-#endif // GROUND_H
+#endif // BOTSIM_GROUND_H

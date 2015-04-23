@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef SPHERE_H
-#define SPHERE_H
+#ifndef BOTSIM_SPHERE_H
+#define BOTSIM_SPHERE_H
 
 #include "part.h"
 
@@ -66,4 +66,4 @@ namespace simulator {
 
 }
 
-#endif // SPHERE_H
+#endif // BOTSIM_SPHERE_H

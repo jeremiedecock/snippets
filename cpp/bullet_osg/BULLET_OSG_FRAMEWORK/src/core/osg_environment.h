@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef OSG_ENVIRONMENT_H
-#define OSG_ENVIRONMENT_H
+#ifndef BOTSIM_OSG_ENVIRONMENT_H
+#define BOTSIM_OSG_ENVIRONMENT_H
 
 #include "bullet_environment.h"
 #include "part.h"
@@ -80,4 +80,4 @@ namespace simulator {
 
 }
 
-#endif // OSG_ENVIRONMENT_H
+#endif // BOTSIM_OSG_ENVIRONMENT_H

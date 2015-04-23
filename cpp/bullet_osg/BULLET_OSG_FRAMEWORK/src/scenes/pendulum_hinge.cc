@@ -9,6 +9,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 
+#include "actuator.h"
+
 #include "joints/hinge.h"
 
 #include "object.h"
@@ -140,9 +142,12 @@ int main(int argc, char * argv[]) {
 
     std::set<simulator::Joint *> pendulum_joint_set;
     pendulum_joint_set.insert(&pendulum_hinge);
+    
+    // Pendulum actuators
+    std::set<simulator::Actuator *> pendulum_actuator_set;
 
     // Pendulum object
-    simulator::Object pendulum(pendulum_part_set, pendulum_joint_set, "pendulum");
+    simulator::Object pendulum(pendulum_part_set, pendulum_joint_set, pendulum_actuator_set, "pendulum");
 
     // Other parts ////////////////////
     

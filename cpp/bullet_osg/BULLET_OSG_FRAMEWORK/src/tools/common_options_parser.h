@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef COMMON_OPTIONS_PARSER_H
-#define COMMON_OPTIONS_PARSER_H
+#ifndef BOTSIM_COMMON_OPTIONS_PARSER_H
+#define BOTSIM_COMMON_OPTIONS_PARSER_H
 
 #include <boost/program_options.hpp>
 
@@ -46,4 +46,4 @@ namespace simulator {
     };
 }
 
-#endif // COMMON_OPTIONS_PARSER_H
+#endif // BOTSIM_COMMON_OPTIONS_PARSER_H

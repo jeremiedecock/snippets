@@ -7,9 +7,10 @@
  * www.jdhp.org
  */
 
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef BOTSIM_OBJECT_H
+#define BOTSIM_OBJECT_H
 
+#include "actuator.h"
 #include "part.h"
 #include "joint.h"
 
@@ -27,18 +28,23 @@ namespace simulator {
 
             std::set<simulator::Joint *> jointSet;
 
+            std::set<simulator::Actuator *> actuatorSet;
+
         public:
             Object(std::set<simulator::Part *> part_set,
                    std::set<simulator::Joint *> joint_set,
+                   std::set<simulator::Actuator *> actuator_set,
                    std::string _name="");
 
             std::set<simulator::Part *> getPartSet() const;
 
             std::set<simulator::Joint *> getJointSet() const;
 
+            std::set<simulator::Actuator *> getActuatorSet() const;
+
             std::string getName() const;
     };
 
 }
 
-#endif // OBJECT_H
+#endif // BOTSIM_OBJECT_H

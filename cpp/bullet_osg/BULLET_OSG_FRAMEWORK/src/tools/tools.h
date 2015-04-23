@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef TOOLS_H
-#define TOOLS_H
+#ifndef BOTSIM_TOOLS_H
+#define BOTSIM_TOOLS_H
 
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
@@ -160,4 +160,4 @@ namespace simulator {
 
 }
 
-#endif // TOOLS_H
+#endif // BOTSIM_TOOLS_H

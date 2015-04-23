@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef LOGGER_TICKS_PARTS_DAT_H
-#define LOGGER_TICKS_PARTS_DAT_H
+#ifndef BOTSIM_LOGGER_TICKS_PARTS_DAT_H
+#define BOTSIM_LOGGER_TICKS_PARTS_DAT_H
 
 #include "bullet_environment.h"
 #include "part.h"
@@ -35,4 +35,4 @@ namespace simulator {
     };
 }
 
-#endif // LOGGER_TICKS_PARTS_DAT_H
+#endif // BOTSIM_LOGGER_TICKS_PARTS_DAT_H

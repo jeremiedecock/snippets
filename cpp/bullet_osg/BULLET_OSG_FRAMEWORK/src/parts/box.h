@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef BOX_H
-#define BOX_H
+#ifndef BOTSIM_BOX_H
+#define BOTSIM_BOX_H
 
 #include "part.h"
 
@@ -66,4 +66,4 @@ namespace simulator {
 
 }
 
-#endif // BOX_H
+#endif // BOTSIM_BOX_H

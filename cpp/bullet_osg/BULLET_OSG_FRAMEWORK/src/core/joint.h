@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef JOINT_H
-#define JOINT_H
+#ifndef BOTSIM_JOINT_H
+#define BOTSIM_JOINT_H
 
 #include <string>
 
@@ -35,4 +35,4 @@ namespace simulator {
 
 }
 
-#endif // JOINT_H
+#endif // BOTSIM_JOINT_H

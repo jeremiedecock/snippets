@@ -1,31 +1,30 @@
 /* 
  * Bullet OSG Framework.
- * The hinge module.
+ * The motor module.
  *
  * Copyright (c) 2015 Jérémie Decock <jd.jdhp@gmail.com>
  *
  * www.jdhp.org
  */
 
-#ifndef BOTSIM_HINGE_H
-#define BOTSIM_HINGE_H
+#ifndef BOTSIM_MOTOR_H
+#define BOTSIM_MOTOR_H
 
-#include "joint.h"
+#include "actuator.h"
+#include "joints/hinge.h"
 #include "part.h"
 
 #include <Eigen/Dense>
 
 #include <btBulletDynamicsCommon.h>
 
+#include <string>
+
 namespace simulator {
 
-    class Hinge: public simulator::Joint {
-        protected:
-            // Common
-            std::string name;                         // the name of this instance
-
+    class Motor: public simulator::Actuator, public simulator::Hinge {
         public:
-            Hinge(simulator::Part * part1,
+            Motor(simulator::Part * part1,
                   simulator::Part * part2,
                   Eigen::Vector3d pivot_in_part1,
                   Eigen::Vector3d pivot_in_part2,
@@ -33,16 +32,14 @@ namespace simulator {
                   Eigen::Vector3d axis_in_part2,
                   std::string _name="");
 
-            Hinge(simulator::Part * part,
+            Motor(simulator::Part * part,
                   Eigen::Vector3d pivot,
                   Eigen::Vector3d axis,
                   std::string _name="");
 
-            virtual ~Hinge();
-
-            std::string getName() const;
+            virtual ~Motor();
     };
 
 }
 
-#endif // BOTSIM_HINGE_H
+#endif // BOTSIM_MOTOR_H

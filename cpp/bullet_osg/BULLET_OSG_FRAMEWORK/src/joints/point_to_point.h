@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef POINT_TO_POINT_H
-#define POINT_TO_POINT_H
+#ifndef BOTSIM_POINT_TO_POINT_H
+#define BOTSIM_POINT_TO_POINT_H
 
 #include "joint.h"
 #include "part.h"
@@ -42,4 +42,4 @@ namespace simulator {
 
 }
 
-#endif // POINT_TO_POINT_H
+#endif // BOTSIM_POINT_TO_POINT_H

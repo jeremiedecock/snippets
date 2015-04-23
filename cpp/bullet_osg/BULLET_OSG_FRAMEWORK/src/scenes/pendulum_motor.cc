@@ -10,14 +10,21 @@
 #include "osg_environment.h"
 
 #include "actuator.h"
+#include "actuators/motor.h"
 
-#include "joints/point_to_point.h"
+#include "controller.h"
+#include "controllers/constant_signal.h"
+
+#include "joint.h"
 
 #include "object.h"
 
 #include "part.h"
 #include "parts/sphere.h"
 #include "parts/ground.h"
+
+#include "sensor.h"
+#include "sensors/clock.h"
 
 #include "tools/common_options_parser.h"
 #include "tools/logger_ticks_parts_dat.h"
@@ -136,14 +143,15 @@ int main(int argc, char * argv[]) {
     pendulum_part_set.insert(&sphere);
 
     // Pendulum joints
-    Eigen::Vector3d pendulum_p2p_pivot(-5., 0., 0.);
-    simulator::PointToPoint pendulum_p2p(&sphere, pendulum_p2p_pivot, "pendulum_point_to_point");
-
     std::set<simulator::Joint *> pendulum_joint_set;
-    pendulum_joint_set.insert(&pendulum_p2p);
-    
+
     // Pendulum actuators
+    Eigen::Vector3d pendulum_motor_pivot(-5., 0., 0.);
+    Eigen::Vector3d pendulum_motor_axis(0., 1., 0.);
+    simulator::Motor pendulum_motor(&sphere, pendulum_motor_pivot, pendulum_motor_axis, "pendulum_motor");
+
     std::set<simulator::Actuator *> pendulum_actuator_set;
+    pendulum_actuator_set.insert(&pendulum_motor);
 
     // Pendulum object
     simulator::Object pendulum(pendulum_part_set, pendulum_joint_set, pendulum_actuator_set, "pendulum");

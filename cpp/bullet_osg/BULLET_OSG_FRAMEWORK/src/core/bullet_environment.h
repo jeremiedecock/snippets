@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef BULLET_ENVIRONMENT_H
-#define BULLET_ENVIRONMENT_H
+#ifndef BOTSIM_BULLET_ENVIRONMENT_H
+#define BOTSIM_BULLET_ENVIRONMENT_H
 
 #include "object.h"
 #include "joint.h"
@@ -153,4 +153,4 @@ namespace simulator {
 
 }
 
-#endif // BULLET_ENVIRONMENT_H
+#endif // BOTSIM_BULLET_ENVIRONMENT_H

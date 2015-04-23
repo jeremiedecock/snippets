@@ -7,8 +7,8 @@
  * www.jdhp.org
  */
 
-#ifndef PART_H
-#define PART_H
+#ifndef BOTSIM_PART_H
+#define BOTSIM_PART_H
 
 #include <string>
 
@@ -92,4 +92,4 @@ namespace simulator {
 
 }
 
-#endif // PART_H
+#endif // BOTSIM_PART_H
