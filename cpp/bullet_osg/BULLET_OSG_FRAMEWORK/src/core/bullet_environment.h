@@ -89,6 +89,9 @@ namespace simulator {
              */
             static void tickCallback(btDynamicsWorld * world, btScalar time_step);
 
+            /**
+             * This function is called at each tick of this instance.
+             */
             void notifyTick();
 
             void notifyTimeStep();

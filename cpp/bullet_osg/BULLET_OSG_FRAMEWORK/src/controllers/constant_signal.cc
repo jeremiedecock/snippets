@@ -11,6 +11,8 @@
 
 #include <Eigen/Dense>
 
+#include <iostream>
+
 simulator::ConstantSignal::ConstantSignal(std::set<simulator::Actuator *> actuator_set,
                                           std::set<simulator::Sensor *> sensor_set,
                                           double _const_value,
@@ -31,6 +33,7 @@ void simulator::ConstantSignal::updateActuators() {
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
         //(*actuator_it)->...(this->constantValue);
+        std::cout << "update " << (*actuator_it)->getName() << std::endl;
     }
 }
 

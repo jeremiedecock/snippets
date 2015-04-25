@@ -285,11 +285,20 @@ void simulator::BulletEnvironment::detachTimeStepObserver(simulator::TimeStepObs
 
 
 void simulator::BulletEnvironment::notifyTick() {
+
+    // Udate elapsedSimulationTimeSecTickRes
     this->elapsedSimulationTimeSecTickRes += this->bulletTickDurationSec;
 
+    // Update all observers
     std::set<simulator::BulletTickObserver *>::iterator it;
     for(it = this->tickObserverSet.begin() ; it != this->tickObserverSet.end() ; it++) {
         (*it)->update(this);
+    }
+
+    // Update each controller
+    std::set<simulator::Controller *>::iterator controller_it;
+    for(controller_it = this->controllerSet.begin() ; controller_it != this->controllerSet.end() ; controller_it++) {
+        (*controller_it)->updateActuators();
     }
 }
 
