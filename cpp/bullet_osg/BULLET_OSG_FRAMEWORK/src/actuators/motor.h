@@ -22,7 +22,11 @@
 
 namespace simulator {
 
-    class Motor: public simulator::Actuator, public simulator::Hinge {
+    class Motor: public simulator::Actuator/*, public simulator::Hinge*/ {
+        protected:
+            // Common
+            std::string name;                         // the name of this instance
+
         public:
             Motor(simulator::Part * part1,
                   simulator::Part * part2,
@@ -38,6 +42,8 @@ namespace simulator {
                   std::string _name="");
 
             virtual ~Motor();
+
+            std::string getName() const;
     };
 
 }

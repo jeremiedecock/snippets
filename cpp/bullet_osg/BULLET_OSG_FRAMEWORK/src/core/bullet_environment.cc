@@ -39,12 +39,14 @@ void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScala
 simulator::BulletEnvironment::BulletEnvironment(
         std::set<simulator::Object *> object_set,
         std::set<simulator::Part *> part_set,
+        std::set<simulator::Controller *> controller_set,
         double bullet_time_step_duration_sec,
         double bullet_tick_duration_sec,
         int bullet_max_ticks_per_time_step,
         double simulation_duration_sec) :
             objectSet(object_set),
             partSet(part_set),
+            controllerSet(controller_set),
             bulletTimeStepDurationSec(bullet_time_step_duration_sec),
             bulletTickDurationSec(bullet_tick_duration_sec),
             bulletMaxTicksPerTimeStep(bullet_max_ticks_per_time_step),
@@ -81,6 +83,7 @@ simulator::BulletEnvironment::BulletEnvironment(
     std::set<simulator::Object *>::iterator object_it;
     std::set<simulator::Part *>::iterator part_it;
     std::set<simulator::Joint *>::iterator joint_it;
+    std::set<simulator::Actuator *>::iterator actuator_it;
 
     for(object_it = this->objectSet.begin() ; object_it != this->objectSet.end() ; object_it++) {
         std::set<simulator::Part *> part_set = (*object_it)->getPartSet();
@@ -115,6 +118,14 @@ simulator::BulletEnvironment::BulletEnvironment(
         std::set<simulator::Joint *> joint_set = (*object_it)->getJointSet();
         for(joint_it = joint_set.begin() ; joint_it != joint_set.end() ; joint_it++) {
             this->dynamicsWorld->addConstraint((*joint_it)->getBulletTypedConstraint());
+        }
+
+        /*
+         * Add object's actuators (i.e. Bullet's constraints).
+         */
+        std::set<simulator::Actuator *> actuator_set = (*object_it)->getActuatorSet();
+        for(actuator_it = actuator_set.begin() ; actuator_it != actuator_set.end() ; actuator_it++) {
+            this->dynamicsWorld->addConstraint((*actuator_it)->getBulletTypedConstraint());
         }
     }
 

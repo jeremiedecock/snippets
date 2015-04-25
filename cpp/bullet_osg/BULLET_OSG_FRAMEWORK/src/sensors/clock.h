@@ -13,20 +13,24 @@
 #include "bullet_environment.h"
 #include "sensor.h"
 
+#include <Eigen/Dense>
+
 namespace simulator {
 
     class Clock: public simulator::Sensor {
         protected:
             // Common
+            //simulator::BulletEnvironment * bulletEnvironment;
+
             std::string name;                         // the name of this instance
 
-            simulator::BulletEnvironment * bulletEnvironment;
-
         public:
-            Clock(simulator::BulletEnvironment * bullet_environment,
+            Clock(//simulator::BulletEnvironment * bullet_environment,
                   std::string _name="");
 
             ~Clock();
+
+            Eigen::VectorXd getPercepts();
 
             std::string getName() const;
     };

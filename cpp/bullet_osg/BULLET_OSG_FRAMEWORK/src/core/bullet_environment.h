@@ -10,8 +10,9 @@
 #ifndef BOTSIM_BULLET_ENVIRONMENT_H
 #define BOTSIM_BULLET_ENVIRONMENT_H
 
-#include "object.h"
+#include "controller.h"
 #include "joint.h"
+#include "object.h"
 #include "part.h"
 
 #include <chrono>
@@ -80,6 +81,7 @@ namespace simulator {
         public:
             std::set<simulator::Object *> objectSet;
             std::set<simulator::Part *> partSet;
+            std::set<simulator::Controller *> controllerSet;
 
         private:
             /**
@@ -94,6 +96,7 @@ namespace simulator {
         public:
             BulletEnvironment(std::set<simulator::Object *> object_set,
                               std::set<simulator::Part *> part_set,
+                              std::set<simulator::Controller *> controller_set,
                               double bullet_time_step_duration_sec=-1.0,
                               double bullet_tick_duration_sec=0.003,
                               int bullet_max_ticks_per_time_step=1000,

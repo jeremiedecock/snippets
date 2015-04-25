@@ -17,12 +17,40 @@ namespace simulator {
     class SinusoidalSignal: public simulator::Controller {
         protected:
             // Common
-            std::string name;                         // the name of this instance
+            double amplitude;  // The peak deviation of the function from zero.
+            double frequency;  // The number of oscillations (cycles) that occur each second of time.
+            double phase;      // Specifies (in radians) where in its cycle the oscillation is at t = 0.
+            std::string name;  // The name of this instance.
 
         public:
-            SinusoidalSignal(std::string _name="");
+            /**
+             * A very basic controler wich sends a sinusoidal signal to actuators.
+             * It only requires a Clock (time) sensor.
+             * The signal "y" sent to actuators with respect to time is:
+             *
+             * y(t) = amplitude * sin(2.0 * PI * frequency * t + phase)
+             *
+             * \param[in] amplitude  The peak deviation of the function from zero.
+             * \param[in] frequency  The number of oscillations (cycles) that occur each second of time.
+             * \param[in] phase      Specifies (in radians) where in its cycle the oscillation is at t = 0.
+             * \param[in] name       The name of this instance.
+             */
+            SinusoidalSignal(std::set<simulator::Actuator *> actuator_set,
+                             std::set<simulator::Sensor *> sensor_set,
+                             double _amplitude,
+                             double _frequency,
+                             double _phase,
+                             std::string _name="");
 
             ~SinusoidalSignal();
+
+            void updateActuators();
+
+            double getAmplitude() const;
+
+            double getFrequency() const;
+
+            double getPhase() const;
 
             std::string getName() const;
     };

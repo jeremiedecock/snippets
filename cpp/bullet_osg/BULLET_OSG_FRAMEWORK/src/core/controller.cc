@@ -9,4 +9,10 @@
 
 #include "controller.h"
 
-// TODO ?
+std::set<simulator::Actuator *> simulator::Controller::getActuatorSet() const {
+    return this->actuatorSet;
+}
+
+std::set<simulator::Sensor *> simulator::Controller::getSensorSet() const {
+    return this->sensorSet;
+}

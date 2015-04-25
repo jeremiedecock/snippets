@@ -10,9 +10,11 @@
 #ifndef BOTSIM_ACTUATOR_H
 #define BOTSIM_ACTUATOR_H
 
+#include "joint.h"
+
 namespace simulator {
 
-    class Actuator {
+    class Actuator: public simulator::Joint {
         public:
             virtual ~Actuator() {};
     };

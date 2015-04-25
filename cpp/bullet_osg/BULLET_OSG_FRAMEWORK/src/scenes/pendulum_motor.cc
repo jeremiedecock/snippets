@@ -160,6 +160,14 @@ int main(int argc, char * argv[]) {
     
     // Ground
     simulator::Ground ground(friction, rolling_friction, restitution);
+    
+    // Controllers ////////////////////
+    
+    simulator::Clock clock_sensor(/* bullet_environment, */"clock");
+    std::set<simulator::Sensor *> sensor_set;
+    sensor_set.insert(&clock_sensor);
+
+    simulator::ConstantSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2.0, "pendulum_controller");
 
     // Bullet environment /////////////
     
@@ -170,9 +178,13 @@ int main(int argc, char * argv[]) {
     // Bullet part set
     std::set<simulator::Part *> bullet_part_set;
     bullet_part_set.insert(&ground);
+    
+    // Controller set
+    std::set<simulator::Controller *> controller_set;
+    controller_set.insert(&pendulum_controller);
 
     // Bullet environment
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log ///////////////////////////////////////////////////////////////
 

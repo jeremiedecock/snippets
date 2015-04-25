@@ -17,12 +17,20 @@ namespace simulator {
     class ConstantSignal: public simulator::Controller {
         protected:
             // Common
-            std::string name;                         // the name of this instance
+            double constantValue; // The value of the signal.
+            std::string name;     // The name of this instance.
 
         public:
-            ConstantSignal(std::string _name="");
+            ConstantSignal(std::set<simulator::Actuator *> actuator_set,
+                           std::set<simulator::Sensor *> sensor_set,
+                           double _constant_value,
+                           std::string _name="");
 
             ~ConstantSignal();
+
+            void updateActuators();
+
+            double getConstantValue() const;
 
             std::string getName() const;
     };

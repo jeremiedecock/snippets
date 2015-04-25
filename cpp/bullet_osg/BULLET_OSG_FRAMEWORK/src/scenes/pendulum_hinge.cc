@@ -9,6 +9,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 
+#include "controller.h"
+
 #include "actuator.h"
 
 #include "joints/hinge.h"
@@ -163,9 +165,12 @@ int main(int argc, char * argv[]) {
     // Bullet part set
     std::set<simulator::Part *> bullet_part_set;
     bullet_part_set.insert(&ground);
+    
+    // Controller set
+    std::set<simulator::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log ///////////////////////////////////////////////////////////////
 

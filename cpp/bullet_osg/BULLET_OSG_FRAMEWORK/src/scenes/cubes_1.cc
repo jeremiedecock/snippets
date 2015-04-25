@@ -9,6 +9,8 @@
 #include "bullet_environment.h"
 #include "osg_environment.h"
 
+#include "controller.h"
+
 #include "object.h"
 
 #include "part.h"
@@ -80,9 +82,12 @@ int main(int argc, char * argv[]) {
     bullet_part_set.insert(&box2);
     bullet_part_set.insert(&box3);
     bullet_part_set.insert(&box4);
+    
+    // Controller set
+    std::set<simulator::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
