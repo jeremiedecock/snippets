@@ -2,6 +2,37 @@ TODO
 
 Exemple de qualité physique et visuelle à atteindre: https://www.youtube.com/watch?v=BGAwRKPlpCw
 
+STEP 0: objets, actuateurs, contrôleurs
++ rétablir "Clock" sensor
+  -> définir le controleur après l'instanciation de BulletEnv dans la fonction main
+  -> rétablir le pointeur vers BulletEnv
++ tester l'identité de l'instance du sensor dans SinusoidController:
+  -> si il n'y a pas exactement 1 instance de Clock dans sensorSet, throw exception
+  -> extraire le temps du vecteur "percept"
+  -> afficher le temps (de simulation) dans le contrôleur à la place du message
+     "update actuator".
++ SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...))
+  (écrire une fonction membre qui retourne la valeur du signal en fonction du temps)
++ tester l'identité de l'instance des actuators dans les 2 Controller:
+  -> ~~ si il n'y a pas exactement "N" instances de Motor dans actuatorSet, throw exception
+  -> envoyer le signal aux actuateurs
+  -> envoyer le signal aux actuateurs
++ "ConstantController" et "SinusoidController" prend en paramètre une map
+  std::map<Actuator *, UnObjetOuUneStructureQuiContientLesParamPourLActuateurEnClé>
+  pour donner un jeu de paramètres différent à chaque actuateur.
+  Pour ConstantController: la valeur du signal.
+  Pour SinusoidController: les paramètres amplitude, fréquence et phase.
++ créer le répertoire "src/builtin_objects" : contient des modules, 1 module
+  par objet. Ces modules contiennent une fonction "build_object(...)" et
+  éventuellement une structure "..._build_data". Les fonctions "build_object"
+  prennent en entrée des paramètres et retournent une instance d'"Object". Chacun
+  de ces modules jouent le même rôle que les futurs fichiers XML servant à la
+  description des objets. Le module "src/part/ground.*" doit être supprimé et
+  remplacé par un module équivalant dans "src/builtin_objects" (chaque dalle =
+  1 part "Box" ?).
++ créer le Robudog dans "src/builtin_objects/robudog.*"
++ compléter l'interface de Joint et Actuator : ajouter des propriétés physiques telles que "joint_min_limit", "joint_max_limit", etc.
++ ajouter les autres joints
 
 STEP 1: objets, actuateurs, contrôleurs
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
