@@ -25,7 +25,10 @@ namespace simulator {
             std::string name;                         // the name of this instance
 
         public:
-            Clock(//simulator::BulletEnvironment * bullet_environment,
+            simulator::BulletEnvironment * bulletEnvironment;  // TODO: UGLY WORKAROUND !
+
+        public:
+            Clock(simulator::BulletEnvironment * bullet_environment,
                   std::string _name="");
 
             ~Clock();

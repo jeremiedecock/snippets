@@ -29,6 +29,11 @@ simulator::ConstantSignal::~ConstantSignal() {
 
 void simulator::ConstantSignal::updateActuators() {
     // TODO !!!
+
+    /*
+     * UPDATE ACTUATORS
+     */
+
     std::set<simulator::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {

@@ -1,0 +1,12 @@
+digraph g {
+    BulletEnvironment -> Part;
+    BulletEnvironment -> Joint;
+    BulletEnvironment -> Controller;
+
+    Object -> Part;
+    Object -> Joint;
+    Object -> Actuator;
+
+    Controller -> Actuator;
+    Controller -> Sensor;
+}

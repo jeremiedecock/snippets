@@ -163,7 +163,7 @@ int main(int argc, char * argv[]) {
     
     // Controllers ////////////////////
     
-    simulator::Clock clock_sensor(/* bullet_environment, */"clock");
+    simulator::Clock clock_sensor(NULL, "clock");  // TODO: UGLY WORKAROUND !
     std::set<simulator::Sensor *> sensor_set;
     sensor_set.insert(&clock_sensor);
 
@@ -185,6 +185,9 @@ int main(int argc, char * argv[]) {
 
     // Bullet environment
     simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+
+    
+    clock_sensor.bulletEnvironment = bullet_environment;  // TODO: UGLY WORKAROUND !
 
     // Init log ///////////////////////////////////////////////////////////////
 

@@ -3,10 +3,9 @@ TODO
 Exemple de qualité physique et visuelle à atteindre: https://www.youtube.com/watch?v=BGAwRKPlpCw
 
 STEP 0: objets, actuateurs, contrôleurs
-+ rétablir "Clock" sensor
-  -> définir le controleur après l'instanciation de BulletEnv dans la fonction main
+x rétablir "Clock" sensor
   -> rétablir le pointeur vers BulletEnv
-+ tester l'identité de l'instance du sensor dans SinusoidController:
+x tester l'identité de l'instance du sensor dans SinusoidController:
   -> si il n'y a pas exactement 1 instance de Clock dans sensorSet, throw exception
   -> extraire le temps du vecteur "percept"
   -> afficher le temps (de simulation) dans le contrôleur à la place du message
@@ -15,7 +14,6 @@ STEP 0: objets, actuateurs, contrôleurs
   (écrire une fonction membre qui retourne la valeur du signal en fonction du temps)
 + tester l'identité de l'instance des actuators dans les 2 Controller:
   -> ~~ si il n'y a pas exactement "N" instances de Motor dans actuatorSet, throw exception
-  -> envoyer le signal aux actuateurs
   -> envoyer le signal aux actuateurs
 + "ConstantController" et "SinusoidController" prend en paramètre une map
   std::map<Actuator *, UnObjetOuUneStructureQuiContientLesParamPourLActuateurEnClé>
@@ -30,8 +28,10 @@ STEP 0: objets, actuateurs, contrôleurs
   description des objets. Le module "src/part/ground.*" doit être supprimé et
   remplacé par un module équivalant dans "src/builtin_objects" (chaque dalle =
   1 part "Box" ?).
++ idem pour "src/builtin_parts"...
 + créer le Robudog dans "src/builtin_objects/robudog.*"
-+ compléter l'interface de Joint et Actuator : ajouter des propriétés physiques telles que "joint_min_limit", "joint_max_limit", etc.
++ compléter l'interface de Joint et Actuator : ajouter des propriétés physiques
+  telles que "joint_min_limit", "joint_max_limit", etc.
 + ajouter les autres joints
 
 STEP 1: objets, actuateurs, contrôleurs

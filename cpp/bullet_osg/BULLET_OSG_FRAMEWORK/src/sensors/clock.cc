@@ -9,9 +9,9 @@
 
 #include "clock.h"
 
-simulator::Clock::Clock(//simulator::BulletEnvironment * bullet_environment,
+simulator::Clock::Clock(simulator::BulletEnvironment * bullet_environment,
                         std::string _name) :
-                        //    bulletEnvironment(bullet_environment),
+                            bulletEnvironment(bullet_environment),
                             name(_name) {
     // TODO
 }
@@ -21,8 +21,7 @@ simulator::Clock::~Clock() {
 }
 
 Eigen::VectorXd simulator::Clock::getPercepts() {
-    //const double simulation_duration_sec = this->bulletEnvironment->getElapsedSimulationTimeSecTickRes();
-    const double simulation_duration_sec = 0; // TODO !!!!!!!!!!!!!!
+    const double simulation_duration_sec = this->bulletEnvironment->getElapsedSimulationTimeSecTickRes();
     Eigen::VectorXd percept_vector(simulation_duration_sec);
     return percept_vector;
 }
