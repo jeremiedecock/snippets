@@ -9,6 +9,8 @@
 
 #include "constant_signal.h"
 
+#include "actuators/motor.h"
+
 #include <Eigen/Dense>
 
 #include <iostream>
@@ -28,17 +30,27 @@ simulator::ConstantSignal::~ConstantSignal() {
 }
 
 void simulator::ConstantSignal::updateActuators() {
-    // TODO !!!
+
+    double signal_value = this->constantValue;
+    std::cout << signal_value << std::endl;
 
     /*
      * UPDATE ACTUATORS
      */
 
+    if(this->actuatorSet.size() != 1) {
+        throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
+    }
+
     std::set<simulator::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
-        //(*actuator_it)->...(this->constantValue);
-        std::cout << "update " << (*actuator_it)->getName() << std::endl;
+        if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+            // TODO !!!
+            //(*actuator_it)->getPercepts(signal_value);
+        } else {
+            throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
+        }
     }
 }
 

@@ -22,7 +22,7 @@
 
 namespace simulator {
 
-    class Motor: public simulator::Actuator/*, public simulator::Hinge*/ {
+    class Motor: public simulator::Actuator/*, public simulator::Hinge*/ { // TODO !!!
         protected:
             // Common
             std::string name;                         // the name of this instance

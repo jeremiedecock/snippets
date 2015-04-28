@@ -147,7 +147,7 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Joint *> pendulum_joint_set;
 
     // Pendulum actuators
-    Eigen::Vector3d pendulum_motor_pivot(-5., 0., 0.);
+    Eigen::Vector3d pendulum_motor_pivot(0., 5., 0.);
     Eigen::Vector3d pendulum_motor_axis(0., 1., 0.);
     simulator::Motor pendulum_motor(&sphere, pendulum_motor_pivot, pendulum_motor_axis, "pendulum_motor");
 

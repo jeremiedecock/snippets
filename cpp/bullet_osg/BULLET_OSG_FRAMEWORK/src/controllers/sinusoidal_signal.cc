@@ -9,6 +9,7 @@
 
 #include "sinusoidal_signal.h"
 
+#include "actuators/motor.h"
 #include "sensors/clock.h"
 #include "tools/tools.h"
 
@@ -40,7 +41,6 @@ double simulator::SinusoidalSignal::computeSignalValue(double time) const {
 }
 
 void simulator::SinusoidalSignal::updateActuators() {
-    // TODO !!!
 
     /*
      * GET PERCEPTS
@@ -64,19 +64,26 @@ void simulator::SinusoidalSignal::updateActuators() {
         }
     }
 
-    //double signal_value = this->amplitude * std::sin(2.0 * PI * this->frequency * simulation_duration_sec + this->phase);
     double signal_value = this->computeSignalValue(simulation_duration_sec);
-
     std::cout << simulation_duration_sec << " : " << signal_value << std::endl;
 
     /*
      * UPDATE ACTUATORS
      */
 
+    if(this->actuatorSet.size() != 1) {
+        throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
+    }
+
     std::set<simulator::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
-        //(*actuator_it)->...(this->constantValue);
+        if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+            // TODO !!!
+            //(*actuator_it)->getPercepts(signal_value);
+        } else {
+            throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
+        }
     }
 }
 
