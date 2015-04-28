@@ -43,6 +43,8 @@ namespace simulator {
 
             virtual ~Motor();
 
+            void setAngularVelocity(double target_velocity);
+
             std::string getName() const;
     };
 

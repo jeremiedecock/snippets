@@ -79,8 +79,7 @@ void simulator::SinusoidalSignal::updateActuators() {
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
         if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
-            // TODO !!!
-            //(*actuator_it)->getPercepts(signal_value);
+            motor_actuator->setAngularVelocity(signal_value);
         } else {
             throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
         }
