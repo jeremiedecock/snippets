@@ -10,8 +10,12 @@
 #include "sinusoidal_signal.h"
 
 #include "sensors/clock.h"
+#include "tools/tools.h"
 
+#include <cmath>
 #include <iostream>
+
+const static double PI = std::acos(-1);
 
 simulator::SinusoidalSignal::SinusoidalSignal(std::set<simulator::Actuator *> actuator_set,
                                               std::set<simulator::Sensor *> sensor_set,
@@ -31,13 +35,19 @@ simulator::SinusoidalSignal::~SinusoidalSignal() {
     // TODO
 }
 
+double simulator::SinusoidalSignal::computeSignalValue(double time) const {
+    double signal_value = this->amplitude * std::sin(2.0 * PI * this->frequency * time + this->phase);
+}
+
 void simulator::SinusoidalSignal::updateActuators() {
     // TODO !!!
 
     /*
      * GET PERCEPTS
      */
-    
+
+    double simulation_duration_sec;
+
     if(this->sensorSet.size() != 1) {
        throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Clock\" sensor."); 
     }
@@ -48,13 +58,16 @@ void simulator::SinusoidalSignal::updateActuators() {
         if(simulator::Clock * clock_sensor = dynamic_cast<simulator::Clock *>(*sensor_it)) {
             Eigen::VectorXd percept_vector = (*sensor_it)->getPercepts();
 
-            double simulation_duration_sec = percept_vector[0];  // TODO !!!
-
-            std::cout << simulation_duration_sec << std::endl;
+            simulation_duration_sec = percept_vector[0];  // TODO !!!
         } else {
             throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Clock\" sensor."); 
         }
     }
+
+    //double signal_value = this->amplitude * std::sin(2.0 * PI * this->frequency * simulation_duration_sec + this->phase);
+    double signal_value = this->computeSignalValue(simulation_duration_sec);
+
+    std::cout << simulation_duration_sec << " : " << signal_value << std::endl;
 
     /*
      * UPDATE ACTUATORS

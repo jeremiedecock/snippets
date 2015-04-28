@@ -44,6 +44,8 @@ namespace simulator {
 
             ~SinusoidalSignal();
 
+            double computeSignalValue(double time) const;
+
             void updateActuators();
 
             double getAmplitude() const;

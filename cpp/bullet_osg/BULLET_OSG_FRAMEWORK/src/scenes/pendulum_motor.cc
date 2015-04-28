@@ -14,6 +14,7 @@
 
 #include "controller.h"
 #include "controllers/constant_signal.h"
+#include "controllers/sinusoidal_signal.h"
 
 #include "joint.h"
 
@@ -167,7 +168,8 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Sensor *> sensor_set;
     sensor_set.insert(&clock_sensor);
 
-    simulator::ConstantSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2.0, "pendulum_controller");
+    //simulator::ConstantSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2.0, "pendulum_controller");
+    simulator::SinusoidalSignal pendulum_controller(pendulum_actuator_set, sensor_set, 1., 1., 0., "pendulum_controller");
 
     // Bullet environment /////////////
     

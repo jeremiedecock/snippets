@@ -24,6 +24,8 @@ namespace simulator {
 
             std::string name;                         // the name of this instance
 
+            double simulationDurationSec;
+
         public:
             simulator::BulletEnvironment * bulletEnvironment;  // TODO: UGLY WORKAROUND !
 
@@ -36,6 +38,8 @@ namespace simulator {
             Eigen::VectorXd getPercepts();
 
             std::string getName() const;
+
+            double getSimulationDurationSec() const;
     };
 
 }

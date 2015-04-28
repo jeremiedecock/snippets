@@ -10,7 +10,7 @@ x tester l'identité de l'instance du sensor dans SinusoidController:
   -> extraire le temps du vecteur "percept"
   -> afficher le temps (de simulation) dans le contrôleur à la place du message
      "update actuator".
-+ SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...))
+x SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...))
   (écrire une fonction membre qui retourne la valeur du signal en fonction du temps)
 + tester l'identité de l'instance des actuators dans les 2 Controller:
   -> ~~ si il n'y a pas exactement "N" instances de Motor dans actuatorSet, throw exception
@@ -33,6 +33,15 @@ x tester l'identité de l'instance du sensor dans SinusoidController:
 + compléter l'interface de Joint et Actuator : ajouter des propriétés physiques
   telles que "joint_min_limit", "joint_max_limit", etc.
 + ajouter les autres joints
+- mettre les attributs std::set<...> de Controller, BulletEnvironment et Object en public const (et supprimer les getters) ?
+  But: supprimer toute ambiguité sur le fait qu'ils soit constant -> ces
+  attributs sont traités dans le constructeur, les modifier après coup est sans
+  effet.
+  Pb: Le constructeur de la classe Object modifie les partsSet (et jointSet
+  ?)... -> faire en sorte que le set commun parts+objects::parts ne soit plus
+  qu'une variable locale (et non plus un attribut) utilisée pour initialliser
+  btDynamicWorld ?
+- nettoyer Clock : devient un observer de bulletEnv tick events.
 
 STEP 1: objets, actuateurs, contrôleurs
 + Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de libertés)
