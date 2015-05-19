@@ -62,9 +62,9 @@ static Eigen::Vector3d initial_velocity;
 static Eigen::Vector3d initial_angular_velocity;
 static Eigen::Vector3d initial_inertia;
 
-static std::string initial_position_str_opt         = "0.,0.,10.";
+static std::string initial_position_str_opt         = "0.,0.,4.";
 static std::string initial_angle_str_opt            = "0.,0.,0.,1.";
-static std::string initial_velocity_str_opt         = "1.,0.,0.";
+static std::string initial_velocity_str_opt         = "0.,0.,0.";
 static std::string initial_angular_velocity_str_opt = "0.,0.,0.";
 static std::string initial_inertia_str_opt          = "0.,0.,0.";
 
@@ -147,7 +147,7 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Joint *> pendulum_joint_set;
 
     // Pendulum actuators
-    Eigen::Vector3d pendulum_motor_pivot(0., 5., 0.);
+    Eigen::Vector3d pendulum_motor_pivot(0., 0., 2.);
     Eigen::Vector3d pendulum_motor_axis(0., 1., 0.);
     simulator::Motor pendulum_motor(&sphere, pendulum_motor_pivot, pendulum_motor_axis, "pendulum_motor");
 
@@ -169,7 +169,7 @@ int main(int argc, char * argv[]) {
     sensor_set.insert(&clock_sensor);
 
     //simulator::ConstantSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2.0, "pendulum_controller");
-    simulator::SinusoidalSignal pendulum_controller(pendulum_actuator_set, sensor_set, 1., 1., 0., "pendulum_controller");
+    simulator::SinusoidalSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2., 0.25, 3.14/2., "pendulum_controller");
 
     // Bullet environment /////////////
     
@@ -202,19 +202,19 @@ int main(int argc, char * argv[]) {
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(bullet_part_set);
+    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(pendulum_part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(bullet_part_set);
+    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(pendulum_part_set);
     bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(bullet_part_set);
+    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(pendulum_part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(bullet_part_set);
+    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(pendulum_part_set);
     bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 
