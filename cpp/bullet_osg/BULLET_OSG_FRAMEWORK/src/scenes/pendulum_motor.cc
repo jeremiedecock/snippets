@@ -17,6 +17,7 @@
 #include "controllers/sinusoidal_signal.h"
 
 #include "joint.h"
+#include "joint_slots/hinge_slot.h"
 
 #include "object.h"
 
@@ -147,9 +148,10 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Joint *> pendulum_joint_set;
 
     // Pendulum actuators
-    Eigen::Vector3d pendulum_motor_pivot(0., 0., 2.);
-    Eigen::Vector3d pendulum_motor_axis(0., 1., 0.);
-    simulator::Motor pendulum_motor(&sphere, pendulum_motor_pivot, pendulum_motor_axis, "pendulum_motor");
+    Eigen::Vector3d pendulum_hinge_pivot(0., 0., 2.);
+    Eigen::Vector3d pendulum_hinge_axis(0., 1., 0.);
+    simulator::HingeSlot pendulum_hinge_slot(pendulum_hinge_pivot, pendulum_hinge_axis);
+    simulator::Motor pendulum_motor(&sphere, &pendulum_hinge_slot, "pendulum_motor");
 
     std::set<simulator::Actuator *> pendulum_actuator_set;
     pendulum_actuator_set.insert(&pendulum_motor);
@@ -169,7 +171,7 @@ int main(int argc, char * argv[]) {
     sensor_set.insert(&clock_sensor);
 
     //simulator::ConstantSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2.0, "pendulum_controller");
-    simulator::SinusoidalSignal pendulum_controller(pendulum_actuator_set, sensor_set, 2., 0.25, 3.14/2., "pendulum_controller");
+    simulator::SinusoidalSignal pendulum_controller(pendulum_actuator_set, sensor_set, 4., 0.25, 3.14/2., "pendulum_controller");
 
     // Bullet environment /////////////
     

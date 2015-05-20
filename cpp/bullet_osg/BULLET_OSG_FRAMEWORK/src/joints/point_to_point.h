@@ -11,11 +11,8 @@
 #define BOTSIM_POINT_TO_POINT_H
 
 #include "joint.h"
+#include "joint_slots/point_to_point_slot.h"
 #include "part.h"
-
-#include <Eigen/Dense>
-
-#include <btBulletDynamicsCommon.h>
 
 namespace simulator {
 
@@ -27,12 +24,12 @@ namespace simulator {
         public:
             PointToPoint(simulator::Part * part1,
                          simulator::Part * part2,
-                         Eigen::Vector3d pivot_in_part1,
-                         Eigen::Vector3d pivot_in_part2,
+                         simulator::PointToPointSlot * joint_slot_for_part1,
+                         simulator::PointToPointSlot * joint_slot_for_part2,
                          std::string _name="");
 
             PointToPoint(simulator::Part * part,
-                         Eigen::Vector3d pivot,
+                         simulator::PointToPointSlot * joint_slot,
                          std::string _name="");
 
             ~PointToPoint();

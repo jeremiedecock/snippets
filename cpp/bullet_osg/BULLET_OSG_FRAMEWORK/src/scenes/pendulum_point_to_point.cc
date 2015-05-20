@@ -14,6 +14,7 @@
 #include "actuator.h"
 
 #include "joints/point_to_point.h"
+#include "joint_slots/point_to_point_slot.h"
 
 #include "object.h"
 
@@ -139,7 +140,8 @@ int main(int argc, char * argv[]) {
 
     // Pendulum joints
     Eigen::Vector3d pendulum_p2p_pivot(-5., 0., 0.);
-    simulator::PointToPoint pendulum_p2p(&sphere, pendulum_p2p_pivot, "pendulum_point_to_point");
+    simulator::PointToPointSlot pendulum_p2p_slot(pendulum_p2p_pivot);
+    simulator::PointToPoint pendulum_p2p(&sphere, &pendulum_p2p_slot, "pendulum_point_to_point");
 
     std::set<simulator::Joint *> pendulum_joint_set;
     pendulum_joint_set.insert(&pendulum_p2p);

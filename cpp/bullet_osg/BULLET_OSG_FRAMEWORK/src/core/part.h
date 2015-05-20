@@ -10,6 +10,9 @@
 #ifndef BOTSIM_PART_H
 #define BOTSIM_PART_H
 
+#include "joint_slot.h"
+
+#include <map>
 #include <string>
 
 #include <osg/Group>
@@ -29,6 +32,8 @@ namespace simulator {
             // OSG
             osg::Group * osgGroup;
             osg::PositionAttitudeTransform * osgPAT;
+
+            std::map<std::string, simulator::JointSlot *> jointSlotMap;
 
             double mass;                              // which unit ? Kg ?
 
@@ -56,6 +61,8 @@ namespace simulator {
 
 
             // General accessors (return scalars, stl objects or eigen matrices) //////////////////
+
+            std::map<std::string, simulator::JointSlot *> getJointSlotMap() const;
 
             virtual std::string getName() const = 0;
 

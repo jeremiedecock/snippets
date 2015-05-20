@@ -14,6 +14,7 @@
 #include "actuator.h"
 
 #include "joints/hinge.h"
+#include "joint_slots/hinge_slot.h"
 
 #include "object.h"
 
@@ -140,7 +141,8 @@ int main(int argc, char * argv[]) {
     // Pendulum joints
     Eigen::Vector3d pendulum_hinge_pivot(-5., 0., 0.);
     Eigen::Vector3d pendulum_hinge_axis(0., 1., 0.);
-    simulator::Hinge pendulum_hinge(&sphere, pendulum_hinge_pivot, pendulum_hinge_axis, "pendulum_hinge");
+    simulator::HingeSlot pendulum_hinge_slot(pendulum_hinge_pivot, pendulum_hinge_axis);
+    simulator::Hinge pendulum_hinge(&sphere, &pendulum_hinge_slot, "pendulum_hinge");
 
     std::set<simulator::Joint *> pendulum_joint_set;
     pendulum_joint_set.insert(&pendulum_hinge);

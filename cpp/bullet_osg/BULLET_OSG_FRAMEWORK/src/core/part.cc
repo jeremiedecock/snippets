@@ -26,6 +26,14 @@ osg::Node * simulator::Part::getOSGGroup() const {
     return this->osgGroup;
 }
 
+osg::PositionAttitudeTransform * simulator::Part::getOSGPAT() const {
+    return this->osgPAT;
+}
+
+std::map<std::string, simulator::JointSlot *> simulator::Part::getJointSlotMap() const {
+    return this->jointSlotMap;
+}
+
 Eigen::Vector3d simulator::Part::getPosition() const {
     btTransform bulletTransform;
     this->rigidBody->getMotionState()->getWorldTransform(bulletTransform);
@@ -45,10 +53,6 @@ Eigen::Vector4d simulator::Part::getAngle() const {
                           bulletTransform.getRotation().z(),
                           bulletTransform.getRotation().w());
     return angle;
-}
-
-osg::PositionAttitudeTransform * simulator::Part::getOSGPAT() const {
-    return this->osgPAT;
 }
 
 Eigen::Vector3d simulator::Part::getLinearVelocity() const {

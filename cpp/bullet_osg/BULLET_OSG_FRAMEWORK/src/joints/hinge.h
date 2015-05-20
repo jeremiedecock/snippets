@@ -11,11 +11,8 @@
 #define BOTSIM_HINGE_H
 
 #include "joint.h"
+#include "joint_slots/hinge_slot.h"
 #include "part.h"
-
-#include <Eigen/Dense>
-
-#include <btBulletDynamicsCommon.h>
 
 namespace simulator {
 
@@ -27,15 +24,12 @@ namespace simulator {
         public:
             Hinge(simulator::Part * part1,
                   simulator::Part * part2,
-                  Eigen::Vector3d pivot_in_part1,
-                  Eigen::Vector3d pivot_in_part2,
-                  Eigen::Vector3d axis_in_part1,
-                  Eigen::Vector3d axis_in_part2,
+                  simulator::HingeSlot * joint_slot_for_part1,
+                  simulator::HingeSlot * joint_slot_for_part2,
                   std::string _name="");
 
             Hinge(simulator::Part * part,
-                  Eigen::Vector3d pivot,
-                  Eigen::Vector3d axis,
+                  simulator::HingeSlot * joint_slot,
                   std::string _name="");
 
             virtual ~Hinge();

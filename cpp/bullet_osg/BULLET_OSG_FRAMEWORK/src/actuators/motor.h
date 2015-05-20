@@ -12,6 +12,7 @@
 
 #include "actuator.h"
 #include "joints/hinge.h"
+#include "joint_slots/hinge_slot.h"
 #include "part.h"
 
 #include <Eigen/Dense>
@@ -30,15 +31,12 @@ namespace simulator {
         public:
             Motor(simulator::Part * part1,
                   simulator::Part * part2,
-                  Eigen::Vector3d pivot_in_part1,
-                  Eigen::Vector3d pivot_in_part2,
-                  Eigen::Vector3d axis_in_part1,
-                  Eigen::Vector3d axis_in_part2,
+                  simulator::HingeSlot * joint_slot_for_part1,
+                  simulator::HingeSlot * joint_slot_for_part2,
                   std::string _name="");
 
             Motor(simulator::Part * part,
-                  Eigen::Vector3d pivot,
-                  Eigen::Vector3d axis,
+                  simulator::HingeSlot * joint_slot,
                   std::string _name="");
 
             virtual ~Motor();

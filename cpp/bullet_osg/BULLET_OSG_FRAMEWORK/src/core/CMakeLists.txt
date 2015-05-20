@@ -4,6 +4,7 @@ set(core_src actuator.h actuator.cc
              bullet_environment.h bullet_environment.cc 
              controller.h controller.cc
              joint.h joint.cc 
+             joint_slot.h joint_slot.cc 
              object.h object.cc 
              osg_environment.h osg_environment.cc
              part.h part.cc

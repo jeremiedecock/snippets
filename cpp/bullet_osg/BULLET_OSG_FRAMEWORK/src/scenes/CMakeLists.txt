@@ -7,7 +7,7 @@ macro(config_and_add_executable EXEC_NAME SRC_FILE)
 
     # Link to the internal libraries
     # See http://stackoverflow.com/questions/12204820/cmake-and-order-dependent-linking-of-shared-libraries
-    target_link_libraries(${EXEC_NAME} controllers actuators joints sensors parts core tools)
+    target_link_libraries(${EXEC_NAME} controllers actuators joint_slots joints sensors parts core tools)
 
     # Link to Boost libraries
     target_link_libraries(${EXEC_NAME} ${Boost_LIBRARIES})
