@@ -86,7 +86,7 @@ int main(int argc, char * argv[]) {
     sensor_set.insert(p_clock_sensor);
 
     //simulator::ConstantSignal p_robudog_controller(robudog_actuator_set, sensor_set, 2.0, "robudog_controller");
-    simulator::SinusoidalSignal * p_robudog_controller = new simulator::SinusoidalSignal(p_robudog->getActuatorSet(), sensor_set, 4., 0.25, 3.14/2., "robudog_controller");
+    //simulator::SinusoidalSignal * p_robudog_controller = new simulator::SinusoidalSignal(p_robudog->getActuatorSet(), sensor_set, 4., 0.25, 3.14/2., "robudog_controller");
 
     // Bullet environment /////////////
     
@@ -100,7 +100,7 @@ int main(int argc, char * argv[]) {
     
     // Controller set
     std::set<simulator::Controller *> controller_set;
-    controller_set.insert(p_robudog_controller);
+    //controller_set.insert(p_robudog_controller);
 
     // Bullet environment
     simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);

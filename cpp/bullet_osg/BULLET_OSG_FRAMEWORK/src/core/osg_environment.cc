@@ -194,7 +194,7 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     p_light->setSpecular(osg::Vec4(1.0, 1.0, 1.0, 1.0));
 
     // The light's position
-    p_light->setPosition(osg::Vec4(10.0, -10.0, 20.0, 1.0)); // last param w = 0.0 directional light (direction)
+    p_light->setPosition(osg::Vec4(10.0, -10.0, 40.0, 1.0)); // last param w = 0.0 directional light (direction)
                                                            // w = 1.0 point light (position)
     // Light source
     osg::ref_ptr<osg::LightSource> p_light_source = new osg::LightSource(); 

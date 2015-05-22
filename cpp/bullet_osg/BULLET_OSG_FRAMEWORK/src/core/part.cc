@@ -95,3 +95,24 @@ double simulator::Part::getRestitution() const {
     return this->restitution;
 }
 
+void simulator::Part::addJointSlot(std::string key, simulator::JointSlot * value) {
+    this->jointSlotMap[key] = value;
+}
+
+simulator::JointSlot * simulator::Part::getJointSlot(std::string key) {
+    std::map<std::string, simulator::JointSlot *>::iterator it;
+    simulator::JointSlot * p_joint_slot;
+
+    it = this->jointSlotMap.find(key); 
+    if(it != this->jointSlotMap.end()) {
+        p_joint_slot = it->second;
+        if(p_joint_slot == NULL) {
+            throw std::invalid_argument(key + " has a null value.");
+        }
+    } else {
+        throw std::invalid_argument(key + " is not a valid key.");
+    }
+
+    return p_joint_slot;
+}
+

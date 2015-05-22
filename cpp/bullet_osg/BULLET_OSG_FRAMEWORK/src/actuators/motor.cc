@@ -68,7 +68,7 @@ simulator::Motor::~Motor() {
 void simulator::Motor::setAngularVelocity(double target_velocity) {
     if(btHingeConstraint * hinge_constraint = dynamic_cast<btHingeConstraint *>(this->bulletTypedConstraint)) {
         bool enable_motor = true;        // TODO
-        double max_motor_impulse = 5.;   // TODO
+        double max_motor_impulse = 5000.;   // TODO
         hinge_constraint->enableAngularMotor(enable_motor, target_velocity, max_motor_impulse);
     } else {
         throw std::invalid_argument("Internal error."); 

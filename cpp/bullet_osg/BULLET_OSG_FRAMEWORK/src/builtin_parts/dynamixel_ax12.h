@@ -14,7 +14,7 @@
 
 namespace simulator {
 
-    simulator::Part * make_dynamixel_ax12();
+    simulator::Part * make_dynamixel_ax12(const Eigen::Vector3d initial_position, const Eigen::Vector4d initial_angle, std::string name);
 
 }
 

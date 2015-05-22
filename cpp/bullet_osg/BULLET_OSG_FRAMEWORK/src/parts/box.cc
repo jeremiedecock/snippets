@@ -108,6 +108,11 @@ simulator::Box::Box(Eigen::Vector3d initial_dimension,
     btVector3 bt_angular_velocity = simulator::vec3_eigen_to_bullet(this->initialAngularVelocity);
     this->rigidBody->setAngularVelocity(bt_angular_velocity);
 
+    // TODO!
+    this->rigidBody->setDamping(0.05, 0.85);
+    this->rigidBody->setDeactivationTime(0.8);
+    this->rigidBody->setSleepingThresholds(1.6, 2.5);
+
     // OSG
     this->osgBox = new osg::Box(osg::Vec3(0, 0, 0), this->initialDimension(0), this->initialDimension(1), this->initialDimension(2));
     this->osgShapeDrawable = new osg::ShapeDrawable(this->osgBox);

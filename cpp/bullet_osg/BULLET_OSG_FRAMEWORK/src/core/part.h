@@ -39,7 +39,6 @@ namespace simulator {
             double rollingFriction;                   // Resistance of the part to movement. It prevents rounded shapes, such as spheres, cylinders and capsules from rolling forever.
             double restitution;                       // Tendency of the part to bounce after colliding with another (0=stays still, 1=perfectly elastic)
             
-        public:
             std::map<std::string, simulator::JointSlot *> jointSlotMap;
 
         public:
@@ -93,6 +92,10 @@ namespace simulator {
             double getRollingFriction() const;
 
             double getRestitution() const;
+
+            void addJointSlot(std::string key, simulator::JointSlot * value);
+
+            simulator::JointSlot * getJointSlot(std::string key);
 
         protected:
             /**
