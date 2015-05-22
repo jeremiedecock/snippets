@@ -155,6 +155,17 @@ namespace simulator {
              * 
              */
             double getSimulationDurationSec() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            BulletEnvironment(const BulletEnvironment &);
+
+            /**
+             * Forbid assignment.
+             */
+            BulletEnvironment & operator = (const BulletEnvironment &);
     };
 
 }

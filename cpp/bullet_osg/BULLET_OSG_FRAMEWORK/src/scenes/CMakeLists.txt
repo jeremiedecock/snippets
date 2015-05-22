@@ -7,7 +7,7 @@ macro(config_and_add_executable EXEC_NAME SRC_FILE)
 
     # Link to the internal libraries
     # See http://stackoverflow.com/questions/12204820/cmake-and-order-dependent-linking-of-shared-libraries
-    target_link_libraries(${EXEC_NAME} controllers actuators joint_slots joints sensors parts core tools)
+    target_link_libraries(${EXEC_NAME} builtin_objects builtin_parts controllers actuators joint_slots joints sensors parts core tools)
 
     # Link to Boost libraries
     target_link_libraries(${EXEC_NAME} ${Boost_LIBRARIES})
@@ -28,6 +28,7 @@ option(BUILD_FALLING_SPHERE "Build the falling sphere demo (1 falling sphere)." 
 option(BUILD_PENDULUM_HINGE "Build the pendulum demo (using hinge joints)." OFF)
 option(BUILD_PENDULUM_P2P "Build the pendulum demo (using point_to_point joints)." OFF)
 option(BUILD_PENDULUM_MOTOR "Build the pendulum demo (using motor actuator)." OFF)
+option(BUILD_ROBUDOG_JD "Build the robudog demo (JD's version)." OFF)
 
 # Set executables
 if(BUILD_DEMO)
@@ -53,3 +54,7 @@ endif(BUILD_PENDULUM_P2P)
 if(BUILD_PENDULUM_MOTOR)
     config_and_add_executable(pendulum_motor pendulum_motor.cc)
 endif(BUILD_PENDULUM_MOTOR)
+
+if(BUILD_ROBUDOG_JD)
+    config_and_add_executable(robudog_jd robudog_jd.cc)
+endif(BUILD_ROBUDOG_JD)

@@ -44,6 +44,17 @@ namespace simulator {
             void setAngularVelocity(double target_velocity);
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Motor(const Motor &);
+
+            /**
+             * Forbid assignment.
+             */
+            Motor & operator = (const Motor &);
     };
 
 }

@@ -17,6 +17,23 @@ namespace simulator {
     class Actuator: public simulator::Joint {
         public:
             virtual ~Actuator() {};
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            Actuator() {};   // TODO ?
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Actuator(const Actuator &);
+
+            /**
+             * Forbid assignment.
+             */
+            Actuator & operator = (const Actuator &);
     };
 
 }

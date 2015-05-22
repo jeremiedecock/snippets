@@ -43,6 +43,17 @@ namespace simulator {
             std::set<simulator::Actuator *> getActuatorSet() const;
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Object(const Object &);
+
+            /**
+             * Forbid assignment.
+             */
+            Object & operator = (const Object &);
     };
 
 }

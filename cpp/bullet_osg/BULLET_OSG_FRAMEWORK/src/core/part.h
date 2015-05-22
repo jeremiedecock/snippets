@@ -33,16 +33,14 @@ namespace simulator {
             osg::Group * osgGroup;
             osg::PositionAttitudeTransform * osgPAT;
 
-            std::map<std::string, simulator::JointSlot *> jointSlotMap;
-
             double mass;                              // which unit ? Kg ?
 
             double friction;                          // Resistance of the part to movement
             double rollingFriction;                   // Resistance of the part to movement. It prevents rounded shapes, such as spheres, cylinders and capsules from rolling forever.
             double restitution;                       // Tendency of the part to bounce after colliding with another (0=stays still, 1=perfectly elastic)
-
-//        protected:
-//            Part() {};
+            
+        public:
+            std::map<std::string, simulator::JointSlot *> jointSlotMap;
 
         public:
             virtual ~Part() {};
@@ -62,7 +60,7 @@ namespace simulator {
 
             // General accessors (return scalars, stl objects or eigen matrices) //////////////////
 
-            std::map<std::string, simulator::JointSlot *> getJointSlotMap() const;
+            //std::map<std::string, simulator::JointSlot *> getJointSlotMap() const;
 
             virtual std::string getName() const = 0;
 
@@ -95,6 +93,23 @@ namespace simulator {
             double getRollingFriction() const;
 
             double getRestitution() const;
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            Part() {};  // TODO !!!
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Part(const Part &);
+
+            /**
+             * Forbid assignment.
+             */
+            Part & operator = (const Part &);
     };
 
 }

@@ -31,6 +31,23 @@ namespace simulator {
             // Misc
             
             virtual std::string getName() const = 0;
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            Joint() {};      // TODO ?
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Joint(const Joint &);
+
+            /**
+             * Forbid assignment.
+             */
+            Joint & operator = (const Joint &);
     };
 
 }

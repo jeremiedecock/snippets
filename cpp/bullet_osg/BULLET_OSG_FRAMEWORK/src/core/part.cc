@@ -30,9 +30,9 @@ osg::PositionAttitudeTransform * simulator::Part::getOSGPAT() const {
     return this->osgPAT;
 }
 
-std::map<std::string, simulator::JointSlot *> simulator::Part::getJointSlotMap() const {
-    return this->jointSlotMap;
-}
+//std::map<std::string, simulator::JointSlot *> simulator::Part::getJointSlotMap() const {
+//    return this->jointSlotMap;
+//}
 
 Eigen::Vector3d simulator::Part::getPosition() const {
     btTransform bulletTransform;

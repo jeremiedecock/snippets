@@ -1,6 +1,8 @@
 # Copyright (c) 2015 Jérémie DECOCK
 
 add_subdirectory(actuators)
+add_subdirectory(builtin_objects)
+add_subdirectory(builtin_parts)
 add_subdirectory(controllers)
 add_subdirectory(core)
 add_subdirectory(joints)

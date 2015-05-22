@@ -125,16 +125,16 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet ////////////////////////////////////////////////////////////
 
-    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
-    simulator::Ground ground(friction, rolling_friction, restitution);
+    simulator::Sphere * p_sphere = new simulator::Sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
+    simulator::Ground * p_ground = new simulator::Ground(friction, rolling_friction, restitution);
     
     // Bullet object set
     std::set<simulator::Object *> bullet_object_set;
 
     // Bullet part set
     std::set<simulator::Part *> bullet_part_set;
-    bullet_part_set.insert(&sphere);
-    bullet_part_set.insert(&ground);
+    bullet_part_set.insert(p_sphere);
+    bullet_part_set.insert(p_ground);
     
     // Controller set
     std::set<simulator::Controller *> controller_set;

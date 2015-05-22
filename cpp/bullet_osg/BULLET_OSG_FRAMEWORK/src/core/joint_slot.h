@@ -15,6 +15,23 @@ namespace simulator {
     class JointSlot {
         public:
             virtual ~JointSlot() {};
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            JointSlot() {};   // TODO ?
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            JointSlot(const JointSlot &);
+
+            /**
+             * Forbid assignment.
+             */
+            JointSlot & operator = (const JointSlot &);
     };
 
 }

@@ -44,6 +44,17 @@ namespace simulator {
             void run();
 
             ~OSGEnvironment();
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            OSGEnvironment(const OSGEnvironment &);
+
+            /**
+             * Forbid assignment.
+             */
+            OSGEnvironment & operator = (const OSGEnvironment &);
     };
 
 

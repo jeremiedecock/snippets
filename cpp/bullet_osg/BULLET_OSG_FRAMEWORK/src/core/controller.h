@@ -33,6 +33,23 @@ namespace simulator {
             std::set<simulator::Sensor *> getSensorSet() const;
 
             virtual std::string getName() const = 0;
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            Controller() {};   // TODO ?
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Controller(const Controller &);
+
+            /**
+             * Forbid assignment.
+             */
+            Controller & operator = (const Controller &);
     };
 
 }

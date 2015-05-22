@@ -23,6 +23,23 @@ namespace simulator {
             virtual Eigen::VectorXd getPercepts() = 0;
 
             virtual std::string getName() const = 0;
+
+        protected:
+            /**
+             * Forbid instantiation.
+             */
+            Sensor() {};   // TODO ?
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Sensor(const Sensor &);
+
+            /**
+             * Forbid assignment.
+             */
+            Sensor & operator = (const Sensor &);
     };
 
 }

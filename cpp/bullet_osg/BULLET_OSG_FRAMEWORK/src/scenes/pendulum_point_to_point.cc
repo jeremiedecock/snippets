@@ -133,39 +133,39 @@ int main(int argc, char * argv[]) {
     // Pendulum object ////////////////
 
     // Pendulum parts
-    simulator::Sphere sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution, "pendulum_sphere");
+    simulator::Sphere * p_sphere = new simulator::Sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution, "pendulum_sphere");
 
     std::set<simulator::Part *> pendulum_part_set;
-    pendulum_part_set.insert(&sphere);
+    pendulum_part_set.insert(p_sphere);
 
     // Pendulum joints
     Eigen::Vector3d pendulum_p2p_pivot(-5., 0., 0.);
-    simulator::PointToPointSlot pendulum_p2p_slot(pendulum_p2p_pivot);
-    simulator::PointToPoint pendulum_p2p(&sphere, &pendulum_p2p_slot, "pendulum_point_to_point");
+    simulator::PointToPointSlot * p_pendulum_p2p_slot = new simulator::PointToPointSlot(pendulum_p2p_pivot);
+    simulator::PointToPoint * p_pendulum_p2p = new simulator::PointToPoint(p_sphere, p_pendulum_p2p_slot, "pendulum_point_to_point");
 
     std::set<simulator::Joint *> pendulum_joint_set;
-    pendulum_joint_set.insert(&pendulum_p2p);
+    pendulum_joint_set.insert(p_pendulum_p2p);
     
     // Pendulum actuators
     std::set<simulator::Actuator *> pendulum_actuator_set;
 
     // Pendulum object
-    simulator::Object pendulum(pendulum_part_set, pendulum_joint_set, pendulum_actuator_set, "pendulum");
+    simulator::Object * p_pendulum = new simulator::Object(pendulum_part_set, pendulum_joint_set, pendulum_actuator_set, "pendulum");
 
     // Other parts ////////////////////
     
     // Ground
-    simulator::Ground ground(friction, rolling_friction, restitution);
+    simulator::Ground * p_ground = new simulator::Ground(friction, rolling_friction, restitution);
 
     // Bullet environment /////////////
     
     // Bullet object set
     std::set<simulator::Object *> bullet_object_set;
-    bullet_object_set.insert(&pendulum);
+    bullet_object_set.insert(p_pendulum);
 
     // Bullet part set
     std::set<simulator::Part *> bullet_part_set;
-    bullet_part_set.insert(&ground);
+    bullet_part_set.insert(p_ground);
     
     // Controller set
     std::set<simulator::Controller *> controller_set;

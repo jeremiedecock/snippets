@@ -1,0 +1,21 @@
+/* 
+ * Bullet OSG Framework.
+ * Dynamixel AX-12 module.
+ *
+ * Copyright (c) 2015 Jérémie Decock <jd.jdhp@gmail.com>
+ *
+ * www.jdhp.org
+ */
+
+#ifndef BOTSIM_DYNAMIXEL_AX12_H
+#define BOTSIM_DYNAMIXEL_AX12_H
+
+#include "part.h"
+
+namespace simulator {
+
+    simulator::Part * make_dynamixel_ax12();
+
+}
+
+#endif // BOTSIM_DYNAMIXEL_AX12_H
