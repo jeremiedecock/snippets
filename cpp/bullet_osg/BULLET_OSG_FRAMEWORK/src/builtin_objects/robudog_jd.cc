@@ -39,8 +39,6 @@ static const double trunk_size_z = 5.;   // TODO !!!
 
 static const double foot_radius = 1.25;  // TODO !!!
 
-static const double height = 0.5;        // TODO !!!
-
 /*
  *
  */
@@ -119,7 +117,7 @@ void addMotor(std::set<simulator::Actuator *> & actuator_set,
 }
 
 
-simulator::Object * simulator::make_robudog_jd() {
+simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name) {
 
     /*
      * ROBUDOG PARTS
@@ -130,9 +128,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Trunk ////////////////////
     simulator::Part * p_robudog_trunk_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(0.,
-                                                                 0.,
-                                                                 foot_radius * 2. + ax12_size_z * 2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(0. + object_initial_position[0],
+                                                                 0. + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z * 2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("trunk");
 
@@ -155,9 +153,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Left upper arm ///////////
     simulator::Part * p_ax12_left_upper_arm_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.),
-                                                                 trunk_size_y/2. + ax12_size_y/2.,
-                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
+                                                                 trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_upper_arm");
 
@@ -168,9 +166,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Right upper arm //////////
     simulator::Part * p_ax12_right_upper_arm_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.),
-                                                                 -(trunk_size_y/2. + ax12_size_y/2.),
-                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
+                                                                 -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_upper_arm");
 
@@ -181,9 +179,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Left fore arm ////////////
     simulator::Part * p_ax12_left_fore_arm_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.),
-                                                                 trunk_size_y/2. + ax12_size_y/2.,
-                                                                 foot_radius * 2. + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
+                                                                 trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_fore_arm");
 
@@ -194,9 +192,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Right fore arm ///////////
     simulator::Part * p_ax12_right_fore_arm_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.),
-                                                                 -(trunk_size_y/2. + ax12_size_y/2.),
-                                                                 foot_radius * 2. + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
+                                                                 -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_fore_arm");
 
@@ -217,9 +215,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Left thigh ///////////////
     simulator::Part * p_ax12_left_thigh_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.),
-                                                                 trunk_size_y/2. + ax12_size_y/2.,
-                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
+                                                                 trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_thigh");
 
@@ -230,9 +228,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Right thigh //////////////
     simulator::Part * p_ax12_right_thigh_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.),
-                                                                 -(trunk_size_y/2. + ax12_size_y/2.),
-                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
+                                                                 -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_thigh");
 
@@ -243,9 +241,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Left shin ////////////////
     simulator::Part * p_ax12_left_shin_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.),
-                                                                 trunk_size_y/2. + ax12_size_y/2.,
-                                                                 foot_radius * 2. + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
+                                                                 trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_shin");
 
@@ -256,9 +254,9 @@ simulator::Object * simulator::make_robudog_jd() {
     // Right shin ///////////////
     simulator::Part * p_ax12_right_shin_part;
     {
-        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.),
-                                                                 -(trunk_size_y/2. + ax12_size_y/2.),
-                                                                 foot_radius * 2. + ax12_size_z/2. + height);
+        const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
+                                                                 -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
+                                                                 foot_radius * 2. + ax12_size_z/2. + object_initial_position[2]);
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_shin");
 
@@ -303,7 +301,7 @@ simulator::Object * simulator::make_robudog_jd() {
      * ROBUDOG OBJECT
      */
 
-    simulator::Object * p_robudog = new simulator::Object(robudog_part_set, robudog_joint_set, robudog_actuator_set, "robudog");
+    simulator::Object * p_robudog = new simulator::Object(robudog_part_set, robudog_joint_set, robudog_actuator_set, object_name);
 
     return p_robudog;
 }

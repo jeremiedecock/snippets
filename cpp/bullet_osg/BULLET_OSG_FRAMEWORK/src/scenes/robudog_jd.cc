@@ -72,7 +72,13 @@ int main(int argc, char * argv[]) {
 
     // Robudog object ////////////////
 
-    simulator::Object * p_robudog = simulator::make_robudog_jd();
+    const Eigen::Vector3d initial_position1 = Eigen::Vector3d(0., 0., 0.5);
+    const std::string name1("robudog1");
+    simulator::Object * p_robudog1 = simulator::make_robudog_jd(initial_position1, name1);
+
+    const Eigen::Vector3d initial_position2 = Eigen::Vector3d(0., 30., 0.5);
+    const std::string name2("robudog2");
+    simulator::Object * p_robudog2 = simulator::make_robudog_jd(initial_position2, name2);
     
     // Other parts ////////////////////
     
@@ -86,13 +92,14 @@ int main(int argc, char * argv[]) {
     sensor_set.insert(p_clock_sensor);
 
     //simulator::ConstantSignal p_robudog_controller(robudog_actuator_set, sensor_set, 2.0, "robudog_controller");
-    //simulator::SinusoidalSignal * p_robudog_controller = new simulator::SinusoidalSignal(p_robudog->getActuatorSet(), sensor_set, 4., 0.25, 3.14/2., "robudog_controller");
+    //simulator::SinusoidalSignal * p_robudog_controller = new simulator::SinusoidalSignal(p_robudog1->getActuatorSet(), sensor_set, 4., 0.25, 3.14/2., "robudog_controller");
 
     // Bullet environment /////////////
     
     // Bullet object set
     std::set<simulator::Object *> bullet_object_set;
-    bullet_object_set.insert(p_robudog);
+    bullet_object_set.insert(p_robudog1);
+    bullet_object_set.insert(p_robudog2);
 
     // Bullet part set
     std::set<simulator::Part *> bullet_part_set;
@@ -119,19 +126,19 @@ int main(int argc, char * argv[]) {
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(p_robudog->getPartSet());
+    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(p_robudog1->getPartSet());
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(p_robudog->getPartSet());
+    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(p_robudog1->getPartSet());
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(p_robudog->getPartSet());
+    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(p_robudog1->getPartSet());
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(p_robudog->getPartSet());
+    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(p_robudog1->getPartSet());
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 

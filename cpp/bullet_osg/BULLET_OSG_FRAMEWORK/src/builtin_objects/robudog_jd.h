@@ -14,7 +14,7 @@
 
 namespace simulator {
 
-    simulator::Object * make_robudog_jd();
+    simulator::Object * make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name);
 
 }
 
