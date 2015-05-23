@@ -275,7 +275,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
     std::set<simulator::Joint *> robudog_joint_set;
 
     // Trunk - crane //////////////////
-    addFixedJoint(robudog_joint_set, p_robudog_trunk_part, "crane", "crane_joint");
+    //addFixedJoint(robudog_joint_set, p_robudog_trunk_part, "crane", "crane_joint");
 
     /*
      * ROBUDOG ACTUATORS
