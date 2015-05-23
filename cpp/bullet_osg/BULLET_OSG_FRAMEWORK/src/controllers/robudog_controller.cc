@@ -20,13 +20,9 @@ const static double PI = std::acos(-1);
 
 simulator::RobudogController::RobudogController(std::set<simulator::Actuator *> actuator_set,
                                                 std::set<simulator::Sensor *> sensor_set,
-                                                double _amplitude,
-                                                double _frequency,
-                                                double _phase,
+                                                Eigen::Matrix< double, 24, 1> _parameters,
                                                 std::string _name) :
-                                                  amplitude(_amplitude),
-                                                  frequency(_frequency),
-                                                  phase(_phase),
+                                                  parameters(_parameters),
                                                   name(_name) {
     this->actuatorSet = actuator_set;
     this->sensorSet   = sensor_set;
@@ -36,8 +32,8 @@ simulator::RobudogController::~RobudogController() {
     // TODO
 }
 
-double simulator::RobudogController::computeSignalValue(double time) const {
-    double signal_value = this->amplitude * std::sin(2.0 * PI * this->frequency * time + this->phase);
+double simulator::RobudogController::computeSignalValue(double time, double amplitude, double frequency, double phase) const {
+    double signal_value = amplitude * std::sin(2.0 * PI * frequency * time + phase);
 }
 
 void simulator::RobudogController::updateActuators() {
@@ -64,9 +60,6 @@ void simulator::RobudogController::updateActuators() {
         }
     }
 
-    double signal_value = this->computeSignalValue(simulation_duration_sec);
-    std::cout << simulation_duration_sec << " : " << signal_value << std::endl;
-
     /*
      * UPDATE ACTUATORS
      */
@@ -79,6 +72,25 @@ void simulator::RobudogController::updateActuators() {
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
         if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+            int actuator_index;
+
+            if(motor_actuator->getName() == "right_shoulder_motor") actuator_index = 0.;
+            else if(motor_actuator->getName() == "left_shoulder_motor") actuator_index = 1.;
+            else if(motor_actuator->getName() == "right_elbow_motor") actuator_index = 2.;
+            else if(motor_actuator->getName() == "left_elbow_motor") actuator_index = 3.;
+            else if(motor_actuator->getName() == "right_hip_motor") actuator_index = 4.;
+            else if(motor_actuator->getName() == "left_hip_motor") actuator_index = 5.;
+            else if(motor_actuator->getName() == "right_knee_motor") actuator_index = 6.;
+            else if(motor_actuator->getName() == "left_knee_motor") actuator_index = 7.;
+            else throw std::invalid_argument("Invalid motor name: " + motor_actuator->getName()); 
+
+            double amplitude = this->parameters[actuator_index * 3];
+            double frequency = this->parameters[actuator_index * 3 + 1];
+            double phase =     this->parameters[actuator_index * 3 + 2];
+
+            double signal_value = this->computeSignalValue(simulation_duration_sec, amplitude, frequency, phase);
+            std::cout << simulation_duration_sec << " : " << motor_actuator->getName() << " = " <<  signal_value << std::endl;
+
             motor_actuator->setAngularVelocity(signal_value);
         } else {
             throw std::invalid_argument("The \"robudog controller\" must have exactly eight \"Motor\" actuator."); 
@@ -86,16 +98,8 @@ void simulator::RobudogController::updateActuators() {
     }
 }
 
-double simulator::RobudogController::getAmplitude() const {
-    return this->amplitude;
-}
-
-double simulator::RobudogController::getFrequency() const {
-    return this->frequency;
-}
-
-double simulator::RobudogController::getPhase() const {
-    return this->phase;
+Eigen::Matrix< double, 24, 1> simulator::RobudogController::getParameters() const {
+    return this->parameters;
 }
 
 std::string simulator::RobudogController::getName() const {

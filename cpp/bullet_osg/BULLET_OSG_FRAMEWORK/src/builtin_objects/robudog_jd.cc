@@ -290,8 +290,8 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
     addMotor(robudog_actuator_set, p_ax12_right_upper_arm_part, p_ax12_right_fore_arm_part, "slot2", "slot1", "right_elbow_motor");
     addMotor(robudog_actuator_set, p_ax12_left_upper_arm_part,  p_ax12_left_fore_arm_part,  "slot2", "slot1", "left_elbow_motor");
 
-    addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_right_thigh_part, "right_hip", "slot1", "right_shoulder_motor");
-    addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_left_thigh_part, "left_hip", "slot1", "left_shoulder_motor");
+    addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_right_thigh_part, "right_hip", "slot1", "right_hip_motor");
+    addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_left_thigh_part, "left_hip", "slot1", "left_hip_motor");
     //addMotor(robudog_actuator_set, p_ax12_right_thigh_part, "slot1", "right_hip_motor");
     //addMotor(robudog_actuator_set, p_ax12_left_thigh_part,  "slot1", "left_hip_motor");
     addMotor(robudog_actuator_set, p_ax12_right_thigh_part, p_ax12_right_shin_part, "slot2", "slot1", "right_knee_motor");
