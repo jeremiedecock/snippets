@@ -49,7 +49,7 @@ namespace po = boost::program_options;
 
 #include <Eigen/Dense>
 
-static double ground_friction = 0.5;
+static double ground_friction = 1.1;       // 0.5
 static double ground_rolling_friction = 0.;
 static double ground_restitution = 0.;
 

@@ -29,7 +29,7 @@ static const Eigen::Vector3d initial_velocity = Eigen::Vector3d(0., 0., 0.);
 static const Eigen::Vector3d initial_angular_velocity = Eigen::Vector3d(0., 0., 0.);
 static const Eigen::Vector3d initial_inertia = Eigen::Vector3d(0., 0., 0.);
 static const double mass = 5.;
-static double friction = 0.5;
+static double friction = 1.1;        // 0.5
 static double rolling_friction = 0.;
 static double restitution = 0.;
 
