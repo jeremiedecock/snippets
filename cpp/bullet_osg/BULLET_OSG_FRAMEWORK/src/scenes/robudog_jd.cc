@@ -54,15 +54,38 @@ static double ground_rolling_friction = 0.;
 static double ground_restitution = 0.;
 
 /*
+ * LOCAL OPTIONS
+ */
+
+static std::string controller_parameters_file_name_opt = "";
+
+/*
  * MAIN FUNCTION
  */
 
 int main(int argc, char * argv[]) {
 
     // Parse program params ///////////////////////////////////////////////////
-
-    po::options_description local_options_desc; // No local option...
     
+    // Declare the group of local options that are allowed on command line and config file
+
+    /* 
+     * Validates bool value
+     * (see $(BOOST_ROOT)/libs/program_options/src/value_semantic.cpp):
+     *
+     * Any of "1", "true", "yes", "on" will be converted to "1".
+     * Any of "0", "false", "no", "off" will be converted to "0".
+     * Case is ignored. The 'xs' vector can either be empty, in which
+     * case the value is 'true', or can contain explicit value.
+     */
+
+    po::options_description local_options_desc;
+    local_options_desc.add_options()
+        ("controller_filename",   po::value<std::string>(&controller_parameters_file_name_opt)->default_value(controller_parameters_file_name_opt), "set the name of the file containing the robudog's controller parameters. Expects a filename.")
+    ;
+
+    // Parse programm options (local and common)
+
     simulator::CommonOptionsParser options(argc, argv, local_options_desc);
 
     if(options.exit) {
@@ -92,15 +115,23 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Sensor *> sensor_set;
     sensor_set.insert(p_clock_sensor);
 
-    Eigen::Matrix< double, 24, 1> parameters;
-    parameters << 1., 0.25,  3.14/2.,
-                  1., 0.25, -3.14/2.,
-                  1., 0.25,  3.14/2.,
-                  1., 0.25,  3.14/2.,
-                  1., 0.25,  3.14/2.,
-                  1., 0.25, -3.14/2.,
-                  1., 0.25,  3.14/2.,
-                  1., 0.25,  3.14/2.;
+    Eigen::Matrix< double, 24, 1> parameters = Eigen::Matrix< double, 24, 1>::Zero();
+    if(controller_parameters_file_name_opt != "") {
+        std::vector<double> std_vector = simulator::text_file_to_std_vector(controller_parameters_file_name_opt);
+        for(int i=0 ; i < std_vector.size() ; i++) {
+            parameters(i) = std_vector[i];
+        }
+    } else {
+        parameters << 1., 0.25,  3.14/2.,
+                      1., 0.25, -3.14/2.,
+                      1., 0.25,  3.14/2.,
+                      1., 0.25,  3.14/2.,
+                      1., 0.25,  3.14/2.,
+                      1., 0.25, -3.14/2.,
+                      1., 0.25,  3.14/2.,
+                      1., 0.25,  3.14/2.;
+    }
+    std::cout << "Loading controller's parameters: " << parameters << std::endl;
     simulator::RobudogController * p_robudog_controller = new simulator::RobudogController(p_robudog1->getActuatorSet(), sensor_set, parameters, "robudog_controller");
 
     // Bullet environment /////////////

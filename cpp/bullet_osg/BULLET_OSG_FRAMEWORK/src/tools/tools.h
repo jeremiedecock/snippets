@@ -78,12 +78,15 @@ namespace simulator {
         return v;
     }
 
+    /**
+     * Load an std vector form an ASCII text file.
+     */
+    std::vector<double> text_file_to_std_vector(const std::string & file_name);
 
     /**
      * Get a std::string representation of an eigen vector.
      */
     std::string eigen_vector_to_string(const Eigen::VectorXd &eigen_vector, std::string separator = ",");
-
 
     /**
      * Build an Eigen vector form a std::string

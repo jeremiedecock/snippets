@@ -10,8 +10,25 @@
 #include "tools.h"
 
 #include <cstdio>
+#include <fstream>       // for std::ifstream
 #include <string>
 #include <vector>
+
+std::vector<double> simulator::text_file_to_std_vector(const std::string & file_name) {
+    std::vector<double> std_vector;
+
+    std::ifstream ifs(file_name);
+    // TODO : check file_name ?
+
+    double num;
+    while(ifs >> num) {
+        std_vector.push_back(num);
+    }
+
+    ifs.close();
+
+    return std_vector;
+}
 
 std::string simulator::eigen_vector_to_string(const Eigen::VectorXd &eigen_vector, std::string separator) {
     std::ostringstream oss;
