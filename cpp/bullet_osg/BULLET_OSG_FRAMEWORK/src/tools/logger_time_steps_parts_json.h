@@ -31,13 +31,24 @@ namespace simulator {
 
         public:
             LoggerTimeStepsPartsJson(std::set<simulator::Part *> observed_part_set, //=std::set<simulator::Part *>(),
-                          std::string filepath="");
+                                     std::string filepath="");
 
             ~LoggerTimeStepsPartsJson();
 
             void update(BulletEnvironment * bullet_environment);
 
             std::string getFilepath() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            LoggerTimeStepsPartsJson(const LoggerTimeStepsPartsJson &);
+
+            /**
+             * Forbid assignment.
+             */
+            LoggerTimeStepsPartsJson & operator = (const LoggerTimeStepsPartsJson &);
     };
 }
 

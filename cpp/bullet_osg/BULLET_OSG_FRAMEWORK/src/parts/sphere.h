@@ -62,6 +62,17 @@ namespace simulator {
             ~Sphere();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Sphere(const Sphere &);
+
+            /**
+             * Forbid assignment.
+             */
+            Sphere & operator = (const Sphere &);
     };
 
 }

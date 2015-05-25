@@ -63,9 +63,9 @@ namespace simulator {
              * \param[in] name       The name of this instance.
              */
             RobudogController(std::set<simulator::Actuator *> actuator_set,
-                             std::set<simulator::Sensor *> sensor_set,
-                             Eigen::Matrix< double, 24, 1> _parameters,
-                             std::string _name="");
+                              std::set<simulator::Sensor *> sensor_set,
+                              Eigen::Matrix< double, 24, 1> _parameters,
+                              std::string _name="");
 
             ~RobudogController();
 
@@ -76,6 +76,17 @@ namespace simulator {
             Eigen::Matrix< double, 24, 1> getParameters() const;
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            RobudogController(const RobudogController &);
+
+            /**
+             * Forbid assignment.
+             */
+            RobudogController & operator = (const RobudogController &);
     };
 
 }

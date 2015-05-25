@@ -38,6 +38,17 @@ namespace simulator {
             ~Ground();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Ground(const Ground &);
+
+            /**
+             * Forbid assignment.
+             */
+            Ground & operator = (const Ground &);
     };
 }
 

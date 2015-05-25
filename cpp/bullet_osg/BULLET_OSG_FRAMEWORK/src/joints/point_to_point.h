@@ -35,6 +35,17 @@ namespace simulator {
             ~PointToPoint();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            PointToPoint(const PointToPoint &);
+
+            /**
+             * Forbid assignment.
+             */
+            PointToPoint & operator = (const PointToPoint &);
     };
 
 }

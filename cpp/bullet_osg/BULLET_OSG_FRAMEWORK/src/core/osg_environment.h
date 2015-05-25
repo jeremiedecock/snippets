@@ -70,6 +70,17 @@ namespace simulator {
             PhysicsCallback(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment);
 
             virtual void operator() (osg::Node * node, osg::NodeVisitor * nv);
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            PhysicsCallback(const PhysicsCallback &);
+
+            /**
+             * Forbid assignment.
+             */
+            PhysicsCallback & operator = (const PhysicsCallback &);
     };
 
 
@@ -87,6 +98,17 @@ namespace simulator {
              * osgGA::GUIActionAdapter parameter for feedback
              */
             virtual bool handle(const osgGA::GUIEventAdapter& event_adapter, osgGA::GUIActionAdapter& action_adapter);
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            KeyboardEventHandler(const KeyboardEventHandler &);
+
+            /**
+             * Forbid assignment.
+             */
+            KeyboardEventHandler & operator = (const KeyboardEventHandler &);
     };
 
 }

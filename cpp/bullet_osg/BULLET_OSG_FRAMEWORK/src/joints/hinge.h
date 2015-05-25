@@ -35,6 +35,17 @@ namespace simulator {
             virtual ~Hinge();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Hinge(const Hinge &);
+
+            /**
+             * Forbid assignment.
+             */
+            Hinge & operator = (const Hinge &);
     };
 
 }

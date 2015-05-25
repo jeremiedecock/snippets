@@ -40,6 +40,17 @@ namespace simulator {
             std::string getName() const;
 
             double getSimulationDurationSec() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Clock(const Clock &);
+
+            /**
+             * Forbid assignment.
+             */
+            Clock & operator = (const Clock &);
     };
 
 }

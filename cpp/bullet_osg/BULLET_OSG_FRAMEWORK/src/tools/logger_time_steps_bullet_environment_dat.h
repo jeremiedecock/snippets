@@ -30,6 +30,17 @@ namespace simulator {
             void update(BulletEnvironment * bullet_environment);
 
             std::string getFilepath() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            LoggerTimeStepsBulletEnvironmentDat(const LoggerTimeStepsBulletEnvironmentDat &);
+
+            /**
+             * Forbid assignment.
+             */
+            LoggerTimeStepsBulletEnvironmentDat & operator = (const LoggerTimeStepsBulletEnvironmentDat &);
     };
 }
 

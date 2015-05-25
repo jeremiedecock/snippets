@@ -31,6 +31,17 @@ namespace simulator {
             Eigen::Vector3d getPivot() const;
 
             Eigen::Vector3d getAxis() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            HingeSlot(const HingeSlot &);
+
+            /**
+             * Forbid assignment.
+             */
+            HingeSlot & operator = (const HingeSlot &);
     };
 
 }

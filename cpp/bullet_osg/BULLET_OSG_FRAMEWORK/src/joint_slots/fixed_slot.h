@@ -27,6 +27,17 @@ namespace simulator {
             virtual ~FixedSlot();
 
             Eigen::Vector3d getPivot() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            FixedSlot(const FixedSlot &);
+
+            /**
+             * Forbid assignment.
+             */
+            FixedSlot & operator = (const FixedSlot &);
     };
 
 }

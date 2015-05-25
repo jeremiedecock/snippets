@@ -62,6 +62,17 @@ namespace simulator {
             ~Box();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Box(const Box &);
+
+            /**
+             * Forbid assignment.
+             */
+            Box & operator = (const Box &);
     };
 
 }

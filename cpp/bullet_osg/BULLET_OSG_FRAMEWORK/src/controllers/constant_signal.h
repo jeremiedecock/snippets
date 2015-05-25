@@ -33,6 +33,17 @@ namespace simulator {
             double getConstantValue() const;
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            ConstantSignal(const ConstantSignal &);
+
+            /**
+             * Forbid assignment.
+             */
+            ConstantSignal & operator = (const ConstantSignal &);
     };
 
 }

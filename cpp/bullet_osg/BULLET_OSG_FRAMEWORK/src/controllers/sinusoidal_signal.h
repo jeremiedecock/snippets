@@ -55,6 +55,17 @@ namespace simulator {
             double getPhase() const;
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            SinusoidalSignal(const SinusoidalSignal &);
+
+            /**
+             * Forbid assignment.
+             */
+            SinusoidalSignal & operator = (const SinusoidalSignal &);
     };
 
 }

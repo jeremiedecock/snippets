@@ -32,6 +32,17 @@ namespace simulator {
             ~LoggerTicksPartsDat();
 
             void update(BulletEnvironment * bullet_environment);
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            LoggerTicksPartsDat(const LoggerTicksPartsDat &);
+
+            /**
+             * Forbid assignment.
+             */
+            LoggerTicksPartsDat & operator = (const LoggerTicksPartsDat &);
     };
 }
 

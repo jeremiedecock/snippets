@@ -27,6 +27,17 @@ namespace simulator {
             virtual ~PointToPointSlot();
 
             Eigen::Vector3d getPivot() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            PointToPointSlot(const PointToPointSlot &);
+
+            /**
+             * Forbid assignment.
+             */
+            PointToPointSlot & operator = (const PointToPointSlot &);
     };
 
 }

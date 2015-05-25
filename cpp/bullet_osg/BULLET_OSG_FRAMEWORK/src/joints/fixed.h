@@ -35,6 +35,17 @@ namespace simulator {
             ~Fixed();
 
             std::string getName() const;
+
+        private:
+            /**
+             * Forbid copy of instances.
+             */
+            Fixed(const Fixed &);
+
+            /**
+             * Forbid assignment.
+             */
+            Fixed & operator = (const Fixed &);
     };
 
 }
