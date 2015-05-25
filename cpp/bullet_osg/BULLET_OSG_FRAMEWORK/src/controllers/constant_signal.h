@@ -12,17 +12,17 @@
 
 #include "controller.h"
 
-namespace simulator {
+namespace botsim {
 
-    class ConstantSignal: public simulator::Controller {
+    class ConstantSignal: public botsim::Controller {
         protected:
             // Common
             double constantValue; // The value of the signal.
             std::string name;     // The name of this instance.
 
         public:
-            ConstantSignal(std::set<simulator::Actuator *> actuator_set,
-                           std::set<simulator::Sensor *> sensor_set,
+            ConstantSignal(std::set<botsim::Actuator *> actuator_set,
+                           std::set<botsim::Sensor *> sensor_set,
                            double _constant_value,
                            std::string _name="");
 

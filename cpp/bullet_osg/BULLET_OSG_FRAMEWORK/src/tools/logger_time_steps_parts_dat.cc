@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_part_set) {
+botsim::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<botsim::Part *> observed_part_set) {
     // Set the observed parts set
     this->observedPartSet = observed_part_set;
     
@@ -40,7 +40,7 @@ simulator::LoggerTimeStepsPartsDat::LoggerTimeStepsPartsDat(std::set<simulator::
     }
 }
 
-simulator::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
+botsim::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
     // Close the log file
     std::set<Part *>::iterator it;
     for(it = this->observedPartSet.begin() ; it != this->observedPartSet.end() ; it++) {
@@ -56,7 +56,7 @@ simulator::LoggerTimeStepsPartsDat::~LoggerTimeStepsPartsDat() {
     }
 }
 
-void simulator::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_environment) {
+void botsim::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_environment) {
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
 
     std::set<Part *>::iterator it;
@@ -72,12 +72,12 @@ void simulator::LoggerTimeStepsPartsDat::update(BulletEnvironment * bullet_envir
         const Eigen::Vector3d total_torque_vector     = (*it)->getTotalTorque();
 
         (* this->fileMap[file_path]) << elapsed_simulation_time_sec << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(position_vector, " ") << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(angle_vector, " ") << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(linear_velocity_vector, " ") << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(angular_velicity_vector, " ") << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(total_force_vector, " ") << " ";
-        (* this->fileMap[file_path]) << simulator::eigen_vector_to_string(total_torque_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(position_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(angle_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(linear_velocity_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(angular_velicity_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(total_force_vector, " ") << " ";
+        (* this->fileMap[file_path]) << botsim::eigen_vector_to_string(total_torque_vector, " ") << " ";
         (* this->fileMap[file_path]) << std::endl;
     }
 }

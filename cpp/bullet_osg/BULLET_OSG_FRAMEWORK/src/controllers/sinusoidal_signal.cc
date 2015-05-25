@@ -18,8 +18,8 @@
 
 const static double PI = std::acos(-1);
 
-simulator::SinusoidalSignal::SinusoidalSignal(std::set<simulator::Actuator *> actuator_set,
-                                              std::set<simulator::Sensor *> sensor_set,
+botsim::SinusoidalSignal::SinusoidalSignal(std::set<botsim::Actuator *> actuator_set,
+                                              std::set<botsim::Sensor *> sensor_set,
                                               double _amplitude,
                                               double _frequency,
                                               double _phase,
@@ -32,15 +32,15 @@ simulator::SinusoidalSignal::SinusoidalSignal(std::set<simulator::Actuator *> ac
     this->sensorSet   = sensor_set;
 }
 
-simulator::SinusoidalSignal::~SinusoidalSignal() {
+botsim::SinusoidalSignal::~SinusoidalSignal() {
     // TODO
 }
 
-double simulator::SinusoidalSignal::computeSignalValue(double time) const {
+double botsim::SinusoidalSignal::computeSignalValue(double time) const {
     double signal_value = this->amplitude * std::sin(2.0 * PI * this->frequency * time + this->phase);
 }
 
-void simulator::SinusoidalSignal::updateActuators() {
+void botsim::SinusoidalSignal::updateActuators() {
 
     /*
      * GET PERCEPTS
@@ -52,10 +52,10 @@ void simulator::SinusoidalSignal::updateActuators() {
        throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Clock\" sensor."); 
     }
 
-    std::set<simulator::Sensor *>::iterator sensor_it;
+    std::set<botsim::Sensor *>::iterator sensor_it;
 
     for(sensor_it = this->sensorSet.begin() ; sensor_it != this->sensorSet.end() ; sensor_it++) {
-        if(simulator::Clock * clock_sensor = dynamic_cast<simulator::Clock *>(*sensor_it)) {
+        if(botsim::Clock * clock_sensor = dynamic_cast<botsim::Clock *>(*sensor_it)) {
             Eigen::VectorXd percept_vector = (*sensor_it)->getPercepts();
 
             simulation_duration_sec = percept_vector[0];  // TODO !!!
@@ -75,10 +75,10 @@ void simulator::SinusoidalSignal::updateActuators() {
         throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
     }
 
-    std::set<simulator::Actuator *>::iterator actuator_it;
+    std::set<botsim::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
-        if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+        if(botsim::Motor * motor_actuator = dynamic_cast<botsim::Motor *>(*actuator_it)) {
             motor_actuator->setAngularVelocity(signal_value);
         } else {
             throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
@@ -86,19 +86,19 @@ void simulator::SinusoidalSignal::updateActuators() {
     }
 }
 
-double simulator::SinusoidalSignal::getAmplitude() const {
+double botsim::SinusoidalSignal::getAmplitude() const {
     return this->amplitude;
 }
 
-double simulator::SinusoidalSignal::getFrequency() const {
+double botsim::SinusoidalSignal::getFrequency() const {
     return this->frequency;
 }
 
-double simulator::SinusoidalSignal::getPhase() const {
+double botsim::SinusoidalSignal::getPhase() const {
     return this->phase;
 }
 
-std::string simulator::SinusoidalSignal::getName() const {
+std::string botsim::SinusoidalSignal::getName() const {
     return this->name;
 }
 

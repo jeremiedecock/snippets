@@ -35,10 +35,10 @@ static double friction = 0.5;
 static double rolling_friction = 0.;
 static double restitution = 0.;
 
-simulator::Part * simulator::make_robudog_trunk(const Eigen::Vector3d initial_position, const Eigen::Vector4d initial_angle, std::string name) {
+botsim::Part * botsim::make_robudog_trunk(const Eigen::Vector3d initial_position, const Eigen::Vector4d initial_angle, std::string name) {
 
     // Make the part
-    simulator::Part * p_part = new simulator::Box(initial_dimension,
+    botsim::Part * p_part = new botsim::Box(initial_dimension,
                                                   initial_position,
                                                   initial_angle,
                                                   initial_velocity,
@@ -62,27 +62,27 @@ simulator::Part * simulator::make_robudog_trunk(const Eigen::Vector3d initial_po
     // Add left shoulder joint slot
     Eigen::Vector3d left_shoulder_pivot(dim_x/2. - dim_ax12_x/2., dim_y/2. + dim_ax12_y/2., 0.);
     Eigen::Vector3d left_shoulder_axis(0., 1., 0.);
-    simulator::HingeSlot * p_left_shoulder_joint_slot = new simulator::HingeSlot(left_shoulder_pivot, left_shoulder_axis);
+    botsim::HingeSlot * p_left_shoulder_joint_slot = new botsim::HingeSlot(left_shoulder_pivot, left_shoulder_axis);
 
     // Add right shoulder joint slot
     Eigen::Vector3d right_shoulder_pivot(dim_x/2. - dim_ax12_x/2., -dim_y/2. - dim_ax12_y/2., 0.);
     Eigen::Vector3d right_shoulder_axis(0., 1., 0.);
-    simulator::HingeSlot * p_right_shoulder_joint_slot = new simulator::HingeSlot(right_shoulder_pivot, right_shoulder_axis);
+    botsim::HingeSlot * p_right_shoulder_joint_slot = new botsim::HingeSlot(right_shoulder_pivot, right_shoulder_axis);
 
     // Add left hip joint slot
     Eigen::Vector3d left_hip_pivot(-dim_x/2. + dim_ax12_x/2., dim_y/2. + dim_ax12_y/2., 0.);
     Eigen::Vector3d left_hip_axis(0., 1., 0.);
-    simulator::HingeSlot * p_left_hip_joint_slot = new simulator::HingeSlot(left_hip_pivot, left_hip_axis);
+    botsim::HingeSlot * p_left_hip_joint_slot = new botsim::HingeSlot(left_hip_pivot, left_hip_axis);
 
     // Add right hip joint slot
     Eigen::Vector3d right_hip_pivot(-dim_x/2. + dim_ax12_x/2., -dim_y/2. - dim_ax12_y/2., 0.);
     Eigen::Vector3d right_hip_axis(0., 1., 0.);
-    simulator::HingeSlot * p_right_hip_joint_slot = new simulator::HingeSlot(right_hip_pivot, right_hip_axis);
+    botsim::HingeSlot * p_right_hip_joint_slot = new botsim::HingeSlot(right_hip_pivot, right_hip_axis);
 
     // Add crane (machine) joint slot
     Eigen::Vector3d crane_pivot(0., 0., dim_z/2.);
-    //simulator::PointToPointSlot * p_crane_joint_slot = new simulator::PointToPointSlot(crane_pivot);
-    simulator::FixedSlot * p_crane_joint_slot = new simulator::FixedSlot(crane_pivot);
+    //botsim::PointToPointSlot * p_crane_joint_slot = new botsim::PointToPointSlot(crane_pivot);
+    botsim::FixedSlot * p_crane_joint_slot = new botsim::FixedSlot(crane_pivot);
 
     p_part->addJointSlot(std::string("left_shoulder"), p_left_shoulder_joint_slot);
     p_part->addJointSlot(std::string("right_shoulder"), p_right_shoulder_joint_slot);

@@ -16,7 +16,7 @@
 
 namespace po = boost::program_options;
 
-namespace simulator {
+namespace botsim {
 
     class CommonOptionsParser {
         public:

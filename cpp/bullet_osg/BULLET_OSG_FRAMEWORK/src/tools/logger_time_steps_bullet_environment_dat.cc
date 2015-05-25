@@ -14,7 +14,7 @@
 
 const std::string DEFAULT_FILE_PATH = "time_steps_bullet_environment.dat"; // TODO ?
 
-simulator::LoggerTimeStepsBulletEnvironmentDat::LoggerTimeStepsBulletEnvironmentDat(std::string filepath) {
+botsim::LoggerTimeStepsBulletEnvironmentDat::LoggerTimeStepsBulletEnvironmentDat(std::string filepath) {
     // Set filepath
     if(filepath == "") {
         this->filepath = DEFAULT_FILE_PATH;
@@ -36,7 +36,7 @@ simulator::LoggerTimeStepsBulletEnvironmentDat::LoggerTimeStepsBulletEnvironment
     (* this->ofs) << std::endl;
 }
 
-simulator::LoggerTimeStepsBulletEnvironmentDat::~LoggerTimeStepsBulletEnvironmentDat() {
+botsim::LoggerTimeStepsBulletEnvironmentDat::~LoggerTimeStepsBulletEnvironmentDat() {
     // Open the log file
     std::cout << "Close " << this->filepath << std::endl;
     this->ofs->flush();
@@ -46,7 +46,7 @@ simulator::LoggerTimeStepsBulletEnvironmentDat::~LoggerTimeStepsBulletEnvironmen
     delete this->ofs;
 }
 
-void simulator::LoggerTimeStepsBulletEnvironmentDat::update(BulletEnvironment * bullet_environment) {
+void botsim::LoggerTimeStepsBulletEnvironmentDat::update(BulletEnvironment * bullet_environment) {
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
     double elapsed_user_time_sec = bullet_environment->getElapsedUserTimeSec();
     //double time_step_sec = bullet_environment->();
@@ -63,6 +63,6 @@ void simulator::LoggerTimeStepsBulletEnvironmentDat::update(BulletEnvironment * 
     (* this->ofs) << std::endl;
 }
 
-std::string simulator::LoggerTimeStepsBulletEnvironmentDat::getFilepath() const {
+std::string botsim::LoggerTimeStepsBulletEnvironmentDat::getFilepath() const {
     return this->filepath;
 }

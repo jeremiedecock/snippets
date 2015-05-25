@@ -12,9 +12,9 @@
 
 #include "object.h"
 
-namespace simulator {
+namespace botsim {
 
-    simulator::Object * make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name);
+    botsim::Object * make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name);
 
 }
 

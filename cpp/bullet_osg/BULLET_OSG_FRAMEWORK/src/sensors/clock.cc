@@ -13,18 +13,18 @@
 
 #include <iostream>
 
-simulator::Clock::Clock(simulator::BulletEnvironment * bullet_environment,
+botsim::Clock::Clock(botsim::BulletEnvironment * bullet_environment,
                         std::string _name) :
                             bulletEnvironment(bullet_environment),
                             name(_name) {
     // TODO
 }
 
-simulator::Clock::~Clock() {
+botsim::Clock::~Clock() {
     // TODO
 }
 
-Eigen::VectorXd simulator::Clock::getPercepts() {
+Eigen::VectorXd botsim::Clock::getPercepts() {
     const double simulation_duration_sec = this->bulletEnvironment->getElapsedSimulationTimeSecTickRes();
     //Eigen::VectorXd percept_vector(simulation_duration_sec);
     Eigen::VectorXd percept_vector = Eigen::VectorXd::Zero(1);  // TODO !
@@ -32,11 +32,11 @@ Eigen::VectorXd simulator::Clock::getPercepts() {
     return percept_vector;
 }
 
-std::string simulator::Clock::getName() const {
+std::string botsim::Clock::getName() const {
     return this->name;
 }
 
-double simulator::Clock::getSimulationDurationSec() const {
+double botsim::Clock::getSimulationDurationSec() const {
     return this->simulationDurationSec;  // TODO: must be updated by the observed
 }
 

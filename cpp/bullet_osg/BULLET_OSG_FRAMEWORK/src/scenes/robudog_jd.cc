@@ -86,7 +86,7 @@ int main(int argc, char * argv[]) {
 
     // Parse programm options (local and common)
 
-    simulator::CommonOptionsParser options(argc, argv, local_options_desc);
+    botsim::CommonOptionsParser options(argc, argv, local_options_desc);
 
     if(options.exit) {
         return options.exitValue;
@@ -98,26 +98,26 @@ int main(int argc, char * argv[]) {
 
     const Eigen::Vector3d initial_position1 = Eigen::Vector3d(0., 0., 0.5);
     const std::string name1("robudog1");
-    simulator::Object * p_robudog1 = simulator::make_robudog_jd(initial_position1, name1);
+    botsim::Object * p_robudog1 = botsim::make_robudog_jd(initial_position1, name1);
 
     const Eigen::Vector3d initial_position2 = Eigen::Vector3d(0., 30., 0.5);
     const std::string name2("robudog2");
-    simulator::Object * p_robudog2 = simulator::make_robudog_jd(initial_position2, name2);
+    botsim::Object * p_robudog2 = botsim::make_robudog_jd(initial_position2, name2);
     
     // Other parts ////////////////////
     
     // Ground
-    simulator::Ground * p_ground = new simulator::Ground(ground_friction, ground_rolling_friction, ground_restitution);
+    botsim::Ground * p_ground = new botsim::Ground(ground_friction, ground_rolling_friction, ground_restitution);
     
     // Controllers ////////////////////
     
-    simulator::Clock * p_clock_sensor = new simulator::Clock(NULL, "clock");  // TODO: UGLY WORKAROUND !
-    std::set<simulator::Sensor *> sensor_set;
+    botsim::Clock * p_clock_sensor = new botsim::Clock(NULL, "clock");  // TODO: UGLY WORKAROUND !
+    std::set<botsim::Sensor *> sensor_set;
     sensor_set.insert(p_clock_sensor);
 
     Eigen::Matrix< double, 24, 1> parameters = Eigen::Matrix< double, 24, 1>::Zero();
     if(controller_parameters_file_name_opt != "") {
-        std::vector<double> std_vector = simulator::text_file_to_std_vector(controller_parameters_file_name_opt);
+        std::vector<double> std_vector = botsim::text_file_to_std_vector(controller_parameters_file_name_opt);
         for(int i=0 ; i < std_vector.size() ; i++) {
             parameters(i) = std_vector[i];
         }
@@ -132,25 +132,25 @@ int main(int argc, char * argv[]) {
                       1., 0.25,  3.14/2.;
     }
     std::cout << "Loading controller's parameters: " << parameters << std::endl;
-    simulator::RobudogController * p_robudog_controller = new simulator::RobudogController(p_robudog1->getActuatorSet(), sensor_set, parameters, "robudog_controller");
+    botsim::RobudogController * p_robudog_controller = new botsim::RobudogController(p_robudog1->getActuatorSet(), sensor_set, parameters, "robudog_controller");
 
     // Bullet environment /////////////
     
     // Bullet object set
-    std::set<simulator::Object *> bullet_object_set;
+    std::set<botsim::Object *> bullet_object_set;
     bullet_object_set.insert(p_robudog1);
     bullet_object_set.insert(p_robudog2);
 
     // Bullet part set
-    std::set<simulator::Part *> bullet_part_set;
+    std::set<botsim::Part *> bullet_part_set;
     bullet_part_set.insert(p_ground);
     
     // Controller set
-    std::set<simulator::Controller *> controller_set;
+    std::set<botsim::Controller *> controller_set;
     controller_set.insert(p_robudog_controller);
 
     // Bullet environment
-    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    botsim::BulletEnvironment * p_bullet_environment = new botsim::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     
     p_clock_sensor->bulletEnvironment = p_bullet_environment;  // TODO: UGLY WORKAROUND !
@@ -158,40 +158,40 @@ int main(int argc, char * argv[]) {
     // Init log ///////////////////////////////////////////////////////////////
 
     // Bullet time steps dat log
-    simulator::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new simulator::LoggerTimeStepsBulletEnvironmentDat();
+    botsim::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new botsim::LoggerTimeStepsBulletEnvironmentDat();
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_dat);
 
     // Bullet time steps json log
-    simulator::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new simulator::LoggerTimeStepsBulletEnvironmentJson();
+    botsim::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new botsim::LoggerTimeStepsBulletEnvironmentJson();
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(p_robudog1->getPartSet());
+    botsim::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new botsim::LoggerTimeStepsPartsDat(p_robudog1->getPartSet());
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(p_robudog1->getPartSet());
+    botsim::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new botsim::LoggerTimeStepsPartsJson(p_robudog1->getPartSet());
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(p_robudog1->getPartSet());
+    botsim::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new botsim::LoggerTicksPartsDat(p_robudog1->getPartSet());
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(p_robudog1->getPartSet());
+    botsim::LoggerTicksPartsJson * p_logger_ticks_parts_json = new botsim::LoggerTicksPartsJson(p_robudog1->getPartSet());
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 
     // Run the simulation /////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * p_osg_environment = NULL;
+    botsim::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
         p_bullet_environment->run();
     } else {
         // Init OSG
-        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new botsim::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
         p_osg_environment->run();

@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace simulator {
+namespace botsim {
 
     class LoggerTimeStepsBulletEnvironmentJson : public TimeStepObserver {
         private:

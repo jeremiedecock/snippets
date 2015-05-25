@@ -14,9 +14,9 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
-    class HingeSlot: public simulator::JointSlot {
+    class HingeSlot: public botsim::JointSlot {
 
         protected:
             Eigen::Vector3d pivot;

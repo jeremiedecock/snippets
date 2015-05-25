@@ -9,15 +9,15 @@
 
 #include "fixed_slot.h"
 
-simulator::FixedSlot::FixedSlot(Eigen::Vector3d _pivot) : pivot(_pivot) {
+botsim::FixedSlot::FixedSlot(Eigen::Vector3d _pivot) : pivot(_pivot) {
 
 }
 
-simulator::FixedSlot::~FixedSlot() {
+botsim::FixedSlot::~FixedSlot() {
     // TODO
 }
 
-Eigen::Vector3d simulator::FixedSlot::getPivot() const {
+Eigen::Vector3d botsim::FixedSlot::getPivot() const {
     return this->pivot;
 }
 

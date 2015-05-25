@@ -15,22 +15,22 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
-    class Clock: public simulator::Sensor {
+    class Clock: public botsim::Sensor {
         protected:
             // Common
-            //simulator::BulletEnvironment * bulletEnvironment;
+            //botsim::BulletEnvironment * bulletEnvironment;
 
             std::string name;                         // the name of this instance
 
             double simulationDurationSec;
 
         public:
-            simulator::BulletEnvironment * bulletEnvironment;  // TODO: UGLY WORKAROUND !
+            botsim::BulletEnvironment * bulletEnvironment;  // TODO: UGLY WORKAROUND !
 
         public:
-            Clock(simulator::BulletEnvironment * bullet_environment,
+            Clock(botsim::BulletEnvironment * bullet_environment,
                   std::string _name="");
 
             ~Clock();

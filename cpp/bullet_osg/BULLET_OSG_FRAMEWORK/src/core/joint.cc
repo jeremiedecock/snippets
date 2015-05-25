@@ -9,7 +9,7 @@
 
 #include "joint.h"
 
-btTypedConstraint * simulator::Joint::getBulletTypedConstraint() const {
+btTypedConstraint * botsim::Joint::getBulletTypedConstraint() const {
     return this->bulletTypedConstraint;
 }
 

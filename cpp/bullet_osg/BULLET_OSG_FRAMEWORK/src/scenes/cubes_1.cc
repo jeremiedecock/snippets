@@ -58,7 +58,7 @@ int main(int argc, char * argv[]) {
 
     // Parse programm options (local and common)
     
-    simulator::CommonOptionsParser options(argc, argv, local_options_desc);
+    botsim::CommonOptionsParser options(argc, argv, local_options_desc);
 
     if(options.exit) {
         return options.exitValue;
@@ -66,17 +66,17 @@ int main(int argc, char * argv[]) {
 
     // Init Bullet //////////////////////////////////////////////////////////////////////
 
-    simulator::Box * p_box1 = new simulator::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.);
-    simulator::Box * p_box2 = new simulator::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
-    simulator::Box * p_box3 = new simulator::Box(Eigen::Vector3d(2., 2., 2.), Eigen::Vector3d(0., 0., 40.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 3.);
-    simulator::Box * p_box4 = new simulator::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
-    simulator::Ground * p_ground = new simulator::Ground();
+    botsim::Box * p_box1 = new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 20.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(1., 0., 5.), Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 0.), 1.);
+    botsim::Box * p_box2 = new botsim::Box(Eigen::Vector3d(1., 3., 1.), Eigen::Vector3d(0., 0., 30.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
+    botsim::Box * p_box3 = new botsim::Box(Eigen::Vector3d(2., 2., 2.), Eigen::Vector3d(0., 0., 40.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 3.);
+    botsim::Box * p_box4 = new botsim::Box(Eigen::Vector3d(1., 1., 1.), Eigen::Vector3d(0., 0., 50.), Eigen::Vector4d(0., 0., 0., 1.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), Eigen::Vector3d(0., 0., 0.), 1.);
+    botsim::Ground * p_ground = new botsim::Ground();
     
     // Bullet object set
-    std::set<simulator::Object *> bullet_object_set;
+    std::set<botsim::Object *> bullet_object_set;
 
     // Bullet part set
-    std::set<simulator::Part *> bullet_part_set;
+    std::set<botsim::Part *> bullet_part_set;
     bullet_part_set.insert(p_ground);
     bullet_part_set.insert(p_box1);
     bullet_part_set.insert(p_box2);
@@ -84,40 +84,40 @@ int main(int argc, char * argv[]) {
     bullet_part_set.insert(p_box4);
     
     // Controller set
-    std::set<simulator::Controller *> controller_set;
+    std::set<botsim::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    botsim::BulletEnvironment * p_bullet_environment = new botsim::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log /////////////////////////////////////////////////////////////////////////
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(bullet_part_set);
+    botsim::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new botsim::LoggerTimeStepsPartsDat(bullet_part_set);
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(bullet_part_set);
+    botsim::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new botsim::LoggerTimeStepsPartsJson(bullet_part_set);
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(bullet_part_set);
+    botsim::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new botsim::LoggerTicksPartsDat(bullet_part_set);
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(bullet_part_set);
+    botsim::LoggerTicksPartsJson * p_logger_ticks_parts_json = new botsim::LoggerTicksPartsJson(bullet_part_set);
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 
     // Run the simulation ///////////////////////////////////////////////////////////////
     
-    simulator::OSGEnvironment * p_osg_environment = NULL;
+    botsim::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
         p_bullet_environment->run();
     } else {
         // Init OSG
-        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new botsim::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
         p_osg_environment->run();

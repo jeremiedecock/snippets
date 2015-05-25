@@ -17,7 +17,7 @@
 #include <btBulletDynamicsCommon.h>
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
     /**
      *

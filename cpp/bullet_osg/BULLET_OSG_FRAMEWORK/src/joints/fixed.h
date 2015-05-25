@@ -14,22 +14,22 @@
 #include "joint_slots/fixed_slot.h"
 #include "part.h"
 
-namespace simulator {
+namespace botsim {
 
-    class Fixed: public simulator::Joint {
+    class Fixed: public botsim::Joint {
         protected:
             // Common
             std::string name;                         // the name of this instance
 
         public:
-            Fixed(simulator::Part * part1,
-                  simulator::Part * part2,
-                  simulator::FixedSlot * joint_slot_for_part1,
-                  simulator::FixedSlot * joint_slot_for_part2,
+            Fixed(botsim::Part * part1,
+                  botsim::Part * part2,
+                  botsim::FixedSlot * joint_slot_for_part1,
+                  botsim::FixedSlot * joint_slot_for_part2,
                   std::string _name="");
 
-            Fixed(simulator::Part * part,
-                  simulator::FixedSlot * joint_slot,
+            Fixed(botsim::Part * part,
+                  botsim::FixedSlot * joint_slot,
                   std::string _name="");
 
             ~Fixed();

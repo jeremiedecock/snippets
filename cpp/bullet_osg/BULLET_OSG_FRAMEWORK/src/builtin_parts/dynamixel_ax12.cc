@@ -33,10 +33,10 @@ static double friction = 1.1;        // 0.5
 static double rolling_friction = 0.;
 static double restitution = 0.;
 
-simulator::Part * simulator::make_dynamixel_ax12(const Eigen::Vector3d initial_position, const Eigen::Vector4d initial_angle, std::string name) {
+botsim::Part * botsim::make_dynamixel_ax12(const Eigen::Vector3d initial_position, const Eigen::Vector4d initial_angle, std::string name) {
 
     // Make the part
-    simulator::Part * p_part = new simulator::Box(initial_dimension,
+    botsim::Part * p_part = new botsim::Box(initial_dimension,
                                                   initial_position,
                                                   initial_angle,
                                                   initial_velocity,
@@ -52,12 +52,12 @@ simulator::Part * simulator::make_dynamixel_ax12(const Eigen::Vector3d initial_p
     // Add joint slot 1
     Eigen::Vector3d robudog_hinge_pivot_1(0., 0., 1.5);
     Eigen::Vector3d robudog_hinge_axis_1(0., 1., 0.);
-    simulator::HingeSlot * p_robudog_joint_slot_1 = new simulator::HingeSlot(robudog_hinge_pivot_1, robudog_hinge_axis_1);
+    botsim::HingeSlot * p_robudog_joint_slot_1 = new botsim::HingeSlot(robudog_hinge_pivot_1, robudog_hinge_axis_1);
 
     // Add joint slot 2
     Eigen::Vector3d robudog_hinge_pivot_2(0., 0., -5.);  // -2.5 - 2.5
     Eigen::Vector3d robudog_hinge_axis_2(0., 1., 0.);
-    simulator::HingeSlot * p_robudog_joint_slot_2 = new simulator::HingeSlot(robudog_hinge_pivot_2, robudog_hinge_axis_2);
+    botsim::HingeSlot * p_robudog_joint_slot_2 = new botsim::HingeSlot(robudog_hinge_pivot_2, robudog_hinge_axis_2);
 
     p_part->addJointSlot(std::string("slot1"), p_robudog_joint_slot_1);
     p_part->addJointSlot(std::string("slot2"), p_robudog_joint_slot_2);

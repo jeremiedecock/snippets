@@ -94,7 +94,7 @@ int main(int argc, char * argv[]) {
 
     // Parse programm options (local and common)
     
-    simulator::CommonOptionsParser options(argc, argv, local_options_desc);
+    botsim::CommonOptionsParser options(argc, argv, local_options_desc);
 
     if(options.exit) {
         return options.exitValue;
@@ -102,11 +102,11 @@ int main(int argc, char * argv[]) {
 
     // Assign some options value (vectors)
     
-    initial_position = simulator::string_to_eigen_vector3(initial_position_str_opt);
-    initial_angle = simulator::string_to_eigen_vector4(initial_angle_str_opt);
-    initial_velocity = simulator::string_to_eigen_vector3(initial_velocity_str_opt);
-    initial_angular_velocity = simulator::string_to_eigen_vector3(initial_angular_velocity_str_opt);
-    initial_inertia = simulator::string_to_eigen_vector3(initial_inertia_str_opt);
+    initial_position = botsim::string_to_eigen_vector3(initial_position_str_opt);
+    initial_angle = botsim::string_to_eigen_vector4(initial_angle_str_opt);
+    initial_velocity = botsim::string_to_eigen_vector3(initial_velocity_str_opt);
+    initial_angular_velocity = botsim::string_to_eigen_vector3(initial_angular_velocity_str_opt);
+    initial_inertia = botsim::string_to_eigen_vector3(initial_inertia_str_opt);
 
     // Print options value
 
@@ -116,69 +116,69 @@ int main(int argc, char * argv[]) {
         std::cout << "ROLLING FRICTION: " << rolling_friction << std::endl;
         std::cout << "RESTITUTION: " << restitution << std::endl;
         std::cout << "RADIUS: " << radius << "m" << std::endl;
-        std::cout << "INITIAL POSITION: " << simulator::eigen_vector_to_string(initial_position) << std::endl;
-        std::cout << "INITIAL ANGLE: " << simulator::eigen_vector_to_string(initial_angle) << std::endl;
-        std::cout << "INITIAL VELOCITY: " << simulator::eigen_vector_to_string(initial_velocity) << std::endl;
-        std::cout << "INITIAL ANGULAR VELOCITY: " << simulator::eigen_vector_to_string(initial_angular_velocity) << std::endl;
-        std::cout << "INITIAL INERTIA: " << simulator::eigen_vector_to_string(initial_inertia) << std::endl;
+        std::cout << "INITIAL POSITION: " << botsim::eigen_vector_to_string(initial_position) << std::endl;
+        std::cout << "INITIAL ANGLE: " << botsim::eigen_vector_to_string(initial_angle) << std::endl;
+        std::cout << "INITIAL VELOCITY: " << botsim::eigen_vector_to_string(initial_velocity) << std::endl;
+        std::cout << "INITIAL ANGULAR VELOCITY: " << botsim::eigen_vector_to_string(initial_angular_velocity) << std::endl;
+        std::cout << "INITIAL INERTIA: " << botsim::eigen_vector_to_string(initial_inertia) << std::endl;
     }
 
     // Init Bullet ////////////////////////////////////////////////////////////
 
-    simulator::Sphere * p_sphere = new simulator::Sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
-    simulator::Ground * p_ground = new simulator::Ground(friction, rolling_friction, restitution);
+    botsim::Sphere * p_sphere = new botsim::Sphere(radius, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass, friction, rolling_friction, restitution);
+    botsim::Ground * p_ground = new botsim::Ground(friction, rolling_friction, restitution);
     
     // Bullet object set
-    std::set<simulator::Object *> bullet_object_set;
+    std::set<botsim::Object *> bullet_object_set;
 
     // Bullet part set
-    std::set<simulator::Part *> bullet_part_set;
+    std::set<botsim::Part *> bullet_part_set;
     bullet_part_set.insert(p_sphere);
     bullet_part_set.insert(p_ground);
     
     // Controller set
-    std::set<simulator::Controller *> controller_set;
+    std::set<botsim::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    botsim::BulletEnvironment * p_bullet_environment = new botsim::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Init log ///////////////////////////////////////////////////////////////
 
     // Bullet time steps dat log
-    simulator::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new simulator::LoggerTimeStepsBulletEnvironmentDat();
+    botsim::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new botsim::LoggerTimeStepsBulletEnvironmentDat();
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_dat);
 
     // Bullet time steps json log
-    simulator::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new simulator::LoggerTimeStepsBulletEnvironmentJson();
+    botsim::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new botsim::LoggerTimeStepsBulletEnvironmentJson();
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
-    simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(bullet_part_set);
+    botsim::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new botsim::LoggerTimeStepsPartsDat(bullet_part_set);
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
-    simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(bullet_part_set);
+    botsim::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new botsim::LoggerTimeStepsPartsJson(bullet_part_set);
     p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
-    simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(bullet_part_set);
+    botsim::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new botsim::LoggerTicksPartsDat(bullet_part_set);
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
-    simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(bullet_part_set);
+    botsim::LoggerTicksPartsJson * p_logger_ticks_parts_json = new botsim::LoggerTicksPartsJson(bullet_part_set);
     p_bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 
     // Run the simulation /////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * p_osg_environment = NULL;
+    botsim::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
         p_bullet_environment->run();
     } else {
         // Init OSG
-        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new botsim::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
         p_osg_environment->run();

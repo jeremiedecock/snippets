@@ -18,8 +18,8 @@
 
 const static double PI = std::acos(-1);
 
-simulator::RobudogController::RobudogController(std::set<simulator::Actuator *> actuator_set,
-                                                std::set<simulator::Sensor *> sensor_set,
+botsim::RobudogController::RobudogController(std::set<botsim::Actuator *> actuator_set,
+                                                std::set<botsim::Sensor *> sensor_set,
                                                 Eigen::Matrix< double, 24, 1> _parameters,
                                                 std::string _name) :
                                                   parameters(_parameters),
@@ -28,15 +28,15 @@ simulator::RobudogController::RobudogController(std::set<simulator::Actuator *> 
     this->sensorSet   = sensor_set;
 }
 
-simulator::RobudogController::~RobudogController() {
+botsim::RobudogController::~RobudogController() {
     // TODO
 }
 
-double simulator::RobudogController::computeSignalValue(double time, double amplitude, double frequency, double phase) const {
+double botsim::RobudogController::computeSignalValue(double time, double amplitude, double frequency, double phase) const {
     double signal_value = amplitude * std::sin(2.0 * PI * frequency * time + phase);
 }
 
-void simulator::RobudogController::updateActuators() {
+void botsim::RobudogController::updateActuators() {
 
     /*
      * GET PERCEPTS
@@ -48,10 +48,10 @@ void simulator::RobudogController::updateActuators() {
        throw std::invalid_argument("The \"robudog controller\" must have exactly one \"Clock\" sensor."); 
     }
 
-    std::set<simulator::Sensor *>::iterator sensor_it;
+    std::set<botsim::Sensor *>::iterator sensor_it;
 
     for(sensor_it = this->sensorSet.begin() ; sensor_it != this->sensorSet.end() ; sensor_it++) {
-        if(simulator::Clock * clock_sensor = dynamic_cast<simulator::Clock *>(*sensor_it)) {
+        if(botsim::Clock * clock_sensor = dynamic_cast<botsim::Clock *>(*sensor_it)) {
             Eigen::VectorXd percept_vector = (*sensor_it)->getPercepts();
 
             simulation_duration_sec = percept_vector[0];  // TODO !!!
@@ -68,10 +68,10 @@ void simulator::RobudogController::updateActuators() {
         throw std::invalid_argument("The \"robudog controller\" must have exactly eight \"Motor\" actuator."); 
     }
 
-    std::set<simulator::Actuator *>::iterator actuator_it;
+    std::set<botsim::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
-        if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+        if(botsim::Motor * motor_actuator = dynamic_cast<botsim::Motor *>(*actuator_it)) {
             int actuator_index;
 
             if(motor_actuator->getName() == "right_shoulder_motor") actuator_index = 0.;
@@ -98,11 +98,11 @@ void simulator::RobudogController::updateActuators() {
     }
 }
 
-Eigen::Matrix< double, 24, 1> simulator::RobudogController::getParameters() const {
+Eigen::Matrix< double, 24, 1> botsim::RobudogController::getParameters() const {
     return this->parameters;
 }
 
-std::string simulator::RobudogController::getName() const {
+std::string botsim::RobudogController::getName() const {
     return this->name;
 }
 

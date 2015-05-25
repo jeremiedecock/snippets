@@ -36,12 +36,12 @@ const int PRINT_CAMERA_CHAR = 'c';
 
 // PhysicsCallback ////////////////////////////////////////////////////////////
 
-simulator::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
+botsim::PhysicsCallback::PhysicsCallback(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
     this->bulletEnvironment = bullet_environment;
     this->osgEnvironment = osg_environment;
 }
 
-void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
+void botsim::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor * nv) {
     // Quit ?
     double simulation_duration_sec = this->bulletEnvironment->getSimulationDurationSec();
     if((simulation_duration_sec > 0.) && (this->bulletEnvironment->getElapsedSimulationTimeSec() > simulation_duration_sec)) {
@@ -60,7 +60,7 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
     }
 
     // Update the position of each objects
-    std::set<simulator::Part *>::iterator it;
+    std::set<botsim::Part *>::iterator it;
     for(it = this->bulletEnvironment->partSet.begin() ; it != this->bulletEnvironment->partSet.end() ; it++) {
         // Bullet
         btTransform bulletTransform;
@@ -92,7 +92,7 @@ void simulator::PhysicsCallback::operator() (osg::Node * node, osg::NodeVisitor 
  * and http://jeux.developpez.com/tutoriels/openscenegraph/evenements/
  */
 
-simulator::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
+botsim::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet_environment, OSGEnvironment * osg_environment) {
     this->bulletEnvironment = bullet_environment;
     this->osgEnvironment = osg_environment;
 }
@@ -101,7 +101,7 @@ simulator::KeyboardEventHandler::KeyboardEventHandler(BulletEnvironment * bullet
  * osgGA::GUIEventAdapter  supplies the received events
  * osgGA::GUIActionAdapter parameter for feedback
  */
-bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event_adapter,
+bool botsim::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event_adapter,
                                              osgGA::GUIActionAdapter& action_adapter) {
 
     switch(event_adapter.getEventType()) {
@@ -141,10 +141,10 @@ bool simulator::KeyboardEventHandler::handle(const osgGA::GUIEventAdapter& event
 
 // OSGEnvironment /////////////////////////////////////////////////////////////
 
-const unsigned int simulator::OSGEnvironment::receivesShadowTraversalMask = 0x1;
-const unsigned int simulator::OSGEnvironment::castsShadowTraversalMask = 0x2;
+const unsigned int botsim::OSGEnvironment::receivesShadowTraversalMask = 0x1;
+const unsigned int botsim::OSGEnvironment::castsShadowTraversalMask = 0x2;
 
-simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment, bool use_full_screen_mode) : useFullScreen(use_full_screen_mode) {
+botsim::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment, bool use_full_screen_mode) : useFullScreen(use_full_screen_mode) {
 
     // Note: the fog effect won't work if shader based shadow technique is used.
     // See http://trac.openscenegraph.org/projects/osg//wiki/Support/ProgrammingGuide/osgShadow
@@ -168,7 +168,7 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     p_root->setUpdateCallback(new PhysicsCallback(bullet_environment, this)); // Physics is updated when root is traversed
 
     // Add objects
-    std::set<simulator::Part *>::iterator it;
+    std::set<botsim::Part *>::iterator it;
     for(it = bullet_environment->partSet.begin() ; it != bullet_environment->partSet.end() ; it++) {
         p_root->addChild((*it)->getOSGPAT());
     }
@@ -220,8 +220,8 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     p_shadow_map->setTextureUnit(1);
 
     p_root->setShadowTechnique(p_shadow_map.get());
-    p_root->setReceivesShadowTraversalMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
-    p_root->setCastsShadowTraversalMask(simulator::OSGEnvironment::castsShadowTraversalMask);
+    p_root->setReceivesShadowTraversalMask(botsim::OSGEnvironment::receivesShadowTraversalMask);
+    p_root->setCastsShadowTraversalMask(botsim::OSGEnvironment::castsShadowTraversalMask);
 #endif // USE_SHADOW
 
 
@@ -308,14 +308,14 @@ simulator::OSGEnvironment::OSGEnvironment(BulletEnvironment * bullet_environment
     this->viewer->addEventHandler(p_keyboard_event_handler);
 }
 
-osgViewer::Viewer * simulator::OSGEnvironment::getViewer() const {
+osgViewer::Viewer * botsim::OSGEnvironment::getViewer() const {
     return this->viewer;
 }
 
-void simulator::OSGEnvironment::run() {
+void botsim::OSGEnvironment::run() {
     this->viewer->run();
 }
 
-simulator::OSGEnvironment::~OSGEnvironment() {
+botsim::OSGEnvironment::~OSGEnvironment() {
     delete this->viewer;
 }

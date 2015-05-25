@@ -35,7 +35,7 @@ static const bool DEFAULT_USE_VERBOSE_MODE = false;
 /**
  *
  */
-simulator::CommonOptionsParser::CommonOptionsParser(int argc,
+botsim::CommonOptionsParser::CommonOptionsParser(int argc,
                                                     char * argv[],
                                                     const po::options_description & local_options_desc) {
 

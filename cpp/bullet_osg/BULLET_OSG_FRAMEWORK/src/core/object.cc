@@ -9,9 +9,9 @@
 
 #include "object.h"
 
-simulator::Object::Object(std::set<simulator::Part *> part_set,
-                          std::set<simulator::Joint *> joint_set,
-                          std::set<simulator::Actuator *> actuator_set,
+botsim::Object::Object(std::set<botsim::Part *> part_set,
+                          std::set<botsim::Joint *> joint_set,
+                          std::set<botsim::Actuator *> actuator_set,
                           std::string _name) :
                               partSet(part_set),
                               jointSet(joint_set),
@@ -20,18 +20,18 @@ simulator::Object::Object(std::set<simulator::Part *> part_set,
     // TODO
 }
 
-std::set<simulator::Part *> simulator::Object::getPartSet() const {
+std::set<botsim::Part *> botsim::Object::getPartSet() const {
     return this->partSet;
 }
 
-std::set<simulator::Joint *> simulator::Object::getJointSet() const {
+std::set<botsim::Joint *> botsim::Object::getJointSet() const {
     return this->jointSet;
 }
 
-std::set<simulator::Actuator *> simulator::Object::getActuatorSet() const {
+std::set<botsim::Actuator *> botsim::Object::getActuatorSet() const {
     return this->actuatorSet;
 }
 
-std::string simulator::Object::getName() const {
+std::string botsim::Object::getName() const {
     return this->name;
 }

@@ -23,7 +23,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace simulator {
+namespace botsim {
 
     class BulletEnvironment;
 
@@ -79,9 +79,9 @@ namespace simulator {
             const int bulletMaxTicksPerTimeStep;
 
         public:
-            std::set<simulator::Object *> objectSet;
-            std::set<simulator::Part *> partSet;
-            std::set<simulator::Controller *> controllerSet;
+            std::set<botsim::Object *> objectSet;
+            std::set<botsim::Part *> partSet;
+            std::set<botsim::Controller *> controllerSet;
 
         private:
             /**
@@ -97,9 +97,9 @@ namespace simulator {
             void notifyTimeStep();
 
         public:
-            BulletEnvironment(std::set<simulator::Object *> object_set,
-                              std::set<simulator::Part *> part_set,
-                              std::set<simulator::Controller *> controller_set,
+            BulletEnvironment(std::set<botsim::Object *> object_set,
+                              std::set<botsim::Part *> part_set,
+                              std::set<botsim::Controller *> controller_set,
                               double bullet_time_step_duration_sec=-1.0,
                               double bullet_tick_duration_sec=0.003,
                               int bullet_max_ticks_per_time_step=1000,

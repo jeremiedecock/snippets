@@ -18,16 +18,16 @@
 #include <set>
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
     class LoggerTimeStepsPartsDat : public TimeStepObserver {
         private:
-            std::set<simulator::Part *> observedPartSet;
+            std::set<botsim::Part *> observedPartSet;
 
             std::map<std::string, std::ofstream *> fileMap;
 
         public:
-            LoggerTimeStepsPartsDat(std::set<simulator::Part *> observed_part_set);
+            LoggerTimeStepsPartsDat(std::set<botsim::Part *> observed_part_set);
 
             ~LoggerTimeStepsPartsDat();
 

@@ -21,22 +21,22 @@
 
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
-    class Motor: public simulator::Actuator/*, public simulator::Hinge*/ { // TODO !!!
+    class Motor: public botsim::Actuator/*, public botsim::Hinge*/ { // TODO !!!
         protected:
             // Common
             std::string name;                         // the name of this instance
 
         public:
-            Motor(simulator::Part * part1,
-                  simulator::Part * part2,
-                  simulator::HingeSlot * joint_slot_for_part1,
-                  simulator::HingeSlot * joint_slot_for_part2,
+            Motor(botsim::Part * part1,
+                  botsim::Part * part2,
+                  botsim::HingeSlot * joint_slot_for_part1,
+                  botsim::HingeSlot * joint_slot_for_part2,
                   std::string _name="");
 
-            Motor(simulator::Part * part,
-                  simulator::HingeSlot * joint_slot,
+            Motor(botsim::Part * part,
+                  botsim::HingeSlot * joint_slot,
                   std::string _name="");
 
             virtual ~Motor();

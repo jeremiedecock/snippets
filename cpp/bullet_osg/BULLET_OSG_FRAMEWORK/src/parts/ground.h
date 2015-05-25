@@ -22,9 +22,9 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace simulator {
+namespace botsim {
 
-    class Ground: public simulator::Part {
+    class Ground: public botsim::Part {
         private:
             // Bullet
             btCollisionShape * groundShape;

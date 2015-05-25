@@ -11,6 +11,6 @@
 
 // TODO ?
 
-//simulator::Actuator::~Actuator() {
+//botsim::Actuator::~Actuator() {
 //    // TODO
 //}

@@ -14,22 +14,22 @@
 #include "joint_slots/point_to_point_slot.h"
 #include "part.h"
 
-namespace simulator {
+namespace botsim {
 
-    class PointToPoint: public simulator::Joint {
+    class PointToPoint: public botsim::Joint {
         protected:
             // Common
             std::string name;                         // the name of this instance
 
         public:
-            PointToPoint(simulator::Part * part1,
-                         simulator::Part * part2,
-                         simulator::PointToPointSlot * joint_slot_for_part1,
-                         simulator::PointToPointSlot * joint_slot_for_part2,
+            PointToPoint(botsim::Part * part1,
+                         botsim::Part * part2,
+                         botsim::PointToPointSlot * joint_slot_for_part1,
+                         botsim::PointToPointSlot * joint_slot_for_part2,
                          std::string _name="");
 
-            PointToPoint(simulator::Part * part,
-                         simulator::PointToPointSlot * joint_slot,
+            PointToPoint(botsim::Part * part,
+                         botsim::PointToPointSlot * joint_slot,
                          std::string _name="");
 
             ~PointToPoint();

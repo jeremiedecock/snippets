@@ -70,7 +70,7 @@ int main(int argc, char * argv[]) {
 
     // Parse programm options (local and common)
     
-    simulator::CommonOptionsParser options(argc, argv, local_options_desc);
+    botsim::CommonOptionsParser options(argc, argv, local_options_desc);
 
     if(options.exit) {
         return options.exitValue;
@@ -85,12 +85,12 @@ int main(int argc, char * argv[]) {
     // Init Bullet //////////////////////////////////////////////////////////////////////
     
     // Bullet object set
-    std::set<simulator::Object *> bullet_object_set;
+    std::set<botsim::Object *> bullet_object_set;
 
     // Bullet part set
-    std::set<simulator::Part *> bullet_part_set;
+    std::set<botsim::Part *> bullet_part_set;
 
-    bullet_part_set.insert(new simulator::Ground());
+    bullet_part_set.insert(new botsim::Ground());
 
     for(int x_index=0 ; x_index <= 3 ; x_index++) {
         for(int y_index=0 ; y_index <= 3 ; y_index++) {
@@ -98,28 +98,28 @@ int main(int argc, char * argv[]) {
                 Eigen::Vector3d initial_dimension = Eigen::Vector3d(cube_size, cube_size, cube_size);
                 Eigen::Vector3d initial_position = Eigen::Vector3d(x_index, y_index, z_index + height);
 
-                simulator::Part * p_part = new simulator::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
+                botsim::Part * p_part = new botsim::Box(initial_dimension, initial_position, initial_angle, initial_velocity, initial_angular_velocity, initial_inertia, mass);
                 bullet_part_set.insert(p_part);
             }
         }
     }
     
     // Controller set
-    std::set<simulator::Controller *> controller_set;
+    std::set<botsim::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    botsim::BulletEnvironment * p_bullet_environment = new botsim::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * p_osg_environment = NULL;
+    botsim::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
         p_bullet_environment->run();
     } else {
         // Init OSG
-        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new botsim::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
         p_osg_environment->run();

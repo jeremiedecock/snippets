@@ -23,9 +23,9 @@
 
 #include <btBulletDynamicsCommon.h>
 
-int simulator::Sphere::numInstances = 0;
+int botsim::Sphere::numInstances = 0;
 
-simulator::Sphere::Sphere(double initial_radius,
+botsim::Sphere::Sphere(double initial_radius,
                           Eigen::Vector3d initial_position,
                           Eigen::Vector4d initial_angle,
                           Eigen::Vector3d initial_velocity,
@@ -73,11 +73,11 @@ simulator::Sphere::Sphere(double initial_radius,
     this->sphereShape = new btSphereShape(this->initialRadius);
 
     btScalar bt_mass = this->mass;
-    btVector3 bt_sphere_inertia = simulator::vec3_eigen_to_bullet(this->initialInertia);
+    btVector3 bt_sphere_inertia = botsim::vec3_eigen_to_bullet(this->initialInertia);
     this->sphereShape->calculateLocalInertia(bt_mass, bt_sphere_inertia);
 
-    btQuaternion bt_angle = simulator::vec4_eigen_to_bullet(this->initialAngle);
-    btVector3 bt_position = simulator::vec3_eigen_to_bullet(this->initialPosition);
+    btQuaternion bt_angle = botsim::vec4_eigen_to_bullet(this->initialAngle);
+    btVector3 bt_position = botsim::vec3_eigen_to_bullet(this->initialPosition);
     this->sphereMotionState = new btDefaultMotionState(btTransform(bt_angle, bt_position));
 
     btRigidBody::btRigidBodyConstructionInfo sphere_rigid_body_ci(mass, this->sphereMotionState, this->sphereShape, bt_sphere_inertia);
@@ -101,10 +101,10 @@ simulator::Sphere::Sphere(double initial_radius,
     //sphere_rigid_body_ci.m_additionalAngularDampingFactor = 0.;
     this->rigidBody = new btRigidBody(sphere_rigid_body_ci);
 
-    btVector3 bt_velocity = simulator::vec3_eigen_to_bullet(this->initialVelocity);
+    btVector3 bt_velocity = botsim::vec3_eigen_to_bullet(this->initialVelocity);
     this->rigidBody->setLinearVelocity(bt_velocity);
 
-    btVector3 bt_angular_velocity = simulator::vec3_eigen_to_bullet(this->initialAngularVelocity);
+    btVector3 bt_angular_velocity = botsim::vec3_eigen_to_bullet(this->initialAngularVelocity);
     this->rigidBody->setAngularVelocity(bt_angular_velocity);
 
     // OSG
@@ -134,13 +134,13 @@ simulator::Sphere::Sphere(double initial_radius,
     this->osgGeode->setStateSet(p_state_set);
 
     // Set the mask for shadows -> this object casts and receives shadows
-    this->osgGroup->setNodeMask(simulator::OSGEnvironment::castsShadowTraversalMask | simulator::OSGEnvironment::receivesShadowTraversalMask);
+    this->osgGroup->setNodeMask(botsim::OSGEnvironment::castsShadowTraversalMask | botsim::OSGEnvironment::receivesShadowTraversalMask);
     
     this->osgPAT = new osg::PositionAttitudeTransform();
     this->osgPAT->addChild(this->osgGroup);
 }
 
-simulator::Sphere::~Sphere() {
+botsim::Sphere::~Sphere() {
     delete this->rigidBody->getMotionState(); // TODO ?
     delete this->rigidBody; // TODO ?
 
@@ -153,7 +153,7 @@ simulator::Sphere::~Sphere() {
     //delete this->osgPAT;
 }
 
-std::string simulator::Sphere::getName() const {
+std::string botsim::Sphere::getName() const {
     return this->name;
 }
 

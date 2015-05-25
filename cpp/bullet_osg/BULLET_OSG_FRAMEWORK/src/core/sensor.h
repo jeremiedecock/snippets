@@ -14,7 +14,7 @@
 
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
     class Sensor {
         public:

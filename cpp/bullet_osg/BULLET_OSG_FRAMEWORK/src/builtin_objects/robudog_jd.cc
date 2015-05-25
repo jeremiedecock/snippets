@@ -44,14 +44,14 @@ static const double foot_radius = 1.25;  // TODO !!!
  */
 
 // TODO: put this as a static method in the "Fixed" class.
-void addFixedJoint(std::set<simulator::Joint *> & joint_set,
-                   simulator::Part * p_part,
+void addFixedJoint(std::set<botsim::Joint *> & joint_set,
+                   botsim::Part * p_part,
                    std::string slot_key,
                    std::string joint_name) {
 
-        simulator::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
-        if(simulator::FixedSlot * p_fixed_slot = dynamic_cast<simulator::FixedSlot *>(p_joint_slot)) {
-            simulator::Fixed * p_joint = new simulator::Fixed(p_part, p_fixed_slot, joint_name);
+        botsim::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
+        if(botsim::FixedSlot * p_fixed_slot = dynamic_cast<botsim::FixedSlot *>(p_joint_slot)) {
+            botsim::Fixed * p_joint = new botsim::Fixed(p_part, p_fixed_slot, joint_name);
             joint_set.insert(p_joint);
         } else {
             throw std::invalid_argument(slot_key + " is not a \"Fixed Slot\".");
@@ -60,14 +60,14 @@ void addFixedJoint(std::set<simulator::Joint *> & joint_set,
 }
 
 // TODO: put this as a static method in the "PointToPoint" class.
-void addP2PJoint(std::set<simulator::Joint *> & joint_set,
-                 simulator::Part * p_part,
+void addP2PJoint(std::set<botsim::Joint *> & joint_set,
+                 botsim::Part * p_part,
                  std::string slot_key,
                  std::string joint_name) {
 
-        simulator::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
-        if(simulator::PointToPointSlot * p_p2p_slot = dynamic_cast<simulator::PointToPointSlot *>(p_joint_slot)) {
-            simulator::PointToPoint * p_joint = new simulator::PointToPoint(p_part, p_p2p_slot, joint_name);
+        botsim::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
+        if(botsim::PointToPointSlot * p_p2p_slot = dynamic_cast<botsim::PointToPointSlot *>(p_joint_slot)) {
+            botsim::PointToPoint * p_joint = new botsim::PointToPoint(p_part, p_p2p_slot, joint_name);
             joint_set.insert(p_joint);
         } else {
             throw std::invalid_argument(slot_key + " is not a \"Point To Point Slot\".");
@@ -76,57 +76,57 @@ void addP2PJoint(std::set<simulator::Joint *> & joint_set,
 }
 
 // TODO: put this as a static method in the "Hinge" class (pb: actuator_set vs joint_set -> template ? ou mettre la version actuator dans Motor ?).
-void addMotor(std::set<simulator::Actuator *> & actuator_set,
-              simulator::Part * p_part1,
-              simulator::Part * p_part2,
+void addMotor(std::set<botsim::Actuator *> & actuator_set,
+              botsim::Part * p_part1,
+              botsim::Part * p_part2,
               std::string slot_key1,
               std::string slot_key2,
               std::string actuator_name) {
 
-        simulator::JointSlot * p_joint_slot1 = p_part1->getJointSlot(slot_key1);
-        simulator::HingeSlot * p_hinge_slot1 = dynamic_cast<simulator::HingeSlot *>(p_joint_slot1);
+        botsim::JointSlot * p_joint_slot1 = p_part1->getJointSlot(slot_key1);
+        botsim::HingeSlot * p_hinge_slot1 = dynamic_cast<botsim::HingeSlot *>(p_joint_slot1);
 
-        simulator::JointSlot * p_joint_slot2 = p_part2->getJointSlot(slot_key2);
-        simulator::HingeSlot * p_hinge_slot2 = dynamic_cast<simulator::HingeSlot *>(p_joint_slot2);
+        botsim::JointSlot * p_joint_slot2 = p_part2->getJointSlot(slot_key2);
+        botsim::HingeSlot * p_hinge_slot2 = dynamic_cast<botsim::HingeSlot *>(p_joint_slot2);
 
         if(p_hinge_slot1 == NULL) {
             throw std::invalid_argument(slot_key1 + " is not a \"Hinge Slot\".");
         } else if(p_hinge_slot2 == NULL) {
             throw std::invalid_argument(slot_key2 + " is not a \"Hinge Slot\".");
         } else {
-            simulator::Motor * p_motor = new simulator::Motor(p_part1, p_part2, p_hinge_slot1, p_hinge_slot2, actuator_name);
+            botsim::Motor * p_motor = new botsim::Motor(p_part1, p_part2, p_hinge_slot1, p_hinge_slot2, actuator_name);
             actuator_set.insert(p_motor);
         }
 }
 
 // TODO: put this as a static method in the "Hinge" class (pb: actuator_set vs joint_set -> template ? ou mettre la version actuator dans Motor ?).
-void addMotor(std::set<simulator::Actuator *> & actuator_set,
-              simulator::Part * p_part,
+void addMotor(std::set<botsim::Actuator *> & actuator_set,
+              botsim::Part * p_part,
               std::string slot_key,
               std::string actuator_name) {
 
-        simulator::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
-        simulator::HingeSlot * p_hinge_slot = dynamic_cast<simulator::HingeSlot *>(p_joint_slot);
+        botsim::JointSlot * p_joint_slot = p_part->getJointSlot(slot_key);
+        botsim::HingeSlot * p_hinge_slot = dynamic_cast<botsim::HingeSlot *>(p_joint_slot);
 
         if(p_hinge_slot == NULL) {
             throw std::invalid_argument(slot_key + " is not a \"Hinge Slot\".");
         } else {
-            simulator::Motor * p_motor = new simulator::Motor(p_part, p_hinge_slot, actuator_name);
+            botsim::Motor * p_motor = new botsim::Motor(p_part, p_hinge_slot, actuator_name);
             actuator_set.insert(p_motor);
         }
 }
 
 
-simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name) {
+botsim::Object * botsim::make_robudog_jd(const Eigen::Vector3d object_initial_position, std::string object_name) {
 
     /*
      * ROBUDOG PARTS
      */
     
-    std::set<simulator::Part *> robudog_part_set;
+    std::set<botsim::Part *> robudog_part_set;
 
     // Trunk ////////////////////
-    simulator::Part * p_robudog_trunk_part;
+    botsim::Part * p_robudog_trunk_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(0. + object_initial_position[0],
                                                                  0. + object_initial_position[1],
@@ -134,7 +134,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("trunk");
 
-        p_robudog_trunk_part = simulator::make_robudog_trunk(initial_position, initial_angle, name);
+        p_robudog_trunk_part = botsim::make_robudog_trunk(initial_position, initial_angle, name);
         robudog_part_set.insert(p_robudog_trunk_part);
     }
 
@@ -151,7 +151,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
     // Right shoulder ///////////
     
     // Left upper arm ///////////
-    simulator::Part * p_ax12_left_upper_arm_part;
+    botsim::Part * p_ax12_left_upper_arm_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
                                                                  trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
@@ -159,12 +159,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_upper_arm");
 
-        p_ax12_left_upper_arm_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_left_upper_arm_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_left_upper_arm_part);
     }
     
     // Right upper arm //////////
-    simulator::Part * p_ax12_right_upper_arm_part;
+    botsim::Part * p_ax12_right_upper_arm_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
                                                                  -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
@@ -172,12 +172,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_upper_arm");
 
-        p_ax12_right_upper_arm_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_right_upper_arm_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_right_upper_arm_part);
     }
     
     // Left fore arm ////////////
-    simulator::Part * p_ax12_left_fore_arm_part;
+    botsim::Part * p_ax12_left_fore_arm_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
                                                                  trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
@@ -185,12 +185,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_fore_arm");
 
-        p_ax12_left_fore_arm_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_left_fore_arm_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_left_fore_arm_part);
     }
     
     // Right fore arm ///////////
-    simulator::Part * p_ax12_right_fore_arm_part;
+    botsim::Part * p_ax12_right_fore_arm_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(trunk_size_x/2. - (ax12_size_x/2.) + object_initial_position[0],
                                                                  -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
@@ -198,7 +198,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_fore_arm");
 
-        p_ax12_right_fore_arm_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_right_fore_arm_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_right_fore_arm_part);
     }
     
@@ -213,7 +213,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
     // Right hip ////////////////
     
     // Left thigh ///////////////
-    simulator::Part * p_ax12_left_thigh_part;
+    botsim::Part * p_ax12_left_thigh_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
                                                                  trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
@@ -221,12 +221,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_thigh");
 
-        p_ax12_left_thigh_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_left_thigh_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_left_thigh_part);
     }
     
     // Right thigh //////////////
-    simulator::Part * p_ax12_right_thigh_part;
+    botsim::Part * p_ax12_right_thigh_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
                                                                  -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
@@ -234,12 +234,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_thigh");
 
-        p_ax12_right_thigh_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_right_thigh_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_right_thigh_part);
     }
     
     // Left shin ////////////////
-    simulator::Part * p_ax12_left_shin_part;
+    botsim::Part * p_ax12_left_shin_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
                                                                  trunk_size_y/2. + ax12_size_y/2. + object_initial_position[1],
@@ -247,12 +247,12 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("left_shin");
 
-        p_ax12_left_shin_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_left_shin_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_left_shin_part);
     }
     
     // Right shin ///////////////
-    simulator::Part * p_ax12_right_shin_part;
+    botsim::Part * p_ax12_right_shin_part;
     {
         const Eigen::Vector3d initial_position = Eigen::Vector3d(-trunk_size_x/2. + (ax12_size_x/2.) + object_initial_position[0],
                                                                  -(trunk_size_y/2. + ax12_size_y/2.) + object_initial_position[1],
@@ -260,7 +260,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
         const Eigen::Vector4d initial_angle = Eigen::Vector4d(0., 0., 0., 1.);
         const std::string name("right_shin");
 
-        p_ax12_right_shin_part = simulator::make_dynamixel_ax12(initial_position, initial_angle, name);
+        p_ax12_right_shin_part = botsim::make_dynamixel_ax12(initial_position, initial_angle, name);
         robudog_part_set.insert(p_ax12_right_shin_part);
     }
     
@@ -272,7 +272,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
      * ROBUDOG JOINTS
      */
 
-    std::set<simulator::Joint *> robudog_joint_set;
+    std::set<botsim::Joint *> robudog_joint_set;
 
     // Trunk - crane //////////////////
     //addFixedJoint(robudog_joint_set, p_robudog_trunk_part, "crane", "crane_joint");
@@ -281,7 +281,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
      * ROBUDOG ACTUATORS
      */
     
-    std::set<simulator::Actuator *> robudog_actuator_set;
+    std::set<botsim::Actuator *> robudog_actuator_set;
     
     addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_right_upper_arm_part, "right_shoulder", "slot1", "right_shoulder_motor");
     addMotor(robudog_actuator_set, p_robudog_trunk_part, p_ax12_left_upper_arm_part, "left_shoulder", "slot1", "left_shoulder_motor");
@@ -301,7 +301,7 @@ simulator::Object * simulator::make_robudog_jd(const Eigen::Vector3d object_init
      * ROBUDOG OBJECT
      */
 
-    simulator::Object * p_robudog = new simulator::Object(robudog_part_set, robudog_joint_set, robudog_actuator_set, object_name);
+    botsim::Object * p_robudog = new botsim::Object(robudog_part_set, robudog_joint_set, robudog_actuator_set, object_name);
 
     return p_robudog;
 }

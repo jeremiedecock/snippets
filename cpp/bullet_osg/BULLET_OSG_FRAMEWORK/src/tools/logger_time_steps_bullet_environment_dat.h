@@ -15,7 +15,7 @@
 #include <fstream>
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
     class LoggerTimeStepsBulletEnvironmentDat : public TimeStepObserver {
         private:

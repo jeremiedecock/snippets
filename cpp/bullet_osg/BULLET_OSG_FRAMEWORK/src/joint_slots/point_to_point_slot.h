@@ -14,9 +14,9 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
-    class PointToPointSlot: public simulator::JointSlot {
+    class PointToPointSlot: public botsim::JointSlot {
 
         protected:
             Eigen::Vector3d pivot;

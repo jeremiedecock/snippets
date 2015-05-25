@@ -12,9 +12,9 @@
 
 #include "joint.h"
 
-namespace simulator {
+namespace botsim {
 
-    class Actuator: public simulator::Joint {
+    class Actuator: public botsim::Joint {
         public:
             virtual ~Actuator() {};
 

@@ -14,7 +14,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace simulator {
+namespace botsim {
 
     class Joint {
         protected:

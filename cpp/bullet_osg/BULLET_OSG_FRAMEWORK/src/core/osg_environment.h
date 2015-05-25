@@ -22,7 +22,7 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
     class OSGEnvironment {
 

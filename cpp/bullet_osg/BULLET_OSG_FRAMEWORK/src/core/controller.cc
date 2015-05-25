@@ -9,10 +9,10 @@
 
 #include "controller.h"
 
-std::set<simulator::Actuator *> simulator::Controller::getActuatorSet() const {
+std::set<botsim::Actuator *> botsim::Controller::getActuatorSet() const {
     return this->actuatorSet;
 }
 
-std::set<simulator::Sensor *> simulator::Controller::getSensorSet() const {
+std::set<botsim::Sensor *> botsim::Controller::getSensorSet() const {
     return this->sensorSet;
 }

@@ -19,18 +19,18 @@
 #include <string>
 #include <vector>
 
-namespace simulator {
+namespace botsim {
 
     class LoggerTicksPartsJson : public BulletTickObserver {
         private:
             std::string filepath;
             std::ofstream * ofs;
-            std::set<simulator::Part *> observedPartSet;
+            std::set<botsim::Part *> observedPartSet;
 
             std::map<std::string, std::vector<double> > dataMap;
 
         public:
-            LoggerTicksPartsJson(std::set<simulator::Part *> observed_part_set, //=std::set<simulator::Part *>(),
+            LoggerTicksPartsJson(std::set<botsim::Part *> observed_part_set, //=std::set<botsim::Part *>(),
                                  std::string filepath="");
 
             ~LoggerTicksPartsJson();

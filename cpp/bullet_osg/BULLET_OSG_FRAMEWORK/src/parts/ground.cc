@@ -20,7 +20,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-simulator::Ground::Ground(double friction,
+botsim::Ground::Ground(double friction,
                           double rolling_friction,
                           double restitution) {
 
@@ -103,13 +103,13 @@ simulator::Ground::Ground(double friction,
     }
 
     // Set the mask for shadows -> this object receives shadows
-    this->osgGroup->setNodeMask(simulator::OSGEnvironment::receivesShadowTraversalMask);
+    this->osgGroup->setNodeMask(botsim::OSGEnvironment::receivesShadowTraversalMask);
     
     this->osgPAT = new osg::PositionAttitudeTransform();
     this->osgPAT->addChild(this->osgGroup);
 }
 
-simulator::Ground::~Ground() {
+botsim::Ground::~Ground() {
     delete this->groundMotionState;
     delete this->groundShape;
 
@@ -119,7 +119,7 @@ simulator::Ground::~Ground() {
     //delete this->osgPAT;
 }
 
-std::string simulator::Ground::getName() const {
+std::string botsim::Ground::getName() const {
     return "ground";
 }
 

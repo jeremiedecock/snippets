@@ -21,9 +21,9 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace simulator {
+namespace botsim {
 
-    class Box: public simulator::Part {
+    class Box: public botsim::Part {
         protected:
             // Bullet
             btCollisionShape * boxShape; // TODO: rename this

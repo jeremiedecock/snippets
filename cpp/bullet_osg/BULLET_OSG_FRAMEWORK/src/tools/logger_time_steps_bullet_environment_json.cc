@@ -14,7 +14,7 @@
 
 const std::string DEFAULT_FILE_PATH = "time_steps_bullet_environment.json"; // TODO ?
 
-simulator::LoggerTimeStepsBulletEnvironmentJson::LoggerTimeStepsBulletEnvironmentJson(std::string filepath) {
+botsim::LoggerTimeStepsBulletEnvironmentJson::LoggerTimeStepsBulletEnvironmentJson(std::string filepath) {
     // Set filepath
     if(filepath == "") {
         this->filepath = DEFAULT_FILE_PATH;
@@ -38,7 +38,7 @@ simulator::LoggerTimeStepsBulletEnvironmentJson::LoggerTimeStepsBulletEnvironmen
     this->dataMap["max_ticks_per_time_step"] = std::vector<double>();
 }
 
-simulator::LoggerTimeStepsBulletEnvironmentJson::~LoggerTimeStepsBulletEnvironmentJson() {
+botsim::LoggerTimeStepsBulletEnvironmentJson::~LoggerTimeStepsBulletEnvironmentJson() {
     // Write the json file
     (* this->ofs) << "{" << std::endl;
     std::map<std::string, std::vector<double> >::iterator it;
@@ -49,7 +49,7 @@ simulator::LoggerTimeStepsBulletEnvironmentJson::~LoggerTimeStepsBulletEnvironme
             (* this->ofs) << "," << std::endl;
         }
 
-        (* this->ofs) << "    \"" << it->first << "\": [" << simulator::vector_to_string(it->second, ", ") << "]";
+        (* this->ofs) << "    \"" << it->first << "\": [" << botsim::vector_to_string(it->second, ", ") << "]";
     }
     (* this->ofs) << std::endl << "}" << std::endl;
 
@@ -62,7 +62,7 @@ simulator::LoggerTimeStepsBulletEnvironmentJson::~LoggerTimeStepsBulletEnvironme
     delete this->ofs;
 }
 
-void simulator::LoggerTimeStepsBulletEnvironmentJson::update(BulletEnvironment * bullet_environment) {
+void botsim::LoggerTimeStepsBulletEnvironmentJson::update(BulletEnvironment * bullet_environment) {
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
     double elapsed_user_time_sec = bullet_environment->getElapsedUserTimeSec();
     //double time_step_sec = bullet_environment->();
@@ -78,6 +78,6 @@ void simulator::LoggerTimeStepsBulletEnvironmentJson::update(BulletEnvironment *
     this->dataMap["max_ticks_per_time_step"].push_back(max_ticks_per_time_step);
 }
 
-std::string simulator::LoggerTimeStepsBulletEnvironmentJson::getFilepath() const {
+std::string botsim::LoggerTimeStepsBulletEnvironmentJson::getFilepath() const {
     return this->filepath;
 }

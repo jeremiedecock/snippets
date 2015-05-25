@@ -14,9 +14,9 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
-    class FixedSlot: public simulator::JointSlot {
+    class FixedSlot: public botsim::JointSlot {
 
         protected:
             Eigen::Vector3d pivot;

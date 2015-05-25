@@ -10,7 +10,7 @@
 #ifndef BOTSIM_JOINT_SLOT_H
 #define BOTSIM_JOINT_SLOT_H
 
-namespace simulator {
+namespace botsim {
 
     class JointSlot {
         public:

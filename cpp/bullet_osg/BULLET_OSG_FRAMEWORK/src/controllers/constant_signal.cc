@@ -15,8 +15,8 @@
 
 #include <iostream>
 
-simulator::ConstantSignal::ConstantSignal(std::set<simulator::Actuator *> actuator_set,
-                                          std::set<simulator::Sensor *> sensor_set,
+botsim::ConstantSignal::ConstantSignal(std::set<botsim::Actuator *> actuator_set,
+                                          std::set<botsim::Sensor *> sensor_set,
                                           double _const_value,
                                           std::string _name) :
                                             constantValue(_const_value),
@@ -25,11 +25,11 @@ simulator::ConstantSignal::ConstantSignal(std::set<simulator::Actuator *> actuat
     this->sensorSet   = sensor_set;
 }
 
-simulator::ConstantSignal::~ConstantSignal() {
+botsim::ConstantSignal::~ConstantSignal() {
     // TODO
 }
 
-void simulator::ConstantSignal::updateActuators() {
+void botsim::ConstantSignal::updateActuators() {
 
     double signal_value = this->constantValue;
     std::cout << signal_value << std::endl;
@@ -42,10 +42,10 @@ void simulator::ConstantSignal::updateActuators() {
         throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
     }
 
-    std::set<simulator::Actuator *>::iterator actuator_it;
+    std::set<botsim::Actuator *>::iterator actuator_it;
 
     for(actuator_it = this->actuatorSet.begin() ; actuator_it != this->actuatorSet.end() ; actuator_it++) {
-        if(simulator::Motor * motor_actuator = dynamic_cast<simulator::Motor *>(*actuator_it)) {
+        if(botsim::Motor * motor_actuator = dynamic_cast<botsim::Motor *>(*actuator_it)) {
             motor_actuator->setAngularVelocity(signal_value);
         } else {
             throw std::invalid_argument("The \"sinusoid controller\" must have exactly one \"Motor\" actuator."); 
@@ -53,11 +53,11 @@ void simulator::ConstantSignal::updateActuators() {
     }
 }
 
-double simulator::ConstantSignal::getConstantValue() const {
+double botsim::ConstantSignal::getConstantValue() const {
     return this->constantValue;
 }
 
-std::string simulator::ConstantSignal::getName() const {
+std::string botsim::ConstantSignal::getName() const {
     return this->name;
 }
 

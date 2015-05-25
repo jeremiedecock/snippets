@@ -22,7 +22,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-namespace simulator {
+namespace botsim {
 
     class Part {
         protected:
@@ -39,7 +39,7 @@ namespace simulator {
             double rollingFriction;                   // Resistance of the part to movement. It prevents rounded shapes, such as spheres, cylinders and capsules from rolling forever.
             double restitution;                       // Tendency of the part to bounce after colliding with another (0=stays still, 1=perfectly elastic)
             
-            std::map<std::string, simulator::JointSlot *> jointSlotMap;
+            std::map<std::string, botsim::JointSlot *> jointSlotMap;
 
         public:
             virtual ~Part() {};
@@ -59,7 +59,7 @@ namespace simulator {
 
             // General accessors (return scalars, stl objects or eigen matrices) //////////////////
 
-            //std::map<std::string, simulator::JointSlot *> getJointSlotMap() const;
+            //std::map<std::string, botsim::JointSlot *> getJointSlotMap() const;
 
             virtual std::string getName() const = 0;
 
@@ -93,9 +93,9 @@ namespace simulator {
 
             double getRestitution() const;
 
-            void addJointSlot(std::string key, simulator::JointSlot * value);
+            void addJointSlot(std::string key, botsim::JointSlot * value);
 
-            simulator::JointSlot * getJointSlot(std::string key);
+            botsim::JointSlot * getJointSlot(std::string key);
 
         protected:
             /**

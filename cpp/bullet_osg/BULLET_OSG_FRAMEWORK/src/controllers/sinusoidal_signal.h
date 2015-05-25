@@ -12,9 +12,9 @@
 
 #include "controller.h"
 
-namespace simulator {
+namespace botsim {
 
-    class SinusoidalSignal: public simulator::Controller {
+    class SinusoidalSignal: public botsim::Controller {
         protected:
             // Common
             double amplitude;  // The peak deviation of the function from zero.
@@ -35,8 +35,8 @@ namespace simulator {
              * \param[in] phase      Specifies (in radians) where in its cycle the oscillation is at t = 0.
              * \param[in] name       The name of this instance.
              */
-            SinusoidalSignal(std::set<simulator::Actuator *> actuator_set,
-                             std::set<simulator::Sensor *> sensor_set,
+            SinusoidalSignal(std::set<botsim::Actuator *> actuator_set,
+                             std::set<botsim::Sensor *> sensor_set,
                              double _amplitude,
                              double _frequency,
                              double _phase,

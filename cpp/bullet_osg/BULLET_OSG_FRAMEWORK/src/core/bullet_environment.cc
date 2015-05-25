@@ -15,7 +15,7 @@
 
 #include <btBulletDynamicsCommon.h>
 
-std::map<btDynamicsWorld *, simulator::BulletEnvironment *> simulator::BulletEnvironment::tickCallbackPointerMap;
+std::map<btDynamicsWorld *, botsim::BulletEnvironment *> botsim::BulletEnvironment::tickCallbackPointerMap;
 
 /*
  * TODO
@@ -23,23 +23,23 @@ std::map<btDynamicsWorld *, simulator::BulletEnvironment *> simulator::BulletEnv
  * callback *must* be a static function...
  * This is dirty and not convenient at all...
  */
-void simulator::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScalar time_step) {
+void botsim::BulletEnvironment::tickCallback(btDynamicsWorld * world, btScalar time_step) {
     //std::cout << "The world just ticked by " << static_cast<float>(time_step) << " seconds" << std::endl;
 
     std::map<btDynamicsWorld *, BulletEnvironment *>::iterator it;
-    it = simulator::BulletEnvironment::tickCallbackPointerMap.find(world);
+    it = botsim::BulletEnvironment::tickCallbackPointerMap.find(world);
 
-    if(it != simulator::BulletEnvironment::tickCallbackPointerMap.end()) {
+    if(it != botsim::BulletEnvironment::tickCallbackPointerMap.end()) {
         // Element found;
         it->second->notifyTick();
     }
 }
 
 
-simulator::BulletEnvironment::BulletEnvironment(
-        std::set<simulator::Object *> object_set,
-        std::set<simulator::Part *> part_set,
-        std::set<simulator::Controller *> controller_set,
+botsim::BulletEnvironment::BulletEnvironment(
+        std::set<botsim::Object *> object_set,
+        std::set<botsim::Part *> part_set,
+        std::set<botsim::Controller *> controller_set,
         double bullet_time_step_duration_sec,
         double bullet_tick_duration_sec,
         int bullet_max_ticks_per_time_step,
@@ -70,23 +70,23 @@ simulator::BulletEnvironment::BulletEnvironment(
     this->dynamicsWorld->setGravity(btVector3(0, 0, this->gravity));
 
     // This is a workaround for btDynamicsWorld::setInternalTickCallback().
-    simulator::BulletEnvironment::tickCallbackPointerMap[this->dynamicsWorld] = this;
+    botsim::BulletEnvironment::tickCallbackPointerMap[this->dynamicsWorld] = this;
 
     // setInternalTickCallback() attachs a callback for internal ticks (substeps).
     // Only one callback can be attached (this is not an "observer pattern").
     // See: http://bulletphysics.org/mediawiki-1.5.8/index.php/Simulation_Tick_Callbacks
-    this->dynamicsWorld->setInternalTickCallback(simulator::BulletEnvironment::tickCallback);
+    this->dynamicsWorld->setInternalTickCallback(botsim::BulletEnvironment::tickCallback);
 
     // Add rigid bodies ///////////////
     
     // Objects
-    std::set<simulator::Object *>::iterator object_it;
-    std::set<simulator::Part *>::iterator part_it;
-    std::set<simulator::Joint *>::iterator joint_it;
-    std::set<simulator::Actuator *>::iterator actuator_it;
+    std::set<botsim::Object *>::iterator object_it;
+    std::set<botsim::Part *>::iterator part_it;
+    std::set<botsim::Joint *>::iterator joint_it;
+    std::set<botsim::Actuator *>::iterator actuator_it;
 
     for(object_it = this->objectSet.begin() ; object_it != this->objectSet.end() ; object_it++) {
-        std::set<simulator::Part *> part_set = (*object_it)->getPartSet();
+        std::set<botsim::Part *> part_set = (*object_it)->getPartSet();
         
         /*
          * Directly adding object's parts to this->dynamicsWorld from here is
@@ -115,7 +115,7 @@ simulator::BulletEnvironment::BulletEnvironment(
         /*
          * Add object's joints (i.e. Bullet's constraints).
          */
-        std::set<simulator::Joint *> joint_set = (*object_it)->getJointSet();
+        std::set<botsim::Joint *> joint_set = (*object_it)->getJointSet();
         for(joint_it = joint_set.begin() ; joint_it != joint_set.end() ; joint_it++) {
             this->dynamicsWorld->addConstraint((*joint_it)->getBulletTypedConstraint());
         }
@@ -123,7 +123,7 @@ simulator::BulletEnvironment::BulletEnvironment(
         /*
          * Add object's actuators (i.e. Bullet's constraints).
          */
-        std::set<simulator::Actuator *> actuator_set = (*object_it)->getActuatorSet();
+        std::set<botsim::Actuator *> actuator_set = (*object_it)->getActuatorSet();
         for(actuator_it = actuator_set.begin() ; actuator_it != actuator_set.end() ; actuator_it++) {
             this->dynamicsWorld->addConstraint((*actuator_it)->getBulletTypedConstraint());
         }
@@ -143,8 +143,8 @@ simulator::BulletEnvironment::BulletEnvironment(
     this->elapsedSimulationTimeSecTickRes = 0.;
 }
 
-simulator::BulletEnvironment::~BulletEnvironment() {
-    simulator::BulletEnvironment::tickCallbackPointerMap.erase(this->dynamicsWorld);
+botsim::BulletEnvironment::~BulletEnvironment() {
+    botsim::BulletEnvironment::tickCallbackPointerMap.erase(this->dynamicsWorld);
 
     delete this->dynamicsWorld;
 
@@ -154,7 +154,7 @@ simulator::BulletEnvironment::~BulletEnvironment() {
     delete this->broadphase;
 }
 
-btDiscreteDynamicsWorld * simulator::BulletEnvironment::getDynamicsWorld() const {
+btDiscreteDynamicsWorld * botsim::BulletEnvironment::getDynamicsWorld() const {
     return this->dynamicsWorld;
 }
 
@@ -162,7 +162,7 @@ btDiscreteDynamicsWorld * simulator::BulletEnvironment::getDynamicsWorld() const
 /**
  *
  */
-void simulator::BulletEnvironment::run() {
+void botsim::BulletEnvironment::run() {
 
     // Check some variables ///////////////////////////////
     
@@ -188,7 +188,7 @@ void simulator::BulletEnvironment::run() {
 /**
  *
  */
-void simulator::BulletEnvironment::stepSimulation(const double time_step_duration_sec) {
+void botsim::BulletEnvironment::stepSimulation(const double time_step_duration_sec) {
     this->elapsedSimulationTimeSec += time_step_duration_sec;
 
     btScalar bullet_time_step_duration_sec = btScalar(time_step_duration_sec);
@@ -228,7 +228,7 @@ void simulator::BulletEnvironment::stepSimulation(const double time_step_duratio
 /**
  * Realtime case.
  */
-void simulator::BulletEnvironment::stepSimulation() {
+void botsim::BulletEnvironment::stepSimulation() {
     // Define the static variable previous_user_time: the previous actual user time (i.e. outside the simulation).
     static std::chrono::time_point<std::chrono::system_clock> previous_user_time = std::chrono::system_clock::now();
 
@@ -245,7 +245,7 @@ void simulator::BulletEnvironment::stepSimulation() {
 }
 
 
-void simulator::BulletEnvironment::resetSimulation() {
+void botsim::BulletEnvironment::resetSimulation() {
     std::cout << "Reset simulation" << std::endl;
 
     // TODO
@@ -264,47 +264,47 @@ void simulator::BulletEnvironment::resetSimulation() {
 }
 
 
-void simulator::BulletEnvironment::attachTickObserver(simulator::BulletTickObserver * p_observer) {
+void botsim::BulletEnvironment::attachTickObserver(botsim::BulletTickObserver * p_observer) {
     this->tickObserverSet.insert(p_observer);
 }
 
 
-void simulator::BulletEnvironment::detachTickObserver(simulator::BulletTickObserver * p_observer) {
+void botsim::BulletEnvironment::detachTickObserver(botsim::BulletTickObserver * p_observer) {
     this->tickObserverSet.erase(p_observer);
 }
 
 
-void simulator::BulletEnvironment::attachTimeStepObserver(simulator::TimeStepObserver * p_observer) {
+void botsim::BulletEnvironment::attachTimeStepObserver(botsim::TimeStepObserver * p_observer) {
     this->timeStepObserverSet.insert(p_observer);
 }
 
 
-void simulator::BulletEnvironment::detachTimeStepObserver(simulator::TimeStepObserver * p_observer) {
+void botsim::BulletEnvironment::detachTimeStepObserver(botsim::TimeStepObserver * p_observer) {
     this->timeStepObserverSet.erase(p_observer);
 }
 
 
-void simulator::BulletEnvironment::notifyTick() {
+void botsim::BulletEnvironment::notifyTick() {
 
     // Udate elapsedSimulationTimeSecTickRes
     this->elapsedSimulationTimeSecTickRes += this->bulletTickDurationSec;
 
     // Update all observers
-    std::set<simulator::BulletTickObserver *>::iterator it;
+    std::set<botsim::BulletTickObserver *>::iterator it;
     for(it = this->tickObserverSet.begin() ; it != this->tickObserverSet.end() ; it++) {
         (*it)->update(this);
     }
 
     // Update each controller
-    std::set<simulator::Controller *>::iterator controller_it;
+    std::set<botsim::Controller *>::iterator controller_it;
     for(controller_it = this->controllerSet.begin() ; controller_it != this->controllerSet.end() ; controller_it++) {
         (*controller_it)->updateActuators();
     }
 }
 
 
-void simulator::BulletEnvironment::notifyTimeStep() {
-    std::set<simulator::TimeStepObserver *>::iterator it;
+void botsim::BulletEnvironment::notifyTimeStep() {
+    std::set<botsim::TimeStepObserver *>::iterator it;
     for(it = this->timeStepObserverSet.begin() ; it != this->timeStepObserverSet.end() ; it++) {
         (*it)->update(this);
     }
@@ -315,7 +315,7 @@ void simulator::BulletEnvironment::notifyTimeStep() {
  * return the simulation time (i.e. the time within the simulation) elapsed
  * since the beginning of the simulation.
  */
-double simulator::BulletEnvironment::getElapsedSimulationTimeSec() const {
+double botsim::BulletEnvironment::getElapsedSimulationTimeSec() const {
     return this->elapsedSimulationTimeSec;
 }
 
@@ -324,7 +324,7 @@ double simulator::BulletEnvironment::getElapsedSimulationTimeSec() const {
  * return the simulation time (i.e. the time within the simulation) elapsed
  * since the beginning of the simulation.
  */
-double simulator::BulletEnvironment::getElapsedSimulationTimeSecTickRes() const {
+double botsim::BulletEnvironment::getElapsedSimulationTimeSecTickRes() const {
     return this->elapsedSimulationTimeSecTickRes;
 }
 
@@ -333,7 +333,7 @@ double simulator::BulletEnvironment::getElapsedSimulationTimeSecTickRes() const 
  * return the actual time (i.e. the time outside the simulation) elapsed since
  * the beginning of the simulation.
  */
-double simulator::BulletEnvironment::getElapsedUserTimeSec() const {
+double botsim::BulletEnvironment::getElapsedUserTimeSec() const {
     std::chrono::time_point<std::chrono::system_clock> current_user_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_user_time - this->userStartTime;
     return elapsed_seconds.count();
@@ -342,27 +342,27 @@ double simulator::BulletEnvironment::getElapsedUserTimeSec() const {
 /**
  * 
  */
-double simulator::BulletEnvironment::getBulletTimeStepDurationSec() const {
+double botsim::BulletEnvironment::getBulletTimeStepDurationSec() const {
     return this->bulletTimeStepDurationSec;
 }
 
 /**
  * 
  */
-double simulator::BulletEnvironment::getBulletTickDurationSec() const {
+double botsim::BulletEnvironment::getBulletTickDurationSec() const {
     return this->bulletTickDurationSec;
 }
 
 /**
  * 
  */
-double simulator::BulletEnvironment::getBulletMaxTicksPerTimeStep() const {
+double botsim::BulletEnvironment::getBulletMaxTicksPerTimeStep() const {
     return this->bulletMaxTicksPerTimeStep;
 }
 
 /**
  * 
  */
-double simulator::BulletEnvironment::getSimulationDurationSec() const {
+double botsim::BulletEnvironment::getSimulationDurationSec() const {
     return this->simulationDurationSec;
 }

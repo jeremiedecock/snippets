@@ -14,7 +14,7 @@
 
 const std::string DEFAULT_FILE_PATH = "time_steps_parts.json"; // TODO ?
 
-simulator::LoggerTimeStepsPartsJson::LoggerTimeStepsPartsJson(std::set<simulator::Part *> observed_part_set, std::string filepath) {
+botsim::LoggerTimeStepsPartsJson::LoggerTimeStepsPartsJson(std::set<botsim::Part *> observed_part_set, std::string filepath) {
     // Set the observed parts set
     this->observedPartSet = observed_part_set;
 
@@ -72,7 +72,7 @@ simulator::LoggerTimeStepsPartsJson::LoggerTimeStepsPartsJson(std::set<simulator
     }
 }
 
-simulator::LoggerTimeStepsPartsJson::~LoggerTimeStepsPartsJson() {
+botsim::LoggerTimeStepsPartsJson::~LoggerTimeStepsPartsJson() {
     // Write the json file
     (* this->ofs) << "{" << std::endl;
     std::map<std::string, std::vector<double> >::iterator it;
@@ -83,7 +83,7 @@ simulator::LoggerTimeStepsPartsJson::~LoggerTimeStepsPartsJson() {
             (* this->ofs) << "," << std::endl;
         }
 
-        (* this->ofs) << "    \"" << it->first << "\": [" << simulator::vector_to_string(it->second, ", ") << "]";
+        (* this->ofs) << "    \"" << it->first << "\": [" << botsim::vector_to_string(it->second, ", ") << "]";
     }
     (* this->ofs) << std::endl << "}" << std::endl;
 
@@ -96,7 +96,7 @@ simulator::LoggerTimeStepsPartsJson::~LoggerTimeStepsPartsJson() {
     delete this->ofs;
 }
 
-void simulator::LoggerTimeStepsPartsJson::update(BulletEnvironment * bullet_environment) {
+void botsim::LoggerTimeStepsPartsJson::update(BulletEnvironment * bullet_environment) {
     double elapsed_simulation_time_sec = bullet_environment->getElapsedSimulationTimeSec();
     this->dataMap["elapsed_simulation_time_sec"].push_back(elapsed_simulation_time_sec);
 
@@ -138,6 +138,6 @@ void simulator::LoggerTimeStepsPartsJson::update(BulletEnvironment * bullet_envi
     }
 }
 
-std::string simulator::LoggerTimeStepsPartsJson::getFilepath() const {
+std::string botsim::LoggerTimeStepsPartsJson::getFilepath() const {
     return this->filepath;
 }

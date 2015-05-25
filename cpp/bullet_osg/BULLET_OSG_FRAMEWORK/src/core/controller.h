@@ -16,21 +16,21 @@
 #include <set>
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
     class Controller {
         protected:
-            std::set<simulator::Actuator *> actuatorSet;
-            std::set<simulator::Sensor *> sensorSet;
+            std::set<botsim::Actuator *> actuatorSet;
+            std::set<botsim::Sensor *> sensorSet;
 
         public:
             virtual ~Controller() {};
 
             virtual void updateActuators() = 0;
             
-            std::set<simulator::Actuator *> getActuatorSet() const;
+            std::set<botsim::Actuator *> getActuatorSet() const;
 
-            std::set<simulator::Sensor *> getSensorSet() const;
+            std::set<botsim::Sensor *> getSensorSet() const;
 
             virtual std::string getName() const = 0;
 

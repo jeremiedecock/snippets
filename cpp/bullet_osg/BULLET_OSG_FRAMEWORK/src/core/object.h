@@ -17,30 +17,30 @@
 #include <set>
 #include <string>
 
-namespace simulator {
+namespace botsim {
 
     class Object {
         private:
             std::string name;
 
         protected:
-            std::set<simulator::Part *> partSet;
+            std::set<botsim::Part *> partSet;
 
-            std::set<simulator::Joint *> jointSet;
+            std::set<botsim::Joint *> jointSet;
 
-            std::set<simulator::Actuator *> actuatorSet;
+            std::set<botsim::Actuator *> actuatorSet;
 
         public:
-            Object(std::set<simulator::Part *> part_set,
-                   std::set<simulator::Joint *> joint_set,
-                   std::set<simulator::Actuator *> actuator_set,
+            Object(std::set<botsim::Part *> part_set,
+                   std::set<botsim::Joint *> joint_set,
+                   std::set<botsim::Actuator *> actuator_set,
                    std::string _name="");
 
-            std::set<simulator::Part *> getPartSet() const;
+            std::set<botsim::Part *> getPartSet() const;
 
-            std::set<simulator::Joint *> getJointSet() const;
+            std::set<botsim::Joint *> getJointSet() const;
 
-            std::set<simulator::Actuator *> getActuatorSet() const;
+            std::set<botsim::Actuator *> getActuatorSet() const;
 
             std::string getName() const;
 

@@ -17,10 +17,10 @@ static const double softness = 0.9;
 static const double bias_factor = 0.3;
 static const double relaxation_factor = 1.0;
 
-simulator::Fixed::Fixed(simulator::Part * part1,
-                        simulator::Part * part2,
-                        simulator::FixedSlot * joint_slot_for_part1,
-                        simulator::FixedSlot * joint_slot_for_part2,
+botsim::Fixed::Fixed(botsim::Part * part1,
+                        botsim::Part * part2,
+                        botsim::FixedSlot * joint_slot_for_part1,
+                        botsim::FixedSlot * joint_slot_for_part2,
                         std::string _name) {
 
     this->name = _name;
@@ -30,8 +30,8 @@ simulator::Fixed::Fixed(simulator::Part * part1,
 
     Eigen::Vector3d pivot_in_part1 = joint_slot_for_part1->getPivot();
     Eigen::Vector3d pivot_in_part2 = joint_slot_for_part2->getPivot();
-    btVector3 bt_pivot_in_part1 = simulator::vec3_eigen_to_bullet(pivot_in_part1);
-    btVector3 bt_pivot_in_part2 = simulator::vec3_eigen_to_bullet(pivot_in_part2);
+    btVector3 bt_pivot_in_part1 = botsim::vec3_eigen_to_bullet(pivot_in_part1);
+    btVector3 bt_pivot_in_part2 = botsim::vec3_eigen_to_bullet(pivot_in_part2);
 
     //this->bulletTypedConstraint = new btFixedConstraint(*bt_rigid_body1, *bt_rigid_body2, bt_pivot_in_part1, bt_pivot_in_part2);
     btVector3 bt_axis_in_part1(0, 0, 1);
@@ -41,8 +41,8 @@ simulator::Fixed::Fixed(simulator::Part * part1,
     this->bulletTypedConstraint = p_hinge_constraint;
 }
 
-simulator::Fixed::Fixed(simulator::Part * part,
-                        simulator::FixedSlot * joint_slot,
+botsim::Fixed::Fixed(botsim::Part * part,
+                        botsim::FixedSlot * joint_slot,
                         std::string _name) {
 
     this->name = _name;
@@ -50,7 +50,7 @@ simulator::Fixed::Fixed(simulator::Part * part,
     btRigidBody * bt_rigid_body = part->getRigidBody();
 
     Eigen::Vector3d pivot = joint_slot->getPivot();
-    btVector3 bt_pivot_in_part = simulator::vec3_eigen_to_bullet(pivot);
+    btVector3 bt_pivot_in_part = botsim::vec3_eigen_to_bullet(pivot);
 
     //this->bulletTypedConstraint = new btFixedConstraint(*bt_rigid_body, bt_pivot_in_part);
     btVector3 bt_axis(0, 0, 1);
@@ -59,11 +59,11 @@ simulator::Fixed::Fixed(simulator::Part * part,
     this->bulletTypedConstraint = p_hinge_constraint;
 }
 
-simulator::Fixed::~Fixed() {
+botsim::Fixed::~Fixed() {
     delete this->bulletTypedConstraint;
 }
 
-std::string simulator::Fixed::getName() const {
+std::string botsim::Fixed::getName() const {
     return this->name;
 }
 

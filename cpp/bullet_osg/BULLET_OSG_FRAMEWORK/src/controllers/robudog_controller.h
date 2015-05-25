@@ -14,9 +14,9 @@
 
 #include <Eigen/Dense>
 
-namespace simulator {
+namespace botsim {
 
-    class RobudogController: public simulator::Controller {
+    class RobudogController: public botsim::Controller {
         protected:
             /*
              * Parameters of the controler.
@@ -62,8 +62,8 @@ namespace simulator {
              * \param[in] phase      Specifies (in radians) where in its cycle the oscillation is at t = 0.
              * \param[in] name       The name of this instance.
              */
-            RobudogController(std::set<simulator::Actuator *> actuator_set,
-                              std::set<simulator::Sensor *> sensor_set,
+            RobudogController(std::set<botsim::Actuator *> actuator_set,
+                              std::set<botsim::Sensor *> sensor_set,
                               Eigen::Matrix< double, 24, 1> _parameters,
                               std::string _name="");
 
