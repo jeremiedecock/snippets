@@ -188,51 +188,51 @@ int main(int argc, char * argv[]) {
     controller_set.insert(p_pendulum_controller);
 
     // Bullet environment
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     
-    p_clock_sensor->bulletEnvironment = bullet_environment;  // TODO: UGLY WORKAROUND !
+    p_clock_sensor->bulletEnvironment = p_bullet_environment;  // TODO: UGLY WORKAROUND !
 
     // Init log ///////////////////////////////////////////////////////////////
 
     // Bullet time steps dat log
     simulator::LoggerTimeStepsBulletEnvironmentDat * p_logger_time_steps_bullet_environment_dat = new simulator::LoggerTimeStepsBulletEnvironmentDat();
-    bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_dat);
+    p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_dat);
 
     // Bullet time steps json log
     simulator::LoggerTimeStepsBulletEnvironmentJson * p_logger_time_steps_bullet_environment_json = new simulator::LoggerTimeStepsBulletEnvironmentJson();
-    bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
+    p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_bullet_environment_json);
 
     // Parts time steps dat log
     simulator::LoggerTimeStepsPartsDat * p_logger_time_steps_parts_dat = new simulator::LoggerTimeStepsPartsDat(pendulum_part_set);
-    bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
+    p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_dat);
 
     // Parts time steps json log
     simulator::LoggerTimeStepsPartsJson * p_logger_time_steps_parts_json = new simulator::LoggerTimeStepsPartsJson(pendulum_part_set);
-    bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
+    p_bullet_environment->attachTimeStepObserver(p_logger_time_steps_parts_json);
 
     // Parts ticks dat log
     simulator::LoggerTicksPartsDat * p_logger_ticks_parts_dat = new simulator::LoggerTicksPartsDat(pendulum_part_set);
-    bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
+    p_bullet_environment->attachTickObserver(p_logger_ticks_parts_dat);
 
     // Parts ticks json log
     simulator::LoggerTicksPartsJson * p_logger_ticks_parts_json = new simulator::LoggerTicksPartsJson(pendulum_part_set);
-    bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
+    p_bullet_environment->attachTickObserver(p_logger_ticks_parts_json);
 
 
     // Run the simulation /////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * osg_environment = NULL;
+    simulator::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
-        bullet_environment->run();
+        p_bullet_environment->run();
     } else {
         // Init OSG
-        osg_environment = new simulator::OSGEnvironment(bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
-        osg_environment->run();
+        p_osg_environment->run();
     }
 
     // Clean Bullet ///////////////////////////////////////////////////////////
@@ -245,11 +245,19 @@ int main(int argc, char * argv[]) {
     delete p_logger_ticks_parts_json;
 
     std::cout << "Delete Bullet environment." << std::endl;
-    delete bullet_environment;
+    delete p_bullet_environment;
+
+    //delete p_sphere;
+    delete p_pendulum_hinge_slot;
+    delete p_pendulum_motor;
+    delete p_pendulum;
+    //delete p_ground;
+    delete p_clock_sensor;
+    delete p_pendulum_controller;
 
     if(!options.useHeadLessMode) {
         std::cout << "Delete OSG environment." << std::endl;
-        delete osg_environment;
+        delete p_osg_environment;
     }
 
     std::cout << "Bye." << std::endl;

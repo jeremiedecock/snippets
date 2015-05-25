@@ -30,9 +30,9 @@ namespace simulator {
             btDefaultMotionState * boxMotionState; // TODO: rename this
 
             // Osg
-            osg::Box * osgBox;
-            osg::ShapeDrawable * osgShapeDrawable;
-            osg::Geode * osgGeode;
+            osg::ref_ptr<osg::Box> osgBox;
+            osg::ref_ptr<osg::ShapeDrawable> osgShapeDrawable;
+            osg::ref_ptr<osg::Geode> osgGeode;
 
             // Common
             std::string name;                         // the name of this instance

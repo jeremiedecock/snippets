@@ -45,7 +45,7 @@ simulator::PointToPoint::PointToPoint(simulator::Part * part,
 }
 
 simulator::PointToPoint::~PointToPoint() {
-    // TODO
+    delete this->bulletTypedConstraint;
 }
 
 std::string simulator::PointToPoint::getName() const {

@@ -53,7 +53,7 @@ simulator::Hinge::Hinge(simulator::Part * part,
 }
 
 simulator::Hinge::~Hinge() {
-    // TODO
+    delete this->bulletTypedConstraint;
 }
 
 std::string simulator::Hinge::getName() const {

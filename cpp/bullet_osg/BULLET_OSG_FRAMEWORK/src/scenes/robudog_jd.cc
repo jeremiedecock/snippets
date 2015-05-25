@@ -184,17 +184,17 @@ int main(int argc, char * argv[]) {
 
     // Run the simulation /////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * osg_environment = NULL;
+    simulator::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
         p_bullet_environment->run();
     } else {
         // Init OSG
-        osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
-        osg_environment->run();
+        p_osg_environment->run();
     }
 
     // Clean Bullet ///////////////////////////////////////////////////////////
@@ -209,9 +209,13 @@ int main(int argc, char * argv[]) {
     std::cout << "Delete Bullet environment." << std::endl;
     delete p_bullet_environment;
 
+    //delete p_ground;
+    delete p_clock_sensor;
+    delete p_robudog_controller;
+
     if(!options.useHeadLessMode) {
         std::cout << "Delete OSG environment." << std::endl;
-        delete osg_environment;
+        delete p_osg_environment;
     }
 
     std::cout << "Bye." << std::endl;

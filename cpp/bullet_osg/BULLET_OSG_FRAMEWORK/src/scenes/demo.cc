@@ -108,31 +108,31 @@ int main(int argc, char * argv[]) {
     std::set<simulator::Controller *> controller_set;
 
     // Bullet environment
-    simulator::BulletEnvironment * bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
+    simulator::BulletEnvironment * p_bullet_environment = new simulator::BulletEnvironment(bullet_object_set, bullet_part_set, controller_set, options.timeStepDurationSec, options.tickDurationSec, options.maxTicksPerTimeStep, options.simulationDurationSec);
 
     // Run the simulation ///////////////////////////////////////////////////////////////
 
-    simulator::OSGEnvironment * osg_environment = NULL;
+    simulator::OSGEnvironment * p_osg_environment = NULL;
 
     if(options.useHeadLessMode) {
         // Run Bullet
-        bullet_environment->run();
+        p_bullet_environment->run();
     } else {
         // Init OSG
-        osg_environment = new simulator::OSGEnvironment(bullet_environment, options.useFullScreenMode);
+        p_osg_environment = new simulator::OSGEnvironment(p_bullet_environment, options.useFullScreenMode);
 
         // Run OSG
-        osg_environment->run();
+        p_osg_environment->run();
     }
 
     // Clean Bullet /////////////////////////////////////////////////////////////////////
 
     std::cout << "Delete Bullet environment." << std::endl;
-    delete bullet_environment;
+    delete p_bullet_environment;
 
     if(!options.useHeadLessMode) {
         std::cout << "Delete OSG environment." << std::endl;
-        delete osg_environment;
+        delete p_osg_environment;
     }
 
     std::cout << "Bye." << std::endl;

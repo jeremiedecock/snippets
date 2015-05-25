@@ -30,9 +30,9 @@ namespace simulator {
             btDefaultMotionState * sphereMotionState; // TODO: rename this
 
             // Osg
-            osg::Sphere * osgSphere;
-            osg::ShapeDrawable * osgShapeDrawable;
-            osg::Geode * osgGeode;
+            osg::ref_ptr<osg::Sphere> osgSphere;
+            osg::ref_ptr<osg::ShapeDrawable> osgShapeDrawable;
+            osg::ref_ptr<osg::Geode> osgGeode;
 
             // Common
             std::string name;                         // the name of this instance

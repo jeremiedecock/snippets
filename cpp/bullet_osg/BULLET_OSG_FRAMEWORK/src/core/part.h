@@ -30,8 +30,8 @@ namespace simulator {
             btRigidBody * rigidBody;
 
             // OSG
-            osg::Group * osgGroup;
-            osg::PositionAttitudeTransform * osgPAT;
+            osg::ref_ptr<osg::Group> osgGroup;
+            osg::ref_ptr<osg::PositionAttitudeTransform> osgPAT;
 
             double mass;                              // which unit ? Kg ?
 

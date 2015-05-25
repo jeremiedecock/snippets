@@ -60,7 +60,7 @@ simulator::Fixed::Fixed(simulator::Part * part,
 }
 
 simulator::Fixed::~Fixed() {
-    // TODO
+    delete this->bulletTypedConstraint;
 }
 
 std::string simulator::Fixed::getName() const {
