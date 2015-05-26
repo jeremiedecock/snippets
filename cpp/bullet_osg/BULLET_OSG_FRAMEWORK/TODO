@@ -2,39 +2,12 @@ TODO
 
 Exemple de qualité physique et visuelle à atteindre: https://www.youtube.com/watch?v=BGAwRKPlpCw
 
-STEP 0: objets, actuateurs, contrôleurs
-x rétablir "Clock" sensor
-  -> rétablir le pointeur vers BulletEnv
-x tester l'identité de l'instance du sensor dans SinusoidController:
-  -> si il n'y a pas exactement 1 instance de Clock dans sensorSet, throw exception
-  -> extraire le temps du vecteur "percept"
-  -> afficher le temps (de simulation) dans le contrôleur à la place du message
-     "update actuator".
-x SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...))
-  (écrire une fonction membre qui retourne la valeur du signal en fonction du temps)
-
-+ créer le répertoire "src/builtin_objects" : contient des modules, 1 module
-  par objet. Ces modules contiennent une fonction "build_object(...)" et
-  éventuellement une structure "..._build_data". Les fonctions "build_object"
-  prennent en entrée des paramètres et retournent une instance d'"Object". Chacun
-  de ces modules jouent le même rôle que les futurs fichiers XML servant à la
-  description des objets. Le module "src/part/ground.*" doit être supprimé et
-  remplacé par un module équivalant dans "src/builtin_objects" (chaque dalle =
-  1 part "Box" ?).
-+ idem pour "src/builtin_parts"...
-+ créer le RobudogJD et RobudogRH dans "src/builtin_objects/robudog.*"
-
-+ tester l'identité de l'instance des actuators dans les 2 Controller:
-  -> ~~ si il n'y a pas exactement "N" instances de Motor dans actuatorSet, throw exception
-  -> envoyer le signal aux actuateurs
-+ "ConstantController" et "SinusoidController" prend en paramètre une map
+STEP 1: objets, actuateurs, contrôleurs
+- "ConstantController" et "SinusoidController" prend en paramètre une map
   std::map<Actuator *, UnObjetOuUneStructureQuiContientLesParamPourLActuateurEnClé>
-  pour donner un jeu de paramètres différent à chaque actuateur.
+  pour donner un jeu de paramètres différent à chaque actuateur ?
   Pour ConstantController: la valeur du signal.
   Pour SinusoidController: les paramètres amplitude, fréquence et phase.
-+ compléter l'interface de Joint et Actuator : ajouter des propriétés physiques
-  telles que "joint_min_limit", "joint_max_limit", etc.
-+ ajouter les autres joints
 - mettre les attributs std::set<...> de Controller, BulletEnvironment et Object en public const (et supprimer les getters) ?
   But: supprimer toute ambiguité sur le fait qu'ils soit constant -> ces
   attributs sont traités dans le constructeur, les modifier après coup est sans
@@ -43,36 +16,17 @@ x SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...
   ?)... -> faire en sorte que le set commun parts+objects::parts ne soit plus
   qu'une variable locale (et non plus un attribut) utilisée pour initialliser
   btDynamicWorld ?
-- nettoyer Clock : devient un observer de bulletEnv tick events.
-
-STEP 1: objets, actuateurs, contrôleurs
-+ Classe Object qui contient un vecteur de Parts et un vecteur de "Joint" (une
-  simple paire de "Part" (référence ou pointeur de "Part" ?) + les axes de
-  libertés)
-  + Vérifier le code physique, ...
-  Servomoteurs: classe "Actuator" qui hérite de la classe "HingeJoint" ???
-    btHingeConstraint.enableAngularMotor(...)
-
 ~ Créer une classe Controler: foncteur qui prend en entrée des percepts (temps, position, ...) et retourne une commande pour le/les actuateurs qu'il contrôle
     -> Controler: attaché à un Actuator ou un Objet complet (ie plusieurs actuateurs) ?
   Contrôleurs: classe "Controler" -> pattern listener ? : écoute les sensors et agit sur les actuators
     -> + permettre le contrôle des actuateurs depuis un processus distant ? (socket, rpc, ...)
-~ Senseurs -> créer une interface (ou une classe abstraite) "Sensor" ?
-  -> accéléromètre (facile ?)
-  -> position absolue/pseudo GPS (facile ?)
-  -> odomètre (facile ?)
-  -> gyroscope (facile ?)
-  -> position angulaire des actuateurs (facile ?)
-  -> caméra (difficile ?)
-  -> capteurs de force/de contact/de pression (difficile ?)
-  -> capteur de distance IR/ultrasons (difficile ?)
-- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
-- Créer une classe "Noise" appliquée aux senseurs/aux actuateurs pour simuler la transposition à la réalité -> pattern wrapper ?
+- Servomoteurs: classe "Actuator" qui hérite de la classe "HingeJoint" ???
 
-- transférer les commits vers l'autre référentiel git et marquer version 2.0pre1
-  copier tous les commits dans une nouvelle branche BOTSIM v2.0 (nouvelle branche principale) (ne pas oublier de tagguer botsim-v1 avant)
 - renommer "botsim" -> "botsim.org" + supprimer le référentiel svn de la page jdhp
 - changer de licence ??? (GPL ? CeCILL ? ou MIT ?)
+
++ setup mass, friction, ...
++ how to setup hinge torques ? The torque is infinite so far ? (google : "bullet physics hinge torque")
 
 
 STEP 2: optimisation/IA (enfin !)
@@ -90,6 +44,12 @@ STEP 2: optimisation/IA (enfin !)
   - Créer un robot à 6 ou 8 pattes
 - Optimisation les contrôleurs -> quelle "interface" dans l'API ?
   - Permettre d'optimiser les contrôleurs de manière répartie (MPI, OpenMP, ...)
+- Controleur robuste
+  - ajouter du bruit dans les commandes
+    créer une classe "Filter" / "Noise" appliquée aux senseurs/aux actuateurs
+    pour simuler la transposition à la réalité -> pattern wrapper ?
+  - modifier les constantes physiques à chaque génération (friction, mass, ...
+    pour ne pas dépendre d'une mauvaise configuration du moteur)
 
 
 STEP 3: petits ajouts faciles et utiles
@@ -100,7 +60,8 @@ STEP 3: petits ajouts faciles et utiles
 + harmoniser les noms
   x "substeps" vs "ticks" (bullet env + logs)
   + "callback" vs "handler"
-+ corriger l'erreur de segmentation: afficher un message dans chaque destructeur pour voir celui qui est en cause
++ corriger les fuites mémoire restant dans "scenes" et "builtin*"
+  corriger l'erreur de segmentation: afficher un message dans chaque destructeur pour voir celui qui est en cause
 + Fichiers Dat: pour la 1ere colonne, préciser dans l'entête si il s'agit du "simulation_time" ou du "user_time"
 + scripts plot génériques
   plot_part    --key key [--key key, ...] FILE [FILE, ...]   [--list_keys] -> list available keys
@@ -108,6 +69,12 @@ STEP 3: petits ajouts faciles et utiles
   plot_3d_path
   .dat  -> cf. DVS
   .json -> cf. PCP
+- ajouter joints slider + actuateur correspondant (linearmotor)
+- Le module "src/part/ground.*" doit être supprimé et
+  remplacé par un module équivalant dans "src/builtin_objects" (chaque dalle =
+  1 part "Box" ?).
++ compléter l'interface de Joint et Actuator : ajouter des propriétés physiques
+  telles que "joint_min_limit", "joint_max_limit", etc.
 + set damping, ... per parts
   http://stackoverflow.com/questions/8289653/bouncing-ball-in-bullet
   http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6783
@@ -120,6 +87,18 @@ STEP 3: petits ajouts faciles et utiles
   - set OSG gauraud shading on/off
 - check memleak with Valgrind + check code with lint-like static analysers (cppcheck, llvm, ...)
 - ajouter une méthode getCenterOfMassPosition() pour Part et Object
+- ajouter une méthode getMass() pour Object
+- nettoyer Clock : devient un observer de bulletEnv tick events ?
+~ Senseurs -> créer une interface (ou une classe abstraite) "Sensor" ?
+  -> accéléromètre (facile ?)
+  -> position absolue/pseudo GPS (facile ?)
+  -> odomètre (facile ?)
+  -> gyroscope (facile ?)
+  -> position angulaire des actuateurs (facile ?)
+  -> caméra (difficile ?)
+  -> capteurs de force/de contact/de pression (difficile ?)
+  -> capteur de distance IR/ultrasons (difficile ?)
+- Permettre de sauvegarder les données des senseurs (au format JSON ?) -> appliquer le pattern listener sur les hinge et actuators
 
 
 STEP 4: com
@@ -313,3 +292,22 @@ x Part est une classe abstraite, elle ne devrait pas pouvoir être instanciée -
 x Assesseurs pour les attributs des objets "Part", "BulletEnvironment" et "OSGEnvironment"
   -> Ajouter des assesseurs pour les propriétés physiques des objets "Part", "BulletEnvironment"
 x Fonctions virtuelles pures dans Parts et Objects (Part et Object ne devraient pas être instanciables)
+x rétablir "Clock" sensor (rétablir le pointeur vers BulletEnv)
+x tester l'identité de l'instance du sensor dans SinusoidController:
+  x si il n'y a pas exactement 1 instance de Clock dans sensorSet, throw exception
+  x extraire le temps du vecteur "percept"
+  x afficher le temps (de simulation) dans le contrôleur à la place du message
+    "update actuator".
+x SinusoidController : calculer et afficher la valeur du signal (a * sin(t * ...))
+  (écrire une fonction membre qui retourne la valeur du signal en fonction du temps)
+x créer le répertoire "src/builtin_objects" : contient des modules, 1 module
+  par objet. Ces modules contiennent une fonction "build_object(...)" et
+  éventuellement une structure "..._build_data". Les fonctions "build_object"
+  prennent en entrée des paramètres et retournent une instance d'"Object". Chacun
+  de ces modules jouent le même rôle que les futurs fichiers XML servant à la
+  description des objets.
+x idem pour "src/builtin_parts"...
+x créer le RobudogJD et RobudogRH dans "src/builtin_objects/robudog.*"
+x tester l'identité de l'instance des actuators dans les 2 Controller:
+  si il n'y a pas exactement "N" instances de Motor dans actuatorSet, throw exception
+  envoyer le signal aux actuateurs
