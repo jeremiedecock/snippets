@@ -44,6 +44,7 @@ def main():
     horizontal_box1 = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=6)   # 6 pixels are placed between children
 
     label = gtk.Label(label="Text to print:")
+    label.set_alignment(0, 0.5)                                                     # Align left
     horizontal_box1.pack_start(label, expand=True, fill=True, padding=0)
 
     combobox = gtk.ComboBoxText()
