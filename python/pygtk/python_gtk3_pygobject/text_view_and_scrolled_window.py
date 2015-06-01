@@ -33,7 +33,9 @@ def main():
     window = gtk.Window()
     window.set_default_size(300, 450)
 
-    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing=0)       # number of pixels placed between children
+    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing=6)       # number of pixels placed between children
+    vertical_box.set_border_width(18)
+
     window.add(vertical_box)
 
     # Label ###########################
@@ -49,15 +51,16 @@ def main():
     textview.set_wrap_mode(gtk.WrapMode.WORD)                                       # wrap the text, if needed, breaking lines in between words
 
     scrolled_window = gtk.ScrolledWindow()
-    scrolled_window.set_border_width(5)
-    scrolled_window.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.ALWAYS)     # sould be gtk.PolicyType.AUTOMATIC, gtk.PolicyType.ALWAYS or gtk.PolicyType.NEVER
+    scrolled_window.set_border_width(0)
+    scrolled_window.set_shadow_type(gtk.ShadowType.IN)                              # should be gtk.ShadowType.IN, gtk.ShadowType.OUT, gtk.ShadowType.ETCHED_IN or gtk.ShadowType.ETCHED_OUT
+    scrolled_window.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.ALWAYS)     # should be gtk.PolicyType.AUTOMATIC, gtk.PolicyType.ALWAYS or gtk.PolicyType.NEVER
     scrolled_window.add(textview)
 
     vertical_box.pack_start(scrolled_window, expand=True, fill=True, padding=0)
 
     # Buttons #########################
 
-    horizontal_box = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=0)   # number of pixels placed between children
+    horizontal_box = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=12)   # number of pixels placed between children
 
     # Print button
     button1 = gtk.Button(label="Print")

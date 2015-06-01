@@ -14,6 +14,8 @@ from gi.repository import Gtk as gtk
 
 def main():
     window = gtk.Window()
+    window.set_default_size(300, 100)
+    window.set_border_width(10)
 
     notebook = gtk.Notebook()
     window.add(notebook)

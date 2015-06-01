@@ -16,6 +16,8 @@ def on_button_clicked(widget):
 
 def main():
     window = gtk.Window()
+    window.set_default_size(300, 100)
+    window.set_border_width(10)
 
     button = gtk.Button(label="Click Here")
     button.connect("clicked", on_button_clicked)
