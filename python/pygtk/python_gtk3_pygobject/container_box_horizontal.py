@@ -14,14 +14,14 @@ from gi.repository import Gtk as gtk
 def main():
     window = gtk.Window()
 
-    horizontal_box = gtk.Box(spacing = 6)   # 6 pixels are placed between children
+    horizontal_box = gtk.Box(spacing=6)   # 6 pixels are placed between children
     window.add(horizontal_box)
 
     button1 = gtk.Button(label="Btn 1")
-    horizontal_box.pack_start(button1, True, True, 0)
+    horizontal_box.pack_start(button1, expand=True, fill=True, padding=0)
 
     button2 = gtk.Button(label="Btn 2")
-    horizontal_box.pack_start(button2, True, True, 0)
+    horizontal_box.pack_start(button2, expand=True, fill=True, padding=0)
 
     window.connect("delete-event", gtk.main_quit) # ask to quit the application when the close button is clicked
     window.show_all()                             # display the window

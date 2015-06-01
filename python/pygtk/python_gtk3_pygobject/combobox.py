@@ -36,40 +36,40 @@ def reset_selection(widget, data):
 def main():
     window = gtk.Window()
 
-    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing = 6)       # 6 pixels are placed between children
+    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing=6)       # 6 pixels are placed between children
     window.add(vertical_box)
 
     # Label and Combobox ##############
 
-    horizontal_box1 = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing = 6)   # 6 pixels are placed between children
+    horizontal_box1 = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=6)   # 6 pixels are placed between children
 
     label = gtk.Label(label="Text to print:")
-    horizontal_box1.pack_start(label, True, True, 0)
+    horizontal_box1.pack_start(label, expand=True, fill=True, padding=0)
 
     combobox = gtk.ComboBoxText()
     combobox.set_entry_text_column(0)  # sets the model column which ComboBox should use to get strings from to be text_column
     for text in COMBOBOX_TEXT_LIST:
         combobox.append_text(text)     # fill the combobox
     combobox.set_active(0)             # select the first item
-    horizontal_box1.pack_start(combobox, True, True, 0)
+    horizontal_box1.pack_start(combobox, expand=True, fill=True, padding=0)
 
-    vertical_box.pack_start(horizontal_box1, True, True, 0)
+    vertical_box.pack_start(horizontal_box1, expand=True, fill=True, padding=0)
 
     # Buttons #########################
 
-    horizontal_box2 = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing = 6)   # 6 pixels are placed between children
+    horizontal_box2 = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=6)   # 6 pixels are placed between children
 
     # Print button
     button1 = gtk.Button(label="Print")
     button1.connect("clicked", print_text, combobox)  # connect("event", callback, data)
-    horizontal_box2.pack_start(button1, True, True, 0)
+    horizontal_box2.pack_start(button1, expand=True, fill=True, padding=0)
 
     # Clean button
     button2 = gtk.Button(label="Reset")
     button2.connect("clicked", reset_selection, combobox)  # connect("event", callback, data)
-    horizontal_box2.pack_start(button2, True, True, 0)
+    horizontal_box2.pack_start(button2, expand=True, fill=True, padding=0)
 
-    vertical_box.pack_start(horizontal_box2, True, True, 0)
+    vertical_box.pack_start(horizontal_box2, expand=True, fill=True, padding=0)
 
     ###
 

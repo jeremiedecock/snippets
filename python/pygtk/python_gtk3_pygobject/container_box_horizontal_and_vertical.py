@@ -14,25 +14,25 @@ from gi.repository import Gtk as gtk
 def main():
     window = gtk.Window()
 
-    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing = 6)       # 6 pixels are placed between children
-    horizontal_box = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing = 6)   # 6 pixels are placed between children
+    vertical_box = gtk.Box(orientation = gtk.Orientation.VERTICAL, spacing=6)       # 6 pixels are placed between children
+    horizontal_box = gtk.Box(orientation = gtk.Orientation.HORIZONTAL, spacing=6)   # 6 pixels are placed between children
 
     window.add(vertical_box)
 
     ###
 
     button1 = gtk.Button(label="Btn 1")
-    vertical_box.pack_start(button1, True, True, 0)
+    vertical_box.pack_start(button1, expand=True, fill=True, padding=0)
 
-    vertical_box.pack_start(horizontal_box, True, True, 0)
+    vertical_box.pack_start(horizontal_box, expand=True, fill=True, padding=0)
 
     ###
 
     button2 = gtk.Button(label="Btn 2")
-    horizontal_box.pack_start(button2, True, True, 0)
+    horizontal_box.pack_start(button2, expand=True, fill=True, padding=0)
 
     button3 = gtk.Button(label="Btn 3")
-    horizontal_box.pack_start(button3, True, True, 0)
+    horizontal_box.pack_start(button3, expand=True, fill=True, padding=0)
 
     ###
 
