@@ -4,9 +4,7 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 """
-This is the simplest Python GTK+3 snippet.
-
-See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/label.html
+This is the simplest Python GTK+3 maximize window snippet.
 """
 
 from gi.repository import Gtk as gtk
