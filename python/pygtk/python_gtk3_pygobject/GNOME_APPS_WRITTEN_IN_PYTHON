@@ -1,0 +1,14 @@
+GOOD PRACTICES AND INSPIRATION
+
+A list of some Gnome applications written in Python:
++ pitivi (movie editor):                              https://git.gnome.org/browse/pitivi/
++ gtweak (customize advanced GNOME 3 options):        https://git.gnome.org/browse/gnome-tweak-tool/
++ gnome-music (music player):                         https://git.gnome.org/browse/gnome-music/
++ meld (compare files):                               https://git.gnome.org/browse/meld/
+- pybliographer (bibliography Manager):               https://git.gnome.org/browse/pybliographer/
+- postr (a simple Flickr uploader for GNOME):         https://git.gnome.org/browse/postr/
+- orca (screen reader for individuals who are blind): https://git.gnome.org/browse/orca/
+- accerciser (interactive accessibility explorer):    https://git.gnome.org/browse/accerciser/
+- pyclutter (python bindings for Clutter):            https://git.gnome.org/browse/pyclutter/
+
+The full list (all programming languages): https://git.gnome.org/browse/
