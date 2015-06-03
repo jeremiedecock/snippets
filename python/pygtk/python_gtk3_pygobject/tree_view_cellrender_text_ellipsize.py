@@ -4,19 +4,20 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 """
-This is a simple Python GTK+3 TreeView snippet.
+This is a simple Python GTK+3 TreeView CellRenderText snippet.
 
 See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/treeview.html
 """
 
 from gi.repository import Gtk as gtk
+from gi.repository import Pango as pango
 
 # Countries, population (as in 2015) and continent.
 DATA_LIST = [("China", 1370130000, "Asia"),
              ("India", 1271980000, "Asia"),
-             ("United States", 321107000, "America"),
+             ("United States", 321107000, "North America"),
              ("Indonesia", 255461700, "Asia"),
-             ("Brazil", 204388000, "America"),
+             ("Brazil", 204388000, "South America"),
              ("Pakistan", 189936000, "Asia"),
              ("Nigeria", 183523000, "Africa"),
              ("Bangladesh", 158425000, "Asia"),
@@ -37,7 +38,14 @@ def main():
     treeview = gtk.TreeView(liststore)
     for column_index, column_title in enumerate(["Country", "Population", "Continent"]):
         renderer = gtk.CellRendererText()
+
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
+
+        # Use ellipsize for the "Continent" column
+        if column_title == "Continent":
+            renderer.set_property("ellipsize", pango.EllipsizeMode.END)
+            renderer.set_property("ellipsize-set", True)
+
         treeview.append_column(column)
 
     # Scrolled window

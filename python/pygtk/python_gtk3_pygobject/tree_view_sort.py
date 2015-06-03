@@ -4,7 +4,7 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 """
-This is a simple Python GTK+3 TreeView snippet.
+This is a simple Python GTK+3 TreeView sort snippet.
 
 See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/treeview.html
 """
@@ -37,7 +37,30 @@ def main():
     treeview = gtk.TreeView(liststore)
     for column_index, column_title in enumerate(["Country", "Population", "Continent"]):
         renderer = gtk.CellRendererText()
+
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
+
+        # Note that the column_id given to set_sort_column_id() refers to the
+        # column of the model and not to the TreeView’s column.
+        # When the user clic on the header of the TreeView’s column
+        # (corresponding to the current "column" variable), the TreeView is
+        # sorted according to the model's data in the column indexed by
+        # "column_id".
+        # Here, we simply use "column_id" = "column_index" because the TreeView
+        # displays all columns of the model (in the same order) ; but in some
+        # other cases, this may be wrong and the following commented code should
+        # be used:
+        #
+        #   if column_title == "Country":
+        #       column.set_sort_column_id(0)   # sort according to the first model's column
+        #   elif column_title == "Population":
+        #       column.set_sort_column_id(1)   # sort according to the second model's column
+        #   elif column_title == "Continent":
+        #       column.set_sort_column_id(2)   # sort according to the third model's column
+        #
+        column.set_sort_column_id(column_index)
+
+
         treeview.append_column(column)
 
     # Scrolled window

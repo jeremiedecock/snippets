@@ -4,7 +4,7 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 """
-This is a simple Python GTK+3 TreeView snippet.
+This is a simple Python GTK+3 TreeView selection snippet.
 
 See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/treeview.html
 """
@@ -23,6 +23,12 @@ DATA_LIST = [("China", 1370130000, "Asia"),
              ("Russia", 146267288, "Eurasia"),
              ("Japan", 126880000, "Asia")]
 
+# The TreeView's selection callback
+def on_tree_selection_changed(selection):
+    model, treeiter = selection.get_selected()
+    if treeiter != None:
+        print("You selected", model[treeiter][0])
+
 def main():
     window = gtk.Window()
     window.set_default_size(300, 450)
@@ -39,6 +45,10 @@ def main():
         renderer = gtk.CellRendererText()
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
         treeview.append_column(column)
+
+    # Connect to the "changed" signal
+    select = treeview.get_selection()
+    select.connect("changed", on_tree_selection_changed)
 
     # Scrolled window
     scrolled_window = gtk.ScrolledWindow()
