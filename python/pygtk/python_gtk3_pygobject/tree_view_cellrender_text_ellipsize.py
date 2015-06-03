@@ -40,11 +40,15 @@ def main():
         renderer = gtk.CellRendererText()
 
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
+        column.set_resizable(True)       # Let the column be resizable
 
-        # Use ellipsize for the "Continent" column
-        if column_title == "Continent":
+        # Use ellipsize for the "Population" and "Continent" columns
+        if column_title in ("Population", "Continent"):
             renderer.set_property("ellipsize", pango.EllipsizeMode.END)
             renderer.set_property("ellipsize-set", True)
+
+        if column_title == "Population":
+            column.set_expand(True)      # This column will use all the space left
 
         treeview.append_column(column)
 
