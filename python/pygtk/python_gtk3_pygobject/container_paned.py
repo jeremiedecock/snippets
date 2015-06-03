@@ -16,7 +16,7 @@ def main():
     window = gtk.Window()
 
     paned = gtk.Paned(orientation=gtk.Orientation.VERTICAL) # gtk.Orientation.HORIZONTAL or gtk.Orientation.VERTICAL
-    paned.set_position(30)                                  # Sets the position in pixels of the divider between the two panes (the divider is at n pixels from the top).
+    paned.set_position(30)                                  # Sets the position in pixels of the divider between the two panes (i.e. the default size of the first pane)
     window.add(paned)
 
     button1 = gtk.Button(label="Btn 1")
