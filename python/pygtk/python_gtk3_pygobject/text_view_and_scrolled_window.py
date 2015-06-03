@@ -7,6 +7,7 @@
 This is the simplest Python GTK+3 snippet.
 
 See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/textview.html
+     http://learngtk.org/tutorials/python_gtk3_tutorial/html/textview.html
 """
 
 from gi.repository import Gtk as gtk
