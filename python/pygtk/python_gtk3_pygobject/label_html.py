@@ -14,7 +14,8 @@ from gi.repository import Gtk as gtk
 def main():
     window = gtk.Window()
 
-    label = gtk.Label(label="Hello! ¡Buenos días! Bonjour! 你好！")
+    label = gtk.Label()
+    label.set_markup('Text can be <small>small</small>, <big>big</big>, <b>bold</b>, <i>italic</i> and even point to somewhere <a href="http://www.jdhp.org">www.jdhp.org</a>.')
     window.add(label)
 
     window.connect("delete-event", gtk.main_quit) # ask to quit the application when the close button is clicked

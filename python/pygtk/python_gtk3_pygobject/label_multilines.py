@@ -14,7 +14,7 @@ from gi.repository import Gtk as gtk
 def main():
     window = gtk.Window()
 
-    label = gtk.Label(label="Hello! ¡Buenos días! Bonjour! 你好！")
+    label = gtk.Label(label="Hello!\n¡Buenos días!\nBonjour!\n你好！")
     window.add(label)
 
     window.connect("delete-event", gtk.main_quit) # ask to quit the application when the close button is clicked
