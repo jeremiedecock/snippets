@@ -18,7 +18,7 @@ Here you will find snippets for several topics:
 * [general API like Boost (C++)](#sec_api);
 * [programming tools like Gnu Make, CMake and Apache Ant](#sec_tools);
 * [XML and web development technologies](#sec_web);
-* [embedded technologies](#sec_embedded);
+* [Embedded systems programming](#sec_embedded);
 * [graphical User Interface libraries](#sec_gui);
 * [2D, 3D and Multimedia libraries](#sec_2d3d);
 * [many others topics like design patterns, LaTeX language, Computer-aided design with OpenSCAD, ...](#sec_others)
@@ -84,7 +84,7 @@ SVG,
 XSD (XML Schema),
 [XSLT](http://en.wikipedia.org/wiki/Extensible_Stylesheet_Language_Transformations)
 
-### <a name="sec_embedded"></a>Embedded system
+### <a name="sec_embedded"></a>Embedded Systems Programming
 
 [Android](http://www.android.com/) framework,
 [Atmel AVR micro-controller programming (in C)](http://www.atmel.com/products/microcontrollers/),
