@@ -12,8 +12,9 @@ PyGObject est contenu dans le module python "gi".
 
 - Site de référence:       https://wiki.gnome.org/Projects/PyGObject
                            (attention le site www.pygtk.org est déprécié et correspond à l'ancien binding GTK+2)
-- Tutoriel de référence:   http://python-gtk-3-tutorial.readthedocs.org/en/latest/
-                           https://developer.gnome.org/gnome-devel-demos/stable/tutorial.py.html.
+- Tutoriel de référence:
+    - http://python-gtk-3-tutorial.readthedocs.org/en/latest/
+    - https://developer.gnome.org/gnome-devel-demos/stable/tutorial.py.html.
 - Snippets (nombreux!):    https://developer.gnome.org/gnome-devel-demos/stable/beginner.py.html.en
 - Tutoriel de référence C: https://developer.gnome.org/gtk3/stable/
 - "Règles visuelles":      https://developer.gnome.org/hig/stable/visual-layout.html.en
