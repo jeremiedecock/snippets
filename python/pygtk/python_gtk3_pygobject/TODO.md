@@ -1,30 +1,48 @@
-Widgets:
-- Buttons: checkboxes, sliders, ...
-- Progress bar
-- Menu
-+ Entry, ComboBox, TextView -> textChangedEvent demo
-+ TreeView
+# TODO
 
-Containers:
-- Toolbar
-+ GtkPaned
+## Widgets
 
-Misc:
-+ Full "pro" application window (cf. tuto Gnome)
-- Glade + GtkBuilder
-- GtkStyleContext ??? (CSS)
-x Fullscreen
-x Dualscreen
-- Installation/intégration de Python+GTK3 dans MsWindows (XP?,Vista?,7,8)
+- [ ] CellRenders
+- [ ] TreeView
+    - [x] Selection
+    - [x] Sorting
+    - [ ] Filtering
+    - [ ] Filtering with a search box
+- [ ] Buttons
+    - [x] Toggle button
+    - [x] Check button
+    - [x] Radio button
+    - [ ] Link button
+    - [ ] Spin button
+    - [ ] Switch
+- [ ] Progress bar
+- [ ] Sliders
+- [ ] Menu
+- [ ] Entry, ComboBox, TextView -> textChangedEvent demo
 
-With other libraries:
-+ Matplotlib
-   http://gtk3-matplotlib-cookbook.readthedocs.org/en/latest/index.html
-   http://matplotlib.org/1.4.2/examples/user_interfaces/index.html
-x Webkit (HTML)
-+ Cairo -> SVG, annimations, ...
-+ PIL
-+ Graphviz
-- Poppler (PDF)
-- OpenStreetMap
-- GEGL (Photos)
+## Containers
+
+- [x] GtkPaned
+- [ ] Toolbar
+
+## Misc
+
+- [x] Fullscreen
+- [x] Dualscreen
+- [ ] Full "pro" application window (cf. tuto Gnome)
+- [ ] Glade + GtkBuilder
+- [ ] GtkStyleContext ??? (CSS)
+- [ ] Création de graphs annimés avec graphviz, clutter et cairo
+- [ ] Installation/intégration de Python+GTK3 dans MsWindows (XP?,Vista?,7,8)
+
+# With other libraries
+
+- [x] Webkit (HTML)
+- [ ] Matplotlib (see http://gtk3-matplotlib-cookbook.readthedocs.org/en/latest/index.html and http://matplotlib.org/1.4.2/examples/user_interfaces/index.html)
+- [ ] Cairo -> SVG, annimations, ...
+- [ ] PIL
+- [ ] Graphviz
+- [ ] Clutter
+- [ ] Poppler (PDF)
+- [ ] OpenStreetMap
+- [ ] GEGL (Photos)
