@@ -12,7 +12,7 @@
     - [x] Toggle button
     - [x] Check button
     - [x] Radio button
-    - [ ] Link button
+    - [x] Link button
     - [ ] Spin button
     - [ ] Switch
 - [ ] Progress bar
@@ -41,7 +41,7 @@
 - [x] Webkit (HTML)
 - [ ] Matplotlib (see http://gtk3-matplotlib-cookbook.readthedocs.org/en/latest/index.html and http://matplotlib.org/1.4.2/examples/user_interfaces/index.html)
 - [ ] Cairo -> SVG, annimations, ...
-- [ ] PIL
+- [ ] PIL/Pillow / GdkPixbuf.Pixbuf
 - [ ] Graphviz
 - [ ] Clutter
 - [ ] Poppler (PDF)
