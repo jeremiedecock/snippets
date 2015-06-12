@@ -14,7 +14,7 @@
     - [x] Radio button
     - [x] Link button
     - [ ] Spin button
-    - [ ] Switch
+    - [x] Switch
 - [ ] Progress bar
 - [ ] Sliders
 - [ ] Menu
