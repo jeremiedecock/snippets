@@ -1,5 +1,11 @@
 # TODO
 
+Rem: to run Glade in engilsh:
+
+```
+LC_ALL=C glade
+```
+
 ## Widgets
 
 - [ ] CellRenders
@@ -15,8 +21,30 @@
     - [x] Link button
     - [ ] Spin button
     - [x] Switch
+- [ ] Scale
+- [ ] SearchEntry
 - [ ] Progress bar
-- [ ] Sliders
+- [ ] DrawingArea
+- [ ] FileChooserButton / FileChooserDialog
+- [ ] ColorButton / ColorChooserDialog
+- [ ] FontButton / FontChooserDialog
+- [ ] Calendar
+- [ ] AboutDialog
+- [ ] ScaleButton
+- [ ] VolumeButton
+- [ ] ApplicationChooserButton
+- [ ] LevelBar
+- [ ] IconView
+- [ ] StatusBar
+- [ ] PrintUnixDialog
+- [ ] Spinner
+- [ ] ToolPalette
+- [ ] ListBox
+- [ ] ButtonBox
+- [ ] Frame
+- [ ] AspectFrame
+- [ ] Expander
+- [ ] Viewport
 - [ ] Menu
 - [ ] Entry, ComboBox, TextView -> textChangedEvent demo
 
