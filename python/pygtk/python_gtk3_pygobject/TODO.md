@@ -9,35 +9,35 @@ LC_ALL=C glade
 ## Widgets
 
 - [ ] CellRenders
+- [ ] SearchEntry
 - [ ] TreeView
     - [x] Selection
     - [x] Sorting
     - [ ] Filtering
     - [ ] Filtering with a search box
-- [ ] Buttons
+- [x] Buttons
     - [x] Toggle button
     - [x] Check button
     - [x] Radio button
     - [x] Link button
-    - [ ] Spin button
+    - [x] Spin button
     - [x] Switch
 - [ ] Scale
-- [ ] SearchEntry
 - [ ] Progress bar
 - [ ] DrawingArea
-- [ ] FileChooserButton / FileChooserDialog
-- [ ] ColorButton / ColorChooserDialog
-- [ ] FontButton / FontChooserDialog
 - [ ] Calendar
-- [ ] AboutDialog
-- [ ] ScaleButton
-- [ ] VolumeButton
-- [ ] ApplicationChooserButton
-- [ ] LevelBar
+- [ ] Dialogs and dialog buttons
+    - [ ] FileChooserButton / FileChooserDialog
+    - [ ] ColorButton / ColorChooserDialog
+    - [ ] FontButton / FontChooserDialog
+    - [ ] ApplicationChooserButton
+    - [ ] AboutDialog
+    - [ ] PrintUnixDialog
 - [ ] IconView
 - [ ] StatusBar
-- [ ] PrintUnixDialog
-- [ ] Spinner
+- [ ] Menu
+- [ ] ScaleButton
+- [ ] LevelBar
 - [ ] ToolPalette
 - [ ] ListBox
 - [ ] ButtonBox
@@ -45,8 +45,9 @@ LC_ALL=C glade
 - [ ] AspectFrame
 - [ ] Expander
 - [ ] Viewport
-- [ ] Menu
 - [ ] Entry, ComboBox, TextView -> textChangedEvent demo
+- [ ] Spinner
+- [ ] VolumeButton
 
 ## Containers
 
