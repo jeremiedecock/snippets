@@ -25,8 +25,8 @@ def main():
 
     grid = gtk.Grid()
     grid.set_column_homogeneous(True)
-    grid.set_column_spacing(3)
     grid.set_row_homogeneous(False)
+    grid.set_column_spacing(3)
     grid.set_row_spacing(3)
 
     window.add(grid)
