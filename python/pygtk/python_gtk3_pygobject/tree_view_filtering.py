@@ -59,12 +59,15 @@ def main():
         liststore.append(list(item))
 
     # Setup filtering
+    # In the same way the sorting function works, the Gtk.TreeModelFilter needs
+    # a "visibility" function, which, given a row from the underlying model,
+    # will return a boolean indicating if this row should be filtered out or
+    # not. It’s set by Gtk.TreeSortable.set_visible_func()
     liststore_filter = liststore.filter_new()           # creating the filter, feeding it with the liststore model
     liststore_filter.set_visible_func(filter_function)  # setting the filter function, note that we're not using the
 
     # Creating the treeview and add the columns
-    #treeview = gtk.TreeView(liststore) # TODO
-    treeview = gtk.TreeView.new_with_model(liststore_filter)
+    treeview = gtk.TreeView(liststore_filter)
     for column_index, column_title in enumerate(["Country", "Population", "Continent"]):
         renderer = gtk.CellRendererText()
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
