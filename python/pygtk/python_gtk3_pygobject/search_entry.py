@@ -6,6 +6,8 @@
 """
 A simple Python GTK+3 SearchEntry snippet.
 
+See: http://learngtk.org/tutorials/python_gtk3_tutorial/html/searchentry.html
+
 API: http://lazka.github.io/pgi-docs/Gtk-3.0/classes/SearchEntry.html
 """
 
