@@ -9,7 +9,7 @@ LC_ALL=C glade
 ## Widgets
 
 - [ ] CellRenders
-- [ ] SearchEntry
+- [x] SearchEntry
 - [ ] TreeView
     - [x] Selection
     - [x] Sorting
@@ -35,6 +35,7 @@ LC_ALL=C glade
     - [ ] PrintUnixDialog
 - [ ] IconView
 - [ ] StatusBar
+- [ ] SearchBar
 - [ ] Menu
 - [ ] ScaleButton
 - [ ] LevelBar
