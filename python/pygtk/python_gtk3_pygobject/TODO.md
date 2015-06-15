@@ -13,7 +13,7 @@ LC_ALL=C glade
 - [ ] TreeView
     - [x] Selection
     - [x] Sorting
-    - [ ] Filtering
+    - [x] Filtering
     - [ ] Filtering with a search box
 - [x] Buttons
     - [x] Toggle button
