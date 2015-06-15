@@ -59,6 +59,7 @@ LC_ALL=C glade
 
 - [x] Fullscreen
 - [x] Dualscreen
+- [ ] Keyboard Listener on the application (on the full window and its content)
 - [ ] Créer de nouveaux widgets avec cairo (par ex: un calendrier style github)
 - [ ] Full "pro" application window (cf. tuto Gnome)
 - [ ] Glade + GtkBuilder
