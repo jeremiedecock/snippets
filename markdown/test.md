@@ -1,7 +1,12 @@
 <!---
 This is a comment block.
+Sadly, this may not work with some parser (like the one used by GitHub).
 See: http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax
 -->
+
+[//]: # (This is an other comment.)
+[//]: # ( Be prudent to insert a blank line before and after this type of comments.)
+[//]: # (See: http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
 # Markdown snippet
 
