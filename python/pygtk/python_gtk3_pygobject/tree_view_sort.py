@@ -39,6 +39,7 @@ def main():
         renderer = gtk.CellRendererText()
 
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
+        column.set_resizable(True)       # Let the column be resizable
 
         # Note that the column_id given to set_sort_column_id() refers to the
         # column of the model and not to the TreeView’s column.
@@ -59,7 +60,6 @@ def main():
         #       column.set_sort_column_id(2)   # sort according to the third model's column
         #
         column.set_sort_column_id(column_index)
-
 
         treeview.append_column(column)
 

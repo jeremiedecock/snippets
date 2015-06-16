@@ -43,7 +43,10 @@ def main():
     treeview = gtk.TreeView(liststore)
     for column_index, column_title in enumerate(["Country", "Population", "Continent"]):
         renderer = gtk.CellRendererText()
+
         column = gtk.TreeViewColumn(column_title, renderer, text=column_index)
+        column.set_resizable(True)       # Let the column be resizable
+
         treeview.append_column(column)
 
     # Connect to the "changed" signal
