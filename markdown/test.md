@@ -1,3 +1,8 @@
+<!---
+This is a comment block.
+See: http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax
+-->
+
 # Markdown snippet
 
 See:
