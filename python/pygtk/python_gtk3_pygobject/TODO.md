@@ -59,7 +59,7 @@ LC_ALL=C glade
 
 - [x] Fullscreen
 - [x] Dualscreen
-- [ ] Keyboard Listener on the application (on the full window and its content)
+- [ ] Keyboard Listener on the application (on the full window and its content) -> cf. "accelerator", "application action", http://lazka.github.io/pgi-docs/Gtk-3.0/classes/SearchBar.html#Gtk.SearchBar
 - [ ] Créer de nouveaux widgets avec cairo (par ex: un calendrier style github)
 - [ ] Full "pro" application window (cf. tuto Gnome)
 - [ ] Glade + GtkBuilder
@@ -78,3 +78,10 @@ LC_ALL=C glade
 - [ ] Poppler (PDF)
 - [ ] OpenStreetMap
 - [ ] GEGL (Photos)
+    - http://linuxfr.org/news/gegl-0-3-0-et-babl-0-1-12-sont-de-sortie
+    - https://git.gnome.org/browse/gegl-gtk/
+    - https://git.gnome.org/browse/gegl-clutter
+    - https://github.com/jsbueno/python-gegl
+    - http://gegl.org/operations.html#Gegl
+    - http://gegl.org/operations.html#GEGL%20operations
+
