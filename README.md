@@ -98,30 +98,30 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_gui"></a>Graphical User Interface libraries
 
-[GTK+](http://www.gtk.org/) graphical user interfaces (C and Python),
-[Qt](http://qt-project.org/) C++ and Python UI framework,
-[Swing](http://docs.oracle.com/javase/6/docs/technotes/guides/swing/) Java UI framework,
-[SWT](http://www.eclipse.org/swt/) (Standard Widget Toolkit) Java UI framework,
-[TKinter](https://docs.python.org/2/library/tkinter.html) Python UI framework
+- The [c/gtk](https://github.com/jeremiedecock/snippets/tree/master/c/gtk) and [python/pygtk](https://github.com/jeremiedecock/snippets/tree/master/python/pygtk) directories contain some snippets on the [GTK+](http://www.gtk.org/) graphical user interfaces (C and Python).
+- The [cpp/qt](https://github.com/jeremiedecock/snippets/tree/master/cpp/qt) and [python/pyqt](https://github.com/jeremiedecock/snippets/tree/master/python/pyqt) directories contain some snippets on the [Qt](http://qt-project.org/) C++ and Python UI framework.
+- The [java/swing](https://github.com/jeremiedecock/snippets/tree/master/java/swing) directory contains some snippets on the [Swing](http://docs.oracle.com/javase/6/docs/technotes/guides/swing/) Java UI framework.
+- The [java/swt](https://github.com/jeremiedecock/snippets/tree/master/java/swt) directory contains some snippets on the [SWT](http://www.eclipse.org/swt/) (Standard Widget Toolkit) Java UI framework.
+- The [python/tkinter](https://github.com/jeremiedecock/snippets/tree/master/python/tkinter) directory contains some snippets on the [TKinter](https://docs.python.org/2/library/tkinter.html) Python UI framework.
 
 ### <a name="sec_2d3d"></a>2D, 3D and Multimedia libraries
 
-[Bullet](http://bulletphysics.org) physics engine,
-[Open Scene Graph](http://www.openscenegraph.org/) 3D graphics toolkit,
-[Cairo](http://cairographics.org/) with C and Python,
-[SDL](https://www.libsdl.org/) (Simple DirectMedia Layer) C Multimedia Library,
-[Pygame](http://www.pygame.org) Python wrapper for SDL,
-[SFML](http://www.sfml-dev.org) C++ Multimedia Library
+- The [cpp/bullet](https://github.com/jeremiedecock/snippets/tree/master/cpp/bullet) and [cpp/bullet_osg](https://github.com/jeremiedecock/snippets/tree/master/cpp/bullet_osg) directories contain some snippets on the [Bullet](http://bulletphysics.org) physics engine.
+- The [cpp/osg](https://github.com/jeremiedecock/snippets/tree/master/cpp/osg) directory contains some snippets on the [Open Scene Graph](http://www.openscenegraph.org/) 3D graphics toolkit.
+- The [c/cairo]() and [python/cairo](https://github.com/jeremiedecock/snippets/tree/master/python/cairo) directories contain some snippets on [Cairo](http://cairographics.org/) for the C programming language and Python.
+- The [c/sdl]() directory contains some snippets on [SDL](https://www.libsdl.org/) (Simple DirectMedia Layer), the C Multimedia Library.
+- The [python/pygame](https://github.com/jeremiedecock/snippets/tree/master/python/pygame) directory contains some snippets on [Pygame](http://www.pygame.org), the Python wrapper for SDL.
+- The [cpp/sfml](https://github.com/jeremiedecock/snippets/tree/master/cpp/sfml) directory contains some snippets on the [SFML](http://www.sfml-dev.org) C++ Multimedia Library.
 
 ### <a name="sec_others"></a>Others
 
-[Design patterns](http://en.wikipedia.org/wiki/Software_design_pattern) with C++ and Java,
-[LaTeX](http://en.wikipedia.org/wiki/LaTeX) language,
-[OpenScad](http://www.openscad.org/) solid 3D CAD modeler,
-[DBM](http://en.wikipedia.org/wiki/Dbm) file format,
-[JSON](http://en.wikipedia.org/wiki/JSON) file format,
-[Pickle](https://docs.python.org/2/library/pickle.html),
-...
+- The [design_patterns](https://github.com/jeremiedecock/snippets/tree/master/design_patterns) directory contains some snippets on [Design patterns](http://en.wikipedia.org/wiki/Software_design_pattern) for the C++ and Java programming languages.
+- The [latex](https://github.com/jeremiedecock/snippets/tree/master/latex) directory contains some snippets on the [LaTeX](http://en.wikipedia.org/wiki/LaTeX) language.
+- The [openscad](https://github.com/jeremiedecock/snippets/tree/master/openscad) directory contains some snippets on the [OpenScad](http://www.openscad.org/) solid 3D CAD modeler.
+- The [python/dbm](https://github.com/jeremiedecock/snippets/tree/master/python/dbm) directory contains some snippets on the [DBM](http://en.wikipedia.org/wiki/Dbm) file format.
+- The [python/json](https://github.com/jeremiedecock/snippets/tree/master/python/json) directory contains some snippets on the [JSON](http://en.wikipedia.org/wiki/JSON) file format.
+- The [python/pickle](https://github.com/jeremiedecock/snippets/tree/master/python/pickle) directory contains some snippets on [Pickle](https://docs.python.org/2/library/pickle.html).
+- ...
 
 ## License
 
