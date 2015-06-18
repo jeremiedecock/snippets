@@ -76,17 +76,18 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_web"></a>XML and web development
 
-[SAX](http://www.saxproject.org/) (Simple API for XML) with Java, C++ and Python,
-HTML5,
-CSS,
-XML,
-DOM,
-Xpath,
-Xinclude,
-Xquery,
-SVG,
-XSD (XML Schema),
-[XSLT](http://en.wikipedia.org/wiki/Extensible_Stylesheet_Language_Transformations)
+- The [java/sax](https://github.com/jeremiedecock/snippets/tree/master/java/sax) and [python/sax](https://github.com/jeremiedecock/snippets/tree/master/python/sax) directories contain some snippets on the [SAX](http://www.saxproject.org/) XML API for the Java and the Python programming languages.
+- The [web](https://github.com/jeremiedecock/snippets/tree/master/web) directory contains some snippets on HTML5,
+    CSS,
+    XML,
+    DOM,
+    Xpath,
+    Xinclude,
+    Xquery,
+    SVG,
+    XSD (XML Schema)
+    and
+    [XSLT](http://en.wikipedia.org/wiki/Extensible_Stylesheet_Language_Transformations).
 
 ### <a name="sec_embedded"></a>Embedded Systems Programming
 
