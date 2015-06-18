@@ -76,7 +76,7 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_web"></a>XML and web development
 
-- The [java/sax](https://github.com/jeremiedecock/snippets/tree/master/java/sax) and [python/sax](https://github.com/jeremiedecock/snippets/tree/master/python/sax) directories contain some snippets on the [SAX](http://www.saxproject.org/) XML API for the Java and the Python programming languages.
+- The [java/sax](https://github.com/jeremiedecock/snippets/tree/master/java/sax) and [python/sax](https://github.com/jeremiedecock/snippets/tree/master/python/sax) directories contain some snippets on the [SAX](http://www.saxproject.org/) XML API for the Java and Python programming languages.
 - The [web](https://github.com/jeremiedecock/snippets/tree/master/web) directory contains some snippets on HTML5,
     CSS,
     XML,
@@ -91,10 +91,10 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_embedded"></a>Embedded Systems Programming
 
-[Android](http://www.android.com/) framework,
-[Atmel AVR micro-controller programming (in C)](http://www.atmel.com/products/microcontrollers/),
-[Raspberry Pi GPIO libraries](http://www.raspberrypi.org/documentation/usage/gpio/),
-[Arduino](http://www.arduino.cc/)
+- The [android](https://github.com/jeremiedecock/snippets/tree/master/android) directory contains some snippets on the [Android](http://www.android.com/) framework.
+- The [atmel_avr](https://github.com/jeremiedecock/snippets/tree/master/atmel_avr) directory contains some snippets on the [Atmel AVR micro-controller programming (in C)](http://www.atmel.com/products/microcontrollers/).
+- The [c/rpi]() and [python/rpi]() directories contain some snippets on the [Raspberry Pi GPIO libraries](http://www.raspberrypi.org/documentation/usage/gpio/) for the Raspberry Pi embedded platform (written in C and Python).
+- The [arduino](https://github.com/jeremiedecock/snippets/tree/master/arduino) directory contains some snippets on the [Arduino](http://www.arduino.cc/) embedded platform.
 
 ### <a name="sec_gui"></a>Graphical User Interface libraries
 
