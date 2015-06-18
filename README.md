@@ -69,9 +69,9 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_tools"></a>Programming tools
 
-[Gnu Make](http://www.gnu.org/software/make/) multi-language build system,
-[CMake](http://www.cmake.org/) cross-platform build system,
-[Ant](http://ant.apache.org/) Java build system
+- The [make/c](https://github.com/jeremiedecock/snippets/tree/master/c/hello) and [make/cpp](https://github.com/jeremiedecock/snippets/tree/master/cpp/hello) directories contain some snippets on [Gnu Make](http://www.gnu.org/software/make/), the famous multi-language build system.
+- The [cmake](https://github.com/jeremiedecock/snippets/tree/master/cmake) directory contains some snippets on [CMake](http://www.cmake.org/), the powerful cross-platform build system.
+- The [java/hello_ant](https://github.com/jeremiedecock/snippets/tree/master/java/hello_ant) directory contains some snippets on [Ant](http://ant.apache.org/), the famous Java build system.
 
 ### <a name="sec_web"></a>XML and web development
 
