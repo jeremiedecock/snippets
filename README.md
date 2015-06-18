@@ -32,12 +32,12 @@ For more exhaustive information, see the following sections.
 - The [c](https://github.com/jeremiedecock/snippets/tree/master/c) directory contains a hundred of snippets on the C language and some C libraries.
 - The [octave](https://github.com/jeremiedecock/snippets/tree/master/octave) directory contains dozens snippets on [Octave](http://www.gnu.org/software/octave/) (Matlab clone).
 - The [java](https://github.com/jeremiedecock/snippets/tree/master/java) directory contains some snippets on the Java language and some Java libraries.
-- The [shell](https://github.com/jeremiedecock/snippets/tree/master/shell) and [commands](https://github.com/jeremiedecock/snippets/tree/master/commands) directories contains some snippets on shell scripts (Bourne shell and Bash).
+- The [shell](https://github.com/jeremiedecock/snippets/tree/master/shell) and [commands](https://github.com/jeremiedecock/snippets/tree/master/commands) directories contain some snippets on shell scripts (Bourne shell and Bash).
 
 ### <a name="sec_unix"></a>Unix programming
 
 - The [c/unix](https://github.com/jeremiedecock/snippets/tree/master/c/unix) directory contains about fifty snippets on Unix/Linux system calls in C.
-- The [c/debian](), [python/debian]() and [java/debian]() directories contains some snippets on Debian packaging in C/C++, Python and Java.
+- The [c/debian](), [python/debian]() and [java/debian]() directories contain some snippets on Debian packaging in C/C++, Python and Java.
 
 ### <a name="sec_sci"></a>Scientific programming libraries
 
