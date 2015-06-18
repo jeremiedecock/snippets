@@ -37,7 +37,7 @@ For more exhaustive information, see the following sections.
 ### <a name="sec_unix"></a>Unix programming
 
 - The [c/unix](https://github.com/jeremiedecock/snippets/tree/master/c/unix) directory contains about fifty snippets on Unix/Linux system calls in C.
-- The [c/debian](), [python/debian]() and [java/debian]() directory contains some snippets on Debian packaging in C/C++, Python and Java.
+- The [c/debian](), [python/debian]() and [java/debian]() directories contains some snippets on Debian packaging in C/C++, Python and Java.
 
 ### <a name="sec_sci"></a>Scientific programming libraries
 
