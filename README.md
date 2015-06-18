@@ -118,6 +118,7 @@ For more exhaustive information, see the following sections.
 - The [design_patterns](https://github.com/jeremiedecock/snippets/tree/master/design_patterns) directory contains some snippets on [Design patterns](http://en.wikipedia.org/wiki/Software_design_pattern) for the C++ and Java programming languages.
 - The [latex](https://github.com/jeremiedecock/snippets/tree/master/latex) directory contains some snippets on the [LaTeX](http://en.wikipedia.org/wiki/LaTeX) language.
 - The [openscad](https://github.com/jeremiedecock/snippets/tree/master/openscad) directory contains some snippets on the [OpenScad](http://www.openscad.org/) solid 3D CAD modeler.
+- The [markdown](https://github.com/jeremiedecock/snippets/tree/master/markdown) directory contains some snippets on the [Markdown](http://en.wikipedia.org/wiki/Markdown) text format.
 - The [python/dbm](https://github.com/jeremiedecock/snippets/tree/master/python/dbm) directory contains some snippets on the [DBM](http://en.wikipedia.org/wiki/Dbm) file format.
 - The [python/json](https://github.com/jeremiedecock/snippets/tree/master/python/json) directory contains some snippets on the [JSON](http://en.wikipedia.org/wiki/JSON) file format.
 - The [python/pickle](https://github.com/jeremiedecock/snippets/tree/master/python/pickle) directory contains some snippets on [Pickle](https://docs.python.org/2/library/pickle.html).
