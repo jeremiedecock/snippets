@@ -4,8 +4,8 @@ Copyright (c) 2009,2010,2011,2012,2013,2014,2015 Jérémie DECOCK (http://www.jd
 
 ## Description
 
-This is a collection of hundreds of snippets, i.e. small pieces of code
-I have written to test a specific aspect of a programming language, a
+This is a collection of hundreds of original snippets, i.e. small pieces of
+code I have written to test a specific aspect of a programming language, a
 programming library, a description format, a protocol, ...
 
 Here you will find snippets for several topics:
@@ -36,8 +36,8 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_unix"></a>Unix programming
 
-Unix/Linux system calls in C,
-Debian packaging
+- The [c/unix](https://github.com/jeremiedecock/snippets/tree/master/c/unix) directory contains about fifty snippets on Unix/Linux system calls in C.
+- The [c/debian](), [python/debian]() and [java/debian]() directory contains some snippets on Debian packaging in C/C++, Python and Java.
 
 ### <a name="sec_sci"></a>Scientific programming libraries
 
