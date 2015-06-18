@@ -27,12 +27,13 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_lang"></a>Programming languages
 
-C/C++,
-Java,
-Python,
-Shell scripts,
-[Octave](http://www.gnu.org/software/octave/) (Matlab clone),
-Javascript
+- The [https://github.com/jeremiedecock/snippets/tree/master/python](python) directory contains hundreds of snippets on Python language and some Python libraries.
+- The [https://github.com/jeremiedecock/snippets/tree/master/cpp](cpp) directory contains hundreds of snippets on the C++ language and some C++ libraries.
+- The [https://github.com/jeremiedecock/snippets/tree/master/c](c) directory contains a hundred of snippets on the C language and some C libraries.
+- The [https://github.com/jeremiedecock/snippets/tree/master/octave](octave) directory contains dozens snippets on [Octave](http://www.gnu.org/software/octave/) (Matlab clone).
+- The [https://github.com/jeremiedecock/snippets/tree/master/java](java) directory contains some snippets on the Java language and some Java libraries.
+- The [https://github.com/jeremiedecock/snippets/tree/master/shell](shell) and [https://github.com/jeremiedecock/snippets/tree/master/commands](commands) directories contains some snippets on shell scripts (Bourne shell and Bash).
+<!-- - [](javascript) Javascript -->
 
 ### <a name="sec_unix"></a>Unix programming
 
