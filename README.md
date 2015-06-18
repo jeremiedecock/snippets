@@ -33,7 +33,6 @@ For more exhaustive information, see the following sections.
 - The [octave](https://github.com/jeremiedecock/snippets/tree/master/octave) directory contains dozens snippets on [Octave](http://www.gnu.org/software/octave/) (Matlab clone).
 - The [java](https://github.com/jeremiedecock/snippets/tree/master/java) directory contains some snippets on the Java language and some Java libraries.
 - The [shell](https://github.com/jeremiedecock/snippets/tree/master/shell) and [commands](https://github.com/jeremiedecock/snippets/tree/master/commands) directories contains some snippets on shell scripts (Bourne shell and Bash).
-<!-- - [](javascript) Javascript -->
 
 ### <a name="sec_unix"></a>Unix programming
 
