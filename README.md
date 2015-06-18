@@ -72,6 +72,7 @@ For more exhaustive information, see the following sections.
 - The [make/c](https://github.com/jeremiedecock/snippets/tree/master/c/hello) and [make/cpp](https://github.com/jeremiedecock/snippets/tree/master/cpp/hello) directories contain some snippets on [Gnu Make](http://www.gnu.org/software/make/), the famous multi-language build system.
 - The [cmake](https://github.com/jeremiedecock/snippets/tree/master/cmake) directory contains some snippets on [CMake](http://www.cmake.org/), the powerful cross-platform build system.
 - The [java/hello_ant](https://github.com/jeremiedecock/snippets/tree/master/java/hello_ant) directory contains some snippets on [Ant](http://ant.apache.org/), the famous Java build system.
+- The [python/pdb](https://github.com/jeremiedecock/snippets/tree/master/python/pdb) directory contains some snippets on the [Python Debugger](https://docs.python.org/3/library/pdb.html).
 
 ### <a name="sec_web"></a>XML and web development
 
