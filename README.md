@@ -65,7 +65,7 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_api"></a>General API
 
-- The [cpp/boost](https://github.com/jeremiedecock/snippets/tree/master/cpp/boost) directory contains some snippets on the [Boost](http://www.boost.org/) C++ libraries (Boost::chrono, Boost::datetime, Boost::graph, Boost::program_options, Boost::python, Boost::random, ...).
+- The [cpp/boost](https://github.com/jeremiedecock/snippets/tree/master/cpp/boost) directory contains some snippets on the [Boost](http://www.boost.org/) C++ libraries ([Boost.Chrono](http://www.boost.org/doc/libs/1_58_0/doc/html/chrono.html), [Boost.Date_Time](http://www.boost.org/doc/libs/1_58_0/doc/html/date_time.html), [Boost.Graph](http://www.boost.org/doc/libs/1_58_0/libs/graph/doc/index.html), [Boost.Program_options](http://www.boost.org/doc/libs/1_58_0/doc/html/program_options.html), [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/index.html), [Boost.Random](http://www.boost.org/doc/libs/1_58_0/doc/html/boost_random.html), ...).
 
 ### <a name="sec_tools"></a>Programming tools
 
