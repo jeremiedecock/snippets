@@ -33,10 +33,10 @@ def main():
     # - cv.IMREAD_GRAYSCALE loads image in grayscale mode
     # - cv.IMREAD_UNCHANGED loads image as such including alpha channel
     imread_flags = cv.IMREAD_UNCHANGED
-    img = cv.imread(infile_str, imread_flags)
+    img_np = cv.imread(infile_str, imread_flags)
 
     window_name = 'display_image_snippet'
-    cv.imshow(window_name, img)            # Display the image "img" in a window
+    cv.imshow(window_name, img_np)         # Display the image "img_np" in a window
 
     print("Press any key to quit.")
     wait_time_ms = 0                       # The time to wait for a keyboard event (0 = wait indefinitely)
