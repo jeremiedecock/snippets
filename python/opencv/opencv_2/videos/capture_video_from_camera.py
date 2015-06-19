@@ -20,7 +20,7 @@ def main():
     device_number = 0
     video_capture = cv.VideoCapture(device_number)
 
-    print("Press Q to quit.")
+    print("Press q to quit.")
 
     while(True):
         # Capture frame-by-frame.

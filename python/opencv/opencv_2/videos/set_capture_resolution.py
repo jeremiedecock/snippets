@@ -34,7 +34,7 @@ def main():
     print("New frame resolution:", width, "x", height)
     #######################################################
 
-    print("Press Q to quit.")
+    print("Press q to quit.")
 
     while(True):
         # Capture frame-by-frame.

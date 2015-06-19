@@ -33,7 +33,7 @@ def main():
     #framerate = 25
     framerate = video_capture.get(cv.cv.CV_CAP_PROP_FPS)
 
-    print("Press Q to quit.")
+    print("Press q to quit.")
 
     while(True):
         # Capture frame-by-frame.

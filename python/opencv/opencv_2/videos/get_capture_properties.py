@@ -63,7 +63,7 @@ def main():
     #######################################################
 
     print()
-    print("Press Q to quit.")
+    print("Press q to quit.")
 
     while(True):
         # Capture frame-by-frame.
