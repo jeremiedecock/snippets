@@ -58,9 +58,9 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_img"></a>Image processing programming libraries
 
+- The [python/opencv](https://github.com/jeremiedecock/snippets/tree/master/python/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for Python.
 - The [c/opencv](https://github.com/jeremiedecock/snippets/tree/master/c/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C programming language.
 - The [cpp/opencv](https://github.com/jeremiedecock/snippets/tree/master/cpp/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C++ programming language.
-- The [python/opencv](https://github.com/jeremiedecock/snippets/tree/master/python/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for Python.
 - The [python/pil](https://github.com/jeremiedecock/snippets/tree/master/python/pil) directory contains some snippets on the [PIL](http://www.pythonware.com/products/pil/) and [Pillow](https://python-pillow.github.io/) Python imaging libraries.
 
 ### <a name="sec_api"></a>General API
