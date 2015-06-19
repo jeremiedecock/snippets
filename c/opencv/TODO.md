@@ -1,5 +1,7 @@
+# TODO
 
-SNIPPETS:
+## Snippets
+
 - RGB to Gray
 - cvPyrDown
 - cannyedge
@@ -8,7 +10,8 @@ SNIPPETS:
 - draw shapes (points, lines, circles, ...) and text (chapter 3)
 
 
-PROJECTS:
+## Projects
+
 - OpenCV on RPI with video module (convert raw frames to OpenCV Images) (chapter 3) + make benchmark to get speedup with USB camera
 - Babyphone: transmit video over network (with boost.asio) (few fps are enough)
              sum N successive images when there is not enough light
