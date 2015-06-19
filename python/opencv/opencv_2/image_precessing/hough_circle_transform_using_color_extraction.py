@@ -10,6 +10,12 @@ Required: opencv library (Debian: aptitude install python-opencv)
 
 See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html#hough-circles
      https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html#object-tracking
+
+     http://txt.arboreus.com/2014/10/21/remove-circles-from-an-image-in-python.html
+     http://wiki.elphel.com/index.php?title=OpenCV_Tennis_balls_recognizing_tutorial
+     http://stackoverflow.com/questions/28521783/python-opencv-houghcircles-not-giving-good-results
+     http://computer-vision-talks.com/articles/how-to-detect-circles-in-noisy-image/
+     http://www.pyimagesearch.com/2014/07/21/detecting-circles-images-using-opencv-hough-circles/
 """
 
 from __future__ import print_function
@@ -48,7 +54,7 @@ def main():
 #   tools like GIMP or any online converters to find these values, but don’t
 #   forget to adjust the HSV ranges."
 
-    device_number = 0
+    device_number = 1
     video_capture = cv.VideoCapture(device_number)
 
     print("Press q to quit.")
@@ -73,7 +79,10 @@ def main():
         img_mask = cv.inRange(img_hsv, lower_blue, upper_blue)
 
         # Hough Circle Transform
-        circles = cv.HoughCircles(img_mask, cv.cv.CV_HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=0, maxRadius=0)
+        method = cv.cv.CV_HOUGH_GRADIENT
+        dp = 1.2
+        min_dist = 300
+        circles = cv.HoughCircles(img_mask, method, dp, min_dist, param1=50, param2=30, minRadius=0, maxRadius=0)
 
         # DRAW CIRCLES ####################################
 
