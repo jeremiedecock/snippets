@@ -42,7 +42,7 @@ For more exhaustive information, see the following sections.
 ### <a name="sec_sci"></a>Scientific programming libraries
 
 - The [c/gsl](https://github.com/jeremiedecock/snippets/tree/master/c/gsl) directory contains some snippets on the [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) and [BLAS](https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms) programming libraries.
-- The [c/glpk](), [science/glpk](https://github.com/jeremiedecock/snippets/tree/master/science/glpk) and [python/glpk]() directories contain some snippets on [GLPK (GNU Linear Programming Kit)](https://www.gnu.org/software/glpk/), a linear programming (LP) and mixed integer programming (MIP) solver.
+- The [c/glpk]() and [science/glpk](https://github.com/jeremiedecock/snippets/tree/master/science/glpk) directories contain some snippets on [GLPK (GNU Linear Programming Kit)](https://www.gnu.org/software/glpk/), a linear programming (LP) and mixed integer programming (MIP) solver.
 - The [cpp/eigen](https://github.com/jeremiedecock/snippets/tree/master/cpp/eigen) directory contains some snippets on the [Eigen](http://eigen.tuxfamily.org) C++ template library for linear algebra.
 - The [python/numpy](https://github.com/jeremiedecock/snippets/tree/master/python/numpy) directory contains some snippets on [Numpy](http://www.numpy.org/), a powerful Python library for linear algebra.
 - The [python/matplotlib](https://github.com/jeremiedecock/snippets/tree/master/python/matplotlib) directory contains some snippets on the [Matplotlib](http://matplotlib.org/) Python 2D plotting library.
