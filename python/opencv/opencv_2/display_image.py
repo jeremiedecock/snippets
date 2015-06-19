@@ -9,7 +9,6 @@ OpenCV - Display image: display an image given in arguments
 Required: opencv library (Debian: aptitude install python-opencv)
 
 See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_gui/py_image_display/py_image_display.html#display-an-image
-     Oreilly's book "Learning OpenCV" (first edition) p.17 (OpenCV for C)
 """
 
 from __future__ import print_function
