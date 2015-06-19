@@ -17,7 +17,7 @@ import cv2 as cv
 
 def main():
 
-    device_number = 1
+    device_number = 0
     video_capture = cv.VideoCapture(device_number)
 
     print("Press q to quit.")
