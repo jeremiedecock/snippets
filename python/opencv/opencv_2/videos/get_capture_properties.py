@@ -4,7 +4,7 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 """
-OpenCV - Read image: read an image given in arguments
+OpenCV - Capture video: capture videos from camera
 
 Required: opencv library (Debian: aptitude install python-opencv)
 
