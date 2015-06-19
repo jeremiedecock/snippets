@@ -48,7 +48,7 @@ For more exhaustive information, see the following sections.
 - The [python/matplotlib](https://github.com/jeremiedecock/snippets/tree/master/python/matplotlib) directory contains some snippets on the [Matplotlib](http://matplotlib.org/) Python 2D plotting library.
 - The [python/scipy](https://github.com/jeremiedecock/snippets/tree/master/python/scipy) directory contains some snippets on [Scipy](http://www.scipy.org/), a fundamental package for scientific computing with Python.
 - The [python/mayavi](https://github.com/jeremiedecock/snippets/tree/master/python/mayavi) directory contains some snippets on [Mayavi](http://code.enthought.com/projects/mayavi/), a 3D scientific data visualization and plotting library.
-- The [gnuplot]() directory contains some snippets on [Gnuplot](http://www.gnuplot.info/), a command-line driven graphing utility.
+- The [gnuplot](https://github.com/jeremiedecock/snippets/tree/master/gnuplot) directory contains about thirty snippets on [Gnuplot](http://www.gnuplot.info/), a command-line driven graphing utility.
 
 ### <a name="sec_hpc"></a>Parallel computing and high performance computing
 
