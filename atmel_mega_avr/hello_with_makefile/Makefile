@@ -11,6 +11,9 @@ FLASH = avrdude
 
 AVRGCC_MCU_ID = atmega328p
 
+# CPU clock = 1MHz
+F_CPU = 1000000UL
+
 #AVRDUDE_PROGRAMMER_ID = avrisp
 #AVRDUDE_PROGRAMMER_ID = avrispv2
 #AVRDUDE_PROGRAMMER_ID = usbtiny
@@ -39,7 +42,7 @@ all : $(TARGET)
 
 # COMPILE (MAKE .o OBJECT FILES)
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -mcall-prologues -mmcu=$(AVRGCC_MCU_ID) -o $@ -c $<
+	$(CC) $(CFLAGS) -Os -mcall-prologues -mmcu=$(AVRGCC_MCU_ID) -DF_CPU=$(F_CPU) -o $@ -c $<
 
 # LINK (MAKE THE ELF BINARY FILE)
 $(NAME).elf : $(OBJS)

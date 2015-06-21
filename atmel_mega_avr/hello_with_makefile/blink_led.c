@@ -1,8 +1,3 @@
-// TODO: ?????
-#define F_CPU 1000000UL
-// TODO: ?????
-//#define F_CPU 8000000UL
-
 #include <avr/io.h>           /* Defines pins, ports, etc */
 #include <util/delay.h>       /* Functions to waste time */
 
