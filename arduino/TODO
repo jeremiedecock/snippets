@@ -1,9 +1,0 @@
-- slides aduino firmware + FTDI vs ISP programmer (+ snippets and commands for each of the following cases)
-
-- Arduino sketches (simplified language)
-- Install / remove firmware (add this in slides)
-- GCC/G++ + Arduino libraries with ISP programmer (with scritp/make/cmake)
-- GCC/G++ without Arduino libraries with ISP programmer (with scritp/make/cmake)
-- ASM with ISP programmer
-- GCC/G++ without Arduino libraries directly on AVR chip (ie. without Adruino hardware) with ISP programmer (with scritp/make/cmake)
-- ASM directly on AVR chip (ie. without Adruino hardware) with ISP programmer

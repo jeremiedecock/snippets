@@ -91,10 +91,8 @@ For more exhaustive information, see the following sections.
 
 ### <a name="sec_embedded"></a>Embedded Systems Programming
 
-- The [android](https://github.com/jeremiedecock/snippets/tree/master/android) directory contains some snippets on the [Android](http://www.android.com/) framework.
-- The [atmel_avr](https://github.com/jeremiedecock/snippets/tree/master/atmel_avr) directory contains some snippets on the [Atmel AVR micro-controller programming (in C)](http://www.atmel.com/products/microcontrollers/).
+- The [atmel_mega_avr](https://github.com/jeremiedecock/snippets/tree/master/atmel_mega_avr) directory contains some snippets on the [Atmel ATMega AVR micro-controller programming (in C)](http://www.atmel.com/products/microcontrollers/).
 - The [c/rpi]() and [python/rpi]() directories contain some snippets on the [Raspberry Pi GPIO libraries](http://www.raspberrypi.org/documentation/usage/gpio/) for the Raspberry Pi embedded platform (written in C and Python).
-- The [arduino](https://github.com/jeremiedecock/snippets/tree/master/arduino) directory contains some snippets on the [Arduino](http://www.arduino.cc/) embedded platform.
 
 ### <a name="sec_gui"></a>Graphical User Interface libraries
 
