@@ -3,15 +3,22 @@
 NAME = blink_led
 TARGET = $(NAME).hex
 
+# TOOLCHAIN SETUP #####################
+
 CC = avr-gcc
 OBJ2HEX = avr-objcopy 
 FLASH = avrdude
 
 # MCU SETUP ###########################
 
+# For a complete list of supported chips, type "avr-gcc --target-help" and
+# search the "Known MCU names" section.
 AVRGCC_MCU_ID = atmega328p
 
-# CPU clock = 1MHz
+# The clock speed of the MCU.
+# Without external clock source (cristal), this should be 1000000UL (1MHz) or
+# 8000000UL (8MHz) for ATMega MCUs.
+# The right value is required for UART serial communications, ...
 F_CPU = 1000000UL
 
 #AVRDUDE_PROGRAMMER_ID = avrisp
@@ -53,6 +60,11 @@ $(TARGET) : $(NAME).elf
 	$(OBJ2HEX) -j .text -j .data -O ihex $< $@
 
 # PROGRAM (FLASH) THE AVR MCU
+# -c the type of flash programmer that you are using.
+# -p the type of AVR chip that you are using.
+# -P the serial port the programmer is connected to.
+# -b the baud rate for serial programmers.
+# -U reads or writes to memory.
 flash : $(TARGET)
 	$(FLASH) -c $(AVRDUDE_PROGRAMMER_ID) -p $(AVRDUDE_MCU_ID) -P $(AVRDUDE_PORT) $(FLASH_OPTIONS) -e -U flash:w:$(TARGET)
 
