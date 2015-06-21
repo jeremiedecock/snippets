@@ -14,8 +14,8 @@ AVRDUDE_PROGRAMMER_ID=usbasp
 
 # WARNING: for m328, use m328p avrdude ID and edit signature in /etc/avrdude.conf 
 
-PROGRAM=no
-DEBUG=yes
+PROGRAM=yes
+DEBUG=no
 
 OPTION=
 
