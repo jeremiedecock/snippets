@@ -6,5 +6,6 @@
 *.raw
 *.ihex
 *.motorola
+*.lib
 MISC
 DOC/ext
