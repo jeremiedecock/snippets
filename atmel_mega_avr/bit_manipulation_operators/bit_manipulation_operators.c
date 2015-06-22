@@ -13,8 +13,8 @@
 
 void print_bin(char x) {
     printf("bin: "BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(x));
-    printf("hex: %#x\n", x);
-    printf("dec: %d\n", x);
+    //printf("hex: %#x\n", x);
+    //printf("dec: %d\n", x);
     printf("\n");
 }
 
@@ -64,16 +64,82 @@ int main(void) {
     printf("RIGHT SHIFT (2 BIT): x>>2\n");
     print_bin(x>>2);
 
-    /////////////////////////////////////////////
+    // SET A BIT ////////////////////////////////
 
-    //PORTB ^= (1<<DDB0);
-    printf("mask: 1<<2\n");
-    print_bin(1<<2);
+    int N, M;
 
-    //PORTB &= ~(1<<DDB0);
-    printf("mask: ~(1<<2)\n");
-    print_bin(~(1<<2));
+    printf("x:\n");
+    print_bin(x);
 
+    // SET THE Nth BIT OF x TO 1
+    N = 2;
+    printf("SET THE Nth BIT OF x TO 1 (WITH HERE N=2 IE THE THIRD BIT)\n");
+    printf("- LONG VERSION:  x  = x | (1<<N)\n");
+    printf("- SHORT VERSION: x |= (1<<N)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x | (1<<N));
+
+    // SET THE Nth BIT OF x TO 0
+    N = 3;
+    printf("SET THE Nth BIT OF x TO 0 (WITH HERE N=3 IE THE FOURTH BIT)\n");
+    printf("- LONG VERSION:  x  = x & ~(1<<N)\n");
+    printf("- SHORT VERSION: x &= ~(1<<N)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x & ~(1<<N));
+
+    // SET THE Nth AND THE Mth BIT OF x TO 1
+    N = 2;
+    M = 0;
+    printf("SET THE Nth AND THE Mth BIT OF x TO 1 (WITH HERE N=2 IE THE THIRD BIT AND M=0 IE THE FIRST BIT)\n");
+    printf("- LONG VERSION:  x  = x | ( (1<<N)|(1<<M) )\n");
+    printf("- SHORT VERSION: x |= (1<<N)|(1<<M)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x | ( (1<<N)|(1<<M) ));
+
+    // SET THE Nth AND THE Mth BIT OF x TO 0
+    N = 3;
+    M = 1;
+    printf("SET THE Nth AND THE Mth BIT OF x TO 0 (WITH HERE N=3 IE THE FOURTH BIT AND M=1 IE THE SECOND BIT)\n");
+    printf("- LONG VERSION:  x  = x & ~( (1<<N)|(1<<M) )\n");
+    printf("- SHORT VERSION: x &= ~( (1<<N)|(1<<M) )\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x & ~( (1<<N)|(1<<M) ));
+
+    // TEST A BIT ///////////////////////////////
+
+    printf("x:\n");
+    print_bin(x);
+
+    // TEST THE Nth BIT OF x
+    N = 2;
+    printf("TEST THE Nth BIT OF x (WITH HERE N=2 IE THE THIRD BIT)\n");
+    printf("res = x & (1<<N)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    if(x & (1<<N)) printf(">>> true\n");
+    else printf(">>> false\n");
+    printf("\n");
+
+    // TOGGLE A BIT /////////////////////////////
+
+    printf("x:\n");
+    print_bin(x);
+
+    // TEST THE Nth BIT OF x
+    N = 2;
+    printf("TOGGLE THE Nth BIT OF x (WITH HERE N=2 IE THE THIRD BIT)\n");
+    printf("- LONG VERSION:  x  = x ^ (1<<N)\n");
+    printf("- SHORT VERSION: x ^= (1<<N)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x ^ (1<<N));
+
+    // TEST THE Nth AND THE Mth BIT OF x
+    N = 2;
+    M = 1;
+    printf("TOGGLE THE Nth AND THE Mth BIT OF x (WITH HERE N=2 IE THE THIRD BIT AND M=1 IE THE SECOND BIT)\n");
+    printf("- LONG VERSION:  x  = x ^ ( (1<<N)|(1<<M) )\n");
+    printf("- SHORT VERSION: x ^= (1<<N)|(1<<M)\n");
+    printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
+    print_bin(x ^ ( (1<<N)|(1<<M) ));
 
     return 0;
 }
