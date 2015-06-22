@@ -146,7 +146,7 @@ int main(void) {
     printf("x:\n");
     print_bin(x);
 
-    // TEST THE Nth BIT OF x
+    // TOGGLE THE Nth BIT OF x
     N = 2;
     printf("TOGGLE THE Nth BIT OF x (WITH HERE N=2 IE THE THIRD BIT)\n");
     printf("- LONG VERSION:  x  = x ^ (1<<N)\n");
@@ -154,7 +154,7 @@ int main(void) {
     printf("USUALLY, x IS PORTB, PORTC or PORTD\n");
     print_bin(x ^ (1<<N));
 
-    // TEST THE Nth AND THE Mth BIT OF x
+    // TOGGLE THE Nth AND THE Mth BIT OF x
     N = 2;
     M = 1;
     printf("TOGGLE THE Nth AND THE Mth BIT OF x (WITH HERE N=2 IE THE THIRD BIT AND M=1 IE THE SECOND BIT)\n");
