@@ -30,14 +30,24 @@ void uart_init(void) {
 
 // TRANSMIT ONE BYTE FUNCTION /////////////////////////////////////////////////
 
-void uart_putchar(char c) {
+void uart_send_char(char c) {
     loop_until_bit_is_set(UCSR0A, UDRE0); // Wait until data register empty
     UDR0 = c;                             // Transmit data to UART by writing a byte to USART Data Register UDR0
 }
 
-// TRANSMIT ONE BYTE FUNCTION /////////////////////////////////////////////////
+// TRANSMIT A STRING FUNCTION /////////////////////////////////////////////////
 
-char uart_getchar(void) {
+void uart_send_string(const char str[]) {
+    uint8_t i = 0;
+    while(str[i] != '\0') {
+        uart_send_char(str[i]);
+        i++;
+    }
+}
+
+// READ ONE BYTE FUNCTION /////////////////////////////////////////////////////
+
+char uart_read_char(void) {
     loop_until_bit_is_set(UCSR0A, RXC0);  // Wait until data exists
     return UDR0;
 }

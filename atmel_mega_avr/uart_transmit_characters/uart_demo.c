@@ -13,17 +13,11 @@ int main(void) {
 
     uart_init();
 
-    DDRB = (1<<DDB5);         // DDRB is the Data Direction Register B: we set pin5 (DDB5) as an output
-                              // DDB5 is just a constant equals to 5 (DDB3=3, DDC3=3, DDD3=3, ...)
-
-    PORTB &= ~(1<<DDB5);      // Turn off pin 5 (DDB5)
-
     char c = '.';
 
     while(1) {
-        uart_putchar(c);      // Send a character to UART
+        uart_send_char(c);    // Send a character to UART
 
-        PORTB ^= (1<<DDB5);   // Toggle pin5 (DDB5) with the XOR operator
         _delay_ms(1000);      // Wait 1000ms
     }
 

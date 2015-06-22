@@ -21,10 +21,12 @@ int main(void) {
 
     PORTB &= ~(1<<DDB5);      // Turn off pin 5 (DDB5)
 
+    uart_send_string("Type 'i' to switch ON or 'o' to switch OFF the LED\r\n");
+
     char cmd;
 
     while(1) {
-        cmd = uart_getchar(); // Get a character from UART
+        cmd = uart_read_char(); // Get a character from UART
 
         if(cmd == switch_on_char) {
             PORTB |= (1<<DDB5);    // Switch ON pin5 (DDB5)

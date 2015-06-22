@@ -7,8 +7,10 @@
 
 void uart_init(void);
 
-void uart_putchar(char c);
+void uart_send_char(char c);
 
-char uart_getchar(void);
+void uart_send_string(const char str[]);
+
+char uart_read_char(void);
 
 #endif /* UART_UTIL_H */

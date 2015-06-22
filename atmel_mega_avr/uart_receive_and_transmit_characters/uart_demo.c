@@ -15,10 +15,10 @@ int main(void) {
     char c;
 
     while(1) {
-        c = uart_getchar();
+        c = uart_read_char();
 
-        uart_putchar('.');
-        uart_putchar(c);
+        uart_send_char('.');
+        uart_send_char(c);
     }
 
     return(0);
