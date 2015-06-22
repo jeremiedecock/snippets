@@ -1,5 +1,5 @@
-#include <avr/io.h>           /* Defines pins, ports, etc */
-#include <util/delay.h>       /* Functions to waste time */
+#include <avr/io.h>           // Defines pins, ports, etc.
+#include <util/delay.h>       // Functions to waste time
 
 #include "uart_util.h"
 
@@ -21,10 +21,11 @@ int main(void) {
     char c = '.';
 
     while(1) {
-        uart_putchar(c);
+        uart_putchar(c);      // Send a character to UART
+
         PORTB ^= (1<<DDB5);   // Toggle pin5 (DDB5) with the XOR operator
-        _delay_ms(1000);      // wait 1000ms
+        _delay_ms(1000);      // Wait 1000ms
     }
 
-    return(0);                // This line is never reached...
+    return(0);
 }
