@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Jérémie DECOCK <jd.jdhp@gmail.com> (www.jdhp.org)
+ */
+
 #include <avr/io.h>           // Defines pins, ports, etc.
 #include <util/delay.h>       // Functions to waste time
 
