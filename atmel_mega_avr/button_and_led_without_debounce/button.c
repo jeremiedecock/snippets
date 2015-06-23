@@ -12,10 +12,10 @@ int main(void) {
 
         if(PIND & (1<<DDD2)) {
             // PD2 = 1, the button is RELEASED
-            PORTB &= ~(1<<DDB5);  // Switch OFF pin5 (DDB5) with the XOR operator
+            PORTB &= ~(1<<DDB5);  // Switch OFF pin5 (DDB5)
         } else {
             // PD2 = 0, the button is PRESSED
-            PORTB |= (1<<DDB5);   // Switch ON pin5 (DDB5) with the XOR operator
+            PORTB |= (1<<DDB5);   // Switch ON pin5 (DDB5)
         }
 
     }
