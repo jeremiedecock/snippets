@@ -22,7 +22,9 @@ int main(void) {
     TCCR2B |= (1 << CS21);   // Setup PWM Freq = F_CPU/8/256
 
     // Output mode (setup PWM output on OCR2A)
-    TCCR2A |= (1 << COM2A1); // Clear OC2A (PB3) on compare match, set OC2A at BOTTOM
+    TCCR2A |= (1 << COM2A1); // Clear OC2A (PB3) on compare match, set OC2A at BOTTOM.
+                             // The PWM turns the pin ON when it overflows from 255 to 0,
+                             // and turn it OFF when it reaches the compare value (brightness).
 
 
     // EVENT LOOP ///////////////////////////////////////////////////
