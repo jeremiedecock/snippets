@@ -11,8 +11,9 @@ int main(void) {
     DDRB = (1<<DDB5);         // DDRB is the Data Direction Register B: we set pin5 (DDB5) as an output
     PORTB &= ~(1<<DDB5);      // Turn off pin 5 (DDB5)
     
+
     // INIT TIMER 1 (the one with the 16 bits counter) //////////////
-    // REM: TCNT0 (timer 0) and TCNT2 (timer 2) are 8 bits conters
+    // REM: TCNT0 (timer 0) and TCNT2 (timer 2) are 8 bits conters //
 
     // Normal mode (nothing to setup)
     
@@ -24,7 +25,8 @@ int main(void) {
     // Reset counter value
     TCNT1 = 0;
 
-    /////////////////////////////////////////////////////////////////
+
+    // EVENT LOOP ///////////////////////////////////////////////////
 
     uint16_t timer_value;
     
