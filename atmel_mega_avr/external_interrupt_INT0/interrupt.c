@@ -8,6 +8,7 @@
 
 // Interrupt Service Routine
 // Executed every time there is a change on button
+// ISR and INT0_vect are macros defined in avr/interrupt.h
 ISR(INT0_vect) {
     if(PIND & (1<<DDD2)) {
         // PD2 = 1, the button is RELEASED
@@ -30,7 +31,7 @@ int main(void) {
     
     // Init interrupt INT0
     EIMSK |= (1 << INT0);  // Enable INT0
-    EICRA |= (1 << ISC00); // Trigger when button changes
+    EICRA |= (1 << ISC00); // Trigger on any button state change : trigger on both the rising and falling voltage edges
     sei();                 // Set (global) interrupt enable bit
 
     while(1) {
