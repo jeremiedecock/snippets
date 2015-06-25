@@ -68,16 +68,16 @@ import RPi.GPIO as gpio
 import time
 
 led_pin = 18
-sleep_time = 0.05
+sleep_time = 0.01
 
 # "Tower Pro DG92R Micro Servo" (cf. www.adafruit.com/product/169):
 # - position 0°: 1.5 ms pulse
 # - position +90° (max angle): 2 ms pulse
 # - position -90° (min angle): 1 ms pulse
-frequency = 500              # Frequency = 500Hz (2ms)
-min_duty_cycle = 50          # 1ms (-90°)
-max_duty_cycle = 100         # 2ms (+90°)
-initial_duty_cycle = 75      # 1.5ms (0°)
+frequency = 100              # Frequency = 100Hz (10ms)
+min_duty_cycle = 10          # 1ms (-90°)
+max_duty_cycle = 20          # 2ms (+90°)
+initial_duty_cycle = 15      # 1.5ms (0°)
 
 def main():
     """Main function"""
@@ -99,9 +99,9 @@ def main():
     direction = 1
 
     while True:
-        if duty_cycle == min_duty_cycle:
+        if duty_cycle <= min_duty_cycle:
             direction = 1
-        elif duty_cycle == max_duty_cycle:
+        elif duty_cycle >= max_duty_cycle:
             direction = -1
 
         duty_cycle += direction
