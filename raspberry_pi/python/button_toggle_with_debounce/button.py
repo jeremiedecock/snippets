@@ -72,7 +72,7 @@ import time
 
 btn_pin = 22
 
-debounce_time = 0.2
+debounce_time = 0.005   # 5ms
 
 def button_is_pressed():
     if gpio.input(btn_pin) == 0:          # Button is pressed
