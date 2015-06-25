@@ -88,8 +88,8 @@ def main():
     while True:
         input_state = gpio.input(btn_pin) # 0 = button PRESSED ; 1 = button RELEASED
 
-        if previous_input_state != input_state and input_state == 1:
-            # Input state has changed and the button is released
+        if previous_input_state != input_state and input_state == 0:
+            # Input state has changed and the button is pressed
             counter += 1                  # Update our "state"
             print(counter)
 
