@@ -71,6 +71,7 @@ import RPi.GPIO as gpio
 import time
 
 import signal
+import sys
 
 led_pin = 17
 
@@ -79,6 +80,7 @@ def sigint_handler(signal, frame):
     """Exit properly"""
     gpio.output(led_pin, False)
     print("Bye")
+    sys.exit(0)
 
 
 def main():
