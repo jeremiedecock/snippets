@@ -60,7 +60,7 @@
 
 # Warning: you should execute this script as "root" to get the right to handle GPIO pins.
 
-# Inspired by "Recipe 11.2" of the "Raspberry Pi Cookbook" by Simon Monk (ed. Oreilly)
+# Inspired by "Recipe 11.5" of the "Raspberry Pi Cookbook" by Simon Monk (ed. Oreilly)
 
 # Read a button state on GPIO pin 22.
 #
