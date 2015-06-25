@@ -82,16 +82,16 @@ def main():
     # Setup pin 22 as input (in pull-up mode)
     gpio.setup(btn_pin, gpio.IN, pull_up_down=gpio.PUD_UP)
 
-    state = False                         # Our virtual "state" (ON/OFF)
+    counter = 0                           # Our virtual "state"
     previous_input_state = 1              # Button released (pull-up mode)
 
     while True:
         input_state = gpio.input(btn_pin) # 0 = button PRESSED ; 1 = button RELEASED
 
         if previous_input_state != input_state and input_state == 1:
-            # Input state has changed
-            state = not state             # Toggle our "state"
-            print(state)
+            # Input state has changed and the button is released
+            counter += 1                  # Update our "state"
+            print(counter)
 
         previous_input_state = input_state
 
