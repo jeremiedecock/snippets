@@ -70,17 +70,24 @@
 import RPi.GPIO as gpio
 import time
 
+led_pin = 17
+
 def main():
     """Main function"""
     
-    gpio.setmode(gpio.BCM)   # Referring to the pins by the "Broadcom SOC channel" number.
-    gpio.setup(17, gpio.OUT)
+    # gpio.setmode: set up numbering mode to use for channels.
+    # - gpio.BOARD = use Raspberry Pi board numbers.
+    # - gpio.BCM = use  Broadcom GPIO 00..nn numbers.
+    gpio.setmode(gpio.BCM)
+
+    gpio.setup(led_pin, gpio.OUT)
 
     while True:
-        gpio.output(17, True)
-        time.sleep(1)
-        gpio.output(17, False)
-        time.sleep(1)
+        gpio.output(led_pin, True)
+        time.sleep(1)   # Wait 1 second
+
+        gpio.output(led_pin, False)
+        time.sleep(1)   # Wait 1 second
 
 if __name__ == '__main__':
     main()
