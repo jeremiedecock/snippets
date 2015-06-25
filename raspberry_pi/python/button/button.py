@@ -84,7 +84,7 @@ def main():
     gpio.setup(btn_pin, gpio.IN, pull_up_down=gpio.PUD_UP)
 
     while True:
-        input_state = gpio.input(btn_pin)
+        input_state = gpio.input(btn_pin) # 0 = button PRESSED ; 1 = button RELEASED
 
         print(input_state)
 
