@@ -75,9 +75,12 @@ def main():
     
     gpio.setmode(gpio.BCM)   # Referring to the pins by the "Broadcom SOC channel" number.
     gpio.setup(17, gpio.OUT)
-    gpio.output(17, True)
-    time.sleep(1)
-    gpio.output(17, False)
+
+    while True:
+        gpio.output(17, True)
+        time.sleep(1)
+        gpio.output(17, False)
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
