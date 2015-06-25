@@ -88,7 +88,7 @@ def main():
     while True:
         input_state = gpio.input(btn_pin) # 0 = button PRESSED ; 1 = button RELEASED
 
-        if previous_input_state != input_state:
+        if previous_input_state != input_state and input_state == 1:
             # Input state has changed
             state = not state             # Toggle our "state"
             print(state)
