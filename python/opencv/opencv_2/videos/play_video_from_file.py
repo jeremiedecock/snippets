@@ -18,7 +18,7 @@ import argparse
 
 def main():
 
-    # Parse the programm options (get the path of the image file to read)
+    # Parse the programm options (get the path of the image file to read) #####
 
     parser = argparse.ArgumentParser(description='An opencv snippet.')
     parser.add_argument("--infile", "-i",  help="The video file to play", required=True, metavar="FILE")
@@ -26,7 +26,7 @@ def main():
 
     infile_str = args.infile
 
-    # OpenCV
+    # OpenCV ##################################################################
 
     video_capture = cv.VideoCapture(infile_str)
 

@@ -14,10 +14,20 @@ See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_gu
 from __future__ import print_function
 
 import cv2 as cv
+import argparse
 
 def main():
 
-    device_number = 0
+    # Parse the programm options (get the path of the image file to read) #####
+
+    parser = argparse.ArgumentParser(description='An opencv snippet.')
+    parser.add_argument("--cameraid", "-i",  help="The camera ID number (default: 0)", type=int, default=0, metavar="INTEGER")
+    args = parser.parse_args()
+
+    device_number = args.cameraid
+
+    # OpenCV ##################################################################
+
     video_capture = cv.VideoCapture(device_number)
 
     print("Press q to quit.")
