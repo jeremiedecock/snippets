@@ -9,6 +9,7 @@ OpenCV - Hough Circle Transform: find circles in an image.
 Required: opencv library (Debian: aptitude install python-opencv)
 
 See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html#hough-circles
+     Oreilly's book "Learning OpenCV" (first edition) p.158 for details about Hough transforms.
 """
 
 from __future__ import print_function
@@ -50,7 +51,7 @@ def main():
         img_gray = cv.cvtColor(img_bgr, cv.COLOR_BGR2GRAY)
 
         # Hough Circle Transform
-        # See Oreilly's book "Learning OpenCV" (first edition) p.158 for details Hough transforms.
+        # See Oreilly's book "Learning OpenCV" (first edition) p.158 for details about Hough transforms.
         # - method : the only method available is CV_HOUGH_GRADIENT so...
         # - dp : the resolution of the accumumator image used (allow to create
         #   an accumulator of a lower resolution than the input image). It must

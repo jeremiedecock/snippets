@@ -10,6 +10,7 @@ Required: opencv library (Debian: aptitude install python-opencv)
 
 See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html#hough-circles
      https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html#object-tracking
+     Oreilly's book "Learning OpenCV" (first edition) p.158 for details about Hough transforms.
 
      http://txt.arboreus.com/2014/10/21/remove-circles-from-an-image-in-python.html
      http://wiki.elphel.com/index.php?title=OpenCV_Tennis_balls_recognizing_tutorial
@@ -89,7 +90,7 @@ def main():
         img_mask = cv.inRange(img_hsv, lower_blue, upper_blue)
 
         # Hough Circle Transform
-        # See Oreilly's book "Learning OpenCV" (first edition) p.158 for details Hough transforms.
+        # See Oreilly's book "Learning OpenCV" (first edition) p.158 for details about Hough transforms.
         # - method : the only method available is CV_HOUGH_GRADIENT so...
         # - dp : the resolution of the accumumator image used (allow to create
         #   an accumulator of a lower resolution than the input image). It must
