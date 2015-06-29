@@ -22,8 +22,19 @@ from __future__ import print_function
 
 import cv2 as cv
 import numpy as np
+import argparse
 
 def main():
+
+    # Parse the programm options (get the path of the image file to read) #####
+
+    parser = argparse.ArgumentParser(description='An opencv snippet.')
+    parser.add_argument("--cameraid", "-i",  help="The camera ID number (default: 0)", type=int, default=0, metavar="INTEGER")
+    args = parser.parse_args()
+
+    device_number = args.cameraid
+
+    # OpenCV ##################################################################
 
 # As said in https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html:
 #
@@ -54,7 +65,6 @@ def main():
 #   tools like GIMP or any online converters to find these values, but don’t
 #   forget to adjust the HSV ranges."
 
-    device_number = 1
     video_capture = cv.VideoCapture(device_number)
 
     print("Press q to quit.")
@@ -79,10 +89,32 @@ def main():
         img_mask = cv.inRange(img_hsv, lower_blue, upper_blue)
 
         # Hough Circle Transform
-        method = cv.cv.CV_HOUGH_GRADIENT
-        dp = 1.2
-        min_dist = 300
-        circles = cv.HoughCircles(img_mask, method, dp, min_dist, param1=50, param2=30, minRadius=0, maxRadius=0)
+        # See Oreilly's book "Learning OpenCV" (first edition) p.158 for details Hough transforms.
+        # - method : the only method available is CV_HOUGH_GRADIENT so...
+        # - dp : the resolution of the accumumator image used (allow to create
+        #   an accumulator of a lower resolution than the input image). It must
+        #   be greater or equal to 1. A value of "1" keep the original size; a
+        #   value of "2" divide the resolution by 2, ...
+        # - min_dist : the minimum distance between 2 circles (distances in
+        #   pixels). Should be proportional to the image size (img_bgr.shape[0]
+        #   and img_bgr.shape[1]).
+        # - param1 : the edge (Canny) threshold.
+        # - param2 : the accumulator threshold.
+        # - minRadius : the minimum radius of circles that can be found (radius
+        #   in pixels). Should be proportional to the image size
+        #   (img_bgr.shape[0] and img_bgr.shape[1]).
+        # - maxRadius : the maximum radius of circles that can be found (radius
+        #   in pixels). Should be proportional to the image size
+        #   (img_bgr.shape[0] and img_bgr.shape[1]).
+        method = cv.cv.CV_HOUGH_GRADIENT  # The only method available is CV_HOUGH_GRADIENT
+        dp = 1.2                          # The resolution of the accumumator.
+        min_dist = max(img_bgr.shape[0], img_bgr.shape[1])   # The minimum distance between 2 circles.
+        canny_edge_threshold = 50
+        accumulator_threshold = 30
+        min_radius = 0
+        max_radius = 0
+        #circles = cv.HoughCircles(img_mask, method, dp, min_dist)
+        circles = cv.HoughCircles(img_mask, method, dp, min_dist, param1=canny_edge_threshold, param2=accumulator_threshold, minRadius=min_radius, maxRadius=max_radius)
 
         # DRAW CIRCLES ####################################
 
