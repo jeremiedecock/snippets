@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -26,7 +26,7 @@
 
 # See also 'display_gif_images_with_pil.py'
 
-import Tkinter as tk
+import tkinter as tk
 import Image
 import ImageTk
 

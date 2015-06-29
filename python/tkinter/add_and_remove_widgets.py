@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import Tkinter as tk
+import tkinter as tk
 
 label_stack = []
 
@@ -38,7 +38,7 @@ def del_label():
         label.pack_forget()
         label.destroy()
     except:
-        print "Empty stack."
+        print("Empty stack.")
 
 root = tk.Tk()
 

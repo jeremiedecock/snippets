@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -21,13 +21,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import Tkinter as tk
+import tkinter as tk
 import tkFileDialog
 
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
     fd = tkFileDialog.askopenfile()
-    print fd.read()
+    print(fd.read())
     fd.close()
 
 root = tk.Tk()
