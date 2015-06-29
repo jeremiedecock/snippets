@@ -50,7 +50,7 @@ def main():
     # - metavar: A name for the argument in usage messages.
     # - dest: The name of the attribute to be added to the object returned by parse_args().
     parser.add_argument("--stropt", "-s",  help="an example of str option", required=True, metavar="STRING")
-    parser.add_argument("--intopt", "-i",  help="an example of int option", metavar="INTEGER", type=int)
+    parser.add_argument("--intopt", "-i",  help="an example of int option (default: 3)", type=int, default=3, metavar="INTEGER")
     parser.add_argument("--boolopt", "-b", help="an example of flag (boolean option)", action="store_true")
     parser.add_argument("fileargs", nargs="*", type=file, metavar="FILE", help="an example of file arguments")
 
