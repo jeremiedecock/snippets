@@ -21,18 +21,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See: http://effbot.org/tkinterbook/scale.htm
+
 import tkinter as tk
 
 def scale_cb(ev=None):
     print(scale.get())
 
-root = tk.Tk()
+def main():
+    root = tk.Tk()
 
-root.geometry("500x75")
+    root.geometry("500x75")   # Set the size of the "root" window
 
-#scale = tk.Scale(root, from_=0, to=255)
-scale = tk.Scale(root, from_=0, to=255, orient=tk.HORIZONTAL, command=scale_cb)
-scale.pack(fill=tk.X, expand=1)
+    #scale = tk.Scale(root, from_=0, to=255)
+    scale = tk.Scale(root, from_=0, to=255, orient=tk.HORIZONTAL, command=scale_cb)
+    scale.pack(fill=tk.X, expand=1)
 
-root.mainloop()
+    root.mainloop()
 
+if __name__ == '__main__':
+    main()
