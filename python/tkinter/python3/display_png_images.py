@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2012,2015 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import Tkinter as tk
-import ScrolledText as stext
+# See also 'display_gif_images_with_pil.py'
+
+import tkinter as tk
 
 def main():
     """Main function"""
 
     root = tk.Tk()
 
-    scrolled_text = stext.ScrolledText(root, width=80, height=5)
-    scrolled_text.pack()
+    img = tk.PhotoImage(file="test.png")
+
+    label = tk.Label(root, image=img)
+    label.pack()
 
     root.mainloop()
 
