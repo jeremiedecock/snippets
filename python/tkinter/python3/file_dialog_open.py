@@ -22,11 +22,11 @@
 # THE SOFTWARE.
 
 import tkinter as tk
-import tkFileDialog
+import tkinter.filedialog
 
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tkFileDialog.askopenfile()
+    fd = tk.filedialog.askopenfile()
     print(fd.read())
     fd.close()
 

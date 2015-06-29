@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 import tkinter as tk
-import tkFileDialog
+import tkinter.filedialog
 
 def print_file():
     fd = open(entry.get(), "r")
@@ -31,7 +31,7 @@ def print_file():
 
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tkFileDialog.askopenfile()
+    fd = tk.filedialog.askopenfile()
     if fd is not None:
         entry.delete(0, tk.END)
         entry.insert(0, fd.name)
