@@ -15,8 +15,19 @@ from __future__ import print_function
 
 import cv2 as cv
 import numpy as np
+import argparse
 
 def main():
+
+    # Parse the programm options (get the path of the image file to read) #####
+
+    parser = argparse.ArgumentParser(description='An opencv snippet.')
+    parser.add_argument("--cameraid", "-i",  help="The camera ID number (default: 0)", type=int, default=0, metavar="INTEGER")
+    args = parser.parse_args()
+
+    device_number = args.cameraid
+
+    # OpenCV ##################################################################
 
 # As said in https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html:
 #
@@ -47,7 +58,6 @@ def main():
 #   tools like GIMP or any online converters to find these values, but don’t
 #   forget to adjust the HSV ranges."
 
-    device_number = 0
     video_capture = cv.VideoCapture(device_number)
 
     print("Press q to quit.")
