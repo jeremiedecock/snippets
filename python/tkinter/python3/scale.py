@@ -25,17 +25,22 @@
 
 import tkinter as tk
 
-def scale_cb(ev=None):
-    print(scale.get())
-
 def main():
     root = tk.Tk()
-
     root.geometry("500x75")   # Set the size of the "root" window
 
+    ###
+
+    def scale_cb(ev=None):
+        print(scale.get())    # Get the scale value (integer or float)
+
     #scale = tk.Scale(root, from_=0, to=255)
-    scale = tk.Scale(root, from_=0, to=255, orient=tk.HORIZONTAL, command=scale_cb)
+    scale = tk.Scale(root, from_=0, to=255, orient=tk.HORIZONTAL, command=scale_cb)  # Arguments "orient" and "command" are optional
     scale.pack(fill=tk.X, expand=1)
+
+    scale.set(127)            # Set the scale value
+
+    ###
 
     root.mainloop()
 
