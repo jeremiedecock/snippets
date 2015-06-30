@@ -72,7 +72,7 @@ def main():
         dp = 1                            # The resolution of the accumumator.
         min_dist = 20                     # The minimum distance between 2 circles (in pixels).
         canny_edge_threshold = 50
-        accumulator_threshold = 30
+        accumulator_threshold = 40
         min_radius = 0
         max_radius = 0
         #circles = cv.HoughCircles(img_gray, method, dp, min_dist)
@@ -82,12 +82,22 @@ def main():
 
         if circles is not None:
             circles = np.uint16(np.around(circles))
-            for i in circles[0,:]:
+            for circle_i in circles[0,:]:
                 # draw the outer circle
-                cv.circle(img_bgr,(i[0],i[1]),i[2],(0,255,0),2)
+                center_point = (circle_i[0], circle_i[1])
+                radius = circle_i[2]
+                color = (0, 255, 0)
+                thickness = 2
+                line_type = cv.CV_AA  # Anti-Aliased
+                cv.circle(img_bgr, center_point, radius, color, thickness, line_type)
 
                 # draw the center of the circle
-                cv.circle(img_bgr,(i[0],i[1]),2,(0,0,255),3)
+                center_point = (circle_i[0], circle_i[1])
+                radius = 2
+                color = (0, 0, 255)
+                thickness = 3
+                line_type = cv.CV_AA  # Anti-Aliased
+                cv.circle(img_bgr, center_point, radius, color, thickness, line_type)
 
         # DISPLAY IMAGES ##################################
 
