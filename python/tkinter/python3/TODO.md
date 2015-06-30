@@ -2,12 +2,12 @@
 
 - [x] Label
 - [x] Button
-- [ ] Frame
+- [x] Frame
 - [ ] Message
 - [x] Entry
 - [ ] Checkbutton
 - [ ] Radiobutton
-- [ ] Scale
+- [x] Scale
 - [x] PhotoImage
 - [ ] BitmapImage
 - [ ] Menu
