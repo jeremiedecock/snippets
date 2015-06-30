@@ -25,6 +25,20 @@ import cv2 as cv
 import numpy as np
 import argparse
 
+LOWER_COLOR_H = 105
+LOWER_COLOR_S = 135
+LOWER_COLOR_V = 68
+                    
+UPPER_COLOR_H = 120
+UPPER_COLOR_S = 220
+UPPER_COLOR_V = 180
+
+HCT_ACCUMULATOR_RESOLUTION = 1.2
+HCT_CANNY_EDGE_THRESHOLD = 50
+HCT_ACCUMULATOR_THRESHOLD = 10
+HCT_MIN_RADIUS = 0
+HCT_MAX_RADIUS = 0
+
 def main():
 
     # Parse the programm options (get the path of the image file to read) #####
@@ -83,8 +97,8 @@ def main():
         img_hsv = cv.cvtColor(img_bgr, cv.COLOR_BGR2HSV)
 
         # Define range of blue color in HSV
-        lower_blue = np.array([110, 50, 50])
-        upper_blue = np.array([130, 255, 255])
+        lower_blue = np.array([LOWER_COLOR_H, LOWER_COLOR_S, LOWER_COLOR_V])
+        upper_blue = np.array([UPPER_COLOR_H, UPPER_COLOR_S, UPPER_COLOR_V])
 
         # Threshold the HSV image to get only blue colors
         img_mask = cv.inRange(img_hsv, lower_blue, upper_blue)
@@ -108,12 +122,12 @@ def main():
         #   in pixels). Should be proportional to the image size
         #   (img_bgr.shape[0] and img_bgr.shape[1]).
         method = cv.cv.CV_HOUGH_GRADIENT  # The only method available is CV_HOUGH_GRADIENT
-        dp = 1.2                          # The resolution of the accumumator.
+        dp = HCT_ACCUMULATOR_RESOLUTION   # The resolution of the accumumator.
         min_dist = max(img_bgr.shape[0], img_bgr.shape[1])   # The minimum distance between 2 circles.
-        canny_edge_threshold = 50
-        accumulator_threshold = 30
-        min_radius = 0
-        max_radius = 0
+        canny_edge_threshold = HCT_CANNY_EDGE_THRESHOLD
+        accumulator_threshold = HCT_ACCUMULATOR_THRESHOLD
+        min_radius = HCT_MIN_RADIUS
+        max_radius = HCT_MAX_RADIUS
         #circles = cv.HoughCircles(img_mask, method, dp, min_dist)
         circles = cv.HoughCircles(img_mask, method, dp, min_dist, param1=canny_edge_threshold, param2=accumulator_threshold, minRadius=min_radius, maxRadius=max_radius)
 
@@ -123,10 +137,10 @@ def main():
             circles = np.uint16(np.around(circles))
             for i in circles[0,:]:
                 # draw the outer circle
-                cv.circle(img_bgr,(i[0],i[1]),i[2],(0,255,0),2)
+                cv.circle(img_bgr, (i[0], i[1]), i[2], (0,255,0), 2)
 
                 # draw the center of the circle
-                cv.circle(img_bgr,(i[0],i[1]),2,(0,0,255),3)
+                cv.circle(img_bgr, (i[0], i[1]), 2, (0,0,255), 3)
 
         # DISPLAY IMAGES ##################################
 
