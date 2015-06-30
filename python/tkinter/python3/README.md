@@ -2,7 +2,8 @@
 
 ## Documentation
 
-http://effbot.org/tkinterbook/
+- http://effbot.org/tkinterbook/
+- https://wiki.python.org/moin/TkInter
 
 ## Widget list
 
