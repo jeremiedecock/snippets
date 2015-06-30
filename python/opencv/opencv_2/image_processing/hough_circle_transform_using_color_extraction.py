@@ -93,8 +93,10 @@ def main():
 
         # IMAGE PROCESSING ################################
 
+        img_blur = cv.GaussianBlur(img_bgr, (5,5), 0)
+
         # Convert BGR color space to HSV
-        img_hsv = cv.cvtColor(img_bgr, cv.COLOR_BGR2HSV)
+        img_hsv = cv.cvtColor(img_blur, cv.COLOR_BGR2HSV)
 
         # Define range of blue color in HSV
         lower_blue = np.array([LOWER_COLOR_H, LOWER_COLOR_S, LOWER_COLOR_V])
