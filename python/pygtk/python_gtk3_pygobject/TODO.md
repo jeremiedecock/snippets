@@ -9,6 +9,12 @@ LC_ALL=C glade
 ## Widgets
 
 - [ ] CellRenders
+    - [x] CellRendererText
+    - [x] CellRendererToggle
+    - [ ] CellRendererPixbuf
+    - [x] CellRendererCombo
+    - [ ] CellRendererProgress
+    - [ ] CellRendererSpin
 - [x] SearchEntry
 - [ ] TreeView
     - [x] Selection
