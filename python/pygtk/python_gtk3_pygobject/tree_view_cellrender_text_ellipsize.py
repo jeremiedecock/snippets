@@ -6,23 +6,23 @@
 """
 This is a simple Python GTK+3 TreeView CellRenderText snippet.
 
-See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/treeview.html
+See: http://python-gtk-3-tutorial.readthedocs.org/en/latest/cellrenderers.html#cellrenderertext
 """
 
 from gi.repository import Gtk as gtk
 from gi.repository import Pango as pango
 
 # Countries, population (as in 2015) and continent.
-DATA_LIST = [("China", 1370130000, "Asia"),
-             ("India", 1271980000, "Asia"),
-             ("United States", 321107000, "North America"),
-             ("Indonesia", 255461700, "Asia"),
-             ("Brazil", 204388000, "South America"),
-             ("Pakistan", 189936000, "Asia"),
-             ("Nigeria", 183523000, "Africa"),
-             ("Bangladesh", 158425000, "Asia"),
-             ("Russia", 146267288, "Eurasia"),
-             ("Japan", 126880000, "Asia")]
+DATA_LIST = [("China",         1370130000, "Asia"),
+             ("India",         1271980000, "Asia"),
+             ("United States", 321107000,  "North America"),
+             ("Indonesia",     255461700,  "Asia"),
+             ("Brazil",        204388000,  "South America"),
+             ("Pakistan",      189936000,  "Asia"),
+             ("Nigeria",       183523000,  "Africa"),
+             ("Bangladesh",    158425000,  "Asia"),
+             ("Russia",        146267288,  "Eurasia"),
+             ("Japan",         126880000,  "Asia")]
 
 def main():
     window = gtk.Window()
