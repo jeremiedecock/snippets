@@ -23,7 +23,8 @@ def print_text(widget, data):
 
     This is an usage example fo gtk.ComboBoxText.get_active_text().
     """
-    print(data.get_active_text())      # data is a gtk.ComboBoxText widget
+    combobox = data
+    print(combobox.get_active_text())      # data is a gtk.ComboBoxText widget
 
 def reset_selection(widget, data):
     """
@@ -31,7 +32,8 @@ def reset_selection(widget, data):
 
     This is an usage example fo gtk.ComboBoxText.set_active().
     """
-    data.set_active(0)                 # select the first item ; data is a gtk.ComboBoxText widget
+    combobox = data
+    combobox.set_active(-1)            # -1 = no active item selected ; data is a gtk.ComboBoxText widget
 
 def main():
     window = gtk.Window()
@@ -51,7 +53,7 @@ def main():
     combobox.set_entry_text_column(0)  # sets the model column which ComboBox should use to get strings from to be text_column
     for text in COMBOBOX_TEXT_LIST:
         combobox.append_text(text)     # fill the combobox
-    combobox.set_active(0)             # select the first item
+    combobox.set_active(0)             # 0 = select the first item
     horizontal_box1.pack_start(combobox, expand=True, fill=True, padding=0)
 
     vertical_box.pack_start(horizontal_box1, expand=True, fill=True, padding=0)
