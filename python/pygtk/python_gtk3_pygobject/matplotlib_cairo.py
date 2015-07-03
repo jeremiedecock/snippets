@@ -35,7 +35,7 @@ def main():
     window.add(scrolled_window)
 
     canvas = FigureCanvas(fig)
-    canvas.set_size_request(800, 600)             # optional...
+    #canvas.set_size_request(800, 600)             # optional...
     scrolled_window.add_with_viewport(canvas)
 
     # main
