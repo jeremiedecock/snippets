@@ -160,6 +160,13 @@ def main():
     ax.plot(time_list, velocity_list, "-", label="velocity")
     ax.plot(time_list, position_list, "-", label="position")
 
+    if (target_state.position is not None) and (target_state.velocity is None):
+        ax.axhline(target_state.position, linewidth=1, color='black', linestyle='--', label="Target (position)")
+    elif (target_state.position is None) and (target_state.velocity is not None):
+        ax.axhline(target_state.velocity, linewidth=1, color='black', linestyle='--', label="Target (velocity)")
+    else:
+        raise ValueError("Wrong target_state value.")
+
     # Title and labels
     ax.set_title("PID {}, {}, {}".format(p_factor, i_factor, d_factor), fontsize=20)
     ax.set_xlabel(r"$time (s)$", fontsize=32)
@@ -168,7 +175,7 @@ def main():
     ax.legend(loc='lower right', fontsize=20)
 
     # Save file
-    plt.savefig("test.pdf")
+    #plt.savefig("test.pdf")
 
     # Plot
     plt.show()
