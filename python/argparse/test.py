@@ -51,6 +51,7 @@ def main():
     # - dest: The name of the attribute to be added to the object returned by parse_args().
     parser.add_argument("--stropt", "-s",  help="an example of str option", required=True, metavar="STRING")
     parser.add_argument("--intopt", "-i",  help="an example of int option (default: 3)", type=int, default=3, metavar="INTEGER")
+    parser.add_argument("--floatopt", "-f",  help="an example of float option (default: 3.14)", type=float, default=3.14, metavar="FLOAT")
     parser.add_argument("--boolopt", "-b", help="an example of flag (boolean option)", action="store_true")
     parser.add_argument("fileargs", nargs="*", type=file, metavar="FILE", help="an example of file arguments")
 
@@ -58,6 +59,7 @@ def main():
 
     print "args.stropt:", args.stropt
     print "args.intopt:", args.intopt
+    print "args.floatopt:", args.floatopt
     print "args.boolopt:", args.boolopt
     print "args.fileargs:", args.fileargs
 
