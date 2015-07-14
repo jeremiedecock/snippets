@@ -1,0 +1,1 @@
+../tkinter/python3/matplotlib_canvas_without_navigation_toolbar.py
