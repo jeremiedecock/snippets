@@ -60,6 +60,23 @@ class PointMassModel(Model):
 
         return state
 
+
+class PointMassModelWithKineticFriction(Model):
+    def __init__(self, mass=1.):
+        self.mass = mass
+
+    def computeNextState(self, state, control, delta_time):
+        # F = u
+        total_external_force = control - state.velocity
+
+        # a = f/m
+        acceleration = total_external_force / self.mass
+
+        # compute velocity and position
+        state = self.forwardKinematicsFunction(state, acceleration, delta_time)
+
+        return state
+
 ################################################################################
 
 class Controller(object):
@@ -128,6 +145,7 @@ def main():
     delta_time = 0.01
 
     model = PointMassModel()
+    #model = PointMassModelWithKineticFriction()
     controller = PID(target_state, p_factor, i_factor, d_factor)
 
     time_list = []
