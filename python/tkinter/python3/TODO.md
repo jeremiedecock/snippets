@@ -1,6 +1,6 @@
 # TODO
 
-## Layouts
+## Geometry managers
 
 - [ ] Pack Geometry Manager (fill, expand, ...) http://effbot.org/tkinterbook/pack.htm and http://www.gigante.be/python/didact_002.php
 - [ ] Grid Geometry Manager http://effbot.org/tkinterbook/grid.htm
@@ -25,7 +25,7 @@
 - [x] Canvas
 - [ ] OptionMenu
 - [ ] PanedWindow
-- [ ] LabelFrame
+- [x] LabelFrame
 - [ ] Spinbox
 - [x] ScrolledText
 - [ ] Dialog
@@ -34,4 +34,9 @@
 
 - [ ] How to get arguments in callbacks functions
 - [ ] How to make tkinter multithread to work with pyserial, opencv, ... (cf. the Oreilly's "Python Cookbook 2nd edition" p.439)
+- [ ] Bind
+- [x] Matplotlib
+- [ ] PIL/Pillow
+- [x] Fullscreen
+- [x] Keyboard events
 
