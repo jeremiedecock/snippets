@@ -124,6 +124,7 @@ def main():
     parser.add_argument("--p_factor", "-p",  help="TODO", type=float, default=0., metavar="FLOAT")
     parser.add_argument("--i_factor", "-i",  help="TODO", type=float, default=0., metavar="FLOAT")
     parser.add_argument("--d_factor", "-d",  help="TODO", type=float, default=0., metavar="FLOAT")
+    parser.add_argument("--experiment", "-x",  help="TODO", type=int, default=0, metavar="INTEGER") # TODO
 
     args = parser.parse_args()
 
@@ -138,14 +139,22 @@ def main():
     state.velocity = 0.
 
     target_state = State()
-    target_state.position = 10.
-    target_state.velocity = None
+
+    if args.experiment == 0: # For xp0, a PD controller should be used
+        target_state.position = 10.
+        target_state.velocity = None
+    else:                    # For xp1, a PI controller should be used
+        target_state.position = None
+        target_state.velocity = 10.
 
     time = 0.
     delta_time = 0.01
 
-    model = PointMassModel()
-    #model = PointMassModelWithKineticFriction()
+    if args.experiment == 0:
+        model = PointMassModel()
+    else:
+        model = PointMassModelWithKineticFriction()
+
     controller = PID(target_state, p_factor, i_factor, d_factor)
 
     time_list = []
@@ -176,7 +185,8 @@ def main():
 
     ax.plot(time_list, control_list, "-", label="control")
     ax.plot(time_list, velocity_list, "-", label="velocity")
-    ax.plot(time_list, position_list, "-", label="position")
+    if (target_state.position is not None):
+        ax.plot(time_list, position_list, "-", label="position")
 
     if (target_state.position is not None) and (target_state.velocity is None):
         ax.axhline(target_state.position, linewidth=1, color='black', linestyle='--', label="Target (position)")
