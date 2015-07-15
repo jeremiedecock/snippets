@@ -21,6 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See: http://effbot.org/tkinterbook/canvas.htm
+
 import tkinter as tk
 
 root = tk.Tk()
