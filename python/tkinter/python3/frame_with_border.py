@@ -30,8 +30,7 @@ def main():
 
     root = tk.Tk()
 
-    # bd: border width
-    frame = tk.Frame(root, bd=1, relief=tk.SUNKEN)
+    frame = tk.Frame(root, borderwidth=1, relief=tk.SUNKEN)
     frame.pack(fill=tk.X, padx=5, pady=5)
 
     label1 = tk.Label(frame, text="Hello, world!")

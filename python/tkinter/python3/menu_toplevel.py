@@ -22,6 +22,7 @@
 # THE SOFTWARE.
 
 # See: http://effbot.org/tkinterbook/menu.htm
+#      http://effbot.org/tkinterbook/tkinter-application-windows.htm
 
 # "Toplevel menus are displayed just under the title bar of the root or any
 # other toplevel windows (or on Macintosh, along the upper edge of the screen).
@@ -44,6 +45,10 @@ def main():
     menubar.add_command(label="Quit", command=root.quit)
 
     # Display the menu
+    # The config method is used to attach the menu to the root window. The
+    # contents of that menu is used to create a menubar at the top of the root
+    # window. There is no need to pack the menu, since it is automatically
+    # displayed by Tkinter.
     root.config(menu=menubar)
 
     root.mainloop()
