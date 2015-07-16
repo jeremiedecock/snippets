@@ -47,4 +47,5 @@ Reference guide:
 - [x] PIL/Pillow
 - [x] Fullscreen
 - [x] Keyboard events
+- [ ] Ttk extension (https://docs.python.org/3/library/tkinter.ttk.html)
 
