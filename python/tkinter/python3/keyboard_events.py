@@ -41,8 +41,52 @@ def keypress_callback(event):
         print("keypress: <Return>")
     elif event.keysym == "Escape":
         print("keypress: <Escape>")
+    elif event.keysym == "space":
+        print("keypress: <space>")
+    elif event.keysym == "Control_R":
+        print("keypress: <Control_R>")
+    elif event.keysym == "Control_L":
+        print("keypress: <Control_L>")
+    elif event.keysym == "Shift_R":
+        print("keypress: <Shift_R>")
+    elif event.keysym == "Shift_L":
+        print("keypress: <Shift_L>")
+    elif event.keysym == "Tab":
+        print("keypress: <Tab>")
+    elif event.keysym == "Super_R":
+        print("keypress: <Super_R>")
+    elif event.keysym == "Super_L":
+        print("keypress: <Super_L>")
+    elif event.keysym == "BackSpace":
+        print("keypress: <BackSpace>")
+    elif event.keysym == "Prior":    # PgUp
+        print("keypress: <Prior>")
+    elif event.keysym == "Next":     # PgDown
+        print("keypress: <Next>")
+    elif event.char == "a":
+        print("keypress: <a>")
+    elif event.char == "b":
+        print("keypress: <b>")
+    elif event.char == "c":
+        print("keypress: <c>")
+    elif event.char == "d":
+        print("keypress: <d>")
+    elif event.char == "A":
+        print("keypress: <A>")
+    elif event.char == "B":
+        print("keypress: <B>")
+    elif event.char == "C":
+        print("keypress: <C>")
+    elif event.char == "D":
+        print("keypress: <D>")
+    elif event.char == "1":
+        print("keypress: <1>")
+    elif event.char == "2":
+        print("keypress: <2>")
+    elif event.char == "3":
+        print("keypress: <3>")
     else:
-        print("keypress:", event.char)
+        print("keypress:", event.char, event.keysym)
 
 
 def keyrelease_callback(event):
@@ -58,8 +102,52 @@ def keyrelease_callback(event):
         print("keyrelease: <Return>")
     elif event.keysym == "Escape":
         print("keyrelease: <Escape>")
+    elif event.keysym == "space":
+        print("keyrelease: <space>")
+    elif event.keysym == "Control_R":
+        print("keyrelease: <Control_R>")
+    elif event.keysym == "Control_L":
+        print("keyrelease: <Control_L>")
+    elif event.keysym == "Shift_R":
+        print("keyrelease: <Shift_R>")
+    elif event.keysym == "Shift_L":
+        print("keyrelease: <Shift_L>")
+    elif event.keysym == "Tab":
+        print("keyrelease: <Tab>")
+    elif event.keysym == "Super_R":
+        print("keyrelease: <Super_R>")
+    elif event.keysym == "Super_L":
+        print("keyrelease: <Super_L>")
+    elif event.keysym == "BackSpace":
+        print("keyrelease: <BackSpace>")
+    elif event.keysym == "Prior":    # PgUp
+        print("keyrelease: <Prior>")
+    elif event.keysym == "Next":     # PgDown
+        print("keyrelease: <Next>")
+    elif event.char == "a":
+        print("keyrelease: <a>")
+    elif event.char == "b":
+        print("keyrelease: <b>")
+    elif event.char == "c":
+        print("keyrelease: <c>")
+    elif event.char == "d":
+        print("keyrelease: <d>")
+    elif event.char == "A":
+        print("keyrelease: <A>")
+    elif event.char == "B":
+        print("keyrelease: <B>")
+    elif event.char == "C":
+        print("keyrelease: <C>")
+    elif event.char == "D":
+        print("keyrelease: <D>")
+    elif event.char == "1":
+        print("keyrelease: <1>")
+    elif event.char == "2":
+        print("keyrelease: <2>")
+    elif event.char == "3":
+        print("keyrelease: <3>")
     else:
-        print("keyrelease:", event.char)
+        print("keyrelease:", event.char, event.keysym)
 
 
 def main():

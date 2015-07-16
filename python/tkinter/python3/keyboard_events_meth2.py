@@ -29,18 +29,7 @@ import tkinter as tk
 
 
 def keypress_callback(event):
-    if event.keysym == "Up":
-        print("keypress: <Up>")
-    elif event.keysym == "Down":
-        print("keypress: <Down>")
-    elif event.keysym == "Left":
-        print("keypress: <Left>")
-    elif event.keysym == "Right":
-        print("keypress: <Right>")
-    elif event.keysym == "Return":
-        print("keypress: <Return>")
-    elif event.keysym == "Escape":
-        print("keypress: <Escape>")
+    print("keypress: ", event.char, event.keysym)
 
 
 def main():
@@ -58,6 +47,28 @@ def main():
     root.bind("<Right>", keypress_callback)
     root.bind("<Return>", keypress_callback)
     root.bind("<Escape>", keypress_callback)
+    root.bind("<space>", keypress_callback)
+    root.bind("<Control_R>", keypress_callback)
+    root.bind("<Control_L>", keypress_callback)
+    root.bind("<Shift_R>", keypress_callback)
+    root.bind("<Shift_L>", keypress_callback)
+    root.bind("<Tab>", keypress_callback)
+    root.bind("<Super_R>", keypress_callback)
+    root.bind("<Super_L>", keypress_callback)
+    root.bind("<BackSpace>", keypress_callback)
+    root.bind("<Prior>", keypress_callback)
+    root.bind("<Next>", keypress_callback)
+    root.bind("<a>", keypress_callback)
+    root.bind("<b>", keypress_callback)
+    root.bind("<c>", keypress_callback)
+    root.bind("<d>", keypress_callback)
+    root.bind("<A>", keypress_callback)
+    root.bind("<B>", keypress_callback)
+    root.bind("<C>", keypress_callback)
+    root.bind("<D>", keypress_callback)
+    root.bind("<KP_1>", keypress_callback)
+    root.bind("<KP_2>", keypress_callback)
+    root.bind("<KP_3>", keypress_callback)
 
     root.mainloop()
 
