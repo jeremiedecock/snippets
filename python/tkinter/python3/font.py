@@ -21,6 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# SEE: http://effbot.org/tkinterbook/tkinter-widget-styling.htm#font-descriptors
+
 import tkinter as tk
 
 def main():
