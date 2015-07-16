@@ -1,0 +1,24 @@
+# TODO
+
+- [ ] Élec / embarqué 
+    - [ ] AVR
+    - [ ] RPi
+    - [ ] Android
+    - [ ] Ti MSP
+- [ ] GUI / 2D
+    - [ ] Tkinter
+    - [ ] PyGTK3 + cairo + clutter + GEGL + ...
+    - [ ] GTK3 + cairo + clutter + GEGL + ...
+    - [ ] Pillow
+    - [ ] Graphviz
+    - [ ] Qt5
+- [ ] Lib clang + C bas niveau (syscall, bootloader, ...) + C/ASM
+- [ ] Design patterns
+    - [ ] C++
+    - [ ] Java
+    - [ ] Python
+- [ ] OpenCV (Python/C)
+- [ ] 3D
+    - [ ] OpenGL
+    - [ ] GL Shaders
+    - [ ] OSG + GL Shaders
