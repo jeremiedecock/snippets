@@ -25,6 +25,8 @@
 
 # "Popup menu are explicitly displayed, using the post method."
 
+# TODO: the popup menu should disapear when the user clic somewhere around...
+
 import tkinter as tk
 
 def hello():
