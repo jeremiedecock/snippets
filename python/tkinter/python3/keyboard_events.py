@@ -22,16 +22,44 @@
 # THE SOFTWARE.
 
 # See: https://github.com/jeremiedecock/pyarm/blob/master/pyarm/gui/tkinter_gui.py
+#      http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/key-names.html
+#      http://www.tcl.tk/man/tcl8.4/TkCmd/keysyms.htm
 
 import tkinter as tk
 
 
 def keypress_callback(event):
-    print("keypress:", event.char)
+    if event.keysym == "Up":
+        print("keypress: <Up>")
+    elif event.keysym == "Down":
+        print("keypress: <Down>")
+    elif event.keysym == "Left":
+        print("keypress: <Left>")
+    elif event.keysym == "Right":
+        print("keypress: <Right>")
+    elif event.keysym == "Return":
+        print("keypress: <Return>")
+    elif event.keysym == "Escape":
+        print("keypress: <Escape>")
+    else:
+        print("keypress:", event.char)
 
 
 def keyrelease_callback(event):
-    print("keyrelease:", event.char)
+    if event.keysym == "Up":
+        print("keyrelease: <Up>")
+    elif event.keysym == "Down":
+        print("keyrelease: <Down>")
+    elif event.keysym == "Left":
+        print("keyrelease: <Left>")
+    elif event.keysym == "Right":
+        print("keyrelease: <Right>")
+    elif event.keysym == "Return":
+        print("keyrelease: <Return>")
+    elif event.keysym == "Escape":
+        print("keyrelease: <Escape>")
+    else:
+        print("keyrelease:", event.char)
 
 
 def main():
@@ -39,7 +67,7 @@ def main():
 
     root = tk.Tk()
 
-    label = tk.Label(root, text="Press some keys")
+    label = tk.Label(root, text="Press some keys", width=50, height=10)
     label.pack()
 
     # SETUP KEYBOARD EVENT CALLBACKS
