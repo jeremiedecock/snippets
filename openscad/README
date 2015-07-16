@@ -1,3 +1,5 @@
+See http://www.openscad.org/cheatsheet/index.html
+
 Use the following command to generate PNG files:
 
    ./render.sh *.scad
