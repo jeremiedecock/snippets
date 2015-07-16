@@ -31,7 +31,7 @@ Reference guide:
 - [x] Text
 - [x] Canvas
 - [ ] OptionMenu
-- [ ] PanedWindow
+- [x] PanedWindow
 - [x] LabelFrame
 - [ ] Spinbox
 - [x] ScrolledText
@@ -39,11 +39,12 @@ Reference guide:
 
 ## Misc
 
+- [ ] Full app template http://effbot.org/tkinterbook/tkinter-application-windows.htm
 - [ ] How to get arguments in callbacks functions
 - [ ] How to make tkinter multithread to work with pyserial, opencv, ... (cf. the Oreilly's "Python Cookbook 2nd edition" p.439)
 - [ ] Bind
 - [x] Matplotlib
-- [ ] PIL/Pillow
+- [x] PIL/Pillow
 - [x] Fullscreen
 - [x] Keyboard events
 
