@@ -1,1 +1,1 @@
-../recursive_func.py
+../recursive_factorial_func.py
