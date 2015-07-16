@@ -64,6 +64,8 @@ def main():
     print("TEST4")
     execute(["sleep", "10"])
 
+    print("Bye")
+
 
 if __name__ == '__main__':
     main()
