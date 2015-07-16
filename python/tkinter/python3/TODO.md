@@ -48,4 +48,5 @@ Reference guide:
 - [x] Fullscreen
 - [x] Keyboard events
 - [ ] Ttk extension (https://docs.python.org/3/library/tkinter.ttk.html)
+- [ ] Write some application examples from "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013 (chess, music player, ...)
 

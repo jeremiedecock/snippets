@@ -5,6 +5,10 @@
 - http://effbot.org/tkinterbook/tkinter-index.htm
 - https://wiki.python.org/moin/TkInter
 
+## Open source application examples
+
+- IDLE (Python's official IDE)
+
 ## Books
 
 - "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013
