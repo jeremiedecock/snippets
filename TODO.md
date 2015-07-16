@@ -12,7 +12,7 @@
     - [ ] Pillow
     - [ ] Graphviz
     - [ ] Qt5
-- [ ] Lib clang + C bas niveau (syscall, bootloader, ...) + C/ASM
+- [ ] Lib clang + C bas niveau (syscall, bootloader, ...) + C/ASM + libX11/libSVGA/framebuffer (+SDL)
 - [ ] Design patterns
     - [ ] C++
     - [ ] Java
