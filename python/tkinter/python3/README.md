@@ -2,7 +2,7 @@
 
 ## Online documentation
 
-- http://effbot.org/tkinterbook/
+- http://effbot.org/tkinterbook/tkinter-index.htm
 - https://wiki.python.org/moin/TkInter
 
 ## Books

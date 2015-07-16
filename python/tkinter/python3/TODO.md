@@ -1,5 +1,9 @@
 # TODO
 
+Reference guide:
+- http://effbot.org/tkinterbook/tkinter-index.htm
+- "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013
+
 ## Geometry managers
 
 - [ ] Pack Geometry Manager (fill, expand, ...) http://effbot.org/tkinterbook/pack.htm and http://www.gigante.be/python/didact_002.php
@@ -17,7 +21,10 @@
 - [x] Scale
 - [x] PhotoImage
 - [ ] BitmapImage
-- [ ] Menu
+- [x] Menu
+    - [x] toplevel menu
+    - [x] pulldown menu
+    - [x] popup menu
 - [ ] Menubutton
 - [ ] Scrollbar
 - [ ] Listbox
