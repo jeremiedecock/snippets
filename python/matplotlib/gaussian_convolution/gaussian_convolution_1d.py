@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """Gaussian convolution 1D"""
@@ -68,6 +68,10 @@ def main():
     plt.plot(x_test, y_test)
     plt.xlabel('$x$')
     plt.ylabel('$\hat{y}$')
+
+    # SAVE FILES ######################
+    plt.savefig("gaussian_convolution_1d.png")
+
     plt.show()
 
 if __name__ == '__main__':
