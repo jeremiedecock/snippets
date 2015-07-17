@@ -84,7 +84,7 @@ def main():
     cv.putText(img_np, text, start_point, font, font_scale, color, thickness, line_type)
 
     # SAVE THE IMAGE 
-    cv.imwrite("out.png", img_np)
+    cv.imwrite("drawing_functions.png", img_np)
 
 if __name__ == '__main__':
     main()
