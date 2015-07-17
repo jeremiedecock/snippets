@@ -1,1 +1,1 @@
-This demo requires : python (>=2.6), numpy, matplotlib
+This demo requires : python (>=3), numpy, matplotlib
