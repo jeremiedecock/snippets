@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
             
 # see http://stackoverflow.com/questions/11373192/generating-discrete-random-variables-with-specified-weights-using-scipy-or-numpy
@@ -18,22 +18,22 @@ distrib = rv_discrete(values=(values, probabilities))
 
 # One sample
 value = distrib.rvs()
-print "value =", value
+print("value =", value)
 
 # Multiple samples
 values = distrib.rvs(size=num_samples)
 
-print values
+print(values)
 
-print "Percentage of 1:", float(values.tolist().count(1)) / num_samples 
-print "Percentage of 2:", float(values.tolist().count(2)) / num_samples
-print "Percentage of 3:", float(values.tolist().count(3)) / num_samples
+print("Percentage of 1:", float(values.tolist().count(1)) / num_samples) 
+print("Percentage of 2:", float(values.tolist().count(2)) / num_samples)
+print("Percentage of 3:", float(values.tolist().count(3)) / num_samples)
 
 
 
 # IF VALUES ARE FLOATS ##########################
 
-print
+print()
 
 values = np.array([1.1, 2.2, 3.3])
 probabilities = [0.2, 0.5, 0.3]
@@ -44,5 +44,5 @@ distrib = rv_discrete(values=(range(len(values)), probabilities))
 # Samples
 indexes = distrib.rvs(size=100)
 
-print indexes
-print values[indexes]
+print(indexes)
+print(values[indexes])
