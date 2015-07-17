@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -21,12 +21,12 @@ def main():
     xx, yy = np.meshgrid(x, y)
     z = xx+yy
 
-    print "xx ="
-    print xx
-    print "yy ="
-    print yy
-    print "z ="
-    print z
+    print("xx =")
+    print(xx)
+    print("yy =")
+    print(yy)
+    print("z =")
+    print(z)
 
     # Plot data #################
 
@@ -40,6 +40,9 @@ def main():
     ax.set_zlabel("Z")
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
+
+    # SAVE FILES ######################
+    plt.savefig("demo3_mplot3d.png")
 
     plt.show()
 

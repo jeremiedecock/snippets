@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import math
@@ -22,7 +22,7 @@ zconf = 2. * a[:,7] / math.sqrt(POPULATION_SIZE) # confidence interval ~95%
 xgrid, ygrid = np.meshgrid(np.unique(x), np.unique(y))
 zgrid = z.reshape(len(np.unique(x)), len(np.unique(y))).T
 
-print zgrid
+print(zgrid)
 
 # Plot data #################
 
@@ -55,6 +55,6 @@ ax.set_zlabel("label_z")
 
 fig.colorbar(surf, shrink=0.5, aspect=5)
 
-plt.savefig("demo2.png")
+plt.savefig("demo2_mplot3d.png")
 
 plt.show()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -20,6 +20,9 @@ x = np.random.multivariate_normal(mu, cov, num_points)
 fig = plt.figure()
 ax = axes3d.Axes3D(fig)
 ax.scatter(x[:,0], x[:,1], x[:,2], color='b')
+
+# SAVE FILES ######################
+plt.savefig("demo4b_mplot3d_scatter_multivariate_normal.png")
 
 plt.show()
 

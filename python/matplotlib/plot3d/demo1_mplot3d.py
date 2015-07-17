@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from mpl_toolkits.mplot3d import axes3d
@@ -18,6 +18,9 @@ z = np.sin(np.sqrt(xx**2 + yy**2))
 fig = plt.figure()
 ax = axes3d.Axes3D(fig)
 ax.plot_wireframe(xx, yy, z)
+
+# SAVE FILES ######################
+plt.savefig("demo1_mplot3d.png")
 
 plt.show()
 

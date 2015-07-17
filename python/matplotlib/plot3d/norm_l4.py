@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -32,6 +32,9 @@ cset = ax.contourf(xx, yy, z, zdir='z', offset=0, cmap=cm.coolwarm)
 ax.set_xlabel(r'$x_1$')
 ax.set_ylabel(r'$x_2$')
 ax.set_zlabel(r'$||x||_{4}$')
+
+# SAVE FILES ######################
+plt.savefig("norm_l4.png")
 
 plt.show()
 

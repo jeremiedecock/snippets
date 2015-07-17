@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -24,6 +24,9 @@ ax.scatter(x[:,0], x[:,1], x[:,2], color='b')
 ax.set_xlim(-5., 10.)
 ax.set_ylim(-5., 10.)
 ax.set_zlim(-5., 10.)
+
+# SAVE FILES ######################
+plt.savefig("demo4_mplot3d_scatter_multivariate_normal.png")
 
 plt.show()
 
