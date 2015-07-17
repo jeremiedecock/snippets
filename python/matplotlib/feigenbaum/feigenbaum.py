@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """A bifurcation diagram demo: Feigenbaum Constant
@@ -51,6 +51,10 @@ def main():
     plt.plot(y_list, ',')
     plt.xlabel('$\mu$')
     plt.ylabel('$x$')
+
+    # SAVE FILES ######################
+    plt.savefig("feigenbaum.png")
+
     plt.show()
 
 if __name__ == '__main__':
