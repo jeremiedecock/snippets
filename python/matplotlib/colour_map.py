@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # See: http://matplotlib.org/examples/pylab_examples/image_demo.html
@@ -19,6 +19,9 @@ interp = 'bilinear'   # "smooth" map
 plt.imshow(z_matrix, interpolation=interp, origin='lower') #, cmap=cm.binary)
 
 plt.colorbar() # draw colorbar
+
+# SAVE FILES ######################
+plt.savefig("colour_map.png")
 
 plt.show()
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -15,5 +15,8 @@ ax = fig.add_subplot(111)
 
 ax.bar(x, y1, width, color='r')
 ax.bar(x+width, y2, width, color='b')
+
+# SAVE FILES ######################
+plt.savefig("bar.png")
 
 plt.show()

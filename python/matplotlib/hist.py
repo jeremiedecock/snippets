@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # See:
@@ -26,12 +26,12 @@ ax4 = fig.add_subplot(414)
 
 
 res_tuple = ax1.hist(gaussian_numbers_list_1, histtype=HIST_TYPE, alpha=ALPHA)
-print res_tuple
+print(res_tuple)
 
 res_tuple = ax1.hist(gaussian_numbers_list_1, bins=35, histtype=HIST_TYPE, alpha=ALPHA)
 ax1.set_xlabel("value")
 ax1.set_ylabel("frequency")
-print res_tuple
+print(res_tuple)
 
 
 # Create a histogram by providing the bin edges (equally spaced here)
@@ -39,21 +39,25 @@ bins = [-4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0,
 res_tuple = ax2.hist(gaussian_numbers_list_1, bins=bins, histtype=HIST_TYPE)
 ax2.set_xlabel("value")
 ax2.set_ylabel("frequency")
-print res_tuple
+print(res_tuple)
 
 
 res_tuple = ax3.hist(gaussian_numbers_list_1, bins=30, histtype=HIST_TYPE, normed=True, cumulative=True)
 ax3.set_ylim([0., 1.])
 ax3.set_xlabel("value")
 ax3.set_ylabel("probability")
-print res_tuple
+print(res_tuple)
 
 
 res_tuple = ax4.hist([gaussian_numbers_list_1, gaussian_numbers_list_2, gaussian_numbers_list_3], bins=30, histtype=HIST_TYPE)
 ax4.set_xlabel("value")
 ax4.set_ylabel("frequency")
-print res_tuple
+print(res_tuple)
 
 
 plt.tight_layout()
+
+# SAVE FILES ######################
+plt.savefig("hist.png")
+
 plt.show()

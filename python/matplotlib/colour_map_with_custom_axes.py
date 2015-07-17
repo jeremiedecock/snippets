@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # See: http://matplotlib.org/examples/pylab_examples/image_nonuniform.html
@@ -45,6 +45,9 @@ ax.set_xlim(X_MIN, X_MAX)
 ax.set_ylim(Y_MIN, Y_MAX)
 
 fig.colorbar(im) # draw colorbar
+
+# SAVE FILES ######################
+plt.savefig("colour_map_with_custom_axes.png")
 
 plt.show()
 

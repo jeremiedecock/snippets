@@ -17,4 +17,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.plot(opens)
 
+# SAVE FILES ######################
+plt.savefig("finance_yahoo_dataset.png")
+
 plt.show()

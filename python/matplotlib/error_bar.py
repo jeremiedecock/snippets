@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -9,4 +9,8 @@ y = x
 y_err = y / 2.
 
 plt.errorbar(x, y, yerr=y_err, fmt='-o')
+
+# SAVE FILES ######################
+plt.savefig("error_bar.png")
+
 plt.show()

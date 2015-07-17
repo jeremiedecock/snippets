@@ -14,6 +14,9 @@ def main():
     plt.plot(x, y1, x, y2)
     plt.fill_between(x, y1, y2, facecolor='red', alpha=0.5)
 
+    # SAVE FILES ######################
+    plt.savefig("fill.png")
+
     plt.show()
 
 if __name__ == "__main__":

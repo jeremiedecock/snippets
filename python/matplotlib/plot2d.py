@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import math
@@ -22,7 +22,7 @@ def main():
     ax.legend(loc='lower right', fontsize=20)
 
     # SAVE FILES ######################
-    plt.savefig("test.pdf")
+    plt.savefig("plot2d.png")
 
     # PLOT ############################
     plt.show()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import math
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 #x = np.arange(0.1, 100, 1)  # bad
 x = np.exp(np.arange(0, 3, 0.05) * math.log(10))
 
-print x
+print(x)
 
 yl1 = np.log(x)
 yl2 = x * np.log(x)
@@ -29,5 +29,8 @@ plt.legend(["log(x)", "x log(x)", "x", "x^2", "x^3", "2^x"])
 plt.title('log scale')
 
 plt.ylim(ymax = math.exp(20 * math.log(10)))
+
+# SAVE FILES ######################
+plt.savefig("log_scale.png")
 
 plt.show()
