@@ -27,6 +27,7 @@ import tkinter.filedialog
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
     fd = tk.filedialog.askopenfile()
+    print("FILEPATH:", fd.name) # Path of the opened file
     print(fd.read())
     fd.close()
 

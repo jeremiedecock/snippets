@@ -26,6 +26,7 @@ import tkinter.filedialog
 
 def print_file():
     fd = open(entry.get(), "r")
+    print("FILEPATH:", fd.name) # Path of the opened file
     print(fd.read())
     fd.close()
 
