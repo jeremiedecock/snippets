@@ -8,7 +8,11 @@ Pillow is the actively maintained and Python3 compatible fork of PIL.
 
 ## Documentation
 
-- https://pypi.python.org/pypi/Pillow/
+- https://pillow.readthedocs.org/
+- "Programming Conputer Vision with Python" by Jan Erik Solem ed. O'Reilly (2012) ISBN 978-1-449-31654-9
+
+## References
+
 - https://python-pillow.github.io/
 - https://github.com/python-pillow/Pillow
-- https://pillow.readthedocs.org/
+- https://pypi.python.org/pypi/Pillow/
