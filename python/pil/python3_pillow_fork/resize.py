@@ -27,7 +27,7 @@ def main():
     """Main function"""
 
     img = pil_img.open("lenna.png") # It works also with .jpg, ...
-    img_out = img.resize((128,128))
+    img_out = img.resize((128,128), pil_img.ANTIALIAS)
     img_out.save("out.png")
 
 if __name__ == '__main__':
