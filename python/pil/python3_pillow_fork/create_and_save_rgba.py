@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from PIL import Image
+import PIL.Image as pil_img     # PIL.Image is a module not a class...
 
 SIZE_X = 320
 SIZE_Y = 200
@@ -32,7 +32,7 @@ def main():
     # Make the image
     mode = "RGBA"
     size = (SIZE_X, SIZE_Y)
-    img = Image.new(mode, size)
+    img = pil_img.new(mode, size)
 
     # Make the data (pixels value in [0;255])
     g = 0

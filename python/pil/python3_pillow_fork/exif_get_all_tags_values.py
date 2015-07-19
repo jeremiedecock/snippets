@@ -24,7 +24,7 @@
 
 # See http://stackoverflow.com/questions/4764932/in-python-how-do-i-read-the-exif-data-for-an-image/4765242#4765242
 
-from PIL import Image
+import PIL.Image as pil_img     # PIL.Image is a module not a class...
 
 import PIL
 import PIL.ExifTags
@@ -32,7 +32,7 @@ import PIL.ExifTags
 def main():
     """Main function"""
 
-    img = Image.open("test.jpeg")
+    img = pil_img.open("test.jpeg")
 
     # Print the image's EXIF metadata dictionary indexed by EXIF numeric tags
     exif_data_num_dict = img._getexif()

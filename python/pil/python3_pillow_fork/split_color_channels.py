@@ -21,12 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from PIL import Image
+import PIL.Image as pil_img     # PIL.Image is a module not a class...
 
 def main():
     """Main function"""
 
-    img = Image.open("test.png")  # It works also with .jpg, ...
+    img = pil_img.open("test.png")  # It works also with .jpg, ...
 
     # Split RVBA channels
     r, g, b, a = img.split()
