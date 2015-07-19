@@ -24,22 +24,28 @@
 
 # See http://stackoverflow.com/questions/4764932/in-python-how-do-i-read-the-exif-data-for-an-image/4765242#4765242
 
-import PIL.Image as pil_img     # PIL.Image is a module not a class...
+import PIL.Image as pil_img           # PIL.Image is a module not a class...
+import PIL.ExifTags as pil_exif_tags  # PIL.ExifTags is a module not a class...
 
-import PIL
-import PIL.ExifTags
+import sys
 
 def main():
     """Main function"""
 
-    img = pil_img.open("test.jpeg")
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("Usage: {} FILENAME".format(sys.argv[0]))
+        sys.exit(1)
+
+    img = pil_img.open(filename)
 
     # Print the image's EXIF metadata dictionary indexed by EXIF numeric tags
     exif_data_num_dict = img._getexif()
     print(exif_data_num_dict)
 
     # Print the image's EXIF metadata dictionary indexed by EXIF tag name strings
-    exif_data_str_dict = {PIL.ExifTags.TAGS[k]: v for k, v in exif_data_num_dict.items() if k in PIL.ExifTags.TAGS}
+    exif_data_str_dict = {pil_exif_tags.TAGS[k]: v for k, v in exif_data_num_dict.items() if k in pil_exif_tags.TAGS}
     print(exif_data_str_dict)
 
 if __name__ == '__main__':
