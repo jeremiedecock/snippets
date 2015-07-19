@@ -23,21 +23,25 @@
 
 from PIL import Image
 
+SIZE_X = 320
+SIZE_Y = 200
+
 def main():
     """Main function"""
 
-    mode = "RGB"
-    size = (32, 32)
-
-    # Make the data
-    data = [(0, 0, 255) for i in range(size[0] * size[1])]
-
     # Make the image
+    mode = "RGB"
+    size = (SIZE_X, SIZE_Y)
     img = Image.new(mode, size)
+
+    # Make the data (pixels value in [0;255])
+    g = 0
+    b = 0
+    data = [((x+y)%255, g, b) for y in range(size[1]) for x in range(size[0])]
     img.putdata(data) 
 
     # Save the image
-    img.save("new.png")
+    img.save("create_and_save_rgb.png")
 
 if __name__ == '__main__':
     main()

@@ -23,21 +23,23 @@
 
 from PIL import Image
 
+SIZE_X = 320
+SIZE_Y = 200
+
 def main():
     """Main function"""
 
-    mode = "L"
-    size = (32, 32)
-
-    # Make the data
-    data = [0 for i in range(size[0] * size[1])]
-
     # Make the image
+    mode = "L"              # Grayscale
+    size = (SIZE_X, SIZE_Y)
     img = Image.new(mode, size)
+
+    # Make the data (pixel value in [0;255])
+    data = [(x+y)/(size[0]+size[1])*255 for y in range(size[1]) for x in range(size[0])]
     img.putdata(data) 
 
     # Save the image
-    img.save("new.png")
+    img.save("create_and_save_greyscale.png")
 
 if __name__ == '__main__':
     main()
