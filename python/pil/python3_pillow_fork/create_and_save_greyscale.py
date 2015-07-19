@@ -34,7 +34,7 @@ def main():
     size = (SIZE_X, SIZE_Y)
     img = Image.new(mode, size)
 
-    # Make the data (pixel value in [0;255])
+    # Make the data (pixels value in [0;255])
     data = [(x+y)/(size[0]+size[1])*255 for y in range(size[1]) for x in range(size[0])]
     img.putdata(data) 
 
