@@ -26,8 +26,8 @@
 # Required Debian package (Debian 8.1 Jessie): python3-pil.imagetk
 
 import tkinter as tk
-import PIL.Image as pil      # PIL.Image is a module not a class...
-import PIL.ImageTk as piltk  # PIL.ImageTk is a module not a class...
+import PIL.Image as pil_img   # PIL.Image is a module not a class...
+import PIL.ImageTk as pil_tk  # PIL.ImageTk is a module not a class...
 
 def main():
     """Main function"""
@@ -63,8 +63,8 @@ def main():
     # (src: http://effbot.org/tkinterbook/photoimage.htm#patterns)
     # See also http://infohost.nmt.edu/tcc/help/pubs/pil/image-tk.html
     
-    pil_image = pil.open("lenna.png")
-    tk_photo = piltk.PhotoImage(pil_image)
+    pil_image = pil_img.open("lenna.png")
+    tk_photo = pil_tk.PhotoImage(pil_image)
 
     # Tkinter
 
