@@ -15,6 +15,7 @@
 - https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide
 - https://developer.mozilla.org/fr/docs/Web/JavaScript
 - https://developer.mozilla.org/fr/docs/Web/JavaScript/A_propos
+- https://developer.mozilla.org/fr/Apprendre
 
 - https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Introduction
     - Console web
