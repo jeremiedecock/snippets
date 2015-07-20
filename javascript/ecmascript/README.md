@@ -33,7 +33,8 @@ See: http://stackoverflow.com/questions/1802478/running-v8-javascript-engine-sta
 
 ## Others shells
 
-See: http://discerning.com/burstproject.org/build/doc/shells.html
+- http://discerning.com/burstproject.org/build/doc/shells.html
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Shells
 
 
 ## Recommended Vim plugins for JavaScript coding 
