@@ -4,6 +4,7 @@
 
 var tab1 = ["a", "b", "c", "c"];
 var tab2 = [1, "two", 3.0];
+var tab3 = [1, 2, 3];
 
 print(tab1);
 print(tab2);
@@ -67,3 +68,9 @@ print(tab2.every(func3));
 
 print(tab2.some(func3));
 
+
+function func4(obj1, obj2) {
+    return obj1 + obj2;
+}
+
+print(tab3.reduce(func4));
