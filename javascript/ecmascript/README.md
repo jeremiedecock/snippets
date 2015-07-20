@@ -35,3 +35,7 @@ See: http://stackoverflow.com/questions/1802478/running-v8-javascript-engine-sta
 
 See: http://discerning.com/burstproject.org/build/doc/shells.html
 
+
+## Recommended Vim plugins for JavaScript coding 
+
+- http://stackoverflow.com/questions/4777366/recommended-vim-plugins-for-javascript-coding
