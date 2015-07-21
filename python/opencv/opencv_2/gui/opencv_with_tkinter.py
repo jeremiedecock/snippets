@@ -9,6 +9,13 @@ OpenCV - Trackbar widget.
 Required: opencv library (Debian: aptitude install python-opencv)
 
 See: https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_gui/py_trackbar/py_trackbar.html#trackbar
+
+WARNING: Tkinter doesn't work if it's run outside the main thread!
+
+    See: http://stackoverflow.com/questions/10556479/running-a-tkinter-form-in-a-separate-thread
+    "Tkinter isn't thread safe, and the general consensus is that Tkinter
+    doesn't work in a non-main thread. If you rewrite your code so that Tkinter
+    runs in the main thread, you can have your workers run in other threads."
 """
 
 from __future__ import print_function
