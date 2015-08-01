@@ -21,6 +21,8 @@ See:
 * pandoc (a document converter that can write Markdown, reStructuredText, HTML,
   LaTeX, RTF, DocBook XML, and S5)
 
+    pandoc -o output.html input.md
+
 ## Paragraphs
 
 Paragraph 1, blablabla blablabla blablabla blablabla blablabla blablabla
