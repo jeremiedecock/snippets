@@ -16,6 +16,11 @@ See:
 * [github tutoriel 2](https://guides.github.com/features/mastering-markdown/)
 * [github tutoriel 3](https://help.github.com/articles/writing-on-github/)
 
+## Tools (on Debian Gnu/Linux)
+
+* pandoc (a document converter that can write Markdown, reStructuredText, HTML,
+  LaTeX, RTF, DocBook XML, and S5)
+
 ## Paragraphs
 
 Paragraph 1, blablabla blablabla blablabla blablabla blablabla blablabla
