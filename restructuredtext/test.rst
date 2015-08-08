@@ -56,11 +56,11 @@ Pandoc
 Pandoc is a document converter that can write Markdown, reStructuredText, HTML,
 LaTeX, RTF, DocBook XML, and S5::
 
-   pandoc -o output.html input.md
+   pandoc -o output.html input.rst
 
 Pandoc can be used to convert a Markdown document in reStructuredText::
 
-   pandoc -o output.html input.md
+   pandoc -o output.rst input.md
 
 More tools
 ~~~~~~~~~~
@@ -231,3 +231,21 @@ Table
 +------------+ cell       +-----------+
 | (4,1)      |            | (4,3)     |
 +------------+------------+-----------+
+
+Maths and LaTeX
+===============
+
+See http://sphinx-doc.org/latest/ext/math.html
+
+When :math:`a \ne 0`, there are two solutions to :math:`ax^2 + bx + c = 0` and they are
+:math:`x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.`
+
+.. math::
+    
+    (a + b)^2 = a^2 + 2ab + b^2
+
+    (a - b)^2 = a^2 - 2ab + b^2
+
+.. math::
+
+    n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k
