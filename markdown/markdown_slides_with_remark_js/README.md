@@ -26,7 +26,7 @@ See [this article](http://caseywatts.github.io/2012/12/12/markdown_to_slide_pres
 
 ### HTML based
 
-- S5 (a bit old now...)
+- [S5](http://meyerweb.com/eric/tools/s5/)
 - [Reveal.js](https://github.com/hakimel/reveal.js/)
 - [Impress.js](https://github.com/bartaz/impress.js/)
 - [Deck.js](https://github.com/imakewebthings/deck.js)
