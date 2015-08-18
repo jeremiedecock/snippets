@@ -13,12 +13,23 @@ See http://remarkjs.com/ (slide 14) for more info.
 
 ### Syntax highlighting
 
-See http://remarkjs.com/ .
+See http://remarkjs.com/
+
+### Maths: Latex using MathJax
+
+See https://github.com/gnab/remark/wiki/LaTeX-using-MathJax
+
+### Colured Terminal Listings
+
+See http://joshbode.github.io/remark/ansi.html#1
+
 
 ## Official web site
 
 - http://remarkjs.com/
 - https://github.com/gnab/remark
+- https://github.com/gnab/remark/wiki
+
 
 ## Alternatives
 
