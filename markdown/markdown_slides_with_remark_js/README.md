@@ -2,7 +2,7 @@
 
 ## Main features
 
-Presentation mode:
+### Presentation mode
 
 1. press 'C' to clone the (browser) window;
 2. position the two windows on the two screens (presenter screen and audience
@@ -10,6 +10,10 @@ Presentation mode:
 3. then press 'P' on the presenter screen to show notes.
 
 See http://remarkjs.com/ (slide 14) for more info.
+
+### Syntax highlighting
+
+See http://remarkjs.com/ .
 
 ## Official web site
 
