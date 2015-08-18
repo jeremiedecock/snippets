@@ -23,6 +23,8 @@ What is ReStructuredText ?
 Online documentation
 ====================
 
+See:
+
 - Official web site: http://docutils.sourceforge.net/rst.html
 - Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 - Quickref: http://docutils.sourceforge.net/docs/user/rst/quickref.html
@@ -30,7 +32,7 @@ Online documentation
 - Cheatsheet: http://docutils.sourceforge.net/docs/user/rst/cheatsheet.txt
 - Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText
 - AFUL (french) tutorial: https://aful.org/wikis/interop/ReStructuredText
-- Python:
+- Python
     - https://docs.python.org/3.1/documenting/rest.html
     - https://docs.python.org/devguide/documenting.html
 - Links: http://docutils.sourceforge.net/docs/user/links.html
