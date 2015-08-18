@@ -12,9 +12,9 @@ See: http://stackoverflow.com/questions/4823468/store-comments-in-markdown-synta
 
 See:
 
-* [github tutoriel 1](https://help.github.com/articles/markdown-basics/)
-* [github tutoriel 2](https://guides.github.com/features/mastering-markdown/)
-* [github tutoriel 3](https://help.github.com/articles/writing-on-github/)
+* [github tutorial 1](https://help.github.com/articles/markdown-basics/)
+* [github tutorial 2](https://guides.github.com/features/mastering-markdown/)
+* [github tutorial 3](https://help.github.com/articles/writing-on-github/)
 
 ## Tools (on Debian Gnu/Linux)
 
