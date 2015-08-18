@@ -9,5 +9,9 @@
 ## Reference links
 
 - Official web site: https://www.mathjax.org/
+- Source code repository (GitHub): https://github.com/mathjax/MathJax/
 - Wikipedia: https://en.wikipedia.org/wiki/MathJax
+- Examples:
+    - https://github.com/mathjax/MathJax/tree/master/test
+    - http://www.tuhh.de/MathJax/test/examples.html
 
