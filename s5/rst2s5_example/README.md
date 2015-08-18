@@ -2,7 +2,7 @@
 
 ## Prequistes
 
-Install Python [http://docutils.sourceforge.net/](Docutils).
+Install Python [Docutils](http://docutils.sourceforge.net/).
 
 ## Usage
 
