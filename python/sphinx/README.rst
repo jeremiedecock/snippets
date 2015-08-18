@@ -40,7 +40,7 @@ reStructuredText documentation
 Quick start
 ===========
 
-To generate the conf.py file:
+To generate the conf.py file::
 
     mkdir doc
     sphinx-quickstart
