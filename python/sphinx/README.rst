@@ -19,6 +19,7 @@ Reference links
 ===============
 
 - Official web site: http://sphinx-doc.org/
+- First steps: http://sphinx-doc.org/tutorial.html
 - Wikipedia: https://en.wikipedia.org/wiki/Sphinx_%28documentation_generator%29
 
 reStructuredText documentation
@@ -36,3 +37,12 @@ reStructuredText documentation
     - https://docs.python.org/devguide/documenting.html
 - Links: http://docutils.sourceforge.net/docs/user/links.html
 
+Quick start
+===========
+
+To generate the conf.py file:
+
+    mkdir doc
+    sphinx-quickstart
+
+There is also an automatic “API documentation” generator called sphinx-apidoc
