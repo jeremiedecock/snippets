@@ -23,8 +23,6 @@ What is ReStructuredText ?
 Online documentation
 ====================
 
-See:
-
 - Official web site: http://docutils.sourceforge.net/rst.html
 - Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 - Quickref: http://docutils.sourceforge.net/docs/user/rst/quickref.html
