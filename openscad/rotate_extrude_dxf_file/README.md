@@ -1,6 +1,7 @@
 # OpenSCAD extrude a DXF file made with Inkscape HOWTO
 
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/DXF_Extrusion
+http://repraprip.blogspot.fr/2011/05/inkscape-to-openscad-dxf-tutorial.html
 
 1. in a new Inkscape document, create your shape
 2. select your object an convert it to a path (Maj + Ctrl + C)
