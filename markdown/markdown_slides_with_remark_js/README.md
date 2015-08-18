@@ -33,3 +33,7 @@ See [this article](http://caseywatts.github.io/2012/12/12/markdown_to_slide_pres
 
 ### (Modified) Markdown based
 
+- [Landslide](https://github.com/adamzap/landslide#notes)
+- [Markdown Presenter](http://www.splinter.com.au/markdown-presentations/)
+- [KeyDown](https://github.com/infews/keydown)
+
