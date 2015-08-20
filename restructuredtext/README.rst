@@ -32,8 +32,8 @@ Online documentation
 - AFUL (french) tutorial: https://aful.org/wikis/interop/ReStructuredText
 - Python:
 
-    - https://docs.python.org/3.1/documenting/rest.html
-    - https://docs.python.org/devguide/documenting.html
+  - https://docs.python.org/3.1/documenting/rest.html
+  - https://docs.python.org/devguide/documenting.html
 
 - Links: http://docutils.sourceforge.net/docs/user/links.html
 
