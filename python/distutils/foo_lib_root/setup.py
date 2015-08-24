@@ -32,6 +32,7 @@ from distutils.core import setup
 CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
                'Intended Audience :: Developers',
                'License :: OSI Approved :: MIT License',
+               'Natural Language :: English',
                'Operating System :: POSIX :: OS Independent',
                'Programming Language :: Python :: 3',
                'Topic :: Software Development :: Libraries']
@@ -45,16 +46,18 @@ def get_long_description():
         desc = fd.read()
     return desc
 
-# Don't use unicode strings in setup arguments or bdist_rpm will fail.
 setup(author='Jeremie DECOCK',
       author_email='jd.jdhp@gmail.com',
-      classifiers=CLASSIFIERS,
-      description='A snippet to show how to install a project with setuptools',
-      license='MIT license',
-      long_description=get_long_description(),
       maintainer='Jeremie DECOCK',
       maintainer_email='jd.jdhp@gmail.com',
+
       name='nursery_rhymes',
-      packages=PACKAGES,
+      description='A snippet to show how to install a project with setuptools',
+      long_description=get_long_description(),
       url='http://www.jdhp.org/',
+      download_url='http://www.jdhp.org/',# where the package may be downloaded
+
+      classifiers=CLASSIFIERS,
+      license='MIT license',     # Useless if license is already in CLASSIFIERS
+      packages=PACKAGES,
       version=VERSION)
