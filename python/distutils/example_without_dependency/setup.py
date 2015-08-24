@@ -39,6 +39,8 @@ CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
 
 PACKAGES = ['nursery_rhymes']
 
+SCRIPTS = ["rowyourboat"]
+
 README_FILE = 'README.rst'
 
 def get_long_description():
@@ -57,7 +59,7 @@ setup(author='Jeremie DECOCK',
       url='http://www.jdhp.org/',
       download_url='http://www.jdhp.org/',# where the package may be downloaded
 
-      scripts = ["rowyourboat"],
+      scripts=SCRIPTS,
 
       classifiers=CLASSIFIERS,
       #license='MIT license',    # Useless if license is already in CLASSIFIERS
