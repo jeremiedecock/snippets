@@ -21,10 +21,15 @@ PyNurseryRhymesDemo dependencies
 Install
 =======
 
-PyNurseryRhyme can be installed with Python Distutils by entering the following command
-in a terminal::
+You can install, upgrade, uninstall PyNurseryRhyme with these commands::
 
-    python3 setup.py install
+    $ pip install nursery_rhymes
+    $ pip install --upgrade nursery_rhymes
+    $ pip uninstall nursery_rhymes
+
+Or, if you already have downloaded and unzipped the package::
+
+    $ ./setup.py install
 
 
 Usage
