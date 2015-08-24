@@ -58,6 +58,6 @@ setup(author='Jeremie DECOCK',
       download_url='http://www.jdhp.org/',# where the package may be downloaded
 
       classifiers=CLASSIFIERS,
-      license='MIT license',     # Useless if license is already in CLASSIFIERS
+      #license='MIT license',    # Useless if license is already in CLASSIFIERS
       packages=PACKAGES,
       version=VERSION)
