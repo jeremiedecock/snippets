@@ -85,6 +85,7 @@ setup(author='Jeremie DECOCK',
       description='A snippet to show how to install a project with setuptools',
       long_description=get_long_description(),
       url='http://www.jdhp.org/',
+      download_url='http://www.jdhp.org/',# Where the package can be downloaded
 
       classifiers=CLASSIFIERS,
       #license='MIT license',    # Useless if license is already in CLASSIFIERS
