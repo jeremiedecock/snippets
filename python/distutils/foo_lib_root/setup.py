@@ -57,6 +57,8 @@ setup(author='Jeremie DECOCK',
       url='http://www.jdhp.org/',
       download_url='http://www.jdhp.org/',# where the package may be downloaded
 
+      scripts = ["rowyourboat"],
+
       classifiers=CLASSIFIERS,
       #license='MIT license',    # Useless if license is already in CLASSIFIERS
       packages=PACKAGES,
