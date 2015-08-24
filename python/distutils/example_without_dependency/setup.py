@@ -33,7 +33,7 @@ CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
                'Intended Audience :: Developers',
                'License :: OSI Approved :: MIT License',
                'Natural Language :: English',
-               'Operating System :: POSIX :: OS Independent',
+               'Operating System :: OS Independent',
                'Programming Language :: Python :: 3',
                'Topic :: Software Development :: Libraries']
 
