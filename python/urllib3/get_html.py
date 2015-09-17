@@ -41,7 +41,7 @@ def main():
 
     # PARSE OPTIONS ###########################################################
 
-    parser = argparse.ArgumentParser(description='A UrlLib snippet.')
+    parser = argparse.ArgumentParser(description='An urllib3 snippet.')
     parser.add_argument("url", nargs=1, metavar="URL",
                         help="The URL of the webpage to parse.")
     args = parser.parse_args()
