@@ -12,19 +12,18 @@
 
 # Online documentation:
 # - https://docs.python.org/3.0/library/urllib.parse.html
-# - http://stackoverflow.com/questions/9626535/get-domain-name-from-url
+# - http://stackoverflow.com/questions/9718541/reconstructing-absolute-urls-from-relative-urls-on-a-page
 
-from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 def main():
 
-    uri = "http://www.jdhp.org/home_en.html"
+    base = "http://www.jdhp.org/foo/bar/baz.html"
+    relative_url = "../../images/img.png"
 
-    parsed_uri = urlparse(uri)
-    domain = '{uri.netloc}'.format(uri=parsed_uri)
+    absolute_url = urljoin(base, relative_url)
 
-    print("uri: {}".format(uri))
-    print("domain: {}".format(domain))
+    print(absolute_url)
 
 
 if __name__ == '__main__':
