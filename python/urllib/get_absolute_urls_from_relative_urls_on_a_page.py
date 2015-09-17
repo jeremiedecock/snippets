@@ -4,8 +4,10 @@
 # Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
 
 # Warning:
-# Urllib is part of the Python3 standard library but this is not the case for
-# urllib2 and urllib3 !
+# The urllib2 (from Python 2.x) module has been split across several modules in
+# Python 3 named "urllib.request" and "urllib.error".
+# Urllib (and thus urllib2) is part of the Python3 standard library but this is
+# not the case for urllib3 !
 # "urllib and urllib2 have little to do with each other. They were designed to
 # be independent and standalone, each solving a different scope of problems,
 # and urllib3 follows in a similar vein."
