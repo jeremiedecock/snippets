@@ -40,9 +40,11 @@ import shutil
 import time
 import urllib.request
 from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 import crawler
 from http_headers import HTTP_HEADERS
+from http_headers import URL_DOMAIN
 
 MEAN_TIME_SLEEP = 15
 STD_TIME_SLEEP = 5
@@ -126,24 +128,57 @@ class MoocFunNode(crawler.Node):
                 soup2 = BeautifulSoup(embeded_html)
 
                 for anchor in soup2.find_all('a'):
+
+                    # Download video (HD)
                     if anchor.string == "Haute définition (720p)":
                         video_num += 1
                         video_url = anchor['href']
 
                         video_filename = os.path.join(chap_name, "{}_video_{}.mp4".format(title, video_num))
 
-                        print(video_filename, video_url)
+                        if not os.path.exists(video_filename):
+                            print("Downloading", video_filename)
 
-                        request = urllib.request.Request(video_url, data=None, headers=HTTP_HEADERS)
-                        with urllib.request.urlopen(request) as response, open(video_filename, 'wb') as out_file:
-                            shutil.copyfileobj(response, out_file)
+                            request = urllib.request.Request(video_url, data=None, headers=HTTP_HEADERS)
+                            with urllib.request.urlopen(request) as response, open(video_filename, 'wb') as out_file:
+                                shutil.copyfileobj(response, out_file)
 
-                        # Log
-                        with open("downloads.log", 'a') as out_file:
-                            print(video_filename, video_url, file=out_file)
+                            # Log
+                            with open("downloads.log", 'a') as out_file:
+                                print(video_filename, video_url, file=out_file)
 
-                        # Wait a litte bit
-                        time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
+                            # Wait a litte bit
+                            time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
+                        else:
+                            print("Skip", video_filename)
+
+                    # Download files (.pdf, .ppt, .pptx, .txt, .odp, .odt, .doc, .docx, .dat, .zip, .gz, .py, .r)
+                    if anchor['href'].lower().endswith(('.pdf', '.ppt', '.pptx', '.txt', '.odp', '.odt', '.doc', '.docx', '.dat', '.zip', '.gz', '.py', '.r')):
+                        input_file_url = anchor['href']
+
+                        parsed_url = urlparse(input_file_url)
+                        input_filepath = '{uri.path}'.format(uri=parsed_url)
+                        output_filepath = os.path.join(chap_name, os.path.basename(input_filepath))
+
+                        if not os.path.exists(output_filepath):
+                            print("Downloading", output_filepath)
+
+                            input_domain = '{uri.netloc}'.format(uri=parsed_url)
+                            if input_domain == '':
+                                input_file_url = URL_DOMAIN + input_file_url
+
+                            request = urllib.request.Request(input_file_url, data=None, headers=HTTP_HEADERS)
+                            with urllib.request.urlopen(request) as response, open(output_filepath, 'wb') as out_file:
+                                shutil.copyfileobj(response, out_file)
+
+                            # Log
+                            with open("downloads.log", 'a') as out_file:
+                                print(output_filepath, input_file_url, file=out_file)
+
+                            # Wait a litte bit
+                            time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
+                        else:
+                            print("Skip", output_filepath)
 
 
 #    @property
@@ -196,8 +231,8 @@ class MoocFunNode(crawler.Node):
                 course_relative_url = course_elem.a['href']
                 course_absolute_url = urljoin(self.url, course_relative_url)
 
-                course_desc = {"chap_name": re.sub('[.,;:!?]', '', chap_name.lower().replace(' ', '_')).replace('__', '_'),
-                               "title": re.sub('[.,;:!?]', '', course_title.lower().replace(' ', '_')).replace('__', '_')}
+                course_desc = {"chap_name": re.sub('[^a-z0-9_]', '', chap_name.lower().replace(' ', '_')).replace('__', '_'),
+                               "title": re.sub('[^a-z0-9_]', '', course_title.lower().replace(' ', '_')).replace('__', '_')}
                 courses_dict[course_absolute_url] = course_desc
 
         return courses_dict
