@@ -47,21 +47,30 @@ from http_headers import HTTP_HEADERS
 MEAN_TIME_SLEEP = 15
 STD_TIME_SLEEP = 5
 
+#cpt = 0
+
 class MoocFunNode(crawler.Node):
 
     def __init__(self, url, depth):
         self.url = url
+        self.depth = depth
 
-        #self.html = urllib.request.urlopen(self.url).read()
+        # Wait a litte bit
+        time.sleep(abs(random.gauss(10.0, 3)))
 
-        request = urllib.request.Request(self.url, data=None, headers=HTTP_HEADERS)
+        # Get HTML with a customized user-agent
+        print("request", self.url)
+        request = urllib.request.Request(self.url, data=None,
+                                         headers=HTTP_HEADERS)
         response = urllib.request.urlopen(request)
         self.html = response.read()
 
-        #with open("mooc.htm", "r") as fd:
-        #    self.html = fd.read()
-
-        self.depth = depth
+        ## TMP
+        #global cpt
+        #cpt += 1
+        #html_filename = "{}.htm".format(cpt)
+        #with open(html_filename, 'wb') as out_file:
+        #    out_file.write(self.html)
 
 
     @property
@@ -84,20 +93,29 @@ class MoocFunNode(crawler.Node):
 
             # Export the table of contents
             toc_dict = self.table_of_contents
-            with open("test.json", "w") as fd:
-                json.dump(toc_dict, fd, sort_keys=True, indent=4)  # pretty print format
+            with open("toc.json", "w") as fd:
+                json.dump(toc_dict, fd, sort_keys=True, indent=4)
+
+            courses_dict = self.courses
+            with open("courses.json", "w") as fd:
+                json.dump(courses_dict, fd, sort_keys=True, indent=4)
 
         elif self.depth == 1:
             courses_dict = self.courses
-            #with open("test2.json", "w") as fd:
-            #    json.dump(courses_dict, fd, sort_keys=True, indent=4)  # pretty print format
 
             chap_name = courses_dict[self.url]["chap_name"]
             title = courses_dict[self.url]["title"]
 
+            # Make the chapter directory
             if not os.path.exists(chap_name):
                 os.mkdir(chap_name)
 
+            # Download HTML
+            html_filename = os.path.join(chap_name, "{}.html".format(title))
+            with open(html_filename, 'wb') as out_file:
+                out_file.write(self.html)
+
+            # Download videos
             soup = BeautifulSoup(self.html)
 
             video_num = 0
@@ -112,7 +130,7 @@ class MoocFunNode(crawler.Node):
                         video_num += 1
                         video_url = anchor['href']
 
-                        video_filename = os.path.join(chap_name, "{}_video{}.mp4".format(title, video_num))
+                        video_filename = os.path.join(chap_name, "{}_video_{}.mp4".format(title, video_num))
 
                         print(video_filename, video_url)
 
@@ -120,8 +138,12 @@ class MoocFunNode(crawler.Node):
                         with urllib.request.urlopen(request) as response, open(video_filename, 'wb') as out_file:
                             shutil.copyfileobj(response, out_file)
 
+                        # Log
+                        with open("downloads.log", 'a') as out_file:
+                            print(video_filename, video_url, file=out_file)
+
                         # Wait a litte bit
-                        time.sleep(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP))
+                        time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
 
 
 #    @property
@@ -155,24 +177,27 @@ class MoocFunNode(crawler.Node):
 
         courses_dict = {}
 
-        #print(self.html)
-
         soup = BeautifulSoup(self.html)
 
         for chap_div in soup.find_all('div', 'chapter'):
         #for chap_div in soup.find_all('div', {'class': 'chapter'}):
-        #for chap_div in soup.find_all('div'):
             chap_name = str(chap_div.h3.a.string).strip()
-            #print(chap_div)
 
             for course_num, course_elem in enumerate(chap_div.find_all('li')):
-                course_title = str(course_elem.a.p.string).strip()
+                # Warning: the current course ("session") contains a
+                # "<span>...</span>" within the "<p>...</p>" and thus
+                # "course_elem.a.p.string" returns "None" for the current
+                # course.
+                # "course_elem.a.p.text" is not a good solution neither.
+                # Use "course_elem.a.p.contents[0]" instead.
+                # See: http://stackoverflow.com/questions/16835449/python-beautifulsoup-extract-text-between-element
+                course_title = str(course_elem.a.p.contents[0]).strip()
 
                 course_relative_url = course_elem.a['href']
                 course_absolute_url = urljoin(self.url, course_relative_url)
 
-                course_desc = {"chap_name": re.sub('[.,;:!?]', '', chap_name.lower().replace(' ', '_')),
-                               "title": re.sub('[.,;:!?]', '', course_title.lower().replace(' ', '_'))}
+                course_desc = {"chap_name": re.sub('[.,;:!?]', '', chap_name.lower().replace(' ', '_')).replace('__', '_'),
+                               "title": re.sub('[.,;:!?]', '', course_title.lower().replace(' ', '_')).replace('__', '_')}
                 courses_dict[course_absolute_url] = course_desc
 
         return courses_dict
@@ -202,7 +227,6 @@ class MoocFunNode(crawler.Node):
         for chap_div in soup.find_all('div', 'chapter'):
             chap_str = str(chap_div.h3.a.string).strip()
             toc_dict[chap_str] = []
-            #print(chap_str)
 
             for course_num, course_li in enumerate(chap_div.find_all('li')):
                 course_title = str(course_li.a.p.string).strip()
@@ -214,18 +238,9 @@ class MoocFunNode(crawler.Node):
                 course_relative_url = course_li.a['href']
                 course_absolute_url = urljoin(self.url, course_relative_url)
 
-                #print("- Cours", course_num + 1)
-                #print("  - title:", course_title)
-                #print("  - subtitle:", course_subtitle)
-                #print("  - url:", course_absolute_url)
                 toc_dict[chap_str].append({"title": course_title, "subtitle": course_subtitle, "url": course_absolute_url})
 
         return toc_dict
-
-
-    @property
-    def is_final(self):
-        return True
 
 
 def main():
