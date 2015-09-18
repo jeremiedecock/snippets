@@ -42,16 +42,10 @@ import urllib.request
 from urllib.parse import urljoin
 
 import crawler
+from http_headers import HTTP_HEADERS
 
 MEAN_TIME_SLEEP = 15
 STD_TIME_SLEEP = 5
-
-HTTP_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.1',
-    'Accept encoding': 'gzip, deflate',
-    'Accept language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3'
-}
 
 class MoocFunNode(crawler.Node):
 
@@ -75,7 +69,8 @@ class MoocFunNode(crawler.Node):
         child_nodes_set = set()
 
         if self.depth == 0:
-            child_nodes_set = self.courses
+            for course_url in self.courses:
+                child_nodes_set.add(MoocFunNode(course_url, self.depth + 1))
 
         return child_nodes_set
 
@@ -93,7 +88,7 @@ class MoocFunNode(crawler.Node):
                 json.dump(toc_dict, fd, sort_keys=True, indent=4)  # pretty print format
 
         elif self.depth == 1:
-            courses_dict = self.courses_meta
+            courses_dict = self.courses
             #with open("test2.json", "w") as fd:
             #    json.dump(courses_dict, fd, sort_keys=True, indent=4)  # pretty print format
 
@@ -120,9 +115,6 @@ class MoocFunNode(crawler.Node):
                         video_filename = os.path.join(chap_name, "{}_video{}.mp4".format(title, video_num))
 
                         print(video_filename, video_url)
-
-                        # TODO: download the video
-                        ##urllib.request.urlretrieve(video_url, video_filename)
 
                         request = urllib.request.Request(video_url, data=None, headers=HTTP_HEADERS)
                         with urllib.request.urlopen(request) as response, open(video_filename, 'wb') as out_file:
@@ -163,10 +155,15 @@ class MoocFunNode(crawler.Node):
 
         courses_dict = {}
 
+        #print(self.html)
+
         soup = BeautifulSoup(self.html)
 
         for chap_div in soup.find_all('div', 'chapter'):
+        #for chap_div in soup.find_all('div', {'class': 'chapter'}):
+        #for chap_div in soup.find_all('div'):
             chap_name = str(chap_div.h3.a.string).strip()
+            #print(chap_div)
 
             for course_num, course_elem in enumerate(chap_div.find_all('li')):
                 course_title = str(course_elem.a.p.string).strip()
