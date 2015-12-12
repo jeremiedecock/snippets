@@ -8,8 +8,8 @@ GDL is almost 100% compatible to IDL.
 Official websites
 =================
 
- - IDL: http://www.exelisvis.com/ProductsServices/IDL.aspx
- - GDL: http://gnudatalanguage.sourceforge.net/
+- IDL: http://www.exelisvis.com/ProductsServices/IDL.aspx
+- GDL: http://gnudatalanguage.sourceforge.net/
 
 Install GDL on Debian
 =====================
