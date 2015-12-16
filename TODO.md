@@ -22,3 +22,24 @@
     - [ ] OpenGL
     - [ ] GL Shaders
     - [ ] OSG + GL Shaders
+- [ ] Autres langages (au moins quelques snippets pour chacun)
+    - [ ] PHP
+    - [ ] Perl
+    - [ ] Ruby
+    - [ ] Lua
+    - [ ] IDL / GDL (GNU Data Language)
+    - [ ] R
+    - [ ] SQL
+    - [ ] Scheme/Lisp
+    - [ ] Prolog
+    - [ ] Haskell
+    - [ ] C#
+    - [ ] Fortran
+    - [ ] Ada
+    - [ ] Go
+    - [ ] Swift (Apple)
+    - [ ] Objective-C (Apple)
+    - [ ] Rust
+    - [ ] OCaml
+    - [ ] Erlang
+    - [ ] ASM x86
