@@ -31,6 +31,15 @@ See http://joshbode.github.io/remark/ansi.html#1
 - https://github.com/gnab/remark/wiki
 
 
+## Official demo
+
+See http://remarkjs.com/#1
+
+The Markdown source code of these slides are embeded in the HTML document of
+the demo (i.e. go to http://remarkjs.com/#1 and type Ctrl+u to read the source
+code of the demo within Firefox).
+
+
 ## Alternatives
 
 See [this article](http://caseywatts.github.io/2012/12/12/markdown_to_slide_presentation/).
