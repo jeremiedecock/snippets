@@ -1,6 +1,7 @@
 /*
- * compile: javac Hello.java
- * exec:    java Hello
+ * Usage:
+ * - compile: javac Hello.java
+ * - execute: java Hello
  */
 
 public class Hello {
