@@ -1,8 +1,9 @@
 import java.io.File;
 
 /*
- * compile: javac PathDirNameBaseName.java
- * exec:    java PathDirNameBaseName
+ * Usage:
+ * - compile: javac PathDirNameBaseName.java
+ * - execute: java PathDirNameBaseName
  */
 
 public class PathDirNameBaseName {
