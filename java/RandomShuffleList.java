@@ -1,8 +1,9 @@
 /*
- * This snippet show how shuffle a list
+ * This snippet shows how shuffle a list.
  *
- * compile: javac RandomShuffleList.java
- * exec:    java RandomShuffleList
+ * Usage:
+ * - compile: javac RandomShuffleList.java
+ * - execute: java RandomShuffleList
  */
 
 import java.util.ArrayList;
