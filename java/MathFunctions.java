@@ -1,5 +1,5 @@
 /*
- * This snippet uses some useful Math functions.
+ * This snippet tests some useful Math functions.
  *
  * Usage:
  * - compile: javac MathFunctions.java
