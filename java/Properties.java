@@ -1,7 +1,5 @@
-import java.util.Enumeration;
-
 /*
- * This snippet show how to set and get properties.
+ * This snippet shows how to set and get properties.
  *
  * For more information, read "Le guide de survie Java" (chap. 2)
  * (by Timothy Fisher, ed. CampusPress)
@@ -23,14 +21,9 @@ public class Properties {
         
         // Get all properties
         java.util.Properties properties = System.getProperties();
-        Enumeration propertyNames = properties.propertyNames();
-
-        String key;
-
-        while(propertyNames.hasMoreElements()) {
-            key = (String) propertyNames.nextElement();
-            System.out.println(key + " = " + properties.getProperty(key));
-        }
+		for (String key : properties.stringPropertyNames()) {
+			System.out.println(key + " = " + properties.getProperty(key));
+		}
 
     }
 }
