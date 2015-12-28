@@ -1,6 +1,7 @@
 /*
- * compile: javac InitializedList.java
- * exec:    java InitializedList
+ * Usage:
+ * - compile: javac InitializedList.java
+ * - execute: java InitializedList
  */
 
 import java.util.ArrayList;
