@@ -1,9 +1,9 @@
 /*
- * This snippet show how to get an environment variable
- * (e.g. the PATH environment variable here)
+ * This snippet shows how to get an environment variable
+ * (e.g. the PATH environment variable here).
  *
  * For more information, read "Le guide de survie Java" (chap. 2)
- * (by Timothy Fisher, ed. CampusPress)
+ * (by Timothy Fisher, ed. CampusPress).
  *
  * Usage:
  * - compile: javac EnvironmentVariables.java
