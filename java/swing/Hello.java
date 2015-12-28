@@ -1,6 +1,14 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/*
+ * This snippet shows how to make a very basic Swing window.
+ *
+ * Usage:
+ * - compile: javac Hello.java
+ * - execute: java Hello
+ */
+
 public class Hello {
     public static void main(String args[]) {
         // Create a frame and set the title
