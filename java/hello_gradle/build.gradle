@@ -1,1 +1,8 @@
 apply plugin: 'java'
+
+// The following lines are not required to build a Java project but are
+// required to run the compiled code with "gradle run".
+// See: http://stackoverflow.com/questions/21358466/gradle-to-execute-java-class-without-modifying-build-gradle
+
+apply plugin:'application'
+mainClassName = "org.jdhp.snippets.Hello"
