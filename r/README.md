@@ -7,17 +7,17 @@ Official web site: http://www.r-project.org/
 For Debian users:
 
 ```shell
-# apt-get install r-base
+sudo apt-get install r-base
 ```
 
 ## Run R
 
 Run the interactive interpreter:
 ```shell
-$ R
+R
 ```
 
 Launch a script:
 ```shell
-$ Rscript file.r
+Rscript file.r
 ```
