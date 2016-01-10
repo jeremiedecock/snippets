@@ -1,6 +1,6 @@
 # Lua snippets
 
-## Lua installation
+## Lua installation procedure
 
 For Debian users:
 
