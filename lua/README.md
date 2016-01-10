@@ -4,5 +4,7 @@
 
 For Debian users:
 
- # apt-get install lua5.3
+```shell
+# apt-get install lua5.3
+```
 

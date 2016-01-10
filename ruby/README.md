@@ -4,6 +4,8 @@
 
 For Debian users:
 
- # apt-get install ruby-full
+```shell
+# apt-get install ruby-full
+```
 
 For others users: https://www.ruby-lang.org/fr/documentation/installation/

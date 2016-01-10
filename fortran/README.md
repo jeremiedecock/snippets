@@ -7,4 +7,6 @@ Tutorials:
 
 For Debian users:
 
- # apt-get install gfortran
+```shell
+# apt-get install gfortran
+```
