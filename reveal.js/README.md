@@ -44,12 +44,14 @@ https://github.com/hakimel/reveal.js/issues/511:
 > in code-someting-like (for those wishing to store their own presentation in
 > github)
 >
+> ```shell
 > git clone https://github.com/yourUser/presentationsStockName.git
 > cd presentationsStockName
 > git submodule add https://github.com/hakimel/reveal.js.git reveal.js
 > git submodule init
 > cp reveal.js/index.html blank.html
 > edit blank.html 
+> ```
 >
 > Put in blank.html your name, favorite settings, typical title, content and
 > conclusion sections, and prepend "reveal.js/" to all "css/" "lib/" "js/" and
