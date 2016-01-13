@@ -1,10 +1,34 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# Fast Fourier Transform snippet
+#
+# Example usages:
+#   ./fft2.py -t 0.0001 -s ./lenna.png
+#   ./fft2.py -t 0.001 ./lenna.png
+#   ipython3 -- ./fft2.py -t 0.0001 -s ./lenna.png
+#
 # This snippet requires Numpy, Scipy, Matplotlib and PIL/Pillow Python libraries.
-
-# Fast Fourier Transform snippets
 # 
-# Documentation:
+# Additional documentation:
 # - Numpy implementation: http://docs.scipy.org/doc/numpy/reference/routines.fft.html
 # - Scipy implementation: http://docs.scipy.org/doc/scipy/reference/fftpack.html
 
@@ -21,7 +45,7 @@ import PIL.Image as pil_img     # PIL.Image is a module not a class...
 parser = argparse.ArgumentParser(description='An FFT snippet.')
 
 parser.add_argument("--shift", "-s", help="Shift the zero to the center", action="store_true", default=False)
-parser.add_argument("--threshold", "-t",  help="The threshold value (between 0 and 1)", type=float, default=0.5, metavar="FLOAT")
+parser.add_argument("--threshold", "-t",  help="The threshold value (between 0 and 1)", type=float, default=0, metavar="FLOAT")
 parser.add_argument("fileargs", nargs=1, metavar="FILE", help="The file image to filter")
 args = parser.parse_args()
 
