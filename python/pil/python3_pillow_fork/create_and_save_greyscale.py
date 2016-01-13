@@ -35,6 +35,8 @@ def main():
     img = pil_img.new(mode, size)
 
     # Make the data (pixels value in [0;255])
+    # WARNING: nested list and 2D numpy arrays are silently rejected!!!
+    #          data *must* be a list or a 1D numpy array!
     data = [(x+y)/(size[0]+size[1])*255 for y in range(size[1]) for x in range(size[0])]
     img.putdata(data) 
 
