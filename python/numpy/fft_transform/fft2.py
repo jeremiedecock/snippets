@@ -103,5 +103,15 @@ filtered_signal = np.fft.ifft2(filtered_transformed_signal)
 ax4.imshow(abs(filtered_signal), interpolation='nearest', cmap=cm.gray)
 ax4.set_title("Filtered image")
 
+
+# SAVE FILES ######################
+
+#plt.savefig("fft2.png")
+#plt.savefig("fft2.svg")
+plt.savefig("fft2.pdf")
+
+
+# PLOT ############################
+
 plt.show()
 

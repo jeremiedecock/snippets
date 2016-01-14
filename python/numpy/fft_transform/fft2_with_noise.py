@@ -155,7 +155,16 @@ ax11.set_title("Filtered noise")
 ax12.imshow(abs(filtered_noised_img), interpolation='nearest', cmap=cm.gray)
 ax12.set_title("Filtered noised image")
 
-# Plot
+
+# SAVE FILES ######################
+
+#plt.savefig("fft2_with_noise.png")
+#plt.savefig("fft2_with_noise.svg")
+plt.savefig("fft2_with_noise.pdf")
+
+
+# PLOT ############################
 
 plt.show()
+
 
