@@ -68,7 +68,7 @@ noise = np.random.poisson(255. * noise_coefficient, size=img.shape)
 noised_img = img + noise
 
 # Init plots
-fig, ((ax1, ax4, ax7, ax10), (ax2, ax5, ax8, ax11), (ax3, ax6, ax9, ax12)) = plt.subplots(3, 4, figsize=(14, 8))
+fig, ((ax1, ax4, ax7, ax10), (ax2, ax5, ax8, ax11), (ax3, ax6, ax9, ax12)) = plt.subplots(3, 4, figsize=(16, 10))
 
 # Display images
 ax1.imshow(img, interpolation='nearest', cmap=cm.gray)
@@ -97,17 +97,17 @@ if shift:
 ax4.imshow(np.log10(abs(fourier_img)),
            interpolation='nearest',
            cmap=cm.gray)
-ax4.set_title("Fourier coefficients before filtering (image)")
+ax4.set_title("Fourier coefficients\nbefore filtering (image)")
 
 ax5.imshow(np.log10(abs(fourier_noise)),
            interpolation='nearest',
            cmap=cm.gray)
-ax5.set_title("Fourier coefficients before filtering (noise)")
+ax5.set_title("Fourier coefficients\nbefore filtering (noise)")
 
 ax6.imshow(np.log10(abs(fourier_noised_img)),
            interpolation='nearest',
            cmap=cm.gray)
-ax6.set_title("Fourier coefficients before filtering (noised image)")
+ax6.set_title("Fourier coefficients\nbefore filtering (noised image)")
 
 
 # Filter ###############################
@@ -122,17 +122,17 @@ filtered_fourier_noised_img = fourier_noised_img * (abs(fourier_noised_img) > ma
 ax7.imshow(np.log10(abs(filtered_fourier_img)),
            interpolation='nearest',
            cmap=cm.gray)
-ax7.set_title("Fourier coefficients after filtering (image)")
+ax7.set_title("Fourier coefficients\nafter filtering (image)")
 
 ax8.imshow(np.log10(abs(filtered_fourier_noise)),
            interpolation='nearest',
            cmap=cm.gray)
-ax8.set_title("Fourier coefficients after filtering (noise)")
+ax8.set_title("Fourier coefficients\nafter filtering (noise)")
 
 ax9.imshow(np.log10(abs(filtered_fourier_noised_img)),
            interpolation='nearest',
            cmap=cm.gray)
-ax9.set_title("Fourier coefficients after filtering (noised image)")
+ax9.set_title("Fourier coefficients\nafter filtering (noised image)")
 
 
 # Do the reverse transform #############
@@ -157,6 +157,21 @@ ax12.set_title("Filtered noised image")
 
 
 # SAVE FILES ######################
+
+ax1.set_axis_off()
+ax2.set_axis_off()
+ax3.set_axis_off()
+ax4.set_axis_off()
+ax5.set_axis_off()
+ax6.set_axis_off()
+
+#ax7.set_axis_off()
+#ax8.set_axis_off()
+#ax9.set_axis_off()
+
+ax10.set_axis_off()
+ax11.set_axis_off()
+ax12.set_axis_off()
 
 #plt.savefig("fft2_with_noise.png")
 #plt.savefig("fft2_with_noise.svg")
