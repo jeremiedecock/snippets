@@ -52,6 +52,8 @@ for hdu_id, hdu in enumerate(hdu_list):
     ax.imshow(data, interpolation='nearest', cmap=cm.gray)
     ax.set_title("HDU {}".format(hdu_id))
 
+    plt.savefig("HDU{}.png".format(hdu_id))
+
     plt.show()
 
 # Close the FITS file
