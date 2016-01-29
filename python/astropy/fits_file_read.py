@@ -26,10 +26,20 @@ hdu_list = fits.open(file_path)
 # Print the content of the FITS file (HDU headers)
 hdu_list.info()
 
-for hdu in hdu_list:
+print("---")
+
+for hdu_id, hdu in enumerate(hdu_list):
+    print("HDU {}".format(hdu_id))
+
+    header = hdu.header
+    for key, value in header.items():
+        print(key, ":", value)
+
     data = hdu.data   # "hdu.data" is a Numpy Array
     print(data)
     print(data.shape)
+
+    print("---")
 
 # Close the FITS file
 hdu_list.close()
