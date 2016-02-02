@@ -12,7 +12,7 @@
 
 First you have to download the *processing.js* file in this directory from
 http://processingjs.org/download/.
-Then, to test each snippets, simply open its *index.html* with your web
+Then, to test each snippets, simply open its *index.html* file with your web
 browser.
 
 ## Processing.js vs P5.js
@@ -46,10 +46,10 @@ Here is an interesting analysis taken from http://www.sitepoint.com/processing-j
     
     - Writing JS code you’re probably already familiar with
     - Officially supported by the Processing Foundation
-    - HTML DOM manipulation with the DOM library addon – adding common HTML elements to your P5 sketches and more
+    - HTML DOM manipulation with the DOM library addon
     - [...]
                     
     The advantage of using Processing.js:
                     
-    - You learn Processing and can use it in environments where it’s faster and more portable to non-web environments
+    - You learn Processing and can use it in environments
     - [...]"
