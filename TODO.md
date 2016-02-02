@@ -23,6 +23,7 @@
     - [ ] GL Shaders
     - [ ] OSG + GL Shaders
 - [ ] Autres langages (au moins quelques snippets pour chacun)
+    - [ ] Julia
     - [ ] PHP
     - [ ] Perl
     - [ ] Ruby
@@ -37,9 +38,16 @@
     - [ ] Fortran
     - [ ] Ada
     - [ ] Go
+    - [ ] Dart
     - [ ] Swift (Apple)
     - [ ] Objective-C (Apple)
     - [ ] Rust
     - [ ] OCaml
     - [ ] Erlang
+    - [ ] Apple script
     - [ ] ASM x86
+    - [ ] Cuda
+    - [ ] OpenCL
+    - [ ] Groovy
+    - [ ] Processing, processing.js, p5.js, processing.py
+    - [ ] Smalltalk, Scratch, Squeak
