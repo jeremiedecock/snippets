@@ -37,10 +37,10 @@ import argparse
 import urllib.request
 
 HTTP_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.1',
-    'Accept encoding': 'gzip, deflate',
-    'Accept language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3'
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate'
 }
 
 def print_http_request_info(http_request):
