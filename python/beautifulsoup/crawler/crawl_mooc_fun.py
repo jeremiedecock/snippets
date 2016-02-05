@@ -43,35 +43,34 @@ from urllib.parse import urljoin
 from urllib.parse import urlparse
 
 import crawler
-from http_headers import HTTP_HEADERS
-from http_headers import URL_DOMAIN
+from http_headers_mooc_fun import HTTP_HEADERS
+from http_headers_mooc_fun import URL_DOMAIN
 
+# Waiting time parameters applied before getting the HTML code of the node
+INIT_MEAN_TIME_SLEEP = 10.
+INIT_STD_TIME_SLEEP = 3
+
+# Waiting time parameters applied before downloading files (PDF, AVI, ...)
 MEAN_TIME_SLEEP = 15
 STD_TIME_SLEEP = 5
 
-#cpt = 0
-
 class MoocFunNode(crawler.Node):
 
-    def __init__(self, url, depth):
+    def __init__(self, url, depth, dry_mode=False):
         self.url = url
         self.depth = depth
+        self.dry_mode = dry_mode
 
         # Wait a litte bit
-        time.sleep(abs(random.gauss(10.0, 3)))
+        wt = abs(random.gauss(INIT_MEAN_TIME_SLEEP, INIT_STD_TIME_SLEEP))
+        print("Waiting {} seconds...".format(wt))
+        time.sleep(wt)
 
         # Get HTML with a customized user-agent
-        print("request", self.url)
-        request = urllib.request.Request(self.url, data=None,
-                                         headers=HTTP_HEADERS)
-        response = urllib.request.urlopen(request)
-        self.html = response.read()
-
-        ## TMP
-        #global cpt
-        #cpt += 1
-        #html_filename = "{}.htm".format(cpt)
-        #with open(html_filename, 'wb') as out_file:
+        print("Request", self.url)
+        self.html = crawler.download_html(self.url, HTTP_HEADERS)
+        
+        #with open("root.html", 'wb') as out_file:
         #    out_file.write(self.html)
 
 
@@ -79,7 +78,8 @@ class MoocFunNode(crawler.Node):
     def child_nodes(self):
         child_nodes_set = set()
 
-        if self.depth == 0:
+        if self.depth == 0 and self.dry_mode == False:
+            # Root node
             for course_url in self.courses:
                 child_nodes_set.add(MoocFunNode(course_url, self.depth + 1))
 
@@ -91,7 +91,7 @@ class MoocFunNode(crawler.Node):
         print("Visiting {}...".format(self.url))
 
         if self.depth == 0:
-            print("I'm visiting the root node...")
+            print("Visiting the root node...")
 
             # Export the table of contents
             toc_dict = self.table_of_contents
@@ -102,7 +102,7 @@ class MoocFunNode(crawler.Node):
             with open("courses.json", "w") as fd:
                 json.dump(courses_dict, fd, sort_keys=True, indent=4)
 
-        elif self.depth == 1:
+        elif self.depth == 1 and self.dry_mode == False:
             courses_dict = self.courses
 
             chap_name = courses_dict[self.url]["chap_name"]
@@ -148,7 +148,9 @@ class MoocFunNode(crawler.Node):
                                 print(video_filename, video_url, file=out_file)
 
                             # Wait a litte bit
-                            time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
+                            wt = abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP))
+                            print("Waiting {} seconds...".format(wt))
+                            time.sleep(wt)
                         else:
                             print("Skip", video_filename)
 
@@ -176,7 +178,9 @@ class MoocFunNode(crawler.Node):
                                 print(output_filepath, input_file_url, file=out_file)
 
                             # Wait a litte bit
-                            time.sleep(abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP)))
+                            wt = abs(random.gauss(MEAN_TIME_SLEEP, STD_TIME_SLEEP))
+                            print("Waiting {} seconds...".format(wt))
+                            time.sleep(wt)
                         else:
                             print("Skip", output_filepath)
 
@@ -286,13 +290,16 @@ def main():
     parser = argparse.ArgumentParser(description='A BeautifulSoup snippet.')
     parser.add_argument("url", nargs=1, metavar="URL",
                         help="The URL of the webpage to parse.")
+    parser.add_argument("--dry", "-d", action="store_true",
+                        help="Dry mode (don't download files)")
     args = parser.parse_args()
 
     url = args.url[0]
+    dry_mode = args.dry
 
     # TRAVERSE THE GRAPH ######################################################
 
-    start_node = MoocFunNode(url, depth=0)
+    start_node = MoocFunNode(url, depth=0, dry_mode=dry_mode)
     crawler.walk(start_node)
 
     # PRINT TRAVERSED NODES ###################################################
