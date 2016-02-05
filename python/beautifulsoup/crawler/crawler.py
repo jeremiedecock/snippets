@@ -31,14 +31,19 @@
 
 import argparse
 from bs4 import BeautifulSoup
-import urllib.request
+import gzip
 import time
+import urllib.request
 from urllib.parse import urljoin
 
 TIME_SLEEP = 1
 
 class Node:
-    """Node class"""
+    """Node class.
+
+    This class should be subclassed for each website to crawl. Each subclass
+    should redefine "visit", "child_nodes" and "is_final".
+    """
 
     traversed_nodes = []
 
@@ -96,11 +101,6 @@ class Node:
         return id(self)
 
 
-# TODO: make a subclass of Node for each website to crawl and redefine
-# "visit", "child_nodes" and "is_final".
-
-
-
 def walk(node):
     """The graph traversal function"""
 
@@ -113,6 +113,21 @@ def walk(node):
     for child_node in node.child_nodes:
         if child_node not in Node.traversed_nodes:
             walk(child_node)
+
+
+def download_html(url, http_headers_dict={}):
+    html = None
+
+    http_request = urllib.request.Request(url, data=None, headers=http_headers_dict)
+
+    with urllib.request.urlopen(http_request) as http_response:
+        if http_response.info().get('Content-Encoding') == 'gzip':
+            gz_file = gzip.GzipFile(fileobj=http_response)
+            html = gz_file.read()
+        else:
+            html = http_response.read()
+
+    return html
 
 
 def main():
