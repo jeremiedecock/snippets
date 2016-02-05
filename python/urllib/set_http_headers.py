@@ -35,35 +35,48 @@
 # - http://stackoverflow.com/questions/24226781/changing-user-agent-in-python-3-for-urrlib-urlopen
 # - http://stackoverflow.com/questions/802134/changing-user-agent-on-urllib2-urlopen
 
+import argparse
 import urllib.request
+
+HTTP_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.1',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate'
+}
 
 def main():
     """Main function"""
 
-    url = "http://myhttp.info/"
+    # PARSE OPTIONS ###########################################################
 
-    http_headers = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.1',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-        'Accept-Encoding': 'gzip, deflate'
-    }
+    parser = argparse.ArgumentParser(description='An urllib snippet.')
+    parser.add_argument("url", nargs=1, metavar="URL",
+                        help="The URL of the webpage to parse.")
+    args = parser.parse_args()
 
-    request = urllib.request.Request(url, data=None, headers=http_headers)
+    url = args.url[0]
+    print("URL:", url)
+    print()
 
     # SIMPLY PRINT HTML #######################################################
 
-    response = urllib.request.urlopen(request)
-    html = response.read()
-    print(html)
+    http_request = urllib.request.Request(url, data=None, headers=HTTP_HEADERS)
+
+    with urllib.request.urlopen(http_request) as http_response:
+        print("CODE:", http_response.getcode())
+        print()
+
+        html = http_response.read()
+        print(html)
 
     # ALTERNATIVE: DOWNLOAD HTML ##############################################
     # See http://stackoverflow.com/questions/7243750/download-file-from-web-in-python-3
 
     import shutil
 
-    with urllib.request.urlopen(request) as response, open('out.html', 'wb') as out_file:
-        shutil.copyfileobj(response, out_file)
+    with urllib.request.urlopen(http_request) as http_response, open('out.html', 'wb') as out_file:
+        shutil.copyfileobj(http_response, out_file)
 
 if __name__ == '__main__':
     main()
