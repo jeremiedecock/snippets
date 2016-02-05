@@ -43,24 +43,7 @@ HTTP_HEADERS = {
     'Accept language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3'
 }
 
-def main():
-    """Main function"""
-
-    # PARSE OPTIONS ###########################################################
-
-    parser = argparse.ArgumentParser(description='An urllib snippet.')
-    parser.add_argument("url", nargs=1, metavar="URL",
-                        help="The URL of the webpage to parse.")
-    args = parser.parse_args()
-
-    url = args.url[0]
-
-    # GET HTML ################################################################
-
-    # Setup the HTTP request
-    http_request = urllib.request.Request(url, data=None,
-                                          headers=HTTP_HEADERS)
-
+def print_http_request_info(http_request):
     print()
     print("HTTP REQUEST")
     print("============")
@@ -78,9 +61,7 @@ def main():
     print("DATA:", http_request.data)
     print()
 
-    # Get the HTTP response
-    http_response = urllib.request.urlopen(http_request)
-
+def print_http_response_info(http_response):
     print()
     print("HTTP RESPONSE")
     print("=============")
@@ -100,10 +81,37 @@ def main():
     print("HEADERS:")
     print(http_response.info())
 
+def main():
+    """Main function"""
+
+    # PARSE OPTIONS ###########################################################
+
+    parser = argparse.ArgumentParser(description='An urllib snippet.')
+    parser.add_argument("url", nargs=1, metavar="URL",
+                        help="The URL of the webpage to parse.")
+    args = parser.parse_args()
+
+    url = args.url[0]
+
+    # HTTP REQUEST ############################################################
+
+    # Setup the HTTP request
+    http_request = urllib.request.Request(url, data=None,
+                                          headers=HTTP_HEADERS)
+
+    print_http_request_info(http_request)
+
+    # Get the HTTP response
+    http_response = urllib.request.urlopen(http_request)
+
+    print_http_response_info(http_response)
+
+    # Print the HTML code
     html = http_response.read()
     print("HTML:")
     print(html)
 
+    # Save the HTML code
     with open("test.html", 'wb') as out_file:
         out_file.write(html)
 
