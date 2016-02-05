@@ -52,12 +52,12 @@ def main():
 
     # GET HTML ################################################################
 
-    http_response = urllib.request.urlopen(url)
-    print("CODE:", http_response.getcode())
-    print()
+    with urllib.request.urlopen(url) as http_response:
+        print("CODE:", http_response.getcode())
+        print()
 
-    html = http_response.read()
-    print(html)
+        html = http_response.read()
+        print(html)
 
 if __name__ == '__main__':
     main()
