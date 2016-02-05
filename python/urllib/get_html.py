@@ -47,14 +47,16 @@ def main():
     args = parser.parse_args()
 
     url = args.url[0]
-    print("url:", url)
+    print("URL:", url)
+    print()
 
     # GET HTML ################################################################
 
-    request = urllib.request.urlopen(url)
-    print("STATUS:", request.status)
+    http_response = urllib.request.urlopen(url)
+    print("CODE:", http_response.getcode())
+    print()
 
-    html = request.read()
+    html = http_response.read()
     print(html)
 
 if __name__ == '__main__':
