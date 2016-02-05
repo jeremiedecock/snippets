@@ -102,18 +102,18 @@ def main():
     print_http_request_info(http_request)
 
     # Get the HTTP response
-    http_response = urllib.request.urlopen(http_request)
+    with urllib.request.urlopen(http_request) as http_response:
 
-    print_http_response_info(http_response)
+        print_http_response_info(http_response)
 
-    # Print the HTML code
-    html = http_response.read()
-    print("HTML:")
-    print(html)
+        # Print the HTML code
+        html = http_response.read()
+        print("HTML:")
+        print(html)
 
-    # Save the HTML code
-    with open("out.html", 'wb') as out_file:
-        out_file.write(html)
+        # Save the HTML code
+        with open("out.html", 'wb') as out_file:
+            out_file.write(html)
 
 if __name__ == '__main__':
     main()
