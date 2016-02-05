@@ -112,7 +112,7 @@ def main():
     print(html)
 
     # Save the HTML code
-    with open("test.html", 'wb') as out_file:
+    with open("out.html", 'wb') as out_file:
         out_file.write(html)
 
 if __name__ == '__main__':
