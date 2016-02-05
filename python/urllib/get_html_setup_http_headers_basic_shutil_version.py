@@ -32,9 +32,19 @@
 
 # Online documentation:
 # - https://docs.python.org/3/library/urllib.request.html
+# - http://stackoverflow.com/questions/24226781/changing-user-agent-in-python-3-for-urrlib-urlopen
+# - http://stackoverflow.com/questions/802134/changing-user-agent-on-urllib2-urlopen
 
 import argparse
+import shutil
 import urllib.request
+
+HTTP_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.1',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate'
+}
 
 def main():
     """Main function"""
@@ -50,18 +60,13 @@ def main():
     print("URL:", url)
     print()
 
-    # GET HTML ################################################################
+    # HTTP REQUEST ############################################################
+    # See http://stackoverflow.com/questions/7243750/download-file-from-web-in-python-3
 
-    with urllib.request.urlopen(url) as http_response:
-        print("CODE:", http_response.getcode())
-        print()
+    http_request = urllib.request.Request(url, data=None, headers=HTTP_HEADERS)
 
-        html = http_response.read()
-        print(html)
-
-        # Save the HTML code
-        with open("out.html", 'wb') as out_file:
-            out_file.write(html)
+    with urllib.request.urlopen(http_request) as http_response, open('out.html', 'wb') as out_file:
+        shutil.copyfileobj(http_response, out_file)
 
 if __name__ == '__main__':
     main()

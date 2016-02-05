@@ -36,6 +36,7 @@
 # - http://stackoverflow.com/questions/802134/changing-user-agent-on-urllib2-urlopen
 
 import argparse
+import gzip
 import urllib.request
 
 HTTP_HEADERS = {
@@ -59,7 +60,7 @@ def main():
     print("URL:", url)
     print()
 
-    # SIMPLY PRINT HTML #######################################################
+    # HTTP REQUEST ############################################################
 
     http_request = urllib.request.Request(url, data=None, headers=HTTP_HEADERS)
 
@@ -67,16 +68,17 @@ def main():
         print("CODE:", http_response.getcode())
         print()
 
-        html = http_response.read()
+        if http_response.info().get('Content-Encoding') == 'gzip':
+            gz_file = gzip.GzipFile(fileobj=http_response)
+            html = gz_file.read()
+        else:
+            html = http_response.read()
+
         print(html)
 
-    # ALTERNATIVE: DOWNLOAD HTML ##############################################
-    # See http://stackoverflow.com/questions/7243750/download-file-from-web-in-python-3
-
-    import shutil
-
-    with urllib.request.urlopen(http_request) as http_response, open('out.html', 'wb') as out_file:
-        shutil.copyfileobj(http_response, out_file)
+        # Save the HTML code
+        with open("out.html", 'wb') as out_file:
+            out_file.write(html)
 
 if __name__ == '__main__':
     main()

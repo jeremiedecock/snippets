@@ -34,6 +34,7 @@
 # - https://docs.python.org/3/library/urllib.request.html
 
 import argparse
+import gzip
 import urllib.request
 
 HTTP_HEADERS = {
@@ -107,7 +108,12 @@ def main():
         print_http_response_info(http_response)
 
         # Print the HTML code
-        html = http_response.read()
+        if http_response.info().get('Content-Encoding') == 'gzip':
+            gz_file = gzip.GzipFile(fileobj=http_response)
+            html = gz_file.read()
+        else:
+            html = http_response.read()
+
         print("HTML:")
         print(html)
 
