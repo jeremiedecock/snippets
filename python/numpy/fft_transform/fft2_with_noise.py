@@ -22,9 +22,9 @@
 # Fast Fourier Transform snippet
 #
 # Example usages:
-#   ./fft2_with_noise.py -t 0.0001 -s ./lenna.png
-#   ./fft2_with_noise.py -t 0.001 ./lenna.png
-#   ipython3 -- ./fft2_with_noise.py -t 0.0001 -s ./lenna.png
+#   ./fft2_with_noise.py -t 0.0001 -s ./julie_lebrun.jpeg
+#   ./fft2_with_noise.py -t 0.001 ./julie_lebrun.jpeg
+#   ipython3 -- ./fft2_with_noise.py -t 0.0001 -s ./julie_lebrun.jpeg
 #
 # This snippet requires Numpy, Scipy, Matplotlib and PIL/Pillow Python libraries.
 # 

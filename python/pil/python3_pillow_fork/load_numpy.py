@@ -27,7 +27,7 @@ import numpy as np
 def main():
     """Main function"""
 
-    img_array = np.array(pil_img.open("test.png"))  # It works also with .jpg, ...
+    img_array = np.array(pil_img.open("test.png"))  # It works also with .png, .jpg, ...
 
     # Print the image as a list of numbers
     print(img_array)

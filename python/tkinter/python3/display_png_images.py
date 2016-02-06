@@ -30,7 +30,7 @@ def main():
 
     root = tk.Tk()
 
-    img = tk.PhotoImage(file="lenna.png")
+    img = tk.PhotoImage(file="julie_lebrun.jpeg")
 
     label = tk.Label(root, image=img)
     label.pack()
