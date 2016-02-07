@@ -1,1 +1,1 @@
-../../tkinter/python3/pil.py
+../tkinter/python3/pil.py

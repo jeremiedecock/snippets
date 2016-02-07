@@ -1,1 +1,1 @@
-../../tkinter/python3/show_and_resize_image_with_pil.py
+../tkinter/python3/show_and_resize_image_with_pil.py
