@@ -1,1 +1,1 @@
-../pyqt/poppler_pdf.py
+../pyqt/pyqt4/poppler_pdf.py

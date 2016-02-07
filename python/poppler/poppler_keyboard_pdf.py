@@ -1,1 +1,1 @@
-../pyqt/poppler_keyboard_pdf.py
+../pyqt/pyqt4/poppler_keyboard_pdf.py
