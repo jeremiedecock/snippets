@@ -22,9 +22,9 @@
 # Fast Fourier Transform snippet
 #
 # Example usages:
-#   ./rfft2.py -t 0.0001 ./julie_lebrun.jpeg
-#   ./rfft2.py -t 0.001 ./julie_lebrun.jpeg
-#   ipython3 -- ./rfft2.py -t 0.0001 ./julie_lebrun.jpeg
+#   ./rfft2.py -t 0.0001 ./test.jpeg
+#   ./rfft2.py -t 0.001 ./test.jpeg
+#   ipython3 -- ./rfft2.py -t 0.0001 ./test.jpeg
 #
 # This snippet requires Numpy, Scipy, Matplotlib and PIL/Pillow Python libraries.
 # 
