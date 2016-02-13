@@ -63,6 +63,8 @@ root = tk.Tk()
 listbox = tk.Listbox(root, selectmode=tk.EXTENDED)
 listbox.pack(side=tk.TOP)
 
+# Listbox can be used to represent arbitrary Python objects.
+# See: http://effbot.org/tkinterbook/listbox.htm
 for item in items:
     listbox.insert(tk.END, item)
 
