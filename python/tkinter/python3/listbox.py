@@ -27,6 +27,8 @@ import tkinter as tk
 
 root = tk.Tk()
 
+# LISTBOX #############################
+
 # The "selectmode" can be:
 # - SINGLE:   just a single choice
 # - BROWSE:   same, but the selection can be moved using the mouse
@@ -38,15 +40,22 @@ listbox = tk.Listbox(root, selectmode=tk.EXTENDED)
 listbox.pack(side=tk.TOP)
 
 items = ["banana", "apple", "mango", "orange"]
+
 for item in items:
     listbox.insert(tk.END, item)
 
+# BUTTON ##############################
+
 def print_selection():
-    print(listbox.curselection())
-    print([items[item] for item in listbox.curselection()])
+    selection_id_tuple = listbox.curselection()
+    selection_label_tuple = tuple(listbox.get(item) for item in selection_id_tuple)
+    print(selection_id_tuple)
+    print(selection_label_tuple)
 
 button = tk.Button(root, text="Print selection", width=15, command=print_selection)
 button.pack(side=tk.BOTTOM)
+
+# MAIN LOOP ###########################
 
 root.mainloop()
 
