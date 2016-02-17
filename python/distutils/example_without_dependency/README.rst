@@ -12,8 +12,8 @@ This snippet was written to test distutils and PyPI.
 It is inspired by `this tutorial`_.
 
 
-DistutilsDemo dependencies
-==========================
+Dependencies
+============
 
 - Python >= 3.0
 

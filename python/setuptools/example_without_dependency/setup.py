@@ -25,10 +25,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Here is the procedure to submit updates to PyPI
+# ===============================================
+#
+# 1. Register to PyPI:
+#
+#    $ python3 setup.py register
+#
+# 2. Upload the source distribution:
+#
+#    $ python3 setup.py sdist upload
+
+from jdhp_setuptools_demo import __version__ as VERSION
 from setuptools import setup, find_packages
-
-from nursery_rhymes import __version__ as VERSION
-
 
 # See :  http://pypi.python.org/pypi?%3Aaction=list_classifiers
 CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
@@ -45,7 +54,7 @@ CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
 # automatically with a recursive search (from the root directory of the
 # project).
 PACKAGES = find_packages()
-#PACKAGES = ['nursery_rhymes']
+#PACKAGES = ['jdhp_setuptools_demo']
 
 
 # The following list contains all dependencies that Python will try to
@@ -61,10 +70,15 @@ INSTALL_REQUIRES = []
 # For instance, here it will automatically make the "rowyourboat" system
 # command (when this package is installed) which calls
 # nursery_rhymes.row_your_boat.sing().
+#
+# For more information: http://www.pythonhosted.org/setuptools/setuptools.html#automatic-script-creation
 ENTRY_POINTS = {
   'console_scripts': [
-      'rowyourboat = nursery_rhymes.row_your_boat:sing',
+      'setuptools-demo-nox = jdhp_setuptools_demo.row_your_boat:sing',
   ],
+  'gui_scripts': [
+      'setuptools-demo = jdhp_setuptools_demo.row_your_boat:gui',
+  ]
 }
 
 
@@ -81,20 +95,17 @@ setup(author='Jeremie DECOCK',
       maintainer='Jeremie DECOCK',
       maintainer_email='jd.jdhp@gmail.com',
 
-      name='nursery_rhymes',
-      description='A snippet to show how to install a project with setuptools',
+      name='jdhp-setuptools-demo',
+      description='A snippet to test setuptools and PyPI',
       long_description=get_long_description(),
       url='http://www.jdhp.org/',
       download_url='http://www.jdhp.org/',# Where the package can be downloaded
 
-      classifiers=CLASSIFIERS,
-      #license='MIT license',    # Useless if license is already in CLASSIFIERS
-
-      packages=PACKAGES,
+      entry_points=ENTRY_POINTS,
       include_package_data=True, # Use the MANIFEST.in file
-
       install_requires=INSTALL_REQUIRES,
 
-      entry_points=ENTRY_POINTS,
-
+      classifiers=CLASSIFIERS,
+      #license='MIT license',    # Useless if license is already in CLASSIFIERS
+      packages=PACKAGES,
       version=VERSION)

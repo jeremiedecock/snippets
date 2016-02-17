@@ -1,19 +1,19 @@
-===================
-PyNurseryRhymesDemo
-===================
+==============
+SetuptoolsDemo
+==============
 
-Copyright (c) 2015 Jeremie DECOCK (http://www.jdhp.org)
+Copyright (c) 2015,2016 Jeremie DECOCK (http://www.jdhp.org)
 
 
 Description
 ===========
 
-This snippet, inspired by `this tutorial`_.
-It shows how to install a project with setuptools.
+This snippet was written to test setuptools and PyPI.
+It is inspired by `this tutorial`_.
 
 
-PyNurseryRhymesDemo dependencies
-================================
+Dependencies
+============
 
 - Python >= 3.0
 
@@ -21,15 +21,57 @@ PyNurseryRhymesDemo dependencies
 Install
 =======
 
-You can install, upgrade, uninstall PyNurseryRhyme with these commands::
+This demo can be installed with Python Setuptools by entering the following
+command in a terminal::
 
-    $ pip install nursery_rhymes
-    $ pip install --upgrade nursery_rhymes
-    $ pip uninstall nursery_rhymes
+    python3 setup.py install
 
-Or, if you already have downloaded and unzipped the package::
+.. _install:
 
-    $ ./setup.py install
+Installation
+============
+
+Gnu/Linux
+---------
+
+You can install, upgrade, uninstall this demo with these commands
+(in a terminal)::
+
+    pip install --pre jdhp-setuptools-demo
+    pip install --upgrade jdhp-setuptools-demo
+    pip uninstall jdhp-setuptools-demo
+
+Or, if you have downloaded the source code::
+
+    python3 setup.py install
+
+Windows
+-------
+
+You can install, upgrade, uninstall this demo with these commands
+(in a `command prompt`_)::
+
+    py -m pip install --pre jdhp-setuptools-demo
+    py -m pip install --upgrade jdhp-setuptools-demo
+    py -m pip uninstall jdhp-setuptools-demo
+
+Or, if you have downloaded the source code::
+
+    py setup.py install
+
+MacOSX
+-------
+
+You can install, upgrade, uninstall this demo with these commands
+commands (in a terminal)::
+
+    pip install --pre jdhp-setuptools-demo
+    pip install --upgrade jdhp-setuptools-demo
+    pip uninstall jdhp-setuptools-demo
+
+Or, if you have downloaded the source code::
+
+    python3 setup.py install
 
 
 Usage
@@ -37,14 +79,14 @@ Usage
 
 Usage::
 
-    from nursery_rhymes import row_your_boat
+    from jdhp_setuptools_demo import row_your_boat
     row_your_boat.sing()
 
 
 License
 =======
 
-PyNurseryRhymesDemo is distributed under the `MIT License`_
+This demo is distributed under the `MIT License`_
 
 .. _this tutorial: http://sametmax.com/creer-un-setup-py-et-mettre-sa-bibliotheque-python-en-ligne-sur-pypi/
 .. _MIT License: http://opensource.org/licenses/MIT

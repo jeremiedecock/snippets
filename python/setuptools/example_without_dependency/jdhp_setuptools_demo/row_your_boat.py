@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2015,2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,11 @@
 # THE SOFTWARE.
 
 """
-A great module example!
+A tiny module example.
 """
 
-__all__ = ['sing']
+__all__ = ['sing',
+           'gui']
 
 lyrics = """Row, row, row your boat,
 Gently down the stream.
@@ -40,6 +41,18 @@ def sing():
     print(lyrics)
 
 
+def gui():
+    import tkinter as tk
+
+    root = tk.Tk()
+
+    label = tk.Label(root, text=lyrics, justify=tk.CENTER)
+    label.pack(pady=5)
+
+    root.mainloop()
+
+
 if __name__ == '__main__':
     sing()
+    #gui()
 
