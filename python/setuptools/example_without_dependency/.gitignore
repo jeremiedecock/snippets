@@ -3,5 +3,5 @@
 build/
 dist/
 usr/
-nursery_rhymes.egg-info/
+jdhp_setuptools_demo.egg-info/
 __pycache__
