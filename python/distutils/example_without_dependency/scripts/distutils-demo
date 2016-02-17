@@ -29,8 +29,8 @@ def main():
 
     root = tk.Tk()
 
-    label2 = tk.Label(root, text=row_your_boat.lyrics, justify=tk.CENTER)
-    label2.pack(pady=5)
+    label = tk.Label(root, text=row_your_boat.lyrics, justify=tk.CENTER)
+    label.pack(pady=5)
 
     root.mainloop()
 
