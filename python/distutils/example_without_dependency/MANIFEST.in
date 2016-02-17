@@ -1,1 +1,15 @@
-include AUTHORS LICENSE *.rst rowyourboat
+include AUTHORS
+include LICENSE
+include debian8-dist.sh
+include scripts/distutils-demo
+include scripts/distutils-demo-nox
+include *.txt
+include *.rst
+include *.md
+recursive-include docs *
+recursive-include tests *
+recursive-exclude docs *.pyc
+recursive-exclude docs *.pyo
+recursive-exclude tests *.pyc
+recursive-exclude tests *.pyo
+prune docs/_build

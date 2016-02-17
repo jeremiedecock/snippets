@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 """
-A great module example!
+A tiny module example.
 """
 
 __all__ = ['sing']

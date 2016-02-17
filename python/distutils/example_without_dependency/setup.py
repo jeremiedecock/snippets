@@ -25,7 +25,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from nursery_rhymes import __version__ as VERSION
+# Here is the procedure to submit updates to PyPI
+# ===============================================
+#
+# 1. Register to PyPI:
+#
+#    $ python3 setup.py register
+#
+# 2. Upload the source distribution:
+#
+#    $ python3 setup.py sdist upload
+
+from jdhp_distutils_demo import __version__ as VERSION
 from distutils.core import setup
 
 # See :  http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -37,9 +48,14 @@ CLASSIFIERS = ['Development Status :: 5 - Production/Stable',
                'Programming Language :: Python :: 3',
                'Topic :: Software Development :: Libraries']
 
-PACKAGES = ['nursery_rhymes']
+# You can either specify manually the list of packages to include in the
+# distribution or use "setuptools.find_packages()" to include them
+# automatically with a recursive search (from the root directory of the
+# project).
+#PACKAGES = find_packages()
+PACKAGES = ['jdhp_distutils_demo']
 
-SCRIPTS = ["rowyourboat"]
+SCRIPTS = ['scripts/distutils-demo-nox', 'scripts/distutils-demo']
 
 README_FILE = 'README.rst'
 
@@ -53,8 +69,8 @@ setup(author='Jeremie DECOCK',
       maintainer='Jeremie DECOCK',
       maintainer_email='jd.jdhp@gmail.com',
 
-      name='nursery_rhymes',
-      description='A snippet to show how to install a project with setuptools',
+      name='jdhp-distutils-demo',
+      description='A snippet to test distutils and PyPI',
       long_description=get_long_description(),
       url='http://www.jdhp.org/',
       download_url='http://www.jdhp.org/',# where the package may be downloaded
