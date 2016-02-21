@@ -24,6 +24,14 @@
 import tkinter as tk
 import tkinter.filedialog
 
+FILE_TYPES = [
+            ('Python Source Files', '.py'),
+            ('C++ Source Files', '.cpp .cc .c .h .hpp'),
+            ('All Files', '.*')
+        ]
+
+root = tk.Tk()
+
 def print_file():
     fd = open(entry.get(), "r")
     print("FILEPATH:", fd.name) # Path of the opened file
@@ -32,13 +40,12 @@ def print_file():
 
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tk.filedialog.askopenfile()
+    fd = tk.filedialog.askopenfile(parent=root, filetypes=FILE_TYPES, title='Select your file')
+
     if fd is not None:
         entry.delete(0, tk.END)
         entry.insert(0, fd.name)
         fd.close()
-
-root = tk.Tk()
 
 entry = tk.Entry(root, width=80)
 entry.pack(side=tk.LEFT)
