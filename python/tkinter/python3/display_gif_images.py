@@ -28,8 +28,9 @@ def main():
 
     root = tk.Tk()
 
-    photo = tk.PhotoImage(file="test.gif")   # GIF only...
-    label = tk.Label(root, image=photo)
+    img = tk.PhotoImage(file="jdhp_logo.gif")
+
+    label = tk.Label(root, image=img)
     label.pack()
 
     root.mainloop()
