@@ -24,14 +24,16 @@
 import tkinter as tk
 import tkinter.filedialog
 
+root = tk.Tk()
+
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tk.filedialog.askopenfile()
+    fd = tk.filedialog.askopenfile(parent=root, title='Select your file')
+
     print("FILEPATH:", fd.name) # Path of the opened file
     print(fd.read())
-    fd.close()
 
-root = tk.Tk()
+    fd.close()
 
 open_button = tk.Button(root, text="Open", command=open_file)
 open_button.pack()
