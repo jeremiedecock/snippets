@@ -63,7 +63,7 @@ def main():
     # (src: http://effbot.org/tkinterbook/photoimage.htm#patterns)
     # See also http://infohost.nmt.edu/tcc/help/pubs/pil/image-tk.html
     
-    pil_image = pil_img.open("test.jpeg")
+    pil_image = pil_img.open("jdhp_logo.jpeg")
     tk_photo = pil_tk.PhotoImage(pil_image)
 
     # Tkinter
