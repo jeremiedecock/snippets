@@ -16,7 +16,7 @@ Reference guide:
 - [x] Frame
 - [ ] Message
 - [x] Entry
-- [ ] Checkbutton
+- [x] Checkbutton
 - [ ] Radiobutton
 - [x] Scale
 - [x] PhotoImage
