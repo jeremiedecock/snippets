@@ -35,12 +35,7 @@ def callback():
 
 checkbutton = tk.Checkbutton(root, text="Test", variable=test_var, command=callback)
 
-# If you need to keep track of both the variable and the widget, you can
-# simplify your code somewhat by attaching the variable to the widget reference
-# object
-#checkbutton.var = test_var
-
-checkbutton.pack(side=tk.BOTTOM)
+checkbutton.pack()
 
 root.mainloop()
 
