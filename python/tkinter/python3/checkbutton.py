@@ -28,6 +28,8 @@ import tkinter as tk
 root = tk.Tk()
 
 test_var = tk.IntVar()
+
+# Initialize
 #test_var.set(1)
 
 def callback():
