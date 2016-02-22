@@ -14,10 +14,9 @@ Reference guide:
 - [x] Label
 - [x] Button
 - [x] Frame
-- [ ] Message
 - [x] Entry
 - [x] Checkbutton
-- [ ] Radiobutton
+- [x] Radiobutton
 - [x] Scale
 - [x] PhotoImage
 - [ ] BitmapImage
@@ -36,6 +35,12 @@ Reference guide:
 - [ ] Spinbox
 - [x] ScrolledText
 - [ ] Dialog
+    - [ ] tk_chooseColor
+    - [ ] tk_chooseDirectory
+    - [ ] tk_dialog
+    - [ ] tk_getOpenFile
+    - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm
+    - [ ] tk_popup
 
 ## Misc
 
@@ -47,6 +52,15 @@ Reference guide:
 - [x] PIL/Pillow
 - [x] Fullscreen
 - [x] Keyboard events
-- [ ] Ttk extension (https://docs.python.org/3/library/tkinter.ttk.html)
+- [ ] TTK extension (https://docs.python.org/3/library/tkinter.ttk.html)
+- [ ] Zinc extension
+- [ ] TkPath extension
 - [ ] Write some application examples from "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013 (chess, music player, ...)
+- [ ] Draw windows without frame (to make desklets)
+- [ ] Get clic coordonates (on images, canvas, frame, ...)
+- [ ] Export canvas to files (cf. pyarm)
+- [ ] Canvas animations (e.g. a clock)
+- [ ] Dual screen with pyglet
+- [ ] Alternatives canvas: http://wiki.tcl.tk/22235
+- [ ] Web browser widget ? (webkit, ...)
 
