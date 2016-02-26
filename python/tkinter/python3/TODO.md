@@ -35,11 +35,11 @@ Reference guide:
 - [ ] OptionMenu
 - [ ] Spinbox
 - [ ] Dialog
-    - [ ] tk_chooseColor
+    - [x] tk_chooseColor
     - [ ] tk_chooseDirectory
     - [ ] tk_dialog
     - [ ] tk_getOpenFile
-    - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm
+    - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkMessageBox.html
     - [ ] tk_popup
 
 ## Misc
