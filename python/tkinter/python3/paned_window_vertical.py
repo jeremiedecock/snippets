@@ -22,6 +22,7 @@
 # THE SOFTWARE.
 
 # See: http://effbot.org/tkinterbook/panedwindow.htm
+#      http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/panedwindow.html
 
 import tkinter as tk
 
@@ -30,14 +31,14 @@ def main():
 
     root = tk.Tk()
 
-    paned_window = tk.PanedWindow(root, orient=tk.VERTICAL)
+    paned_window = tk.PanedWindow(root, orient=tk.VERTICAL, sashwidth=2, sashrelief=tk.RIDGE)
     paned_window.pack(fill=tk.BOTH, expand=1)
 
     top = tk.Label(paned_window, text="top pane")
-    paned_window.add(top)
+    paned_window.add(top, minsize=50, height=100, width=200)
 
     bottom = tk.Label(paned_window, text="bottom pane")
-    paned_window.add(bottom)
+    paned_window.add(bottom, minsize=50, height=100, width=200)
 
     root.mainloop()
 
