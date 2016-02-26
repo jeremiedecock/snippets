@@ -3,6 +3,7 @@
 ## Online documentation
 
 - http://effbot.org/tkinterbook/tkinter-index.htm
+- http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
 - https://wiki.python.org/moin/TkInter
 
 ## Open source application examples
