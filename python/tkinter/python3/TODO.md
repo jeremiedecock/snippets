@@ -18,22 +18,22 @@ Reference guide:
 - [x] Checkbutton
 - [x] Radiobutton
 - [x] Scale
+- [x] BitmapImage
 - [x] PhotoImage
-- [ ] BitmapImage
 - [x] Menu
     - [x] toplevel menu
     - [x] pulldown menu
     - [x] popup menu
-- [ ] Menubutton
-- [ ] Scrollbar
-- [ ] Listbox
+- [x] Listbox
 - [x] Text
 - [x] Canvas
-- [ ] OptionMenu
 - [x] PanedWindow
 - [x] LabelFrame
-- [ ] Spinbox
 - [x] ScrolledText
+- [ ] Scrollbar
+- [ ] Menubutton
+- [ ] OptionMenu
+- [ ] Spinbox
 - [ ] Dialog
     - [ ] tk_chooseColor
     - [ ] tk_chooseDirectory
