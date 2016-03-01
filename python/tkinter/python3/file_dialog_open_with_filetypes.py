@@ -21,6 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See also: http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkFileDialog.html
+
 import tkinter as tk
 import tkinter.filedialog
 
