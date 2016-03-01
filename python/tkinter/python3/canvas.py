@@ -27,11 +27,27 @@ import tkinter as tk
 
 root = tk.Tk()
 
-canvas = tk.Canvas(root)
-canvas.pack()
+canvas = tk.Canvas(root, width=600, height=600)
+canvas.pack(padx=10, pady=10)
 
-canvas.create_line(10, 10, 300, 200, fill="red", dash=(4, 4))
-canvas.create_rectangle(150, 25, 250, 75, fill="blue")
-canvas.create_oval(50, 125, 150, 175, fill="yellow")
+# arrow: "none", "first", "last" or "both"
+canvas.create_line((0, 0, 200, 100), fill="red", width=4, dash=(8, 4), arrow="last", arrowshape=(16, 20, 6))
+canvas.create_line((0, 100, 200, 0), fill="black", width=2)
+
+canvas.create_rectangle((300, 0, 500, 100), outline="orange", fill="blue", width=2)
+
+canvas.create_oval((0, 200, 200, 300), outline="purple", fill="yellow", width=2)
+
+# start: the start angle in degrees
+# extent: the size, relative to the start angle. Default is 90.0
+# style: "pieslice", "chord" or "arc"
+canvas.create_arc((300, 200, 500, 300), start=45, extent=225, style="arc", outline="brown", width=2)
+
+canvas.create_polygon((0, 400, 50, 450, 100, 400, 150, 450), fill="black", width=2)
+
+canvas.create_text((0, 500), text="Hello!", font="Helvetica 32 bold italic", fill="gray", anchor="w")
+
+img = tk.PhotoImage(file="jdhp_logo.png")
+canvas.create_image((300, 500), image=img, anchor="w")
 
 root.mainloop()
