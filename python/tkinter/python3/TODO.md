@@ -28,19 +28,19 @@ Reference guide:
     - [x] toplevel menu
     - [x] pulldown menu
     - [x] popup menu
+- [x] OptionMenu
 - [x] Listbox
 - [x] Text
 - [x] PanedWindow
 - [x] LabelFrame
 - [x] ScrolledText
 - [ ] Canvas
-    - [ ] Export to PS file (+ ps2png.sh, ps2svg.sh, ps2vp8.sh, ps2h264.sh, ps2theora.sh, ...)
+    - [ ] Export to PS file (+ ps2png.sh, ps2svg.sh, ps2vp8.sh, ps2h264.sh, ps2theora.sh, ps2gif.sh, ...)
     - [ ] Modify lines, ovals, ...
     - [ ] Polygons
     - [ ] Bezier curves (see the "smooth" parameter of lines: http://python4kids.brendanscott.com/2012/09/19/quadratic-bezier-curves/)
 - [ ] Scrollbar
 - [ ] Menubutton
-- [ ] OptionMenu
 - [ ] Spinbox
     - [ ] set value
     - [ ] validate=...
