@@ -23,6 +23,10 @@
 
 # See also: http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkFileDialog.html
 
+# Intended for cases where the user wants to select an existing file. If the
+# user selects a nonexistent file, a popup will appear informing them that the
+# selected file does not exist. 
+
 import tkinter as tk
 import tkinter.filedialog
 

@@ -23,14 +23,22 @@
 
 # See also: http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkFileDialog.html
 
+# Intended for cases where the user wants to select an existing file. If the
+# user selects a nonexistent file, a popup will appear informing them that the
+# selected file does not exist. 
+
+import os
 import tkinter as tk
 import tkinter.filedialog
 
+# FILE_TYPES = [(label1, pattern1), (label2, pattern2), ...]
 FILE_TYPES = [
             ('Python Source Files', '.py'),
             ('C++ Source Files', '.cpp .cc .c .h .hpp'),
             ('All Files', '.*')
         ]
+
+HOME = os.path.expanduser("~")
 
 root = tk.Tk()
 
@@ -42,7 +50,12 @@ def print_file():
 
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tk.filedialog.askopenfile(parent=root, filetypes=FILE_TYPES, title='Select your file')
+    fd = tk.filedialog.askopenfile(parent=root,
+                                   filetypes=FILE_TYPES,             # optional
+                                   defaultextension='.py',           # optional
+                                   #initialdir=HOME,                  # optional
+                                   initialfile='file_dialog_open.py',# optional
+                                   title='Select your file')         # optional
 
     if fd is not None:
         entry.delete(0, tk.END)
