@@ -1,9 +1,5 @@
 # TODO
 
-Reference guide:
-- http://effbot.org/tkinterbook/tkinter-index.htm
-- "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013
-
 ## Geometry managers
 
 - [ ] Pack Geometry Manager (fill, expand, ...) http://effbot.org/tkinterbook/pack.htm and http://www.gigante.be/python/didact_002.php
@@ -51,11 +47,13 @@ Reference guide:
     - [ ] tk_chooseDirectory
     - [ ] tk_dialog
     - [ ] tk_getOpenFile
-        - [ ] Default file
-        - [ ] Default default directory
-        - [ ] Default file extension
-        - [ ] Open directory instead file
-        - [ ] Save (file or directory) instead open
+        - [x] Default file
+        - [x] Default default directory
+        - [x] Default file extension
+        - [x] Open directory instead file
+        - [ ] Open multiple files
+        - [x] Return file descriptor VS file path
+        - [x] Save (file or directory) instead open
     - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkMessageBox.html
     - [ ] tk_popup
 
@@ -75,8 +73,7 @@ Reference guide:
 - [ ] Write some application examples from "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013 (chess, music player, ...)
 - [ ] Draw windows without frame (to make desklets)
 - [ ] Get clic coordonates (on images, canvas, frame, ...)
-- [ ] Export canvas to files (cf. pyarm)
-- [ ] Canvas animations (e.g. a clock)
+- [x] Canvas animations (e.g. a clock)
 - [ ] Dual screen with pyglet
 - [ ] Alternatives canvas: http://wiki.tcl.tk/22235
 - [ ] Web browser widget ? (webkit, ...)
