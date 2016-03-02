@@ -7,7 +7,11 @@ Reference guide:
 ## Geometry managers
 
 - [ ] Pack Geometry Manager (fill, expand, ...) http://effbot.org/tkinterbook/pack.htm and http://www.gigante.be/python/didact_002.php
+    - [ ] With 1 widget: anchor, expand, fill, ipadx, ipady, padx, pady, side
+    - [ ] With 3 widgets (label): anchor, expand, fill, ipadx, ipady, padx, pady, side
+    - [ ] With 4+ widgets (label): anchor, expand, fill, ipadx, ipady, padx, pady, side
 - [ ] Grid Geometry Manager http://effbot.org/tkinterbook/grid.htm
+- [ ] Place Geometry Manager
 
 ## Widgets
 
@@ -26,10 +30,14 @@ Reference guide:
     - [x] popup menu
 - [x] Listbox
 - [x] Text
-- [x] Canvas
 - [x] PanedWindow
 - [x] LabelFrame
 - [x] ScrolledText
+- [ ] Canvas
+    - [ ] Export to PS file (+ ps2png.sh, ps2svg.sh, ps2vp8.sh, ps2h264.sh, ps2theora.sh, ...)
+    - [ ] Modify lines, ovals, ...
+    - [ ] Polygons
+    - [ ] Bezier curves (see the "smooth" parameter of lines: http://python4kids.brendanscott.com/2012/09/19/quadratic-bezier-curves/)
 - [ ] Scrollbar
 - [ ] Menubutton
 - [ ] OptionMenu
@@ -39,6 +47,11 @@ Reference guide:
     - [ ] tk_chooseDirectory
     - [ ] tk_dialog
     - [ ] tk_getOpenFile
+        - [ ] Default file
+        - [ ] Default default directory
+        - [ ] Default file extension
+        - [ ] Open directory instead file
+        - [ ] Save (file or directory) instead open
     - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkMessageBox.html
     - [ ] tk_popup
 
