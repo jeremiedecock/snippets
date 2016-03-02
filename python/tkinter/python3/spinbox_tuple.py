@@ -21,6 +21,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See also: http://effbot.org/tkinterbook/spinbox.htm
+#           http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/spinbox.html
+
 import tkinter as tk
 
 def spinbox_callback():
