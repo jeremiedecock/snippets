@@ -32,6 +32,6 @@ entry = tk.Entry(root)
 entry.pack(side=tk.LEFT)
 
 button = tk.Button(root, text="Print", command=print_msg)
-button.pack(side=tk.RIGHT)
+button.pack(side=tk.LEFT)
 
 root.mainloop()
