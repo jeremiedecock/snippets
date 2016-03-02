@@ -61,7 +61,7 @@ root = tk.Tk()
 # - EXTENDED: multiple ranges of items can be chosen, using the Shift and
 #             Control keyboard modifiers
 listbox = tk.Listbox(root, selectmode=tk.EXTENDED)
-listbox.pack(side=tk.TOP)
+listbox.pack()
 
 # Listbox can be used to represent arbitrary Python objects.
 # See: http://effbot.org/tkinterbook/listbox.htm
@@ -80,7 +80,7 @@ def print_selection():
     print(selection_sound_tuple )
 
 button = tk.Button(root, text="Print selection", width=15, command=print_selection)
-button.pack(side=tk.BOTTOM)
+button.pack()
 
 # MAIN LOOP ###########################
 

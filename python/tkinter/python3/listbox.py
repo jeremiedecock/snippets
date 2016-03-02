@@ -37,7 +37,7 @@ root = tk.Tk()
 # - EXTENDED: multiple ranges of items can be chosen, using the Shift and
 #             Control keyboard modifiers
 listbox = tk.Listbox(root, selectmode=tk.EXTENDED)
-listbox.pack(side=tk.TOP)
+listbox.pack()
 
 items = ["banana", "apple", "mango", "orange"]
 
@@ -53,7 +53,7 @@ def print_selection():
     print(selection_label_tuple)
 
 button = tk.Button(root, text="Print selection", width=15, command=print_selection)
-button.pack(side=tk.BOTTOM)
+button.pack()
 
 # MAIN LOOP ###########################
 
