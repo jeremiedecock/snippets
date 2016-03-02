@@ -42,6 +42,10 @@ Reference guide:
 - [ ] Menubutton
 - [ ] OptionMenu
 - [ ] Spinbox
+    - [ ] set value
+    - [ ] validate=...
+    - [ ] validatecommand=...
+    - [ ] invalidcommand=...
 - [ ] Dialog
     - [x] tk_chooseColor
     - [ ] tk_chooseDirectory
