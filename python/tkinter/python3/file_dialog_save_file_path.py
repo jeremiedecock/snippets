@@ -22,6 +22,7 @@
 # THE SOFTWARE.
 
 # See also: http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkFileDialog.html
+#           http://tkinter.unpythonic.net/wiki/tkFileDialog
 
 # Intended for cases where the user wants to create a new file or replace an
 # existing file. If the user selects an existing file, a pop-up will appear
@@ -44,7 +45,6 @@ HOME = os.path.expanduser("~")
 root = tk.Tk()
 
 def save_file():
-    # Here fd is a file descriptor (like "fd = open('foo', 'r')")
     path = tk.filedialog.asksaveasfilename(parent=root,
                                            filetypes=FILE_TYPES,     # optional
                                            defaultextension='.py',   # optional
