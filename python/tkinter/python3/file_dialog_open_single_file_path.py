@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,28 @@
 # user selects a nonexistent file, a popup will appear informing them that the
 # selected file does not exist. 
 
+import os
 import tkinter as tk
 import tkinter.filedialog
+
+# FILE_TYPES = [(label1, pattern1), (label2, pattern2), ...]
+FILE_TYPES = [
+            ('Python Source Files', '.py'),
+            ('C++ Source Files', '.cpp .cc .c .h .hpp'),
+            ('All Files', '.*')
+        ]
+
+HOME = os.path.expanduser("~")
 
 root = tk.Tk()
 
 def open_file():
-    path = tk.filedialog.askopenfilename(parent=root, title='Select your file')
+    path = tk.filedialog.askopenfilename(parent=root,
+                                         filetypes=FILE_TYPES,     # optional
+                                         defaultextension='.py',   # optional
+                                         #initialdir=HOME,          # optional
+                                         initialfile='hello.py',   # optional
+                                         title='Select your file') # optional
 
     print("FILEPATH:", path)
 

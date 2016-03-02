@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -46,11 +46,11 @@ root = tk.Tk()
 def open_file():
     # Here fd is a file descriptor (like "fd = open('foo', 'r')")
     fd = tk.filedialog.askopenfile(parent=root,
-                                   filetypes=FILE_TYPES,             # optional
-                                   defaultextension='.py',           # optional
-                                   #initialdir=HOME,                  # optional
-                                   initialfile='file_dialog_open.py',# optional
-                                   title='Select your file')         # optional
+                                   filetypes=FILE_TYPES,     # optional
+                                   defaultextension='.py',   # optional
+                                   #initialdir=HOME,          # optional
+                                   initialfile='hello.py',   # optional
+                                   title='Select your file') # optional
 
     print("FILEPATH:", fd.name) # Path of the opened file
     print(fd.read())
