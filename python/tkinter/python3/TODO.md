@@ -46,12 +46,12 @@
     - [x] tk_chooseColor
     - [ ] tk_chooseDirectory
     - [ ] tk_dialog
-    - [ ] tk_getOpenFile
+    - [x] tk_getOpenFile
         - [x] Default file
         - [x] Default default directory
         - [x] Default file extension
         - [x] Open directory instead file
-        - [ ] Open multiple files
+        - [x] Open multiple files
         - [x] Return file descriptor VS file path
         - [x] Save (file or directory) instead open
     - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkMessageBox.html
