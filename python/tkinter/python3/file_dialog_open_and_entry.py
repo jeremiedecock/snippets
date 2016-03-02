@@ -50,18 +50,16 @@ def print_file():
     fd.close()
 
 def open_file():
-    # Here fd is a file descriptor (like "fd = open('foo', 'r')")
-    fd = tk.filedialog.askopenfile(parent=root,
-                                   filetypes=FILE_TYPES,             # optional
-                                   defaultextension='.py',           # optional
-                                   #initialdir=HOME,                  # optional
-                                   initialfile='file_dialog_open.py',# optional
-                                   title='Select your file')         # optional
+    path = tk.filedialog.askopenfilename(parent=root,
+                                         filetypes=FILE_TYPES,     # optional
+                                         defaultextension='.py',   # optional
+                                         #initialdir=HOME,          # optional
+                                         initialfile='hello.py',   # optional
+                                         title='Select your file') # optional
 
-    if fd is not None:
+    if path is not None:
         entry.delete(0, tk.END)
-        entry.insert(0, fd.name)
-        fd.close()
+        entry.insert(0, path)
 
 entry = tk.Entry(root, width=80)
 entry.pack(side=tk.LEFT)
