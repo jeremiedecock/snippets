@@ -34,10 +34,11 @@ def main():
     window1 = tk.Tk()
     window1.title("Result Window")
 
-    frame1 = tk.Frame(window1, bg="red", width=200, height=200)
-    frame1.pack()
+    widget1 = tk.Canvas(window1, bg="red", width=200, height=200)
+    widget1.create_text((100, 100), text="Widget 1", font="sans 16 bold", fill="white", anchor="c")
+    widget1.pack()
 
-    frame1_pack_info = frame1.pack_info()
+    frame1_pack_info = widget1.pack_info()
 
 
     # WINDOW 2 (Toplevel object) ##############################################
@@ -46,43 +47,74 @@ def main():
     window2.title("Control Window")
     window2.geometry("+200+200")
 
-    # Fill frame
-    frame_fill = tk.LabelFrame(window2, text="Fill", padx=5, pady=5)
-    frame_fill.pack(fill=tk.X, padx=10, pady=5)
+    # Widget 1 frame ##################
+
+    frame_widget1 = tk.LabelFrame(window2, text="Widget 1", padx=5, pady=5)
+    frame_widget1.pack(fill=tk.X, padx=10, pady=5)
+
+    # Fill ########
+
+    # Must be none, x, y, or both
 
     var_fill = tk.StringVar()
     var_fill.set(frame1_pack_info['fill'])
 
     def fill_callback():
-        frame1.pack_configure(fill=var_fill.get())
-        print(frame1.pack_info())
+        widget1.pack_configure(fill=var_fill.get())
+        print("Widget 1:", widget1.pack_info())
 
-    rb_fill_none = tk.Radiobutton(frame_fill, text="NONE", variable=var_fill, value="none", command=fill_callback)
-    rb_fill_x =    tk.Radiobutton(frame_fill, text="X",    variable=var_fill, value="x",    command=fill_callback)
-    rb_fill_y =    tk.Radiobutton(frame_fill, text="Y",    variable=var_fill, value="y",    command=fill_callback)
-    rb_fill_both = tk.Radiobutton(frame_fill, text="BOTH", variable=var_fill, value="both", command=fill_callback)
+    rb_fill_none = tk.Radiobutton(frame_widget1, text="fill = none", variable=var_fill, value="none", command=fill_callback)
+    rb_fill_x =    tk.Radiobutton(frame_widget1, text="fill = x",    variable=var_fill, value="x",    command=fill_callback)
+    rb_fill_y =    tk.Radiobutton(frame_widget1, text="fill = y",    variable=var_fill, value="y",    command=fill_callback)
+    rb_fill_both = tk.Radiobutton(frame_widget1, text="fill = both", variable=var_fill, value="both", command=fill_callback)
 
     rb_fill_none.pack(anchor=tk.W)
     rb_fill_x.pack(anchor=tk.W)
     rb_fill_y.pack(anchor=tk.W)
     rb_fill_both.pack(anchor=tk.W)
 
-    # Expand frame
-    frame_expand = tk.LabelFrame(window2, text="Expand", padx=5, pady=5)
-    frame_expand.pack(fill=tk.X, padx=10, pady=5)
+    # Separator
+    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+
+    # Expand ######
 
     var_expand = tk.IntVar()
     var_expand.set(frame1_pack_info['expand'])
 
     def expand_callback():
         print(var_expand.get())
-        frame1.pack_configure(expand=var_expand.get())
-        print(frame1.pack_info())
+        widget1.pack_configure(expand=var_expand.get())
+        print("Widget 1:", widget1.pack_info())
 
-    cb_expand = tk.Checkbutton(frame_expand, text="Expand", variable=var_expand, command=expand_callback)
+    cb_expand = tk.Checkbutton(frame_widget1, text="expand", variable=var_expand, command=expand_callback)
     cb_expand.pack(anchor=tk.W)
 
-    # Quit button
+    # Separator
+    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+
+    # Side ########
+
+    # Must be top, bottom, left, or right
+
+    var_side = tk.StringVar()
+    var_side.set(frame1_pack_info['side'])
+
+    def side_callback():
+        widget1.pack_configure(side=var_side.get())
+        print("Widget 1:", widget1.pack_info())
+
+    rb_side_top =    tk.Radiobutton(frame_widget1, text="side = top",    variable=var_side, value="top",    command=side_callback)
+    rb_side_bottom = tk.Radiobutton(frame_widget1, text="side = bottom", variable=var_side, value="bottom", command=side_callback)
+    rb_side_left =   tk.Radiobutton(frame_widget1, text="side = left",   variable=var_side, value="left",   command=side_callback)
+    rb_side_right =  tk.Radiobutton(frame_widget1, text="side = right",  variable=var_side, value="right",  command=side_callback)
+
+    rb_side_top.pack(anchor=tk.W)
+    rb_side_bottom.pack(anchor=tk.W)
+    rb_side_left.pack(anchor=tk.W)
+    rb_side_right.pack(anchor=tk.W)
+
+    # Quit button #####################
+
     quit_button = tk.Button(window2, width=12, text="Quit", command=window1.quit)
     quit_button.pack()
 
