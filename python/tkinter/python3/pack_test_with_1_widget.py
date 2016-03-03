@@ -113,6 +113,40 @@ def main():
     rb_side_left.pack(anchor=tk.W)
     rb_side_right.pack(anchor=tk.W)
 
+    # Separator
+    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+
+    # Anchor ######
+
+    # Must be n, ne, e, se, s, sw, w, nw, or center
+
+    var_anchor = tk.StringVar()
+    var_anchor.set(frame1_pack_info['anchor'])
+
+    def anchor_callback():
+        widget1.pack_configure(anchor=var_anchor.get())
+        print("Widget 1:", widget1.pack_info())
+
+    rb_anchor_n      = tk.Radiobutton(frame_widget1, text="anchor = n",      variable=var_anchor, value="n",      command=anchor_callback)
+    rb_anchor_s      = tk.Radiobutton(frame_widget1, text="anchor = s",      variable=var_anchor, value="s",      command=anchor_callback)
+    rb_anchor_e      = tk.Radiobutton(frame_widget1, text="anchor = e",      variable=var_anchor, value="e",      command=anchor_callback)
+    rb_anchor_w      = tk.Radiobutton(frame_widget1, text="anchor = w",      variable=var_anchor, value="w",      command=anchor_callback)
+    rb_anchor_ne     = tk.Radiobutton(frame_widget1, text="anchor = ne",     variable=var_anchor, value="ne",     command=anchor_callback)
+    rb_anchor_nw     = tk.Radiobutton(frame_widget1, text="anchor = nw",     variable=var_anchor, value="nw",     command=anchor_callback)
+    rb_anchor_se     = tk.Radiobutton(frame_widget1, text="anchor = se",     variable=var_anchor, value="se",     command=anchor_callback)
+    rb_anchor_sw     = tk.Radiobutton(frame_widget1, text="anchor = sw",     variable=var_anchor, value="sw",     command=anchor_callback)
+    rb_anchor_center = tk.Radiobutton(frame_widget1, text="anchor = center", variable=var_anchor, value="center", command=anchor_callback)
+
+    rb_anchor_n.pack(anchor=tk.W)
+    rb_anchor_s.pack(anchor=tk.W)
+    rb_anchor_e.pack(anchor=tk.W)
+    rb_anchor_w.pack(anchor=tk.W)
+    rb_anchor_ne.pack(anchor=tk.W)
+    rb_anchor_nw.pack(anchor=tk.W)
+    rb_anchor_se.pack(anchor=tk.W)
+    rb_anchor_sw.pack(anchor=tk.W)
+    rb_anchor_center.pack(anchor=tk.W)
+
     # Quit button #####################
 
     quit_button = tk.Button(window2, width=12, text="Quit", command=window1.quit)
