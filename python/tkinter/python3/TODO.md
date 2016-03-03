@@ -14,7 +14,10 @@
 - [x] Label
 - [x] Button
 - [x] Frame
-- [x] Entry
+- [ ] Entry
+    - [ ] Validate / callback
+    - [ ] Set value
+    - [ ] Password
 - [x] Checkbutton
 - [x] Radiobutton
 - [x] Scale
@@ -63,6 +66,11 @@
 - [ ] How to get arguments in callbacks functions
 - [ ] How to make tkinter multithread to work with pyserial, opencv, ... (cf. the Oreilly's "Python Cookbook 2nd edition" p.439)
 - [ ] Bind
+- [ ] Colors
+    - [x] Named
+    - [ ] Hexa
+    - [ ] Hexa + alpha
+    - [ ] Tuple (?)
 - [x] Matplotlib
 - [x] PIL/Pillow
 - [x] Fullscreen
