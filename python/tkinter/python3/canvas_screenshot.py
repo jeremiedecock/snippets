@@ -90,6 +90,9 @@ def main():
             cmd += '-dJPEGQ=100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
             cmd += '-sOutputFile={0}.jpeg {0}.ps'.format(basename)
             os.system(cmd)
+        elif SCREENCAST_FORMAT == 'svg':
+            cmd = 'inkscape {0}.ps --export-plain-svg={0}.svg'.format(basename)
+            os.system(cmd)
 
         # Reschedule event in TIME_STEP_MS milli second
         root.after(TIME_STEP_MS, update_canvas)
