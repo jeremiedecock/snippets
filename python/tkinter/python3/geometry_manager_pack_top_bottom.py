@@ -29,7 +29,7 @@ button1 = tk.Button(root, text="Btn1")
 button1.pack(side=tk.TOP)
 
 button2 = tk.Button(root, text="Btn2")
-button2.pack(side=tk.BOTTOM)
+button2.pack(side=tk.TOP)
 
 root.mainloop()
 
