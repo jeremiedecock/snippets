@@ -27,7 +27,7 @@ import tkinter as tk
 
 root = tk.Tk()
 
-canvas = tk.Canvas(root, width=600, height=600)
+canvas = tk.Canvas(root, width=600, height=600, background="white")
 canvas.pack(padx=10, pady=10)
 
 # arrow: "none", "first", "last" or "both"
