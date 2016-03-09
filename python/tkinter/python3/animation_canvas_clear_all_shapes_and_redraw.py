@@ -22,6 +22,10 @@
 # THE SOFTWARE.
 
 # See also: http://effbot.org/tkinterbook/widget.htm
+#           http://effbot.org/tkinterbook/canvas.htm
+
+# WARNING: keeping shapes instances like in
+# animation_canvas_update_shapes_instances.py is probably a better solution...
 
 import tkinter as tk
 import random
@@ -47,8 +51,11 @@ def main():
         POSITION = (POSITION + 1) % SIZE
 
         # Clear the canvas (remove all shapes)
-        for tag in canvas.find_all():
-            canvas.delete(tag)
+        canvas.delete(tk.ALL)
+
+        # Or...
+        #for tag in canvas.find_all():
+        #    canvas.delete(tag)
 
         # Draw the ball
         canvas.create_oval(POSITION,
