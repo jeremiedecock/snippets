@@ -28,7 +28,6 @@
 # animation_canvas_update_shapes_instances.py is probably a better solution...
 
 import tkinter as tk
-import random
 
 SIZE = 250
 

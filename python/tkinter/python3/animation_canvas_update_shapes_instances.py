@@ -25,7 +25,6 @@
 #           http://effbot.org/tkinterbook/canvas.htm
 
 import tkinter as tk
-import random
 
 SIZE = 250
 
