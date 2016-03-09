@@ -54,6 +54,9 @@ def main():
     hello_button = tk.Button(window2, width=12, text="Hello", command=hello)
     hello_button.pack(side=tk.RIGHT)
 
+    # Let window2's close button quit the application
+    window2.protocol("WM_DELETE_WINDOW", window1.quit)
+
 
     # WINDOW 3 (Toplevel object)
 
@@ -66,6 +69,9 @@ def main():
 
     hello_button = tk.Button(window3, width=12, text="Hello", command=hello)
     hello_button.pack(side=tk.RIGHT)
+
+    # Let window3's close button quit the application
+    window3.protocol("WM_DELETE_WINDOW", window1.quit)
 
 
     # MAIN LOOP ("Tk" object)
