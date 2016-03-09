@@ -35,6 +35,9 @@ TIME_STEP_MS = int(1000 / FPS)
 
 SCREENCAST_PATH = "."
 SCREENCAST_ITERATION = 0
+SCREENCAST_FORMAT = 'pdf'  # '' (ps), 'pdf', 'png' or 'jpeg'
+
+GS_COMMON_CMD = 'gs -dNOPAUSE -q -dEPSCrop -dBATCH '
 
 def main():
     """Main function"""
@@ -57,20 +60,36 @@ def main():
         # Redraw the ball
         canvas.coords(ball, *coordinates)    # Set the ball's coordinates
 
-        # Take a screenshot and save it into a file.
+        # Set the screenshot filename
         global SCREENCAST_ITERATION
         SCREENCAST_ITERATION += 1
         basename = os.path.join(SCREENCAST_PATH, '%05d' % SCREENCAST_ITERATION)
 
-        canvas.postscript(file=basename + '.ps', colormode='color')  # Make the screenshot
+        # Generates a Postscript rendering of the canvas contents.
+        # Images and embedded widgets are not included!
+        # See https://www.tcl.tk/man/tcl8.4/TkCmd/canvas.htm#M60 for options.
+        canvas.postscript(file=basename + '.ps', colormode='color')
 
-        # The following commands can be used to convert PS files to JPEG or PNG on Unix platforms
-        #if SCREENSHOT_FORMAT == 'jpeg':
-        #    cmd = 'gs -sDEVICE=jpeg -dJPEGQ=100 -sOutputFile=%(bn)s.%(format)s -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -dEPSCrop -dNOPAUSE -q -dBATCH %(bn)s.ps' % {'bn': basename, 'format': SCREENSHOT_FORMAT}
-        #else:
-        #    # PNG DEVICES : pngalpha png16m pnggray png256 png16 pngmono
-        #    cmd = 'gs -sDEVICE=png16m -sOutputFile=%(bn)s.%(format)s -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -dEPSCrop -dNOPAUSE -q -dBATCH %(bn)s.ps' % {'bn': basename, 'format': SCREENSHOT_FORMAT}
-        #os.system(cmd)
+        # The following commands convert PS files to JPEG or PNG on Unix
+        # platforms. These commands use GhostScript (gs). Type "gs -h" in a
+        # terminal to get the list of available devices on your platform.
+        if SCREENCAST_FORMAT == 'pdf':
+            cmd = GS_COMMON_CMD
+            cmd += '-sDEVICE=pdfwrite '
+            cmd += '-sOutputFile={0}.pdf {0}.ps'.format(basename)
+            os.system(cmd)
+        elif SCREENCAST_FORMAT == 'png':
+            cmd = GS_COMMON_CMD
+            cmd += '-sDEVICE=png16m '
+            cmd += '-dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
+            cmd += '-sOutputFile={0}.png {0}.ps'.format(basename)
+            os.system(cmd)
+        elif SCREENCAST_FORMAT == 'jpeg':
+            cmd = GS_COMMON_CMD
+            cmd += '-sDEVICE=jpeg '
+            cmd += '-dJPEGQ=100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
+            cmd += '-sOutputFile={0}.jpeg {0}.ps'.format(basename)
+            os.system(cmd)
 
         # Reschedule event in TIME_STEP_MS milli second
         root.after(TIME_STEP_MS, update_canvas)
