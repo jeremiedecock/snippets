@@ -14,10 +14,6 @@
 - [x] Label
 - [x] Button
 - [x] Frame
-- [ ] Entry
-    - [ ] Validate / callback
-    - [ ] Set value
-    - [ ] Password
 - [x] Checkbutton
 - [x] Radiobutton
 - [x] Scale
@@ -38,8 +34,13 @@
     - [ ] Modify lines, ovals, ...
     - [ ] Polygons
     - [ ] Bezier curves (see the "smooth" parameter of lines: http://python4kids.brendanscott.com/2012/09/19/quadratic-bezier-curves/)
+    - [ ] TopWindow (widgets)
 - [ ] Scrollbar
 - [ ] Menubutton
+- [ ] Entry
+    - [ ] Validate / callback
+    - [ ] Set value
+    - [ ] Password
 - [ ] Spinbox
     - [ ] set value
     - [ ] validate=...
@@ -47,7 +48,6 @@
     - [ ] invalidcommand=...
 - [ ] Dialog
     - [x] tk_chooseColor
-    - [ ] tk_chooseDirectory
     - [ ] tk_dialog
     - [x] tk_getOpenFile
         - [x] Default file
@@ -60,12 +60,17 @@
     - [ ] tk_messageBox http://effbot.org/tkinterbook/tkinter-standard-dialogs.htm http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/tkMessageBox.html
     - [ ] tk_popup
 
+## Bind
+
+- [ ] Bind
+
 ## Misc
 
 - [ ] Full app template http://effbot.org/tkinterbook/tkinter-application-windows.htm
+    - [ ] Write some application examples from "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013 (chess, music player, ...)
+    - [ ] Find and analyse some trustworthy open source Tk apps
 - [ ] How to get arguments in callbacks functions
 - [ ] How to make tkinter multithread to work with pyserial, opencv, ... (cf. the Oreilly's "Python Cookbook 2nd edition" p.439)
-- [ ] Bind
 - [ ] Colors
     - [x] Named
     - [ ] Hexa
@@ -75,14 +80,14 @@
 - [x] PIL/Pillow
 - [x] Fullscreen
 - [x] Keyboard events
-- [ ] TTK extension (https://docs.python.org/3/library/tkinter.ttk.html)
-- [ ] Zinc extension
-- [ ] TkPath extension
-- [ ] Write some application examples from "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013 (chess, music player, ...)
-- [ ] Draw windows without frame (to make desklets)
-- [ ] Get clic coordonates (on images, canvas, frame, ...)
 - [x] Canvas animations (e.g. a clock)
+- [ ] Extensions
+    - [ ] TTK extension (https://docs.python.org/3/library/tkinter.ttk.html)
+    - [ ] Zinc extension
+    - [ ] TkPath extension
+    - [ ] Alternatives canvas: http://wiki.tcl.tk/22235
+    - [ ] Web browser widget ? (webkit, ...)
+- [ ] Draw windows without frame (to make desklets) + transparent background
+- [ ] Get clic coordonates (on images, canvas, frame, ...)
 - [ ] Dual screen with pyglet
-- [ ] Alternatives canvas: http://wiki.tcl.tk/22235
-- [ ] Web browser widget ? (webkit, ...)
 
