@@ -147,10 +147,10 @@ def main():
     rb_anchor_sw.pack(anchor=tk.W)
     rb_anchor_center.pack(anchor=tk.W)
 
-    # Quit button #####################
+    # Setup close button ##############
 
-    quit_button = tk.Button(window2, width=12, text="Quit", command=window1.quit)
-    quit_button.pack()
+    # Let window2's close button quit the application
+    window2.protocol("WM_DELETE_WINDOW", window1.quit)
 
 
     # MAIN LOOP ("Tk" object) #################################################
