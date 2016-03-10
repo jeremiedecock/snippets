@@ -73,7 +73,7 @@ class CanvasSaver:
             os.system(cmd)
 
 
-SIZE = 250
+SIZE = 300
 
 FPS = 100
 TIME_STEP_MS = int(1000 / FPS)
@@ -85,6 +85,10 @@ def main():
 
     canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
     canvas.pack()
+    
+    # Add a background image
+    img = tk.PhotoImage(file="jdhp_logo.png")
+    canvas.create_image((150, 150), image=img, anchor="c")
 
     # Draw the ball
     coordinates = (0, int(SIZE/2)-25, 50, int(SIZE/2)+25)
