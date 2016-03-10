@@ -28,16 +28,55 @@ import tkinter as tk
 import os
 import os.path
 
+class CanvasSaver:
+
+    GS_COMMON_CMD = 'gs -dNOPAUSE -q -dEPSCrop -dBATCH '
+
+    def __init__(self, canvas, dir_path='.', file_format='ps'):
+        self.canvas = canvas
+        self.dir_path = dir_path
+        self.iteration = 0
+        self.file_format = file_format  # 'ps', 'pdf', 'png' or 'jpeg'
+
+    def save(self):
+        # Set the screenshot filename
+        self.iteration += 1
+        basename = os.path.join(self.dir_path, '%05d' % self.iteration)
+
+        # Generates a Postscript rendering of the canvas contents.
+        # Images and embedded widgets are not included!
+        # See https://www.tcl.tk/man/tcl8.4/TkCmd/canvas.htm#M60 for options.
+        self.canvas.postscript(file=basename + '.ps', colormode='color')
+
+        # The following commands convert PS files to JPEG or PNG on Unix
+        # platforms. These commands use GhostScript (gs). Type "gs -h" in a
+        # terminal to get the list of available devices on your platform.
+        if self.file_format == 'pdf':
+            cmd = self.GS_COMMON_CMD
+            cmd += '-sDEVICE=pdfwrite '
+            cmd += '-sOutputFile={0}.pdf {0}.ps'.format(basename)
+            os.system(cmd)
+        elif self.file_format == 'png':
+            cmd = self.GS_COMMON_CMD
+            cmd += '-sDEVICE=png16m '
+            cmd += '-dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
+            cmd += '-sOutputFile={0}.png {0}.ps'.format(basename)
+            os.system(cmd)
+        elif self.file_format == 'jpeg':
+            cmd = self.GS_COMMON_CMD
+            cmd += '-sDEVICE=jpeg '
+            cmd += '-dJPEGQ=100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
+            cmd += '-sOutputFile={0}.jpeg {0}.ps'.format(basename)
+            os.system(cmd)
+        elif self.file_format == 'svg':
+            cmd = 'inkscape {0}.ps --export-plain-svg={0}.svg'.format(basename)
+            os.system(cmd)
+
+
 SIZE = 250
 
 FPS = 100
 TIME_STEP_MS = int(1000 / FPS)
-
-SCREENCAST_PATH = "."
-SCREENCAST_ITERATION = 0
-SCREENCAST_FORMAT = 'pdf'  # '' (ps), 'pdf', 'png' or 'jpeg'
-
-GS_COMMON_CMD = 'gs -dNOPAUSE -q -dEPSCrop -dBATCH '
 
 def main():
     """Main function"""
@@ -51,6 +90,8 @@ def main():
     coordinates = (0, int(SIZE/2)-25, 50, int(SIZE/2)+25)
     ball = canvas.create_oval(coordinates, fill="red", width=2)
 
+    saver = CanvasSaver(canvas, file_format='pdf')
+
     def update_canvas():
         # Update the ball's coordinates
         coordinates = canvas.coords(ball)    # Get the ball's coordinates
@@ -60,39 +101,8 @@ def main():
         # Redraw the ball
         canvas.coords(ball, *coordinates)    # Set the ball's coordinates
 
-        # Set the screenshot filename
-        global SCREENCAST_ITERATION
-        SCREENCAST_ITERATION += 1
-        basename = os.path.join(SCREENCAST_PATH, '%05d' % SCREENCAST_ITERATION)
-
-        # Generates a Postscript rendering of the canvas contents.
-        # Images and embedded widgets are not included!
-        # See https://www.tcl.tk/man/tcl8.4/TkCmd/canvas.htm#M60 for options.
-        canvas.postscript(file=basename + '.ps', colormode='color')
-
-        # The following commands convert PS files to JPEG or PNG on Unix
-        # platforms. These commands use GhostScript (gs). Type "gs -h" in a
-        # terminal to get the list of available devices on your platform.
-        if SCREENCAST_FORMAT == 'pdf':
-            cmd = GS_COMMON_CMD
-            cmd += '-sDEVICE=pdfwrite '
-            cmd += '-sOutputFile={0}.pdf {0}.ps'.format(basename)
-            os.system(cmd)
-        elif SCREENCAST_FORMAT == 'png':
-            cmd = GS_COMMON_CMD
-            cmd += '-sDEVICE=png16m '
-            cmd += '-dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
-            cmd += '-sOutputFile={0}.png {0}.ps'.format(basename)
-            os.system(cmd)
-        elif SCREENCAST_FORMAT == 'jpeg':
-            cmd = GS_COMMON_CMD
-            cmd += '-sDEVICE=jpeg '
-            cmd += '-dJPEGQ=100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 '
-            cmd += '-sOutputFile={0}.jpeg {0}.ps'.format(basename)
-            os.system(cmd)
-        elif SCREENCAST_FORMAT == 'svg':
-            cmd = 'inkscape {0}.ps --export-plain-svg={0}.svg'.format(basename)
-            os.system(cmd)
+        # Save the canvas
+        saver.save()
 
         # Reschedule event in TIME_STEP_MS milli second
         root.after(TIME_STEP_MS, update_canvas)
