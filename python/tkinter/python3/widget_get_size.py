@@ -1,1 +1,1 @@
-get_widget_size.py
+event_configure_resize_widget.py

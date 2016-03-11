@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See http://fr.slideshare.net/r1chardj0n3s/tkinter-does-not-suck (slides 76-81)
+
 import tkinter as tk
+from tkinter import ttk
 
 root = tk.Tk()
+
+label = ttk.Label(root, text="Hello, world!")
+label.pack()
+
 root.mainloop()

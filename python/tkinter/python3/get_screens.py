@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See http://fr.slideshare.net/r1chardj0n3s/tkinter-does-not-suck (slides 23)
+
 import tkinter as tk
+import pyglet
 
 root = tk.Tk()
+
+display = pyglet.window.get_platform().get_default_display()
+print(display.get_screens())
+
 root.mainloop()

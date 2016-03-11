@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,8 @@
 import tkinter as tk
 
 root = tk.Tk()
+
+root.attributes("-topmost", 1)   # Set the window as "always visible"
+#root.attributes("-topmost", 0)   # Disable the topmost attribute
+
 root.mainloop()
