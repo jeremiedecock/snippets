@@ -83,6 +83,11 @@
 - [x] Canvas animations (e.g. a clock)
 - [ ] Extensions
     - [ ] TTK extension (https://docs.python.org/3/library/tkinter.ttk.html)
+        - [ ] Combobox
+        - [ ] Notebook
+        - [ ] Progressbar
+        - [ ] Separator
+        - [ ] Sizegrip
     - [ ] Zinc extension
     - [ ] TkPath extension
     - [ ] Alternatives canvas: http://wiki.tcl.tk/22235
