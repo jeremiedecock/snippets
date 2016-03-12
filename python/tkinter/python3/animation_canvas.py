@@ -22,32 +22,39 @@
 # THE SOFTWARE.
 
 # See also: http://effbot.org/tkinterbook/widget.htm
+#           http://effbot.org/tkinterbook/canvas.htm
 
 import tkinter as tk
 import random
 
 SIZE = 500
 
+MAX_LINES = 20
+
 def main():
     """Main function"""
 
     root = tk.Tk()
 
-    canvas = tk.Canvas(root, width=SIZE, height=SIZE)
+    canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
     canvas.pack()
 
     def update_canvas():
-        # Do something...
+        # Clear the canvas if there are too many lines
+        if len(canvas.find_all()) > MAX_LINES:
+            canvas.delete(tk.ALL)
+
+        # Add a line
         canvas.create_line(random.randint(0, SIZE),
                            random.randint(0, SIZE),
                            random.randint(0, SIZE),
                            random.randint(0, SIZE))
 
-        # Reschedule event in 1 second
-        root.after(1000, update_canvas)
+        # Reschedule event in 100 milli seconds
+        root.after(100, update_canvas)
 
-    # Schedule event in 1 second
-    root.after(1000, update_canvas)
+    # Schedule event in 100 milli seconds
+    root.after(100, update_canvas)
 
     root.mainloop()
 
