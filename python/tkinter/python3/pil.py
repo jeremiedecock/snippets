@@ -29,6 +29,8 @@ import tkinter as tk
 import PIL.Image as pil_img   # PIL.Image is a module not a class...
 import PIL.ImageTk as pil_tk  # PIL.ImageTk is a module not a class...
 
+# Tkinter #####################################################################
+
 if tk.TkVersion < 8.6:
     print("*" * 80)
     print("WARNING: Tk version {} is installed on your system.".format(tk.TkVersion))
@@ -36,49 +38,41 @@ if tk.TkVersion < 8.6:
     print("You need to install Tk >= 8.6 if you want to read JPEG and PNG images!")
     print("*" * 80)
 
-def main():
-    """Main function"""
+# WARNING:
+# A Tk window MUST be created before you can call PhotoImage!
+# See: http://stackoverflow.com/questions/3177231/python-pil-imagetk-photoimage-is-giving-me-a-bus-error
+#      http://stackoverflow.com/questions/1236540/how-do-i-use-pil-with-tkinter
 
-    # Tkinter
+root = tk.Tk()
 
-    # WARNING:
-    # A Tk window MUST be created before you can call PhotoImage!
-    # See: http://stackoverflow.com/questions/3177231/python-pil-imagetk-photoimage-is-giving-me-a-bus-error
-    #      http://stackoverflow.com/questions/1236540/how-do-i-use-pil-with-tkinter
+# PIL #########################################################################
 
-    root = tk.Tk()
+# WARNING:
+# You must keep a reference to the image object in your Python program,
+# either by storing it in a global variable, or by attaching it to another
+# object!
+#
+# When a PhotoImage object is garbage-collected by Python (e.g. when you
+# return from a function which stored an image in a local variable), the
+# image is cleared even if it’s being displayed by a Tkinter widget.
+#
+# To avoid this, the program must keep an extra reference to the image
+# object. A simple way to do this is to assign the image to a widget
+# attribute, like this:
+#
+#    label = Label(image=tk_photo)
+#    label.image = tk_photo        # keep a reference!
+#    label.pack()
+#
+# (src: http://effbot.org/tkinterbook/photoimage.htm#patterns)
+# See also http://infohost.nmt.edu/tcc/help/pubs/pil/image-tk.html
 
-    # PIL
+pil_image = pil_img.open("jdhp_logo.jpeg")
+tk_photo = pil_tk.PhotoImage(pil_image)
 
-    # WARNING:
-    # You must keep a reference to the image object in your Python program,
-    # either by storing it in a global variable, or by attaching it to another
-    # object!
-    #
-    # When a PhotoImage object is garbage-collected by Python (e.g. when you
-    # return from a function which stored an image in a local variable), the
-    # image is cleared even if it’s being displayed by a Tkinter widget.
-    #
-    # To avoid this, the program must keep an extra reference to the image
-    # object. A simple way to do this is to assign the image to a widget
-    # attribute, like this:
-    #
-    #    label = Label(image=tk_photo)
-    #    label.image = tk_photo        # keep a reference!
-    #    label.pack()
-    #
-    # (src: http://effbot.org/tkinterbook/photoimage.htm#patterns)
-    # See also http://infohost.nmt.edu/tcc/help/pubs/pil/image-tk.html
-    
-    pil_image = pil_img.open("jdhp_logo.jpeg")
-    tk_photo = pil_tk.PhotoImage(pil_image)
+# Tkinter #####################################################################
 
-    # Tkinter
+label = tk.Label(root, image=tk_photo)
+label.pack()
 
-    label = tk.Label(root, image=tk_photo)
-    label.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

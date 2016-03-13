@@ -32,21 +32,15 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software."""
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label1 = tk.Label(root, text=text, justify=tk.LEFT)
+label1.pack(pady=5)
 
-    label1 = tk.Label(root, text=text, justify=tk.LEFT)
-    label1.pack(pady=5)
+label2 = tk.Label(root, text=text, justify=tk.CENTER)
+label2.pack(pady=5)
 
-    label2 = tk.Label(root, text=text, justify=tk.CENTER)
-    label2.pack(pady=5)
+label3 = tk.Label(root, text=text, justify=tk.RIGHT)
+label3.pack(pady=5)
 
-    label3 = tk.Label(root, text=text, justify=tk.RIGHT)
-    label3.pack(pady=5)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
