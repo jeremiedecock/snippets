@@ -24,15 +24,9 @@
 import tkinter as tk
 import tkinter.scrolledtext as stext
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+scrolled_text = stext.ScrolledText(root, width=80, height=5)
+scrolled_text.pack()
 
-    scrolled_text = stext.ScrolledText(root, width=80, height=5)
-    scrolled_text.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

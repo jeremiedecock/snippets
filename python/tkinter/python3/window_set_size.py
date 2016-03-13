@@ -23,13 +23,8 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
-    root.geometry("500x75")   # Set the size of the "root" window
+root.geometry("500x75")   # Set the size of the "root" window
 
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

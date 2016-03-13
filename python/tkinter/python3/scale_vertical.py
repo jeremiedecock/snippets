@@ -25,24 +25,20 @@
 
 import tkinter as tk
 
-def main():
-    root = tk.Tk()
-    root.geometry("75x500")   # Set the size of the "root" window
+root = tk.Tk()
+root.geometry("75x500")   # Set the size of the "root" window
 
-    ###
+###
 
-    def scale_cb(ev=None):
-        print(scale.get())    # Get the scale value (integer or float)
+def scale_cb(ev=None):
+    print(scale.get())    # Get the scale value (integer or float)
 
-    #scale = tk.Scale(root, from_=0, to=255)
-    scale = tk.Scale(root, from_=0, to=255, orient=tk.VERTICAL, command=scale_cb)  # Arguments "orient" and "command" are optional
-    scale.pack(fill=tk.Y, expand=1)
+#scale = tk.Scale(root, from_=0, to=255)
+scale = tk.Scale(root, from_=0, to=255, orient=tk.VERTICAL, command=scale_cb)  # Arguments "orient" and "command" are optional
+scale.pack(fill=tk.Y, expand=1)
 
-    scale.set(127)            # Set the scale value
+scale.set(127)            # Set the scale value
 
-    ###
+###
 
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

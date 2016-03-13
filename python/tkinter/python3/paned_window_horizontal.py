@@ -26,21 +26,15 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+paned_window = tk.PanedWindow(root, orient=tk.HORIZONTAL, sashwidth=2, sashrelief=tk.RIDGE)
+paned_window.pack(fill=tk.BOTH, expand=1)
 
-    paned_window = tk.PanedWindow(root, orient=tk.HORIZONTAL, sashwidth=2, sashrelief=tk.RIDGE)
-    paned_window.pack(fill=tk.BOTH, expand=1)
+top = tk.Label(paned_window, text="left pane")
+paned_window.add(top, minsize=100, height=200, width=200)
 
-    top = tk.Label(paned_window, text="left pane")
-    paned_window.add(top, minsize=100, height=200, width=200)
+bottom = tk.Label(paned_window, text="right pane")
+paned_window.add(bottom, minsize=100, height=200, width=200)
 
-    bottom = tk.Label(paned_window, text="right pane")
-    paned_window.add(bottom, minsize=100, height=200, width=200)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

@@ -23,16 +23,10 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
+root.geometry("250x250")   # Set the size of the "root" window
+root.resizable(False, False)
 
-    root = tk.Tk()
-    root.geometry("250x250")   # Set the size of the "root" window
-    root.resizable(False, False)
+tk.Label(root, text="This window can't be resized!").pack(fill="both", expand=1)
 
-    tk.Label(root, text="This window can't be resized!").pack(fill="both", expand=1)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

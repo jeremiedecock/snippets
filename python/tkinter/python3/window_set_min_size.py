@@ -23,12 +23,8 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
-    root.minsize(128, 128)
-    root.mainloop()
+root.minsize(128, 128)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()
