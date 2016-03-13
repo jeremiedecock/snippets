@@ -25,22 +25,16 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+def increment_counter():
+    # Do something...
+    print("Hello")
 
-    def increment_counter():
-        # Do something...
-        print("Hello")
+    # Reschedule event in 1000 milli seconds
+    root.after(1000, increment_counter)
 
-        # Reschedule event in 3 seconds
-        root.after(3000, increment_counter)
+# Schedule event in 1000 milli seconds
+root.after(1000, increment_counter)
 
-    # Schedule event in 3 seconds
-    root.after(3000, increment_counter)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

@@ -30,25 +30,21 @@ def get_time():
     dt = datetime.now()
     return dt.strftime("%X")
 
-def main():
-    """Main function"""
+###
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    label = tk.Label(root, text=get_time())
-    label.pack(fill="both", expand=1,padx=30, pady=10)
+label = tk.Label(root, text=get_time())
+label.pack(fill="both", expand=1,padx=30, pady=10)
 
-    def update_label():
-        # Do something...
-        label["text"] = get_time()
+def update_label():
+    # Do something...
+    label["text"] = get_time()
 
-        # Reschedule event in 1 second
-        root.after(1000, update_label)
-
-    # Schedule event in 1 second
+    # Reschedule event in 1 second
     root.after(1000, update_label)
 
-    root.mainloop()
+# Schedule event in 1 second
+root.after(1000, update_label)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()

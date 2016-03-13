@@ -25,29 +25,23 @@
 
 import tkinter as tk
 
-counter = 0
+COUNTER = 0
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label = tk.Label(root, text=str(COUNTER))
+label.pack(padx=30, pady=10)
 
-    label = tk.Label(root, text=str(counter))
-    label.pack(padx=30, pady=10)
+def increment_counter():
+    # Do something...
+    global COUNTER
+    COUNTER += 1
+    label["text"] = str(COUNTER)
 
-    def increment_counter():
-        # Do something...
-        global counter
-        counter += 1
-        label["text"] = str(counter)
-
-        # Reschedule event in 2 seconds
-        root.after(2000, increment_counter)
-
-    # Schedule event in 2 seconds
+    # Reschedule event in 2 seconds
     root.after(2000, increment_counter)
 
-    root.mainloop()
+# Schedule event in 2 seconds
+root.after(2000, increment_counter)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()
