@@ -29,33 +29,28 @@
 
 import tkinter as tk
 
+root = tk.Tk()
+
+# The callback
 def hello():
     print("Hello!")
 
-def main():
-    """Main function"""
+# Create a popup menu
+menu = tk.Menu(root, tearoff=0)
+menu.add_command(label="Hello", command=hello)
+menu.add_command(label="Quit", command=root.quit)
 
-    root = tk.Tk()
+# Create a canvas
+frame = tk.Frame(root, width=512, height=512)
+frame.pack()
 
-    # Create a popup menu
-    menu = tk.Menu(root, tearoff=0)
-    menu.add_command(label="Hello", command=hello)
-    menu.add_command(label="Quit", command=root.quit)
+label = tk.Label(root, text="Use the mouse right button to show the popup menu")
+label.pack(fill=tk.X, expand=1)
 
-    # Create a canvas
-    frame = tk.Frame(root, width=512, height=512)
-    frame.pack()
+def popup(event):
+    menu.post(event.x_root, event.y_root)  # Explicitely display the menu
 
-    label = tk.Label(root, text="Use the mouse right button to show the popup menu")
-    label.pack(fill=tk.X, expand=1)
+# Attach popup to canvas
+frame.bind("<Button-3>", popup)
 
-    def popup(event):
-        menu.post(event.x_root, event.y_root)  # Explicitely display the menu
-
-    # Attach popup to canvas
-    frame.bind("<Button-3>", popup)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

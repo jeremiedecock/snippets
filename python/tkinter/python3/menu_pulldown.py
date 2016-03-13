@@ -37,58 +37,54 @@
 
 import tkinter as tk
 
+root = tk.Tk()
+
+# The callback
+
 def hello():
     print("Hello!")
 
-def main():
-    """Main function"""
+# Create a toplevel menu
 
-    root = tk.Tk()
+menubar = tk.Menu(root)
 
-    # Create a toplevel menu
+# Create a pulldown menu
+#
+# tearoff:
+#  "tearoff=1" permet à l'utilisateur de détacher le sous menu dans une
+#  fenêtre à part.
 
-    menubar = tk.Menu(root)
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label="Open...", command=hello)
+file_menu.add_command(label="Save As...", command=hello)
+file_menu.add_command(label="Save", command=hello)
+file_menu.add_separator()
+file_menu.add_command(label="Exit", command=root.quit)
 
-    # Create a pulldown menu
-    #
-    # tearoff:
-    #  "tearoff=1" permet à l'utilisateur de détacher le sous menu dans une
-    #  fenêtre à part.
+menubar.add_cascade(label="File", menu=file_menu)
 
-    file_menu = tk.Menu(menubar, tearoff=0)
-    file_menu.add_command(label="Open...", command=hello)
-    file_menu.add_command(label="Save As...", command=hello)
-    file_menu.add_command(label="Save", command=hello)
-    file_menu.add_separator()
-    file_menu.add_command(label="Exit", command=root.quit)
+# Create a pulldown menu
 
-    menubar.add_cascade(label="File", menu=file_menu)
+edit_menu = tk.Menu(menubar, tearoff=0)
+edit_menu.add_command(label="Cut", command=hello)
+edit_menu.add_command(label="Copy", command=hello)
+edit_menu.add_command(label="Paste", command=hello)
 
-    # Create a pulldown menu
+menubar.add_cascade(label="Edit", menu=edit_menu)
 
-    edit_menu = tk.Menu(menubar, tearoff=0)
-    edit_menu.add_command(label="Cut", command=hello)
-    edit_menu.add_command(label="Copy", command=hello)
-    edit_menu.add_command(label="Paste", command=hello)
+# Create a pulldown menu
 
-    menubar.add_cascade(label="Edit", menu=edit_menu)
+help_menu = tk.Menu(menubar, tearoff=0)
+help_menu.add_command(label="About...", command=hello)
 
-    # Create a pulldown menu
+menubar.add_cascade(label="Help", menu=help_menu)
 
-    help_menu = tk.Menu(menubar, tearoff=0)
-    help_menu.add_command(label="About...", command=hello)
+# Display the menu
+# The config method is used to attach the menu to the root window. The
+# contents of that menu is used to create a menubar at the top of the root
+# window. There is no need to pack the menu, since it is automatically
+# displayed by Tkinter.
 
-    menubar.add_cascade(label="Help", menu=help_menu)
+root.config(menu=menubar)
 
-    # Display the menu
-    # The config method is used to attach the menu to the root window. The
-    # contents of that menu is used to create a menubar at the top of the root
-    # window. There is no need to pack the menu, since it is automatically
-    # displayed by Tkinter.
-
-    root.config(menu=menubar)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

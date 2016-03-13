@@ -31,27 +31,22 @@
 
 import tkinter as tk
 
+root = tk.Tk()
+
+# The callback
 def hello():
     print("Hello!")
 
-def main():
-    """Main function"""
+# Create a toplevel menu
+menubar = tk.Menu(root)
+menubar.add_command(label="Hello", command=hello)
+menubar.add_command(label="Quit", command=root.quit)
 
-    root = tk.Tk()
+# Display the menu
+# The config method is used to attach the menu to the root window. The
+# contents of that menu is used to create a menubar at the top of the root
+# window. There is no need to pack the menu, since it is automatically
+# displayed by Tkinter.
+root.config(menu=menubar)
 
-    # Create a toplevel menu
-    menubar = tk.Menu(root)
-    menubar.add_command(label="Hello", command=hello)
-    menubar.add_command(label="Quit", command=root.quit)
-
-    # Display the menu
-    # The config method is used to attach the menu to the root window. The
-    # contents of that menu is used to create a menubar at the top of the root
-    # window. There is no need to pack the menu, since it is automatically
-    # displayed by Tkinter.
-    root.config(menu=menubar)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

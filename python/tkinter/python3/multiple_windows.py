@@ -23,60 +23,50 @@
 
 import tkinter as tk
 
-
 def hello():
     print("Hello, world!")
 
+# WINDOW 1 (there should be only one "Tk" object) #############################
 
-def main():
+window1 = tk.Tk()
+window1.title("Window 1")
 
-    # WINDOW 1 (there should be only one "Tk" object)
+quit_button = tk.Button(window1, width=12, text="Quit", command=window1.quit)
+quit_button.pack(side=tk.LEFT)
 
-    window1 = tk.Tk()
-    window1.title("Window 1")
+hello_button = tk.Button(window1, width=12, text="Hello", command=hello)
+hello_button.pack(side=tk.RIGHT)
 
-    quit_button = tk.Button(window1, width=12, text="Quit", command=window1.quit)
-    quit_button.pack(side=tk.LEFT)
+# WINDOW 2 (Toplevel object) ##################################################
 
-    hello_button = tk.Button(window1, width=12, text="Hello", command=hello)
-    hello_button.pack(side=tk.RIGHT)
+window2 = tk.Toplevel()
+window2.title("Window 2")
+window2.geometry("+200+200")
 
+quit_button = tk.Button(window2, width=12, text="Quit", command=window2.quit)
+quit_button.pack(side=tk.LEFT)
 
-    # WINDOW 2 (Toplevel object)
+hello_button = tk.Button(window2, width=12, text="Hello", command=hello)
+hello_button.pack(side=tk.RIGHT)
 
-    window2 = tk.Toplevel()
-    window2.title("Window 2")
-    window2.geometry("+200+200")
+# Let window2's close button quit the application
+window2.protocol("WM_DELETE_WINDOW", window1.quit)
 
-    quit_button = tk.Button(window2, width=12, text="Quit", command=window2.quit)
-    quit_button.pack(side=tk.LEFT)
+# WINDOW 3 (Toplevel object) ##################################################
 
-    hello_button = tk.Button(window2, width=12, text="Hello", command=hello)
-    hello_button.pack(side=tk.RIGHT)
+window3 = tk.Toplevel()
+window3.title("Window 3")
+window3.geometry("+200+400")
 
-    # Let window2's close button quit the application
-    window2.protocol("WM_DELETE_WINDOW", window1.quit)
+quit_button = tk.Button(window3, width=12, text="Quit", command=window3.quit)
+quit_button.pack(side=tk.LEFT)
 
+hello_button = tk.Button(window3, width=12, text="Hello", command=hello)
+hello_button.pack(side=tk.RIGHT)
 
-    # WINDOW 3 (Toplevel object)
+# Let window3's close button quit the application
+window3.protocol("WM_DELETE_WINDOW", window1.quit)
 
-    window3 = tk.Toplevel()
-    window3.title("Window 3")
-    window3.geometry("+200+400")
+# MAIN LOOP ("Tk" object) #####################################################
 
-    quit_button = tk.Button(window3, width=12, text="Quit", command=window3.quit)
-    quit_button.pack(side=tk.LEFT)
-
-    hello_button = tk.Button(window3, width=12, text="Hello", command=hello)
-    hello_button.pack(side=tk.RIGHT)
-
-    # Let window3's close button quit the application
-    window3.protocol("WM_DELETE_WINDOW", window1.quit)
-
-
-    # MAIN LOOP ("Tk" object)
-    window1.mainloop()
-
-
-if __name__ == '__main__':
-    main()
+window1.mainloop()
