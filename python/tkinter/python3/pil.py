@@ -29,6 +29,13 @@ import tkinter as tk
 import PIL.Image as pil_img   # PIL.Image is a module not a class...
 import PIL.ImageTk as pil_tk  # PIL.ImageTk is a module not a class...
 
+if tk.TkVersion < 8.6:
+    print("*" * 80)
+    print("WARNING: Tk version {} is installed on your system.".format(tk.TkVersion))
+    print("Tk < 8.6 only supports three file formats: GIF, PGM and PPM.")
+    print("You need to install Tk >= 8.6 if you want to read JPEG and PNG images!")
+    print("*" * 80)
+
 def main():
     """Main function"""
 

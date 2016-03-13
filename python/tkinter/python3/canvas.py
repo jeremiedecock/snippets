@@ -25,6 +25,13 @@
 
 import tkinter as tk
 
+if tk.TkVersion < 8.6:
+    print("*" * 80)
+    print("WARNING: Tk version {} is installed on your system.".format(tk.TkVersion))
+    print("Tk < 8.6 only supports three file formats: GIF, PGM and PPM.")
+    print("You need to install Tk >= 8.6 if you want to read JPEG and PNG images!")
+    print("*" * 80)
+
 root = tk.Tk()
 
 canvas = tk.Canvas(root, width=600, height=600, background="white")
