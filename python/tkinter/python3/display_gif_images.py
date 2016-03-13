@@ -23,17 +23,11 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+img = tk.PhotoImage(file="jdhp_logo.gif")
 
-    img = tk.PhotoImage(file="jdhp_logo.gif")
+label = tk.Label(root, image=img)
+label.pack()
 
-    label = tk.Label(root, image=img)
-    label.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
