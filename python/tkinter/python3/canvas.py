@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+# Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ if tk.TkVersion < 8.6:
 
 root = tk.Tk()
 
-canvas = tk.Canvas(root, width=600, height=600, background="white")
+canvas = tk.Canvas(root, width=700, height=700, background="white")
 canvas.pack(padx=10, pady=10)
 
 # Lines #######################################################################
@@ -51,65 +51,129 @@ canvas.create_line((110, 10, 190, 90),      # coordinates: (x1, y1, x2, y2)
                    fill="black",
                    width=2)
 
-coords1 = (210, 10, 250, 90, 290, 10)   # coordinates: (x1, y1, x2, y2, x3, y3)
-canvas.create_line(coords1,
+coords = (210, 10, 250, 90, 290, 10)   # coordinates: (x1, y1, x2, y2, x3, y3)
+canvas.create_line(coords,
                    fill="black",
                    width=5,
                    joinstyle="round")
-canvas.create_line(coords1,
+canvas.create_line(coords,
                    fill="red",
                    width=2,
-                   smooth=1)
+                   smooth=True)
 
-coords2 = (310, 10, 330, 90, 350, 10, 370, 90, 390, 10)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
-canvas.create_line(coords2,
+coords = (310, 10, 330, 90, 350, 10, 370, 90, 390, 10)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
+canvas.create_line(coords,
                    fill="black",
                    width=2)
-canvas.create_line(coords2,
+canvas.create_line(coords,
                    fill="red",
                    width=5,
-                   smooth=1)
+                   smooth=True)
+
+coords = (410, 10, 450, 10, 450, 90, 490, 90)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
+canvas.create_line(coords,
+                   fill="black",
+                   dash=(2, 2),
+                   width=2,
+                   joinstyle="round")
+canvas.create_line(coords,
+                   fill="red",
+                   width=2,
+                   smooth=True)
 
 # Polygon #####################################################################
 
-coords3 = (210, 110, 250, 190, 290, 110)   # coordinates: (x1, y1, x2, y2, x3, y3)
-canvas.create_polygon(coords3,
+coords = (110, 110, 190, 110, 110, 190, 190, 190)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
+canvas.create_polygon(coords,
+                      fill="orange",
+                      outline="black",
+                      width=2,
+                      dash=(2, 4),
+                      joinstyle="round")
+
+coords = (210, 110, 250, 190, 290, 110)   # coordinates: (x1, y1, x2, y2, x3, y3)
+canvas.create_polygon(coords,
                       fill="red",
                       outline="black",
                       width=5,
                       joinstyle="round")
 
-coords4 = (310, 110, 330, 190, 350, 150, 370, 190, 390, 110)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
-canvas.create_polygon(coords4,
+coords = (310, 110, 330, 190, 350, 150, 370, 190, 390, 110)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
+canvas.create_polygon(coords,
                       fill="red",
                       activefill="blue",
                       outline="black",
                       width=2,
                       joinstyle="round")
 
+coords = (410, 110, 430, 190, 450, 150, 470, 190, 490, 110)   # coordinates: (x1, y1, x2, y2, x3, y3, ...)
+canvas.create_polygon(coords,
+                      fill="red",
+                      activefill="blue",
+                      outline="black",
+                      width=2,
+                      smooth=True,
+                      joinstyle="round")
+
 # Rectangle ###################################################################
 
-canvas.create_rectangle((410, 110, 490, 190), # coordinates: (x1, y1, x2, y2)
+canvas.create_rectangle((10, 210, 90, 290), # coordinates: (x1, y1, x2, y2)
                         outline="orange",
                         fill="blue",
                         width=2)
 
+canvas.create_rectangle((110, 210, 190, 290), # coordinates: (x1, y1, x2, y2)
+                        outline="black",
+                        dash=(12, 6),
+                        width=2)
+
 # Oval ########################################################################
 
-canvas.create_oval((0, 200, 200, 300), outline="purple", fill="yellow", width=2)
+canvas.create_oval((210, 210, 290, 290),
+                   outline="purple",
+                   fill="yellow",
+                   width=2)
 
-canvas.create_arc((300, 200, 500, 300),
+canvas.create_oval((310, 210, 390, 290),
+                   outline="black",
+                   dash=(6, 12),
+                   fill="pink",
+                   width=2)
+
+canvas.create_oval((410, 210, 590, 290),
+                   outline="pink",
+                   fill="green",
+                   width=2)
+
+# Arc #########################################################################
+
+canvas.create_arc((10, 310, 90, 390),
                   start=45,        # the start angle in degrees
                   extent=225,      # the size, relative to the start angle (default is 90.0)
                   style="arc",     # "pieslice", "chord" or "arc"
                   outline="brown",
                   width=2)
 
-canvas.create_polygon((0, 400, 50, 450, 100, 400, 150, 450), fill="black", width=2)
+# Text ########################################################################
 
-canvas.create_text((0, 500), text="Hello!", font="Helvetica 32 bold italic", fill="gray", anchor="w")
+canvas.create_rectangle((10, 410, 90, 490), # coordinates: (x1, y1, x2, y2)
+                        outline="gray75",
+                        dash=(4, 4),
+                        width=2)
+
+canvas.create_text((10, 410),
+                   text="Hello!",
+                   font="Helvetica 32 bold italic",
+                   fill="gray",
+                   anchor="nw")  # n, ne, e, se, s, sw, w, nw, or center
+
+# Image #######################################################################
 
 img = tk.PhotoImage(file="jdhp_logo.png")
-canvas.create_image((300, 500), image=img, anchor="w")
+canvas.create_image((10, 610),
+                    image=img,
+                    anchor="w")
+
+# Main loop ###################################################################
 
 root.mainloop()
