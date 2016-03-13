@@ -25,137 +25,128 @@
 
 import tkinter as tk
 
+# WINDOW 1 (there should be only one "Tk" object) #########################
 
-def main():
-    """Main function"""
+window1 = tk.Tk()
+window1.title("Result Window")
 
-    # WINDOW 1 (there should be only one "Tk" object) #########################
+widget1 = tk.Canvas(window1, bg="red", width=200, height=200)
+widget1.create_text((100, 100), text="Widget 1", font="sans 16 bold", fill="white", anchor="c")
+widget1.pack()
 
-    window1 = tk.Tk()
-    window1.title("Result Window")
+frame1_pack_info = widget1.pack_info()
 
-    widget1 = tk.Canvas(window1, bg="red", width=200, height=200)
-    widget1.create_text((100, 100), text="Widget 1", font="sans 16 bold", fill="white", anchor="c")
-    widget1.pack()
+# WINDOW 2 (Toplevel object) ##############################################
 
-    frame1_pack_info = widget1.pack_info()
+window2 = tk.Toplevel()
+window2.title("Control Window")
+window2.geometry("+200+200")
 
+# Widget 1 frame ##################
 
-    # WINDOW 2 (Toplevel object) ##############################################
+frame_widget1 = tk.LabelFrame(window2, text="Widget 1", padx=5, pady=5)
+frame_widget1.pack(fill=tk.X, padx=10, pady=5)
 
-    window2 = tk.Toplevel()
-    window2.title("Control Window")
-    window2.geometry("+200+200")
+# Fill ########
 
-    # Widget 1 frame ##################
+# Must be none, x, y, or both
 
-    frame_widget1 = tk.LabelFrame(window2, text="Widget 1", padx=5, pady=5)
-    frame_widget1.pack(fill=tk.X, padx=10, pady=5)
+var_fill = tk.StringVar()
+var_fill.set(frame1_pack_info['fill'])
 
-    # Fill ########
+def fill_callback():
+    widget1.pack_configure(fill=var_fill.get())
+    print("Widget 1:", widget1.pack_info())
 
-    # Must be none, x, y, or both
+rb_fill_none = tk.Radiobutton(frame_widget1, text="fill = none", variable=var_fill, value="none", command=fill_callback)
+rb_fill_x =    tk.Radiobutton(frame_widget1, text="fill = x",    variable=var_fill, value="x",    command=fill_callback)
+rb_fill_y =    tk.Radiobutton(frame_widget1, text="fill = y",    variable=var_fill, value="y",    command=fill_callback)
+rb_fill_both = tk.Radiobutton(frame_widget1, text="fill = both", variable=var_fill, value="both", command=fill_callback)
 
-    var_fill = tk.StringVar()
-    var_fill.set(frame1_pack_info['fill'])
+rb_fill_none.pack(anchor=tk.W)
+rb_fill_x.pack(anchor=tk.W)
+rb_fill_y.pack(anchor=tk.W)
+rb_fill_both.pack(anchor=tk.W)
 
-    def fill_callback():
-        widget1.pack_configure(fill=var_fill.get())
-        print("Widget 1:", widget1.pack_info())
+# Separator
+tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
 
-    rb_fill_none = tk.Radiobutton(frame_widget1, text="fill = none", variable=var_fill, value="none", command=fill_callback)
-    rb_fill_x =    tk.Radiobutton(frame_widget1, text="fill = x",    variable=var_fill, value="x",    command=fill_callback)
-    rb_fill_y =    tk.Radiobutton(frame_widget1, text="fill = y",    variable=var_fill, value="y",    command=fill_callback)
-    rb_fill_both = tk.Radiobutton(frame_widget1, text="fill = both", variable=var_fill, value="both", command=fill_callback)
+# Expand ######
 
-    rb_fill_none.pack(anchor=tk.W)
-    rb_fill_x.pack(anchor=tk.W)
-    rb_fill_y.pack(anchor=tk.W)
-    rb_fill_both.pack(anchor=tk.W)
+var_expand = tk.IntVar()
+var_expand.set(frame1_pack_info['expand'])
 
-    # Separator
-    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+def expand_callback():
+    print(var_expand.get())
+    widget1.pack_configure(expand=var_expand.get())
+    print("Widget 1:", widget1.pack_info())
 
-    # Expand ######
+cb_expand = tk.Checkbutton(frame_widget1, text="expand", variable=var_expand, command=expand_callback)
+cb_expand.pack(anchor=tk.W)
 
-    var_expand = tk.IntVar()
-    var_expand.set(frame1_pack_info['expand'])
+# Separator
+tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
 
-    def expand_callback():
-        print(var_expand.get())
-        widget1.pack_configure(expand=var_expand.get())
-        print("Widget 1:", widget1.pack_info())
+# Side ########
 
-    cb_expand = tk.Checkbutton(frame_widget1, text="expand", variable=var_expand, command=expand_callback)
-    cb_expand.pack(anchor=tk.W)
+# Must be top, bottom, left, or right
 
-    # Separator
-    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+var_side = tk.StringVar()
+var_side.set(frame1_pack_info['side'])
 
-    # Side ########
+def side_callback():
+    widget1.pack_configure(side=var_side.get())
+    print("Widget 1:", widget1.pack_info())
 
-    # Must be top, bottom, left, or right
+rb_side_top =    tk.Radiobutton(frame_widget1, text="side = top",    variable=var_side, value="top",    command=side_callback)
+rb_side_bottom = tk.Radiobutton(frame_widget1, text="side = bottom", variable=var_side, value="bottom", command=side_callback)
+rb_side_left =   tk.Radiobutton(frame_widget1, text="side = left",   variable=var_side, value="left",   command=side_callback)
+rb_side_right =  tk.Radiobutton(frame_widget1, text="side = right",  variable=var_side, value="right",  command=side_callback)
 
-    var_side = tk.StringVar()
-    var_side.set(frame1_pack_info['side'])
+rb_side_top.pack(anchor=tk.W)
+rb_side_bottom.pack(anchor=tk.W)
+rb_side_left.pack(anchor=tk.W)
+rb_side_right.pack(anchor=tk.W)
 
-    def side_callback():
-        widget1.pack_configure(side=var_side.get())
-        print("Widget 1:", widget1.pack_info())
+# Separator
+tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
 
-    rb_side_top =    tk.Radiobutton(frame_widget1, text="side = top",    variable=var_side, value="top",    command=side_callback)
-    rb_side_bottom = tk.Radiobutton(frame_widget1, text="side = bottom", variable=var_side, value="bottom", command=side_callback)
-    rb_side_left =   tk.Radiobutton(frame_widget1, text="side = left",   variable=var_side, value="left",   command=side_callback)
-    rb_side_right =  tk.Radiobutton(frame_widget1, text="side = right",  variable=var_side, value="right",  command=side_callback)
+# Anchor ######
 
-    rb_side_top.pack(anchor=tk.W)
-    rb_side_bottom.pack(anchor=tk.W)
-    rb_side_left.pack(anchor=tk.W)
-    rb_side_right.pack(anchor=tk.W)
+# Must be n, ne, e, se, s, sw, w, nw, or center
 
-    # Separator
-    tk.Frame(frame_widget1, height=1, bd=1, relief=tk.SUNKEN).pack(fill=tk.X, padx=5, pady=5)
+var_anchor = tk.StringVar()
+var_anchor.set(frame1_pack_info['anchor'])
 
-    # Anchor ######
+def anchor_callback():
+    widget1.pack_configure(anchor=var_anchor.get())
+    print("Widget 1:", widget1.pack_info())
 
-    # Must be n, ne, e, se, s, sw, w, nw, or center
+rb_anchor_n      = tk.Radiobutton(frame_widget1, text="anchor = n",      variable=var_anchor, value="n",      command=anchor_callback)
+rb_anchor_s      = tk.Radiobutton(frame_widget1, text="anchor = s",      variable=var_anchor, value="s",      command=anchor_callback)
+rb_anchor_e      = tk.Radiobutton(frame_widget1, text="anchor = e",      variable=var_anchor, value="e",      command=anchor_callback)
+rb_anchor_w      = tk.Radiobutton(frame_widget1, text="anchor = w",      variable=var_anchor, value="w",      command=anchor_callback)
+rb_anchor_ne     = tk.Radiobutton(frame_widget1, text="anchor = ne",     variable=var_anchor, value="ne",     command=anchor_callback)
+rb_anchor_nw     = tk.Radiobutton(frame_widget1, text="anchor = nw",     variable=var_anchor, value="nw",     command=anchor_callback)
+rb_anchor_se     = tk.Radiobutton(frame_widget1, text="anchor = se",     variable=var_anchor, value="se",     command=anchor_callback)
+rb_anchor_sw     = tk.Radiobutton(frame_widget1, text="anchor = sw",     variable=var_anchor, value="sw",     command=anchor_callback)
+rb_anchor_center = tk.Radiobutton(frame_widget1, text="anchor = center", variable=var_anchor, value="center", command=anchor_callback)
 
-    var_anchor = tk.StringVar()
-    var_anchor.set(frame1_pack_info['anchor'])
+rb_anchor_n.pack(anchor=tk.W)
+rb_anchor_s.pack(anchor=tk.W)
+rb_anchor_e.pack(anchor=tk.W)
+rb_anchor_w.pack(anchor=tk.W)
+rb_anchor_ne.pack(anchor=tk.W)
+rb_anchor_nw.pack(anchor=tk.W)
+rb_anchor_se.pack(anchor=tk.W)
+rb_anchor_sw.pack(anchor=tk.W)
+rb_anchor_center.pack(anchor=tk.W)
 
-    def anchor_callback():
-        widget1.pack_configure(anchor=var_anchor.get())
-        print("Widget 1:", widget1.pack_info())
+# Setup close button ##############
 
-    rb_anchor_n      = tk.Radiobutton(frame_widget1, text="anchor = n",      variable=var_anchor, value="n",      command=anchor_callback)
-    rb_anchor_s      = tk.Radiobutton(frame_widget1, text="anchor = s",      variable=var_anchor, value="s",      command=anchor_callback)
-    rb_anchor_e      = tk.Radiobutton(frame_widget1, text="anchor = e",      variable=var_anchor, value="e",      command=anchor_callback)
-    rb_anchor_w      = tk.Radiobutton(frame_widget1, text="anchor = w",      variable=var_anchor, value="w",      command=anchor_callback)
-    rb_anchor_ne     = tk.Radiobutton(frame_widget1, text="anchor = ne",     variable=var_anchor, value="ne",     command=anchor_callback)
-    rb_anchor_nw     = tk.Radiobutton(frame_widget1, text="anchor = nw",     variable=var_anchor, value="nw",     command=anchor_callback)
-    rb_anchor_se     = tk.Radiobutton(frame_widget1, text="anchor = se",     variable=var_anchor, value="se",     command=anchor_callback)
-    rb_anchor_sw     = tk.Radiobutton(frame_widget1, text="anchor = sw",     variable=var_anchor, value="sw",     command=anchor_callback)
-    rb_anchor_center = tk.Radiobutton(frame_widget1, text="anchor = center", variable=var_anchor, value="center", command=anchor_callback)
+# Let window2's close button quit the application
+window2.protocol("WM_DELETE_WINDOW", window1.quit)
 
-    rb_anchor_n.pack(anchor=tk.W)
-    rb_anchor_s.pack(anchor=tk.W)
-    rb_anchor_e.pack(anchor=tk.W)
-    rb_anchor_w.pack(anchor=tk.W)
-    rb_anchor_ne.pack(anchor=tk.W)
-    rb_anchor_nw.pack(anchor=tk.W)
-    rb_anchor_se.pack(anchor=tk.W)
-    rb_anchor_sw.pack(anchor=tk.W)
-    rb_anchor_center.pack(anchor=tk.W)
+# MAIN LOOP ("Tk" object) #################################################
 
-    # Setup close button ##############
-
-    # Let window2's close button quit the application
-    window2.protocol("WM_DELETE_WINDOW", window1.quit)
-
-
-    # MAIN LOOP ("Tk" object) #################################################
-    window1.mainloop()
-
-
-if __name__ == '__main__':
-    main()
+window1.mainloop()
