@@ -23,6 +23,8 @@
 
 # See: http://effbot.org/tkinterbook/canvas.htm
 
+# WARNING: this snippet doesn't work on MacOSX (Tk 8.6)!
+
 import tkinter as tk
 
 root = tk.Tk()
