@@ -25,17 +25,11 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+frame = tk.Frame(root, bg="red", width=200, height=200)
+frame.pack()
 
-    frame = tk.Frame(root, bg="red", width=200, height=200)
-    frame.pack()
+print(frame.pack_info())
 
-    print(frame.pack_info())
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

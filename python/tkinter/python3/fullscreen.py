@@ -27,21 +27,15 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label = tk.Label(root, text="Press any key to quit")
+label.pack(fill=tk.BOTH, expand=1)
 
-    label = tk.Label(root, text="Press any key to quit")
-    label.pack(fill=tk.BOTH, expand=1)
+# SETUP FULLSCREEN
+root.attributes('-fullscreen', True)
+root.bind('<KeyPress>', lambda event: root.quit())
 
-    # SETUP FULLSCREEN
-    root.attributes('-fullscreen', True)
-    root.bind('<KeyPress>', lambda event: root.quit())
+#root.bind('<Escape>', root.quit()) # This method doesn't work...
 
-    #root.bind('<Escape>', root.quit()) # This method doesn't work...
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

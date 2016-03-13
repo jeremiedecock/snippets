@@ -23,14 +23,8 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+tk.Label(root, text="Hello, world!", height=5, width=40).pack(fill="both", expand=1)
 
-    tk.Label(root, text="Hello, world!", height=5, width=40).pack(fill="both", expand=1)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
