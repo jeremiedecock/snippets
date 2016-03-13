@@ -32,10 +32,11 @@ root = tk.Tk()
 label = tk.Label(root, text="Press some keys", width=50, height=10)
 label.pack()
 
+# SETUP KEYBOARD EVENT CALLBACKS
+
 def keypress_callback(event):
     print("keypress: ", event.char, event.keysym)
 
-# SETUP KEYBOARD EVENT CALLBACKS
 root.bind("<Up>", keypress_callback)
 root.bind("<Down>", keypress_callback)
 root.bind("<Left>", keypress_callback)
