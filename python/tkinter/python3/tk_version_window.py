@@ -23,10 +23,4 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
-
-    tk._test()
-
-if __name__ == '__main__':
-    main()
+tk._test()
