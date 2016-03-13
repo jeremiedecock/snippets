@@ -36,41 +36,37 @@ TIME_STEP_MS = int(1000 / FPS)
 
 POSITION = 0
 
-def main():
-    """Main function"""
+###
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
-    canvas.pack()
+canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
+canvas.pack()
 
-    def update_canvas():
-        # Update the ball's position
-        global POSITION
-        POSITION = (POSITION + 1) % SIZE
+def update_canvas():
+    # Update the ball's position
+    global POSITION
+    POSITION = (POSITION + 1) % SIZE
 
-        # Clear the canvas (remove all shapes)
-        canvas.delete(tk.ALL)
+    # Clear the canvas (remove all shapes)
+    canvas.delete(tk.ALL)
 
-        # Or...
-        #for tag in canvas.find_all():
-        #    canvas.delete(tag)
+    # Or...
+    #for tag in canvas.find_all():
+    #    canvas.delete(tag)
 
-        # Draw the ball
-        canvas.create_oval(POSITION,
-                           int(SIZE/2)-25,
-                           POSITION + 50,
-                           int(SIZE/2)+25,
-                           fill="red",
-                           width=2)
+    # Draw the ball
+    canvas.create_oval(POSITION,
+                       int(SIZE/2)-25,
+                       POSITION + 50,
+                       int(SIZE/2)+25,
+                       fill="red",
+                       width=2)
 
-        # Reschedule event in TIME_STEP_MS milli second
-        root.after(TIME_STEP_MS, update_canvas)
-
-    # Schedule event in TIME_STEP_MS milli second
+    # Reschedule event in TIME_STEP_MS milli second
     root.after(TIME_STEP_MS, update_canvas)
 
-    root.mainloop()
+# Schedule event in TIME_STEP_MS milli second
+root.after(TIME_STEP_MS, update_canvas)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()

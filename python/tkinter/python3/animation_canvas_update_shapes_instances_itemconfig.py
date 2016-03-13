@@ -31,36 +31,32 @@ TIME_STEP_MS = int(1000 / FPS)
 
 COLOR = 100
 
-def main():
-    """Main function"""
+###
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    canvas = tk.Canvas(root, width=300, height=300, background="white")
-    canvas.pack()
+canvas = tk.Canvas(root, width=300, height=300, background="white")
+canvas.pack()
 
-    # Draw the square
-    coordinates = (100, 100, 200, 200)
-    square = canvas.create_rectangle(coordinates,
-                                     fill="gray" + str(COLOR),
-                                     outline="black",
-                                     width=2)
+# Draw the square
+coordinates = (100, 100, 200, 200)
+square = canvas.create_rectangle(coordinates,
+                                 fill="gray" + str(COLOR),
+                                 outline="black",
+                                 width=2)
 
-    def update_canvas():
-        # Compute the new color
-        global COLOR
-        COLOR = (COLOR - 1) % 100
+def update_canvas():
+    # Compute the new color
+    global COLOR
+    COLOR = (COLOR - 1) % 100
 
-        # Update the square's color
-        canvas.itemconfig(square, fill="gray" + str(COLOR))
+    # Update the square's color
+    canvas.itemconfig(square, fill="gray" + str(COLOR))
 
-        # Reschedule event in TIME_STEP_MS milli second
-        root.after(TIME_STEP_MS, update_canvas)
-
-    # Schedule event in TIME_STEP_MS milli second
+    # Reschedule event in TIME_STEP_MS milli second
     root.after(TIME_STEP_MS, update_canvas)
 
-    root.mainloop()
+# Schedule event in TIME_STEP_MS milli second
+root.after(TIME_STEP_MS, update_canvas)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()

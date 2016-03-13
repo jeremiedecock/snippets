@@ -31,32 +31,28 @@ SIZE = 500
 
 MAX_LINES = 20
 
-def main():
-    """Main function"""
+###
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
-    canvas.pack()
+canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
+canvas.pack()
 
-    def update_canvas():
-        # Clear the canvas if there are too many lines
-        if len(canvas.find_all()) > MAX_LINES:
-            canvas.delete(tk.ALL)
+def update_canvas():
+    # Clear the canvas if there are too many lines
+    if len(canvas.find_all()) > MAX_LINES:
+        canvas.delete(tk.ALL)
 
-        # Add a line
-        canvas.create_line(random.randint(0, SIZE),
-                           random.randint(0, SIZE),
-                           random.randint(0, SIZE),
-                           random.randint(0, SIZE))
+    # Add a line
+    canvas.create_line(random.randint(0, SIZE),
+                       random.randint(0, SIZE),
+                       random.randint(0, SIZE),
+                       random.randint(0, SIZE))
 
-        # Reschedule event in 100 milli seconds
-        root.after(100, update_canvas)
-
-    # Schedule event in 100 milli seconds
+    # Reschedule event in 100 milli seconds
     root.after(100, update_canvas)
 
-    root.mainloop()
+# Schedule event in 100 milli seconds
+root.after(100, update_canvas)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()

@@ -31,34 +31,30 @@ SIZE = 250
 FPS = 100
 TIME_STEP_MS = int(1000 / FPS)
 
-def main():
-    """Main function"""
+###
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
-    canvas.pack()
+canvas = tk.Canvas(root, width=SIZE, height=SIZE, background="white")
+canvas.pack()
 
-    # Draw the ball
-    coordinates = (0, int(SIZE/2)-25, 50, int(SIZE/2)+25)
-    ball = canvas.create_oval(coordinates, fill="red", width=2)
+# Draw the ball
+coordinates = (0, int(SIZE/2)-25, 50, int(SIZE/2)+25)
+ball = canvas.create_oval(coordinates, fill="red", width=2)
 
-    def update_canvas():
-        # Update the ball's coordinates
-        coordinates = canvas.coords(ball)    # Get the ball's coordinates
-        coordinates[0] = (coordinates[0] + 1) % SIZE
-        coordinates[2] = coordinates[0] + 50
+def update_canvas():
+    # Update the ball's coordinates
+    coordinates = canvas.coords(ball)    # Get the ball's coordinates
+    coordinates[0] = (coordinates[0] + 1) % SIZE
+    coordinates[2] = coordinates[0] + 50
 
-        # Redraw the ball
-        canvas.coords(ball, *coordinates)    # Set the ball's coordinates
+    # Redraw the ball
+    canvas.coords(ball, *coordinates)    # Set the ball's coordinates
 
-        # Reschedule event in TIME_STEP_MS milli second
-        root.after(TIME_STEP_MS, update_canvas)
-
-    # Schedule event in TIME_STEP_MS milli second
+    # Reschedule event in TIME_STEP_MS milli second
     root.after(TIME_STEP_MS, update_canvas)
 
-    root.mainloop()
+# Schedule event in TIME_STEP_MS milli second
+root.after(TIME_STEP_MS, update_canvas)
 
-if __name__ == '__main__':
-    main()
+root.mainloop()
