@@ -42,6 +42,15 @@
     - [ ] Polygons
     - [ ] Bezier curves (see the "smooth" parameter of lines: http://python4kids.brendanscott.com/2012/09/19/quadratic-bezier-curves/)
     - [ ] TopWindow (widgets)
+    - [ ] Scrollbar/scrollregion
+    - [ ] Tags
+    - [ ] Line: joinstyle, smooth, splinesteps, stipple
+    - [ ] Item's state
+    - [ ] Item's activefill, activewidth, ...
+    - [ ] Canvas items (shapes) events (e.g. mouse clic within a polygon)
+    - [ ] Methods canvas.canvasx(...), canvas.canvasy(...) 
+    - [ ] Methods canvas.lift(...), canvas.lower(...) 
+    - [ ] Methods canvas.find_closest(x, y)
 - [ ] Scrollbar
 - [ ] Menubutton
 - [ ] Entry
