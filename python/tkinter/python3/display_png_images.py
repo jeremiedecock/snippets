@@ -25,17 +25,18 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+if tk.TkVersion < 8.6:
+    print("*" * 80)
+    print("WARNING: Tk version {} is installed on your system.".format(tk.TkVersion))
+    print("Tk < 8.6 only supports three file formats: GIF, PGM and PPM.")
+    print("You need to install Tk >= 8.6 if you want to read JPEG and PNG images!")
+    print("*" * 80)
 
-    root = tk.Tk()
+root = tk.Tk()
 
-    img = tk.PhotoImage(file="jdhp_logo.png")
+img = tk.PhotoImage(file="jdhp_logo.png")
 
-    label = tk.Label(root, image=img)
-    label.pack()
+label = tk.Label(root, image=img)
+label.pack()
 
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
