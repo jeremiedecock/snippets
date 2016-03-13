@@ -25,24 +25,18 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label1 = tk.Label(root, text="Hello, world!")
+label1.pack()
 
-    label1 = tk.Label(root, text="Hello, world!")
-    label1.pack()
+# bd: border width
+# width: fixed width
+# height: fixed height
+frame = tk.Frame(root, height=2, bd=1, relief=tk.SUNKEN)
+frame.pack(fill="x", padx=5, pady=5)
 
-    # bd: border width
-    # width: fixed width
-    # height: fixed height
-    frame = tk.Frame(root, height=2, bd=1, relief=tk.SUNKEN)
-    frame.pack(fill=tk.X, padx=5, pady=5)
+label2 = tk.Label(root, text="Hello, world!")
+label2.pack()
 
-    label2 = tk.Label(root, text="Hello, world!")
-    label2.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
