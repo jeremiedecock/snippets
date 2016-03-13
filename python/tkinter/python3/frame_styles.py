@@ -26,30 +26,25 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
+root.title("Frame styles")
 
-    root = tk.Tk()
-    root.title("Frame styles")
+relief_tuple = ("raised", "sunken", "flat", "ridge", "groove", "solid")
 
-    relief_dict = {tk.RAISED: "RAISED", tk.SUNKEN: "SUNKEN", tk.FLAT: "FLAT", tk.RIDGE: "RIDGE", tk.GROOVE: "GROOVE", tk.SOLID: "SOLID"}
+for border_width in range(5):
 
-    for border_width in range(5):
+    label = tk.Label(root, text="border width = {}".format(border_width))
+    label.grid(padx=5, pady=5, row=border_width, column=0)
 
-        label = tk.Label(root, text="border width = {}".format(border_width))
-        label.grid(padx=5, pady=5, row=border_width, column=0)
+    for index, relief_str in enumerate(relief_tuple):
 
-        for index, (relief_val, relief_str) in enumerate(relief_dict.items()):
+        frame = tk.Frame(root,
+                         bd=border_width,     # border width
+                         relief=relief_str)
 
-            # bd: border width
-            frame = tk.Frame(root, bd=border_width, relief=relief_val)
-            frame.grid(padx=5, pady=5, row=border_width, column=index+1)
+        frame.grid(padx=5, pady=5, row=border_width, column=index+1)
 
-            label = tk.Label(frame, text=relief_str)
-            label.pack()
+        label = tk.Label(frame, text=relief_str)
+        label.pack()
 
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
-
+root.mainloop()

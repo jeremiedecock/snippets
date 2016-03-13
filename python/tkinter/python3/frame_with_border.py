@@ -25,21 +25,15 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+frame = tk.Frame(root, borderwidth=1, relief="sunken")
+frame.pack(fill="x", padx=5, pady=5)
 
-    frame = tk.Frame(root, borderwidth=1, relief=tk.SUNKEN)
-    frame.pack(fill=tk.X, padx=5, pady=5)
+label1 = tk.Label(frame, text="Hello, world!")
+label1.pack()
 
-    label1 = tk.Label(frame, text="Hello, world!")
-    label1.pack()
+label2 = tk.Label(frame, text="Hello, world!")
+label2.pack()
 
-    label2 = tk.Label(frame, text="Hello, world!")
-    label2.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
