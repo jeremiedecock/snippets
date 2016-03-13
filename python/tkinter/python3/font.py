@@ -26,30 +26,24 @@
 import tkinter as tk
 import tkinter.font as tkfont
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+# Without the tkinter.font.Font class
 
-    # Without the tkinter.font.Font class
+label1 = tk.Label(root, text="Hello, world!", font="Verdana 10 bold", background="#FF0000", foreground="#000000")
+label1.pack()
 
-    label1 = tk.Label(root, text="Hello, world!", font="Verdana 10 bold", background="#FF0000", foreground="#000000")
-    label1.pack()
+label2 = tk.Label(root, text="Hello, world!", font="Helvetica 16 bold italic", background="#0000FF", foreground="#FFFFFF")
+label2.pack()
 
-    label2 = tk.Label(root, text="Hello, world!", font="Helvetica 16 bold italic", background="#0000FF", foreground="#FFFFFF")
-    label2.pack()
+# Using the tkinter.font.Font class
 
-    # Using the tkinter.font.Font class
+font1 = tkfont.Font(family="Courier", size=10, weight=tkfont.BOLD, slant=tkfont.ITALIC, underline=1)
+label3 = tk.Label(root, text="Hello, world!", font=font1, background="#00FF00", foreground="#000000")
+label3.pack()
 
-    font1 = tkfont.Font(family="Courier", size=10, weight=tkfont.BOLD, slant=tkfont.ITALIC, underline=1)
-    label3 = tk.Label(root, text="Hello, world!", font=font1, background="#00FF00", foreground="#000000")
-    label3.pack()
+font2 = tkfont.Font(family="Times", size=10, weight=tkfont.BOLD, slant=tkfont.ITALIC, overstrike=1)
+label4 = tk.Label(root, text="Hello, world!", font=font2, background="#FF0000", foreground="#000000")
+label4.pack()
 
-    font2 = tkfont.Font(family="Times", size=10, weight=tkfont.BOLD, slant=tkfont.ITALIC, overstrike=1)
-    label4 = tk.Label(root, text="Hello, world!", font=font2, background="#FF0000", foreground="#000000")
-    label4.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

@@ -23,22 +23,15 @@
 
 import tkinter as tk
 
+root = tk.Tk()
 
-def main():
-    """Main function"""
+tk.Label(root, text="Please close this window and check your terminal...", height=3).pack(fill="both", expand=1)
 
-    root = tk.Tk()
+def callback():
+    print("Bye!")
+    root.destroy()  # Break the Tk main loop
 
-    tk.Label(root, text="Please close this window and check your terminal...", height=3).pack(fill="both", expand=1)
+# Add a callback on WM_DELETE_WINDOW event
+root.protocol("WM_DELETE_WINDOW", callback)
 
-    def callback():
-        print("Bye!")
-        root.destroy()  # Break the Tk main loop
-
-    # Add a callback on WM_DELETE_WINDOW event
-    root.protocol("WM_DELETE_WINDOW", callback)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

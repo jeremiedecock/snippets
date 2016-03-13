@@ -23,24 +23,18 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label = tk.Label(root, text="Please resize the window...")
+label.pack(fill=tk.BOTH, expand=1)
 
-    label = tk.Label(root, text="Please resize the window...")
-    label.pack(fill=tk.BOTH, expand=1)
+def resize_callback(event):
+    # http://stackoverflow.com/questions/4065783/how-do-i-get-a-windows-current-size-using-tkinter
+    widget_current_width = label.winfo_width()      # Current label width (this work for every widgets!)
+    widget_current_height = label.winfo_height()    # Current label height (this work for every widgets!)
 
-    def resize_callback(event):
-        # http://stackoverflow.com/questions/4065783/how-do-i-get-a-windows-current-size-using-tkinter
-        widget_current_width = label.winfo_width()      # Current label width (this work for every widgets!)
-        widget_current_height = label.winfo_height()    # Current label height (this work for every widgets!)
+    label["text"] = "Label widget size: {}x{}".format(widget_current_width, widget_current_height)
 
-        label["text"] = "Label widget size: {}x{}".format(widget_current_width, widget_current_height)
+label.bind('<Configure>', resize_callback)
 
-    label.bind('<Configure>', resize_callback)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

@@ -26,24 +26,17 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+main_frame = tk.Frame(root, borderwidth=1, relief=tk.FLAT)
+main_frame.pack(padx=5, pady=5)
 
-    main_frame = tk.Frame(root, borderwidth=1, relief=tk.FLAT)
-    main_frame.pack(padx=5, pady=5)
+for x_index in range(4):
+    for y_index in range(4):
+        frame = tk.Frame(main_frame, borderwidth=1, relief=tk.RIDGE)
+        frame.grid(padx=0, pady=0, row=y_index, column=x_index)
 
-    for x_index in range(4):
-        for y_index in range(4):
-            frame = tk.Frame(main_frame, borderwidth=1, relief=tk.RIDGE)
-            frame.grid(padx=0, pady=0, row=y_index, column=x_index)
+        label = tk.Label(frame, text="{}{}".format(x_index, y_index))
+        label.pack(padx=2, pady=2)
 
-            label = tk.Label(frame, text="{}{}".format(x_index, y_index))
-            label.pack(padx=2, pady=2)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
-
+root.mainloop()

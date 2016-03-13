@@ -27,7 +27,6 @@
 
 import tkinter as tk
 
-
 def keypress_callback(event):
     if event.keysym == "Up":
         print("keypress: <Up>")
@@ -87,7 +86,6 @@ def keypress_callback(event):
         print("keypress: <3>")
     else:
         print("keypress:", event.char, event.keysym)
-
 
 def keyrelease_callback(event):
     if event.keysym == "Up":
@@ -149,20 +147,13 @@ def keyrelease_callback(event):
     else:
         print("keyrelease:", event.char, event.keysym)
 
+root = tk.Tk()
 
-def main():
-    """Main function"""
+label = tk.Label(root, text="Press some keys", width=50, height=10)
+label.pack()
 
-    root = tk.Tk()
+# SETUP KEYBOARD EVENT CALLBACKS
+root.bind("<KeyPress>", keypress_callback)
+root.bind("<KeyRelease>", keyrelease_callback)
 
-    label = tk.Label(root, text="Press some keys", width=50, height=10)
-    label.pack()
-
-    # SETUP KEYBOARD EVENT CALLBACKS
-    root.bind("<KeyPress>", keypress_callback)
-    root.bind("<KeyRelease>", keyrelease_callback)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()

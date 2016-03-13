@@ -25,24 +25,17 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
+root.title("Button styles")
 
-    root = tk.Tk()
-    root.title("Button styles")
+relief_dict = {tk.RAISED: "RAISED", tk.SUNKEN: "SUNKEN", tk.FLAT: "FLAT", tk.RIDGE: "RIDGE", tk.GROOVE: "GROOVE", tk.SOLID: "SOLID"}
 
-    relief_dict = {tk.RAISED: "RAISED", tk.SUNKEN: "SUNKEN", tk.FLAT: "FLAT", tk.RIDGE: "RIDGE", tk.GROOVE: "GROOVE", tk.SOLID: "SOLID"}
+for border_width in range(5):
+    label = tk.Label(root, text="border width = {}".format(border_width))
+    label.grid(padx=5, pady=5, row=border_width, column=0)
 
-    for border_width in range(5):
-        label = tk.Label(root, text="border width = {}".format(border_width))
-        label.grid(padx=5, pady=5, row=border_width, column=0)
+    for index, (relief_val, relief_str) in enumerate(relief_dict.items()):
+        button = tk.Button(root, text=relief_str, borderwidth=border_width, relief=relief_val)
+        button.grid(padx=5, pady=5, row=border_width, column=index+1)
 
-        for index, (relief_val, relief_str) in enumerate(relief_dict.items()):
-            button = tk.Button(root, text=relief_str, borderwidth=border_width, relief=relief_val)
-            button.grid(padx=5, pady=5, row=border_width, column=index+1)
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
-
+root.mainloop()
