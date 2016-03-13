@@ -38,47 +38,39 @@ from matplotlib.backend_bases import key_press_handler
 
 import tkinter as tk
 
+# MATPLOTLIB ##################################################################
 
-def main():
+x_vec = np.arange(-10, 10, 0.01)
+y_vec = np.sin(2 * 2 * np.pi * x_vec) * 1/np.sqrt(2*np.pi) * np.exp(-(x_vec**2)/2)
 
-    # MATPLOTLIB
+fig = plt.figure(figsize=(12.0, 6.0))
+ax = fig.add_subplot(111)
+ax.plot(x_vec, y_vec, "-", label="Test")
 
-    x_vec = np.arange(-10, 10, 0.01)
-    y_vec = np.sin(2 * 2 * np.pi * x_vec) * 1/np.sqrt(2*np.pi) * np.exp(-(x_vec**2)/2)
+# Title and labels
+ax.set_title(r"Test", fontsize=20)
+ax.set_xlabel(r"$x$", fontsize=32)
+ax.set_ylabel(r"$f(x)$", fontsize=32)
 
-    fig = plt.figure(figsize=(16.0, 10.0))
-    ax = fig.add_subplot(111)
-    ax.plot(x_vec, y_vec, "-", label="Test")
+# Legend
+ax.legend(loc='lower right', fontsize=20)
 
-    # Title and labels
-    ax.set_title(r"Test", fontsize=20)
-    ax.set_xlabel(r"$x$", fontsize=32)
-    ax.set_ylabel(r"$f(x)$", fontsize=32)
+# TKINTER #####################################################################
 
-    # Legend
-    ax.legend(loc='lower right', fontsize=20)
+root = tk.Tk()
 
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
 
-    # TKINTER
+def _quit():
+    root.quit()     # stops mainloop
+    root.destroy()  # this is necessary on Windows to prevent
+                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
 
-    root = tk.Tk()
+button = tk.Button(master=root, text='Quit', command=_quit)
+button.pack(side=tk.BOTTOM)
 
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
+# Add a callback on WM_DELETE_WINDOW event
+root.protocol("WM_DELETE_WINDOW", _quit)
 
-    def _quit():
-        root.quit()     # stops mainloop
-        root.destroy()  # this is necessary on Windows to prevent
-                        # Fatal Python Error: PyEval_RestoreThread: NULL tstate
-
-    button = tk.Button(master=root, text='Quit', command=_quit)
-    button.pack(side=tk.BOTTOM)
-
-    # Add a callback on WM_DELETE_WINDOW event
-    root.protocol("WM_DELETE_WINDOW", _quit)
-
-    root.mainloop()
-
-if __name__ == "__main__":
-    main()
-
+root.mainloop()
