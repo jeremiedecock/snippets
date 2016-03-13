@@ -23,21 +23,15 @@
 
 import tkinter as tk
 
-def main():
-    """Main function"""
+root = tk.Tk()
 
-    root = tk.Tk()
+label1 = tk.Label(root, text="¡Buenos días!")
+label1.pack()
 
-    label1 = tk.Label(root, text="¡Buenos días!")
-    label1.pack()
+label2 = tk.Label(root, text="你好！", font="Verdana 10 bold")
+label2.pack()
 
-    label2 = tk.Label(root, text="你好！", font="Verdana 10 bold")
-    label2.pack()
+label3 = tk.Label(root, text="你好！", font="Verdana 20 bold")
+label3.pack()
 
-    label3 = tk.Label(root, text="你好！", font="Verdana 20 bold")
-    label3.pack()
-
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
