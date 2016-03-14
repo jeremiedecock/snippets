@@ -1,0 +1,1 @@
+canvas_clear_all.py
