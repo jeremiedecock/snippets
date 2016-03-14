@@ -41,7 +41,7 @@ canvas.pack()
 def update_canvas():
     # Clear the canvas if there are too many lines
     if len(canvas.find_all()) > MAX_LINES:
-        canvas.delete(tk.ALL)
+        canvas.delete(tk.ALL)  # or canvas.delete("all")
 
     # Add a line
     canvas.create_line(random.randint(0, SIZE),
