@@ -39,12 +39,11 @@ canvas.pack(padx=10, pady=10)
 
 # Lines #######################################################################
 
-# arrow: "none", "first", "last" or "both"
 canvas.create_line((10, 10, 90, 90),        # coordinates: (x1, y1, x2, y2)
                    fill="red",
                    width=4,
                    dash=(8, 4),
-                   arrow="last",
+                   arrow="last",            # "none", "first", "last" or "both"
                    arrowshape=(16, 20, 6))
 
 canvas.create_line((110, 10, 190, 90),      # coordinates: (x1, y1, x2, y2)
@@ -163,7 +162,7 @@ canvas.create_rectangle((10, 410, 90, 490), # coordinates: (x1, y1, x2, y2)
 
 canvas.create_text((10, 410),
                    text="Hello!",
-                   font="Helvetica 32 bold italic",
+                   font="Helvetica 24 bold italic",
                    fill="gray",
                    anchor="nw")  # n, ne, e, se, s, sw, w, nw, or center
 
@@ -172,7 +171,7 @@ canvas.create_text((10, 410),
 img = tk.PhotoImage(file="jdhp_logo.png")
 canvas.create_image((10, 610),
                     image=img,
-                    anchor="w")
+                    anchor="w")  # n, ne, e, se, s, sw, w, nw, or center
 
 # Main loop ###################################################################
 
