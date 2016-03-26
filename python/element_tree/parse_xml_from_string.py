@@ -49,9 +49,19 @@ DATA = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 </library>
 """
 
-root = et.fromstring(DATA)
+# Recursive (top-down) Depth-First Search tree traversal
+def walk(element):
+    print(element.tag, element.attrib, element.text.strip())
 
-print(root.tag, root.attrib)
+    for child in element:
+        walk(child)
 
-for child in root:
-    print(child.tag, child.attrib)
+
+def main():
+    root = et.fromstring(DATA)
+    walk(root)
+
+
+if __name__ == '__main__':
+    main()
+

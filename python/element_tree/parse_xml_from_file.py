@@ -28,10 +28,21 @@ See also https://docs.python.org/3/library/xml.etree.elementtree.html
 # Despite its name, xml.etree.ElementTree is a module, not a class...
 import xml.etree.ElementTree as et
 
-tree = et.parse('data.xml')
-root = tree.getroot()
+# Recursive (top-down) Depth-First Search tree traversal
+def walk(element):
+    print(element.tag, element.attrib, element.text.strip())
 
-print(root.tag, root.attrib)
+    for child in element:
+        walk(child)
 
-for child in root:
-    print(child.tag, child.attrib)
+
+def main():
+    tree = et.parse('data.xml')
+    root = tree.getroot()
+
+    walk(root)
+
+
+if __name__ == '__main__':
+    main()
+
