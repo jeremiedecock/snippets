@@ -25,6 +25,7 @@
 See also https://docs.python.org/3/library/xml.etree.elementtree.html
 """
 
+# Despite its name, xml.etree.ElementTree is a module, not a class...
 import xml.etree.ElementTree as et
 
 tree = et.parse('data.xml')
