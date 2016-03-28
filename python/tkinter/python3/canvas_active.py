@@ -43,7 +43,7 @@ canvas.create_line((10, 10, 90, 90),        # coordinates: (x1, y1, x2, y2)
                    fill="black",
                    activedash=(4, 8),
                    activefill="steelblue1",
-                   activestipple=(4, 4),
+                   #activestipple=(4, 4),   # it doesn't work on Linux...
                    activewidth=4,
                    width=2)
 
@@ -56,8 +56,8 @@ canvas.create_polygon(coords,
                       activedash=(4, 8),
                       activefill="steelblue1",
                       activeoutline="chocolate",
-                      activeoutlinestipple=(4, 4),
-                      activestipple=(4, 4),
+                      #activeoutlinestipple=(4, 4),  # it doesn't work on Linux...
+                      #activestipple=(4, 4),         # it doesn't work on Linux...
                       activewidth=4,
                       width=2)
 
@@ -69,8 +69,8 @@ canvas.create_rectangle((210, 10, 290, 90), # coordinates: (x1, y1, x2, y2)
                         activedash=(4, 8),
                         activefill="steelblue1",
                         activeoutline="chocolate",
-                        activeoutlinestipple=(4, 4),
-                        activestipple=(4, 4),
+                        #activeoutlinestipple=(4, 4),  # it doesn't work on Linux...
+                        #activestipple=(4, 4),         # it doesn't work on Linux...
                         activewidth=4,
                         width=2)
 
@@ -82,8 +82,8 @@ canvas.create_oval((310, 10, 390, 90),
                    activedash=(4, 8),
                    activefill="steelblue1",
                    activeoutline="chocolate",
-                   activeoutlinestipple=(4, 4),
-                   activestipple=(4, 4),
+                   #activeoutlinestipple=(4, 4),  # it doesn't work on Linux...
+                   #activestipple=(4, 4),         # it doesn't work on Linux...
                    activewidth=4,
                    width=2)
 
@@ -98,8 +98,8 @@ canvas.create_arc((410, 10, 490, 90),
                   activedash=(4, 8),
                   activefill="steelblue1",
                   activeoutline="chocolate",
-                  activeoutlinestipple=(4, 4),
-                  activestipple=(4, 4),
+                  #activeoutlinestipple=(4, 4),  # it doesn't work on Linux...
+                  #activestipple=(4, 4),         # it doesn't work on Linux...
                   activewidth=4,
                   width=2)
 
@@ -110,7 +110,7 @@ canvas.create_text((510, 10),
                    font="Helvetica 24 bold italic",
                    fill="gray",
                    activefill="steelblue1",
-                   activestipple=(4, 4),
+                   #activestipple=(4, 4),   # it doesn't work on Linux...
                    anchor="nw")  # n, ne, e, se, s, sw, w, nw, or center
 
 # Image #######################################################################
