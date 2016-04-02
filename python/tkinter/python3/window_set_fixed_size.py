@@ -24,8 +24,8 @@
 import tkinter as tk
 
 root = tk.Tk()
-root.geometry("250x250")   # Set the size of the "root" window
-root.resizable(False, False)
+
+root.resizable(False, False)  # <- Lock the size of the window
 
 tk.Label(root, text="This window can't be resized!").pack(fill="both", expand=1)
 
