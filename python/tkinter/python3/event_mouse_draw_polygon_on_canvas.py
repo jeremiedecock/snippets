@@ -21,12 +21,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# See http://fr.slideshare.net/r1chardj0n3s/tkinter-does-not-suck (slides 83)
+
 import tkinter as tk
 
 root = tk.Tk()
 
-root.resizable(False, False)  # <- Lock the size of the window
+canvas = tk.Canvas(root, width=300, height=300, bg="white")
+canvas.pack(fill="both", expand=True)
 
-tk.Label(root, text="This window can't be resized!").pack(fill="both", expand=1)
+LAST_X = None
+LAST_Y = None
+
+def callback(event):
+    print("Clicked at:", event.x, event.y)
+
+    global LAST_X
+    global LAST_Y
+
+    if (LAST_X is not None) and (LAST_Y is not None):
+        canvas.create_line(LAST_X,
+                           LAST_Y,
+                           event.x,
+                           event.y)
+
+    LAST_X = event.x
+    LAST_Y = event.y
+
+# Available mouse events:
+# - Mouse button: <Button-1>, <Button-2>, <Button-3>
+# - Mouse drag: <B1-Motion>
+# - Mouse release: <ButtonRelease-1>, ...
+# - Double click: <Double-Button-1>, ...
+# - Trible click: <Triple-Button-1>, ...
+# - Mouse entered: <Enter>
+# - Mouse left: <Leave>
+canvas.bind("<Button-1>", callback)
 
 root.mainloop()
