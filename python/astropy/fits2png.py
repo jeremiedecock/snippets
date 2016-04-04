@@ -24,12 +24,6 @@ args = parser.parse_args()
 file_path = args.filearg[0]
 
 
-# INIT MATPLOTLIB #############################################################
-
-fig = plt.figure(figsize=(8.0, 8.0))
-ax = fig.add_subplot(111)
-
-
 # READ DATA ###################################################################
 
 # Open the FITS file
@@ -38,8 +32,20 @@ hdu_list = fits.open(file_path)
 # Print the content of the FITS file (HDU headers)
 for hdu_id, hdu in enumerate(hdu_list):
     data = hdu.data   # "hdu.data" is a Numpy Array
-    ax.imshow(data, interpolation='nearest', cmap=cm.gray)
-    plt.savefig("{}_hdu{}.png".format(os.path.splitext(file_path)[0], hdu_id))
+
+    if data.ndim == 2:
+        # If there are only one image (data is an 2D array)
+        fig = plt.figure(figsize=(8.0, 8.0))
+        ax = fig.add_subplot(111)
+        ax.imshow(data, interpolation='nearest', cmap=cm.gray)
+        plt.savefig("{}_hdu{}.png".format(os.path.splitext(file_path)[0], hdu_id))
+    elif data.ndim == 3:
+        # If there is more than one image (data is an 3D array)
+        for img_index, img in enumerate(data):
+            fig = plt.figure(figsize=(8.0, 8.0))
+            ax = fig.add_subplot(111)
+            ax.imshow(img, interpolation='nearest', cmap=cm.gray)
+            plt.savefig("HDU{}_{}.png".format(hdu_id, img_index))
 
 # Close the FITS file
 hdu_list.close()
