@@ -40,10 +40,21 @@
         - [ ] ps2theora.sh
     - [x] Modify lines, ovals, ...
     - [x] Polygons
-    - [ ] Tags
-    - [ ] Item's state
-    - [ ] Item's activefill, activewidth, ...
-    - [ ] Canvas items (shapes) events (e.g. mouse clic within a polygon)
+    - [x] Tags
+    - [ ] Fix chessboard
+    - [x] Item's state
+    - [x] Item's activefill, activewidth, ...
+    - [x] Canvas items (shapes) events (e.g. mouse clic within a polygon)
+    - [ ] Mouse click event on canvas
+        - [ ] Move a shape
+    - [ ] Mouse event on canvas
+        - [ ] Let a shape follow the mouse cursor
+    - [ ] Mouse drag and drop event on items :
+        - [ ] Draw (+ clean) 
+        - [ ] Drag a circle
+        - [ ] Drag a circle + spring effect when drop
+        - [ ] Drag a circle + spring effect when drop with 4 circles (graph entièrement connecté) 
+    - [ ] Mouse wheel event on canvas
     - [ ] Methods canvas.find_closest(x, y)
     - [ ] Bezier curves (see the "smooth" parameter of lines: http://python4kids.brendanscott.com/2012/09/19/quadratic-bezier-curves/)
     - [ ] TopWindow (widgets)
