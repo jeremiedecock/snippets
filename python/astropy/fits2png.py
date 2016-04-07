@@ -29,7 +29,6 @@ file_path = args.filearg[0]
 # Open the FITS file
 hdu_list = fits.open(file_path)
 
-# Print the content of the FITS file (HDU headers)
 for hdu_id, hdu in enumerate(hdu_list):
     data = hdu.data   # "hdu.data" is a Numpy Array
 
