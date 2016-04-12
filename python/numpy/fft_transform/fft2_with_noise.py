@@ -165,9 +165,9 @@ ax4.set_axis_off()
 ax5.set_axis_off()
 ax6.set_axis_off()
 
-#ax7.set_axis_off()
-#ax8.set_axis_off()
-#ax9.set_axis_off()
+ax7.set_axis_off()
+ax8.set_axis_off()
+ax9.set_axis_off()
 
 ax10.set_axis_off()
 ax11.set_axis_off()
