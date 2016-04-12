@@ -175,7 +175,7 @@ ax12.set_axis_off()
 
 #plt.savefig("fft2_with_noise.png")
 #plt.savefig("fft2_with_noise.svg")
-plt.savefig("fft2_with_noise.pdf")
+plt.savefig("fft2_with_noise.pdf", bbox_inches='tight')
 
 
 # PLOT ############################
