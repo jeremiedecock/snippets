@@ -6,7 +6,6 @@
 import matplotlib
 matplotlib.use('TkAgg')
 
-import numpy as np
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
@@ -17,10 +16,8 @@ from matplotlib import cm
 import tkinter as tk
 
 import argparse
-import os
 
 from astropy.io import fits
-
 
 
 def get_image_array_from_fits_file(file_path):
@@ -42,12 +39,9 @@ def main():
     # PARSE OPTIONS ###############################################################
 
     parser = argparse.ArgumentParser(description="Display a FITS file with Tkinter.")
-
     parser.add_argument("filearg", nargs=1, metavar="FILE",
                         help="the FITS file to process")
-
     args = parser.parse_args()
-
     input_file_path = args.filearg[0]
 
 
