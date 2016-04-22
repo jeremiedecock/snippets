@@ -7,21 +7,37 @@ import argparse
 from astropy.io import fits
 
 import PIL.Image as pil_img # PIL.Image is a module not a class...
+import numpy as np
 
 
 # SAVE THE IMAGE ##############################################################
 
-def save(img, output_file_path):
+def save(img, output_file_path, min_val=None, max_val=None):
     """
     img is the image and it should be a 2D numpy array with values in the range [0,255].
+    min_val and max_val are normalization parameters (the minimum and maximum value of a pixel).
     """
+
     if img.ndim != 2:
         raise Exception("The input image should be a 2D numpy array.")
 
-    # Save
     mode = "L"                           # "L" = grayscale mode
     pil_image = pil_img.new(mode, img.shape)
 
+    # Normalize values ################
+    # (FITS pixels value are unbounded but PNG pixels value are in range [0,255])
+    if min_val == None:
+        min_val = img.min()
+    if max_val == None:
+        max_val = img.max()
+
+    img = img.astype(np.float32)
+    img -= min_val
+    img /= max_val
+    img *= 255
+    img = img.astype(np.uint8)
+
+    # Save ############################
     # WARNING: nested list and 2D numpy arrays are silently rejected!!!
     #          data *must* be a list or a 1D numpy array!
     pil_image.putdata(img.flatten())
