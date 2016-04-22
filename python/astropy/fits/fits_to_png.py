@@ -24,6 +24,13 @@ def save(img, output_file_path, min_val=None, max_val=None):
     mode = "L"                           # "L" = grayscale mode
     pil_image = pil_img.new(mode, img.shape)
 
+    # FLIP THE IMAGE IN THE UP/DOWN DIRECTION #############
+    # WARNING: with fits, the (0,0) point is at the BOTTOM left corner
+    #          whereas with pillow, the (0,0) point is at the TOP left corner
+    #          thus the image should be converted
+
+    img = np.flipud(img)
+
     # Normalize values ################
     # (FITS pixels value are unbounded but PNG pixels value are in range [0,255])
     if min_val == None:
@@ -31,10 +38,10 @@ def save(img, output_file_path, min_val=None, max_val=None):
     if max_val == None:
         max_val = img.max()
 
-    img = img.astype(np.float32)
+    img = img.astype(np.float64)
     img -= min_val
-    img /= max_val
-    img *= 255
+    img /= (max_val - min_val)
+    img *= 255.
     img = img.astype(np.uint8)
 
     # Save ############################
