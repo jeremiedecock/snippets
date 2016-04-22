@@ -22,7 +22,7 @@ def save(img, output_file_path, min_val=None, max_val=None):
         raise Exception("The input image should be a 2D numpy array.")
 
     mode = "L"                           # "L" = grayscale mode
-    pil_image = pil_img.new(mode, img.shape)
+    pil_image = pil_img.new(mode, (img.shape[1], img.shape[0]))
 
     # FLIP THE IMAGE IN THE UP/DOWN DIRECTION #############
     # WARNING: with fits, the (0,0) point is at the BOTTOM left corner
