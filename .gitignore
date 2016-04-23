@@ -1,10 +1,37 @@
-.DS_Store
+# MISC ########################################################################
+
+.settings/
 .svn/
-a.out
-*.swp
-*.o
-*.so
+.project
+
+# JAVA ########################################################################
+
 *.class
 .classpath
-.project
-.settings/
+
+# C/C++ #######################################################################
+
+*.o
+*.so
+a.out
+
+# PYTHON ######################################################################
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# COMMON ######################################################################
+
+# Vim swap files
+*.swp
+
+# Emacs temporary files
+*~
+
+# MacOSX Thumbnail files
+.DS_Store
+
+# Windows Thumbnail files
+Thumbs.db
