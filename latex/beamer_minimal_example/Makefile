@@ -1,10 +1,18 @@
-all: slides.pdf
+NAME=slides
 
-SRCSLIDES=slides.tex
+#############
 
-slides.pdf: $(SRCSLIDES) slides.tex
-	pdflatex slides.tex
-	pdflatex slides.tex
+all: $(NAME).pdf
+
+.PHONY : all clean init
+
+## SLIDES ##
+
+SRCSLIDES=$(NAME).tex
+
+$(NAME).pdf: $(SRCSLIDES) $(NAME).tex
+	pdflatex $(NAME).tex
+	pdflatex $(NAME).tex
 
 ## CLEAN ##
 
@@ -14,5 +22,4 @@ clean:
 
 init: clean
 	@echo "suppression des fichiers cibles"
-	@rm -f *.pdf
-	@rm -f *.ps
+	@rm -f $(NAME).pdf
