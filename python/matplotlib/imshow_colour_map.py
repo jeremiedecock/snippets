@@ -11,23 +11,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
-# Fetch datas
+# MAKE DATAS ##################################################################
 
 z_matrix = np.array([[xi * yi for xi in range(50)] for yi in range(50)])
 
-# Plot colour map
+# PLOT ########################################################################
+# The list of all colormaps: http://matplotlib.org/examples/color/colormaps_reference.html
 
 #interp='nearest'     # "raw" (non smooth) map
 interp = 'bilinear'   # "smooth" map
 
-# The list of all colormaps: http://matplotlib.org/examples/color/colormaps_reference.html
-plt.imshow(z_matrix, interpolation=interp, origin='lower', cmap="inferno")   # You can use cmap=cm.inferno or cmap="inferno"
-#plt.imshow(z_matrix, interpolation=interp, origin='lower', cmap=cm.inferno) # You can use cmap=cm.inferno or cmap="inferno"
+plt.imshow(z_matrix, interpolation=interp, origin='lower', cmap="inferno")   # cmap=cm.inferno and cmap="inferno" are both valid
+#plt.imshow(z_matrix, interpolation=interp, origin='lower', cmap=cm.inferno) # cmap=cm.inferno and cmap="inferno" are both valid
 
 plt.colorbar() # draw colorbar
 
-# SAVE FILES ######################
-plt.savefig("colour_map.png")
+# SAVE AND SHOW ###############################################################
 
+plt.savefig("imshow_colour_map.png")
 plt.show()
-
