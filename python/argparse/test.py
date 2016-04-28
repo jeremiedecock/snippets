@@ -49,11 +49,20 @@ def main():
     # - help: A brief description of what the argument does.
     # - metavar: A name for the argument in usage messages.
     # - dest: The name of the attribute to be added to the object returned by parse_args().
-    parser.add_argument("--stropt", "-s",  help="an example of str option", required=True, metavar="STRING")
-    parser.add_argument("--intopt", "-i",  help="an example of int option (default: 3)", type=int, default=3, metavar="INTEGER")
-    parser.add_argument("--floatopt", "-f",  help="an example of float option (default: 3.14)", type=float, default=3.14, metavar="FLOAT")
-    parser.add_argument("--boolopt", "-b", help="an example of flag (boolean option)", action="store_true")
-    parser.add_argument("fileargs", nargs="*", type=file, metavar="FILE", help="an example of file arguments")
+    parser.add_argument("--stropt", "-s", required=True, metavar="STRING",
+            help="an example of str option")
+
+    parser.add_argument("--intopt", "-i", type=int, default=3, metavar="INTEGER",
+            help="an example of int option (default: 3)")
+
+    parser.add_argument("--floatopt", "-f", type=float, default=3.14, metavar="FLOAT",
+            help="an example of float option (default: 3.14)")
+
+    parser.add_argument("--boolopt", "-b", action="store_true",
+            help="an example of flag (boolean option)")
+
+    parser.add_argument("fileargs", nargs="*", type=file, metavar="FILE",
+            help="an example of file arguments")
 
     args = parser.parse_args()
 
