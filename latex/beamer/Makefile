@@ -1,35 +1,10 @@
 all: slides.pdf
 
-## SLIDES ##
+SRCSLIDES=slides.tex
 
-SRCSLIDES=slides_packages.tex\
-		  commands.tex\
-		  bibliography.bib\
-		  setup_package_tikz.tex\
-		  setup_package_listings.tex\
-		  slides_main.tex\
-		  slides_section_*.tex\
-		  slides_appendix.tex\
-#SRCTIKZ=
-
-slides.pdf: $(SRCSLIDES) $(SRCTIKZ) slides.tex
-	pdflatex slides.tex
-	bibtex slides     # this is the name of the .aux file, not the .bib file !
+slides.pdf: $(SRCSLIDES) slides.tex
 	pdflatex slides.tex
 	pdflatex slides.tex
-
-slides_handout.pdf: $(SRCSLIDES) $(SRCTIKZ) slides_handout.tex
-	pdflatex slides_handout.tex
-	#bibtex slides_handout     # this is the name of the .aux file, not the .bib file !
-	#pdflatex slides_handout.tex
-	pdflatex slides_handout.tex
-
-slides_notes.pdf: $(SRCSLIDES) $(SRCTIKZ) slides_notes.tex
-	pdflatex slides_notes.tex
-	#bibtex slides_notes     # this is the name of the .aux file, not the .bib file !
-	#pdflatex slides_notes.tex
-	pdflatex slides_notes.tex
-
 
 ## CLEAN ##
 
