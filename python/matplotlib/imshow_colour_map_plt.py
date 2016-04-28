@@ -28,5 +28,5 @@ plt.colorbar() # draw colorbar
 
 # SAVE AND SHOW ###############################################################
 
-plt.savefig("imshow_colour_map.png")
+plt.savefig("imshow_colour_map_plt.png")
 plt.show()
