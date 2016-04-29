@@ -27,8 +27,8 @@ import tkinter as tk
 
 root = tk.Tk()
 
-test_var = tk.IntVar()
-#test_var.set(1)    # Initialize
+test_var = tk.BooleanVar()
+#test_var.set(True)    # Initialize
 
 def callback():
     print("var = ", test_var.get())
