@@ -35,15 +35,20 @@ ax2 = fig.add_subplot(122)
 # AX1 #########################################################################
 
 # nparray.ravel(): Return a flattened array.
-ax1.hist(img_array.ravel(),
-         histtype=HIST_TYPE,
-         bins=255,
-         #bins=img_array.max() - img_array.min(),
-         #range=(0., 255.),
-         fc='k',
-         ec='k')
+values, bins, patches = ax1.hist(img_array.ravel(),
+                                 histtype=HIST_TYPE,
+                                 bins=255,
+                                 #bins=img_array.max() - img_array.min(),
+                                 #range=(0., 255.),
+                                 fc='k',
+                                 ec='k')
+
+print("values:", values)
+print("bins:", bins)
+print("patches:", patches)
 
 ax1.set_xlim([0., 255.])
+#ax1.set_xlim([img_array.min(), img_array.max(])
 
 # AX2 #########################################################################
 
