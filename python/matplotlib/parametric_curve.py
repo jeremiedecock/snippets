@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # Build datas ###############
 
-t = np.linspace(0, 2. * np.pi, 200)
+t = np.linspace(0, np.pi, 200)
 
 x = 0.7 * np.sin(t) * np.sin(3. * t)
 y = 0.7 * np.cos(t) * np.sin(3. * t)
