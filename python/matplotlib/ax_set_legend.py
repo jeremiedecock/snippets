@@ -22,5 +22,5 @@ ax.legend(loc='lower right', fontsize=20)
 
 # Save file and plot ########
 
-plt.savefig("plot2d.png")
+plt.savefig("ax_set_legend.png")
 plt.show()

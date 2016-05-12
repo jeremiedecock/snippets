@@ -23,5 +23,5 @@ ax.set_ylabel(r"$f(x)$", fontsize=32)
 
 # Save file and plot ########
 
-plt.savefig("plot2d.png")
+plt.savefig("ax_set_label.png")
 plt.show()
