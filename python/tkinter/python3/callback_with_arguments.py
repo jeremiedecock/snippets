@@ -34,7 +34,7 @@
 # Indeed, the value of the "label" variable given in the lambda function is a
 # reference not a copy; thus here, all buttons would print "Mango"!
 #
-# A copy of "label" should be allowed to the lambda function like in the
+# A copy of "label" should be given to the lambda function like in the
 # following version ("arg" is a copy of "label", not a reference).
 #
 # See the following links for more information:
