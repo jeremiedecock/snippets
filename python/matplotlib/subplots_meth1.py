@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 x = np.arange(-10, 10, 0.1)
 
-fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(2, 3, figsize=(14, 8))
+fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
 
 y1 = np.cos(x)
 ax1.plot(x, y1)
