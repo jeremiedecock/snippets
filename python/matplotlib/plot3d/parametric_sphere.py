@@ -25,7 +25,7 @@ ax.plot_surface(x, y, z, rstride=4, cstride=4)
 
 ax.set_title("Parametric Sphere")
 
-# SAVE FILES ######################
+# Save file and plot ########
 
 plt.savefig("parametric_sphere.png")
 plt.show()
