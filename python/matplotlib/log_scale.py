@@ -5,6 +5,8 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Build datas ###############
+
 #x = np.arange(0.1, 100, 1)  # bad
 x = np.exp(np.arange(0, 3, 0.05) * math.log(10))
 
@@ -16,6 +18,8 @@ y1 = x
 y2 = np.power(x,2)
 y3 = np.power(x,3)
 ye = np.exp(x * math.log(2))
+
+# Plot data #################
 
 plt.plot(x, yl1, ".", x, yl2, ".", x, y1, ".", x, y2, ".", x, y3, ".", ye, "--")
 plt.xscale('log')
@@ -30,7 +34,7 @@ plt.title('log scale')
 
 plt.ylim(ymax = math.exp(20 * math.log(10)))
 
-# SAVE FILES ######################
-plt.savefig("log_scale.png")
+# Save file and plot ########
 
+plt.savefig("log_scale.png")
 plt.show()

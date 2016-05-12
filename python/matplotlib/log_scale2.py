@@ -4,15 +4,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Build datas ###############
+
 x = np.arange(1000)
 y = x * x
+
+# Plot data #################
 
 plt.plot(x, y)
 plt.yscale('log')
 
-plt.title('x^2')
+plt.title(r'$x^2$')
 
-# SAVE FILES ######################
+# Save file and plot ########
+
 plt.savefig("log_scale2.png")
-
 plt.show()
