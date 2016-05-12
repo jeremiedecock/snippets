@@ -30,12 +30,18 @@ root.geometry("500x75")   # Set the size of the "root" window
 
 ###
 
-def scale_cb(ev=None):
+def scale_callback(ev=None):
     print(scale.get())    # Get the scale value (integer or float)
 
 #scale = tk.Scale(root, from_=0, to=255)
-scale = tk.Scale(root, from_=0, to=255, orient=tk.HORIZONTAL, command=scale_cb)  # Arguments "orient" and "command" are optional
-scale.pack(fill=tk.X, expand=1)
+scale = tk.Scale(root,
+                 from_=0,
+                 to=255,
+                 resolution=0.1,          # Optional (default value = 1)
+                 orient=tk.HORIZONTAL,    # Optional
+                 command=scale_callback)  # Optional
+
+scale.pack(fill="x", expand=True)
 
 scale.set(127)            # Set the scale value
 
