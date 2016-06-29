@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-Make statistics on score files (stored in JSON files).
-"""
-
 import matplotlib.pyplot as plt
 import numpy as np
 
