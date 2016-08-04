@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Read the content of an audio wave file (.wav)
+# See: https://docs.python.org/3/library/wave.html
+
 import wave
 
 wr = wave.open("./test.wav", mode="rb")
