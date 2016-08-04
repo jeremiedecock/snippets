@@ -7,18 +7,20 @@
 import math
 import wave
 
+T = 24000.
+
 def sin_wave(freq, nframes):
-    data = [int(127 * (math.sin(x * freq / (2. * math.pi)) + 1)) for x in range(nframes)]
+    data = [int(127 * (math.sin(t/T * freq * 2. * math.pi) + 1)) for t in range(nframes)]
     return bytes(data)
 
 ww = wave.open("./test2.wav", mode="wb")
 
 ww.setnchannels(1)          # Num channels
 ww.setsampwidth(1)          # Sample width
-ww.setframerate(24000)      # Frame rate
+ww.setframerate(int(T))     # Frame rate
 #ww.setnframes(20)          # Num frames
 
-data = sin_wave(20000, 48000)
+data = sin_wave(440, 48000)
 ww.writeframes(data)
 
 ww.close()
