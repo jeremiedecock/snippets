@@ -18,7 +18,8 @@ import scipy.optimize as optimize
 # DEFINE THE OBJECTIVE FUNCTION ###############################################
 
 def f(x):
-    return np.power(x[0], 2.) + np.power(x[1], 2.)
+    #return np.power(x[0], 2.) + np.power(x[1], 2.)
+    return optimize.rosen(x)   # The Rosenbrock function
 
 
 # OPTIMIZE ####################################################################
@@ -50,7 +51,7 @@ Z = f(np.vstack([X.ravel(), Y.ravel()])).reshape((100,100))
 fig = plt.figure(figsize=(8.0, 8.0))
 ax = fig.add_subplot(111)
 
-ax.contour(X, Y, Z, label=r"Objective function $f$")
+ax.contour(X, Y, Z, np.arange(10)**5, label=r"Objective function $f$")
 ax.plot(result.x[0], result.x[1], "or", label=r"Optimum")
 
 # Set title and labels
