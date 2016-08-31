@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# See:
+# - http://docs.scipy.org/doc/scipy/reference/optimize.html
+# - http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+# - http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.OptimizeResult.html#scipy.optimize.OptimizeResult
+# - http://www.scipy-lectures.org/advanced/mathematical_optimization/
+# - http://students.mimuw.edu.pl/~pbechler/scipy_doc/tutorial/optimize.html
+# - https://people.duke.edu/~ccc14/sta-663/BlackBoxOptimization.html
+
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize as optimize
