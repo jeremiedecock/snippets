@@ -31,8 +31,8 @@ res_tuple = ax1.hist(gaussian_numbers_array,
                      alpha=ALPHA)
 
 ax1.set_title("Normal scale")
-ax1.set_xlabel("value")
-ax1.set_ylabel("frequency")
+ax1.set_xlabel("Value")
+ax1.set_ylabel("Count")
 
 # AX2 #########################################################################
 
@@ -45,8 +45,8 @@ res_tuple = ax2.hist(gaussian_numbers_array,
                      alpha=ALPHA)
 
 ax2.set_title("Log scale")
-ax2.set_xlabel("value")
-ax2.set_ylabel("frequency")
+ax2.set_xlabel("Value")
+ax2.set_ylabel("Count")
 
 # SHOW AND SAVE FILE ##########################################################
 
