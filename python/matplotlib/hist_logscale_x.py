@@ -40,9 +40,9 @@ ax1.set_ylabel("Count")
 
 ax2 = fig.add_subplot(212)
 
-min = np.log10(data.min())
-max = np.log10(data.max())
-bins = np.logspace(min, max, 50)    # <- create a range from 10**min to 10**max
+vmin = np.log10(data.min())
+vmax = np.log10(data.max())
+bins = np.logspace(vmin, vmax, 50)  # <- make a range from 10**vmin to 10**vmax
 
 print(bins)
 
