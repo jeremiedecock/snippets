@@ -28,5 +28,5 @@ fig.colorbar(H[3], ax=ax)
 
 plt.tight_layout()
 
-plt.savefig("hist2d_log.png")
+plt.savefig("hist2d_logscale_z.png")
 plt.show()
