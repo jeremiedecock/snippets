@@ -51,7 +51,7 @@ res_tuple = ax2.hist(data,
                      histtype=HIST_TYPE,
                      alpha=ALPHA)
 
-ax2.set_xscale("log")               # <- Activate log scale on Y axis
+ax2.set_xscale("log")               # <- Activate log scale on X axis
 
 ax2.set_title("Log scale")
 ax2.set_xlabel("Value")
