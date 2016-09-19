@@ -16,13 +16,13 @@ Y_MIN=0
 Y_MAX=100
 Y_STEP=5
 
-# Fetch datas
+# Build datas ###############
 
 x = np.arange(X_MIN, X_MAX, X_STEP)
 y = np.arange(Y_MIN, Y_MAX, Y_STEP)
 z_matrix = np.array([[xi * yi for xi in range(X_MIN, X_MAX, X_STEP)] for yi in range(Y_MIN, Y_MAX, Y_STEP)])
 
-# Plot colour map
+# Plot data #################
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -30,8 +30,11 @@ ax = fig.add_subplot(111)
 #interp='nearest'     # "raw" (non smooth) map
 interp = 'bilinear'   # "smooth" map
 
-# NonUniformImage permet de definir la position des elements de 'z_matrix' sur les axes.
-# Sans NonUniformImage, une matrice 'z_matrix' de taille (sx, sy) serait dessinee sur un repere avec un axe des abscisses allant de 0 a sx et un axe des ordonnees allant de 0 a sy.
+# NonUniformImage permet de définir la position des éléments de 'z_matrix' sur
+# les axes.
+# Sans NonUniformImage, une matrice 'z_matrix' de taille (sx, sy) serait
+# dessinée sur un repère avec un axe des abscisses allant de 0 a sx et un axe
+# des ordonnées allant de 0 a sy.
 im = NonUniformImage(ax, interpolation=interp, extent=(X_MIN, X_MAX, Y_MIN, Y_MAX), cmap=cm.binary)
 
 # im.set_data(x, y, A)
@@ -41,13 +44,13 @@ im = NonUniformImage(ax, interpolation=interp, extent=(X_MIN, X_MAX, Y_MIN, Y_MA
 im.set_data(x, y, z_matrix)
 
 ax.images.append(im)
+
 ax.set_xlim(X_MIN, X_MAX)
 ax.set_ylim(Y_MIN, Y_MAX)
 
 fig.colorbar(im) # draw colorbar
 
-# SAVE FILES ######################
+# Save file and plot ########
+
 plt.savefig("colour_map_with_custom_axes.png")
-
 plt.show()
-

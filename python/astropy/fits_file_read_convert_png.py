@@ -1,1 +1,0 @@
-fits_file_read_and_plot.py

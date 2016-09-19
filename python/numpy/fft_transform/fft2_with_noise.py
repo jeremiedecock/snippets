@@ -165,9 +165,9 @@ ax4.set_axis_off()
 ax5.set_axis_off()
 ax6.set_axis_off()
 
-#ax7.set_axis_off()
-#ax8.set_axis_off()
-#ax9.set_axis_off()
+ax7.set_axis_off()
+ax8.set_axis_off()
+ax9.set_axis_off()
 
 ax10.set_axis_off()
 ax11.set_axis_off()
@@ -175,7 +175,7 @@ ax12.set_axis_off()
 
 #plt.savefig("fft2_with_noise.png")
 #plt.savefig("fft2_with_noise.svg")
-plt.savefig("fft2_with_noise.pdf")
+plt.savefig("fft2_with_noise.pdf", bbox_inches='tight')
 
 
 # PLOT ############################

@@ -4,19 +4,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-width = 0.4       # the width of the bars
+WIDTH = 0.4       # the width of the bars
+
+# Build datas ###############
 
 x = np.arange(-5, 6)
 y1 = np.power(x, 2)
 y2 = np.power(x, 3)
 
+# Plot data #################
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-ax.bar(x, y1, width, color='r')
-ax.bar(x+width, y2, width, color='b')
+ax.bar(x, y1, WIDTH, color='r')
+ax.bar(x + WIDTH, y2, WIDTH, color='b')
 
-# SAVE FILES ######################
+# Save file and plot ########
+
 plt.savefig("bar.png")
-
 plt.show()
