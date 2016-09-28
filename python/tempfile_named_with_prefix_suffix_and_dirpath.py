@@ -28,10 +28,13 @@ See:
 """
 
 import tempfile
+import os
 
 # Create a temporary file using a context manager
 
-with tempfile.NamedTemporaryFile(prefix="test_", suffix=".tmp") as tf:
+home_path = os.path.expanduser("~")
+
+with tempfile.NamedTemporaryFile(dir=home_path, prefix=".test_", suffix=".tmp") as tf:
     tf.write(b'Hello world!')
 
     print(tf.name)
