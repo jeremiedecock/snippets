@@ -1,1 +1,11 @@
+USAGE:
+
 m4 test.m4 test.txt
+
+SEE ALSO:
+
+- http://www.linux-mag.com/id/163/
+- http://www.linux-mag.com/id/1903/
+- http://mbreen.com/m4.html
+- https://www.gnu.org/savannah-checkouts/gnu/m4/manual/m4-1.4.17/html_node/index.html
+- https://en.wikipedia.org/wiki/M4_(computer_language)
