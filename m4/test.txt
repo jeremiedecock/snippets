@@ -1,1 +1,2 @@
 Hi, my name is NAME.
+Quoted identifiers are not replaced, for instance: `NAME'.
