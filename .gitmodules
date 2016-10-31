@@ -1,0 +1,3 @@
+[submodule "sample-images"]
+	path = sample-images
+	url = https://github.com/jdhp-misc/sample-images.git
