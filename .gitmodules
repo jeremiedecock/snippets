@@ -1,3 +1,6 @@
 [submodule "sample-images"]
 	path = sample-images
 	url = https://github.com/jdhp-misc/sample-images.git
+[submodule "sample-sounds"]
+	path = sample-sounds
+	url = https://github.com/jdhp-misc/sample-sounds.git
