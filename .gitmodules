@@ -7,3 +7,6 @@
 [submodule "remark.js"]
 	path = remark.js
 	url = https://github.com/jdhp-docs/remarkjs-snippets.git
+[submodule "reveal.js"]
+	path = reveal.js
+	url = https://github.com/jdhp-docs/revealjs-snippets.git
