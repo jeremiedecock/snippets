@@ -35,27 +35,23 @@ NUM_IT = 200
 
 X_INIT = 0.5
 
-def main():
-    """Main function"""
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(18, 10))
 
-    x = X_INIT
-    y_list = []
+x = X_INIT
+y_list = []
 
-    for mu in np.arange(MU_MIN, MU_MAX, MU_DELTA).tolist():
-        y = []
-        for it in range(NUM_IT):
-            x = mu * x * (1.0 - x)
-            y.append(x)
-        y_list.append(y)
+for mu in np.arange(MU_MIN, MU_MAX, MU_DELTA).tolist():
+    y = []
+    for it in range(NUM_IT):
+        x = mu * x * (1.0 - x)
+        y.append(x)
+    y_list.append(y)
 
-    plt.plot(y_list, ',')
-    plt.xlabel('$\mu$')
-    plt.ylabel('$x$')
+ax.plot(y_list, '.k')
+ax.set_xlabel('$\mu$')
+ax.set_ylabel('$x$')
 
-    # SAVE FILES ######################
-    plt.savefig("feigenbaum.png")
+# SAVE FILES ######################
+plt.savefig("feigenbaum.png")
 
-    plt.show()
-
-if __name__ == '__main__':
-    main()
+plt.show()
