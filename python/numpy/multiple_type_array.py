@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-# See http://stackoverflow.com/questions/16621351/how-to-use-python-numpy-savetxt-to-write-strings-and-float-number-to-an-ascii-fi
+# See https://docs.scipy.org/doc/numpy/user/basics.rec.html
+#     http://stackoverflow.com/questions/16621351/how-to-use-python-numpy-savetxt-to-write-strings-and-float-number-to-an-ascii-fi
 
 import numpy as np
 

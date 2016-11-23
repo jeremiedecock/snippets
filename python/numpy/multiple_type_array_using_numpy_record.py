@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-# See http://docs.astropy.org/en/stable/io/fits/usage/table.html#what-is-a-record-array
+# See https://docs.scipy.org/doc/numpy/user/basics.rec.html
+#     http://docs.astropy.org/en/stable/io/fits/usage/table.html#what-is-a-record-array
 
 import numpy as np
 
