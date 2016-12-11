@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+        <script>
+
+            // See: http://stackoverflow.com/questions/4584373/difference-between-window-load-and-document-ready-functions
+
+
+            /* ************************************************************* */
+            /* JQuerry equivalent of "window.onload = function() {...}"      */
+            /* To execute Javascript code after the complete loading of all  */
+            /* ressources (DOM tree, images, ...), to avoid inconsistencies  */
+            /* between HTML and JS)                                          */
+            /* ************************************************************* */
+
+            $(window).on('load', function() {
+                alert("window load occurred!");
+                // ... write JS code here (except class and function definitions)
+            });
+
+            // Deprecated version:
+            // (see http://stackoverflow.com/questions/38871753/uncaught-typeerror-a-indexof-is-not-a-function-error-when-opening-new-foundat)
+            //
+            // $(window).load(function() {
+            //     alert("window load occurred!");
+            //     // ... write JS code here (except class and function definitions)
+            // });
+
+
+            /* ************************************************************* */
+            /* JQuerry equivalent of "document.onload = function() {...}"    */
+            /* To execute Javascript code after the complete loading of the  */
+            /* DOM tree (to avoid inconsistencies between HTML and JS)       */
+            /* ************************************************************* */
+
+            $(document).ready(function() {
+                alert("document ready occurred!");
+                // ... write JS code here (except class and function definitions)
+            });
+
+            // or (shortand version)
+
+            $(function(){
+                alert("document ready occurred! (shortand version)");
+                // ... write JS code here (except class and function definitions)
+            });
+
+        </script>
+    </head>
+    <body>
+        <p>Hello!</p>
+    </body>
+</html>
