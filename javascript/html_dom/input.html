@@ -29,14 +29,20 @@
         <script>
 
             function ok_button_callback() {
-                var index = document.forms["form1"].elements["list1"].selectedIndex;
-                var text = document.forms["form1"].elements["list1"].options[index].text;
-                var value = document.forms["form1"].elements["list1"].options[index].value;
-                document.getElementById("label").innerHTML = text + " - " + value;
+
+                // GET SELECTION
+
+                var selected_index = document.forms["form1"].elements["list1"].selectedIndex;
+                var selected_value = document.forms["form1"].elements["list1"].options[selected_index].value;
+                var selected_text = document.forms["form1"].elements["list1"].options[selected_index].text;
+                document.getElementById("label").innerHTML = selected_text + " - " + selected_value;
             }
 
 
             function reset_button_callback() {
+
+                // SET SELECTION
+
                 document.forms["form1"].elements["list1"].selectedIndex = 0;
             }
 
