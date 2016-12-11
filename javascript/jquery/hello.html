@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </head>
+    <body>
+
+        <div id="foo"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+
+        <script>
+
+            /* "$(function(){...}"                                           */
+            /* is the JQuerry equivalent of                                  */
+            /* "document.onload = function() {...}"                          */
+            /* to execute Javascript code after the complete loading of the  */
+            /* DOM tree (to avoid inconsistencies between HTML and JS)       */
+
+            // See: http://stackoverflow.com/questions/4584373/difference-between-window-load-and-document-ready-functions
+            //      "./document_ready.html" and "./window_load.html" snippets
+
+            $(function(){
+
+                ///////////////////////////////////////////////////////////////
+
+                // Jquery equivalent for "raw" JS:
+                // "document.getElementById("foo").innerHTML = "Hello!";"
+
+                jQuery("#foo").html("Hello!");
+
+                // or the shortand version:
+
+                $("#foo").html("<b>Hello!</b>"); // Add HTML in the div element
+
+                ///////////////////////////////////////////////////////////////
+                
+                $(".bar").text("<b>Hi!</b>");    // Add text in the div element
+            });
+
+        </script>
+    </body>
+</html>
