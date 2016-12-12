@@ -6,7 +6,7 @@
 # - http://docs.astropy.org/en/stable/io/unified.html#fits
 
 import argparse
-from astropy.table import Table
+import astropy.table
 
 # PARSE OPTIONS ###############################################################
 
@@ -19,7 +19,7 @@ file_path = args.filearg[0]
 
 
 # Open the FITS file
-table = Table.read(file_path)
+table = astropy.table.Table.read(file_path)
 
 print(table)
 print()
