@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Documentation:
-# - http://docs.astropy.org/en/stable/io/fits/
-# - http://docs.astropy.org/en/stable/io/fits/api/files.html
+# - http://docs.astropy.org/en/stable/table/index.html#getting-started
 # - http://www.astropy.org/astropy-tutorials/FITS-tables.html
-# - http://www.astropy.org/astropy-tutorials/FITS-images.html
 # - http://www.astropy.org/astropy-tutorials/FITS-header.html
 
 import argparse
