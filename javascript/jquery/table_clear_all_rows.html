@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </head>
+    <body>
+
+        <table id="foo">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>John</td><td>Lennon</td></tr>
+                <tr><td>Paul</td><td>McCartney</td></tr>
+                <tr><td>George</td><td>Harrison</td></tr>
+                <tr><td>Ringo</td><td>Starr</td></tr>
+            </tbody>
+        </table>
+
+        <script>
+
+            $(function(){
+
+                ///////////////////////////////////////////////////////////////
+
+                // See:
+                // - http://stackoverflow.com/questions/723112/jquery-fastest-way-to-remove-all-rows-from-a-very-large-table
+                // - http://stackoverflow.com/questions/9420203/how-to-remove-all-rows-of-the-table-but-keep-the-header
+                // - http://stackoverflow.com/questions/7271490/delete-all-rows-in-an-html-table
+
+                $("#foo tbody").empty();
+
+                // or $("#foo > tbody").empty();
+
+            });
+
+        </script>
+    </body>
+</html>
