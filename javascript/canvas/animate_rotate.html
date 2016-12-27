@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="canvas1" width="640" height="480"></canvas>
+
+        <script>
+
+            window.onload = function() {
+
+                // Canvas
+                var canvas = document.getElementById('canvas1');
+                if(canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+
+                    ctx.translate(canvas.width/2, canvas.height/2);
+
+                    ctx.fillStyle = "blue";
+                    ctx.fillRect(0, 0, 200, 20);
+                } else {
+                    alert("This browser does not support canvas.");
+                }
+
+                var i = 0;
+
+                // Draw function
+                function rotate_and_draw() {
+                    ctx.rotate(0.5);
+
+                    // Dessin
+                    ctx.fillRect(0, 0, 200, 20);
+                    
+                    i++;
+
+                    if(i>10) {
+                        clearInterval(inter);
+                    }
+                }
+
+                var inter = setInterval(rotate_and_draw, 100);  // timer
+
+            }
+
+        </script>
+    </body>
+</html>

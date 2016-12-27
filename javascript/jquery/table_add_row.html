@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </head>
+    <body>
+
+        <table id="foo">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <script>
+
+            $(function(){
+
+                ///////////////////////////////////////////////////////////////
+
+                // See:
+                // - http://stackoverflow.com/questions/171027/add-table-row-in-jquery
+                // - http://stackoverflow.com/questions/2160890/how-do-you-append-rows-to-a-table-using-jquery
+
+                $("#foo > tbody:last-child").append("<tr><td>John</td><td>Lennon</td></tr>");
+                $("#foo > tbody:last-child").append("<tr><td>Paul</td><td>McCartney</td></tr>");
+                $("#foo > tbody:last-child").append("<tr><td>George</td><td>Harrison</td></tr>");
+                $("#foo > tbody:last-child").append("<tr><td>Ringo</td><td>Starr</td></tr>");
+
+                // or $("#foo tbody").append("<tr><td>John</td><td>Lennon</td></tr>");
+
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="canvas1" width="128" height="128"></canvas>
+
+        <script>
+            window.onload = function() {
+
+                var canvas = document.getElementById('canvas1');
+                if(canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+
+                    ctx.beginPath();
+                    ctx.arc(64, 64, 32, 0, 2*Math.PI, true); // Params: center_x, center_y, radius, start_angle, end_angle, direction
+                    ctx.closePath();
+
+                    ctx.fillStyle = "red";
+                    ctx.fill();                              // Fill the path
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(32, 32, 16, 0, 2*Math.PI, true); // Params: center_x, center_y, radius, start_angle, end_angle, direction
+                    ctx.closePath();
+
+                    ctx.fillStyle = "green";
+                    ctx.fill();                              // Fill the path
+                } else {
+                    alert("This browser does not support canvas.");
+                }
+
+            }
+        </script>
+
+    </body>
+</html>

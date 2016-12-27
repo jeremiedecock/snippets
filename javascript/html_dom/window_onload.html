@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div id="foo"></div>
+
+        <script> // or  <script type="text/javascript">
+
+            // To execute Javascript code after the complete loading of the full documents (to avoid inconsistencies between HTML and JS)
+            // See: http://stackoverflow.com/questions/588040/window-onload-vs-document-onload -->
+
+            window.onload = function() {
+                document.getElementById("foo").innerHTML = "Hello!";
+            }
+
+        </script>
+    </body>
+</html>

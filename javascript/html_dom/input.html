@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <!-- Label -->
+        <div id="label"></div>
+
+        <!-- Combo box -->
+        <form id="form1" names="form1">
+            Label:
+            <select name="list1">
+                <option value="">Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </form>
+
+        <!-- Buttons -->
+        <div id="buttons">
+            <input type="submit" name="reset_button"  id="reset_button"  value="Reset"  onclick="reset_button_callback()" />
+            <input type="submit" name="ok_button"     id="ok_button"     value="Ok"     onclick="ok_button_callback()"    />
+        </div>
+
+        <!-- Code Javascript -->
+        <script>
+
+            function ok_button_callback() {
+
+                // GET SELECTION
+
+                var selected_index = document.forms["form1"].elements["list1"].selectedIndex;
+                var selected_value = document.forms["form1"].elements["list1"].options[selected_index].value;
+                var selected_text = document.forms["form1"].elements["list1"].options[selected_index].text;
+                document.getElementById("label").innerHTML = selected_text + " - " + selected_value;
+            }
+
+
+            function reset_button_callback() {
+
+                // SET SELECTION
+
+                document.forms["form1"].elements["list1"].selectedIndex = 0;
+            }
+
+        </script>
+    </body>
+</html>

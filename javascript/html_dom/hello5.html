@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html> 
+    <head>
+        <meta charset="UTF-8">
+    </head>
     <body>
-        <span id="span_1"></span>
+        <span id="foo"></span>
 
-        <script type="text/javascript">
-            var elem = document.getElementById("span_1");
-            if(elem) {
-                elem.innerHTML = "<b>Hello</b> <u>world!</u>";
+        <script>
+            window.onload = function() {
+                var elem = document.getElementById("foo");
+                if(elem) {
+                    elem.innerHTML = "<u>Hello world!</u>";
+                }
+
+                // Or simply:
+
+                document.getElementById("foo").innerHTML = "<b>Hello world!</b>";
             }
         </script>
     </body> 

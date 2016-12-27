@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="canvas1" width="220" height="40"></canvas>
+
+        <script>
+
+            window.onload = function() {
+
+                // Canvas
+                var canvas = document.getElementById('canvas1');
+                if(canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+
+                    ctx.translate(0, 10);
+
+                    ctx.fillStyle = "blue";
+                    ctx.fillRect(0, 0, 20, 20);
+                } else {
+                    alert("This browser does not support canvas.");
+                }
+
+                // Translate and draw
+                function translate_and_draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);     // efface tout le canevas
+
+                    ctx.translate(1, 0);
+
+                    // Dessin
+                    ctx.fillRect(0, 0, 20, 20);
+                    
+                    i++;
+
+                    if(i>200) {
+                        clearInterval(inter);
+                    }
+                }
+
+                // Incrément
+                var i = 0;
+
+                // Timer
+                var inter = setInterval(translate_and_draw, 10);  // Every 10 ms
+
+            }
+
+        </script>
+    </body>
+</html>
+

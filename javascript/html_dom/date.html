@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html> 
+    <head>
+        <meta charset="UTF-8">
+    </head>
     <body>
-        <span id="span_1"></span>
+        <span id="foo"></span>
 
         <script type="text/javascript">
 
             function print_datetime() {
                 var today = Date();
 
-                var elem = document.getElementById("span_1");
+                var elem = document.getElementById("foo");
                 if(elem) {
                     elem.innerHTML = today;
                 }
             }
 
-            setInterval(print_datetime, 1000);
+            window.onload = function() {
+                setInterval(print_datetime, 1000);
+            }
 
         </script>
     </body> 
