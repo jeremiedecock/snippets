@@ -10,9 +10,6 @@
 [submodule "reveal.js"]
 	path = reveal.js
 	url = https://github.com/jdhp-docs/revealjs-snippets.git
-[submodule "restructuredtext"]
-	path = restructuredtext
-	url = https://github.com/jdhp-docs/rst-snippets.git
 [submodule "latex/beamer_snippets"]
 	path = latex/beamer_snippets
 	url = https://github.com/jdhp-docs/beamer-snippets.git
