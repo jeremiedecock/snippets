@@ -1,4 +1,7 @@
+#!/usr/bin/env groovy
+
 // Usage: groovy random.groovy
+//    or: ./random.groovy
 
 // Random /////////////////////////////////////////////////
 

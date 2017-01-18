@@ -1,4 +1,7 @@
+#!/usr/bin/env groovy
+
 // Usage: groovy hello.groovy
+//    or: ./hello.groovy
 
 System.out.println("Hello, World!")
 
