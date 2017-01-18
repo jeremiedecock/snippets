@@ -13,19 +13,19 @@ ax1.hist(data)
 
 # Info box
 ax1.text(0.05, 0.92,
-        "Hello world!\nThis is a text box demo",
-        verticalalignment = 'top',
-        horizontalalignment = 'left',
-        transform = ax1.transAxes,
-        bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+         "Hello world!\nThis is a text box demo",
+         verticalalignment = 'top',
+         horizontalalignment = 'left',
+         transform = ax1.transAxes,
+         bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
 
 # Info box
 ax1.text(0.95, 0.92,
-        "Another text box",
-        verticalalignment = 'top',
-        horizontalalignment = 'right',
-        transform = ax1.transAxes,
-        bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
+         "Another text box",
+         verticalalignment = 'top',
+         horizontalalignment = 'right',
+         transform = ax1.transAxes,
+         bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
 
 # Save file and plot ########
 
