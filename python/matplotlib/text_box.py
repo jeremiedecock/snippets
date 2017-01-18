@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Copyright (c) 2016,2017 Jérémie DECOCK (http://www.jdhp.org)
+
 import matplotlib.pyplot as plt
 import numpy as np
 
