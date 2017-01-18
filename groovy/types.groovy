@@ -1,4 +1,7 @@
+#!/usr/bin/env groovy
+
 // Usage: groovy types.groovy
+//    or: ./types.groovy
 
 // Boolean
 b = true;

@@ -1,4 +1,7 @@
+#!/usr/bin/env groovy
+
 // Usage: groovy list.groovy
+//    or: ./list.groovy
 
 // Init ///////////////////////////////////////////////////
 

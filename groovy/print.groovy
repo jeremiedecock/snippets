@@ -1,4 +1,7 @@
+#!/usr/bin/env groovy
+
 // Usage: groovy print.groovy
+//    or: ./print.groovy
 
 // Print //////////////////////////////////////////////////
 
