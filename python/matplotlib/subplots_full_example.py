@@ -3,23 +3,41 @@
 
 # Copyright (c) 2017 Jérémie DECOCK (http://www.jdhp.org)
 
+import math
 from matplotlib import pyplot as plt
 import numpy as np
 
-def plot(axis, data, bins_min, bins_max, label_list, title=None, logx=False, logy=False):
+def plot(axis,
+         data_list,
+         bins_min,
+         bins_max,
+         label_list,
+         title=None,
+         logx=False,
+         logy=False,
+         hist_type="bar",
+         alpha=0.5,
+         linear_xlabel_style='sci',
+         linear_ylabel_style='sci',
+         num_bins=None):
+
     if logx:
         # Setup the logarithmic scale on the X axis
         vmin = np.log10(bins_min)
         vmax = np.log10(bins_max)
-        bins = np.logspace(vmin, vmax, 50) # Make a range from 10**vmin to 10**vmax
-    else:
-        bins = range(bins_min, bins_max)
 
-    axis.hist(data,
+        # Make a range from 10**vmin to 10**vmax
+        bins = np.logspace(vmin, vmax, num_bins if num_bins is not None else 50)
+    elif num_bins is not None:
+        bins = np.linspace(bins_min, bins_max, num_bins)
+    else:
+        bins = range(math.floor(bins_min), math.ceil(bins_max))
+
+    axis.hist(data_list,
               bins=bins,
-              log=logy,
-              histtype="bar",
-              alpha=0.5,
+              log=logy,                      # Set log scale on the Y axis
+              histtype=hist_type,
+              alpha=alpha,
               label=label_list)
 
     axis.legend(prop={"size": 20})
@@ -35,10 +53,10 @@ def plot(axis, data, bins_min, bins_max, label_list, title=None, logx=False, log
 
     if logx:
         axis.set_xscale("log")               # Activate log scale on X axis
-    else:
+    elif linear_xlabel_style == 'sci':
         axis.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
     
-    if not logy:
+    if (not logy) and (linear_ylabel_style == 'sci'):
         axis.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
     axis.set_xlim(xmin=1)
@@ -47,15 +65,15 @@ def plot(axis, data, bins_min, bins_max, label_list, title=None, logx=False, log
 
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, figsize=(16, 9))
 
-data = [np.random.binomial(n=100, p=0.25, size=10000),
-        np.random.binomial(n=100, p=0.5,  size=10000)]
+data_list = [np.random.binomial(n=100, p=0.25, size=10000),
+             np.random.binomial(n=100, p=0.5,  size=10000)]
 label_list = [r"$\mathcal{B}(100, 0.25)$",
               r"$\mathcal{B}(100, 0.5)$"]
 
-plot(ax1, data, bins_min=1, bins_max=300, label_list=label_list, title="Linear scale")
-plot(ax2, data, bins_min=1, bins_max=300, label_list=label_list, title="Log scale on x axis", logx=True)
-plot(ax3, data, bins_min=1, bins_max=300, label_list=label_list, title="Log scale on y axis", logy=True)
-plot(ax4, data, bins_min=1, bins_max=300, label_list=label_list, title="Log scale on x and y axis", logx=True, logy=True)
+plot(ax1, data_list, bins_min=1, bins_max=100, label_list=label_list, title="Linear scale")
+plot(ax2, data_list, bins_min=1, bins_max=300, label_list=label_list, title="Log scale on x axis", logx=True)
+plot(ax3, data_list, bins_min=1, bins_max=100, label_list=label_list, title="Log scale on y axis", logy=True)
+plot(ax4, data_list, bins_min=1, bins_max=300, label_list=label_list, title="Log scale on x and y axis", logx=True, logy=True)
 
 # General title #############
 
