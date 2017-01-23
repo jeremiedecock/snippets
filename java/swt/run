@@ -1,0 +1,19 @@
+#!/bin/sh
+
+SRC_PATH="$1"
+
+BIN="."
+LIBS="/usr/share/java/swt.jar"
+
+# Compile #############################
+
+echo "Compile ${SRC_PATH}"
+javac -classpath ${LIBS} "${SRC_PATH}"
+
+# Execute #############################
+
+shift
+CLASS_NAME=$(basename ${SRC_PATH} .java)
+echo "Run ${CLASS_NAME} $@"
+echo 
+java -classpath ${BIN}:${LIBS} ${CLASS_NAME} "$@"
