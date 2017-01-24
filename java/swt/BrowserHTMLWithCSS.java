@@ -17,7 +17,7 @@ public class BrowserHTMLWithCSS {
         + "* {color: #0f0;}"
         + "body {background-color: #f00;}"
         + "    </style>"
-        + "<head>"
+        + "</head>"
         + "<body>Hello !</body>"
         + "</html>";
 

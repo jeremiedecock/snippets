@@ -13,7 +13,7 @@ public class BrowserHTMLWithJS {
         + "<html>\n"
         + "<head>\n"
         + "    <meta charset=\"UTF-8\">\n"
-        + "<head>\n"
+        + "</head>\n"
         + "<body>\n"
         + "<div id=\"clock\"></div>\n"
         + "<script>\n"
