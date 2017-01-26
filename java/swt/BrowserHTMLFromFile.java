@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Jérémie DECOCK (http://www.jdhp.org)
+ */
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
