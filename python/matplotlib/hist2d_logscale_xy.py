@@ -13,11 +13,9 @@ x, y = np.random.exponential(size=(2, 100000))
 
 # INIT FIGURE #################################################################
 
-fig = plt.figure(figsize=(5.0, 8.0))
+fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(12, 6))
 
 # AX1 #########################################################################
-
-ax1 = fig.add_subplot(211)
 
 H = ax1.hist2d(x, y, bins=50)
 fig.colorbar(H[3], ax=ax1)
@@ -25,8 +23,6 @@ fig.colorbar(H[3], ax=ax1)
 ax1.set_title("Normal scale")
 
 # AX2 #########################################################################
-
-ax2 = fig.add_subplot(212)
 
 xmin = np.log10(x.min())
 xmax = np.log10(x.max())
