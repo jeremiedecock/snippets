@@ -1,0 +1,18 @@
+#!/bin/sh
+
+SRC_PATH="$1"
+
+BIN="."
+
+# Compile #############################
+
+echo "Compile ${SRC_PATH}"
+javac "${SRC_PATH}"
+
+# Execute #############################
+
+shift
+CLASS_NAME=$(basename ${SRC_PATH} .java)
+echo "Run ${CLASS_NAME} $@"
+echo 
+java -classpath ${BIN} ${CLASS_NAME} "$@"
