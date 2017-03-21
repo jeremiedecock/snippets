@@ -35,6 +35,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startChildActivityIntent);
     }
 
+    public void startLifeCycle(View view) {
+        Context context = MainActivity.this;
+        Class destinationActivity = LifeCycleActivity.class;
+        Intent startChildActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startChildActivityIntent);
+    }
+
+    public void startLifeCycleWithBundle(View view) {
+        Context context = MainActivity.this;
+        Class destinationActivity = LifeCycleWithBundleActivity.class;
+        Intent startChildActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startChildActivityIntent);
+    }
+
     public void startLog(View view) {
         Context context = MainActivity.this;
         Class destinationActivity = LogActivity.class;

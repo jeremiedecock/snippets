@@ -21,7 +21,9 @@
         <activity android:name=".WebViewActivity" />
         <activity android:name=".ToastActivity" />
         <activity android:name=".EditTextActivity" />
-        <activity android:name=".LogActivity"></activity>
+        <activity android:name=".LogActivity" />
+        <activity android:name=".LifeCycleActivity" />
+        <activity android:name=".LifeCycleWithBundleActivity"></activity>
     </application>
 
 </manifest>

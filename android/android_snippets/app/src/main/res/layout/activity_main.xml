@@ -21,6 +21,18 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Activities Life Cycle"
+                android:onClick="startLifeCycle" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activities Life Cycle With Bundle"
+                android:onClick="startLifeCycleWithBundle" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="TextView"
                 android:onClick="startHello" />
 
@@ -29,6 +41,11 @@
                 android:layout_height="wrap_content"
                 android:text="EditText"
                 android:onClick="startEditText" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EditText Update Callback (TODO)" />
 
             <Button
                 android:layout_width="match_parent"
@@ -100,6 +117,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LinearLayout (TODO)" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Serialize/Unserialize JSON (TODO)" />
 
             <Button
                 android:layout_width="match_parent"
