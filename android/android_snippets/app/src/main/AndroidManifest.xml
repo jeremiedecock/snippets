@@ -23,7 +23,8 @@
         <activity android:name=".EditTextActivity" />
         <activity android:name=".LogActivity" />
         <activity android:name=".LifeCycleActivity" />
-        <activity android:name=".LifeCycleWithBundleActivity"></activity>
+        <activity android:name=".LifeCycleWithBundleActivity" />
+        <activity android:name=".SQLiteActivity"></activity>
     </application>
 
 </manifest>

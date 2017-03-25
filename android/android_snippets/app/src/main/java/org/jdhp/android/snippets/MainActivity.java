@@ -56,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startChildActivityIntent);
     }
 
+    public void startSQLiteView(View view) {
+        Context context = MainActivity.this;
+        Class destinationActivity = SQLiteActivity.class;
+        Intent startChildActivityIntent = new Intent(context, destinationActivity);
+        startActivity(startChildActivityIntent);
+    }
+
     public void startToast(View view) {
         Context context = MainActivity.this;
         Class destinationActivity = ToastActivity.class;

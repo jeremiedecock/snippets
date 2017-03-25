@@ -9,7 +9,7 @@ import android.widget.TextView;
 public class LifeCycleWithBundleActivity extends AppCompatActivity {
 
     // This tag will be used for logging
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = LifeCycleWithBundleActivity.class.getSimpleName();
 
     private static final String BUNDLE_INT_KEY = "data1";
     private static final String BUNDLE_STR_KEY = "data2";
@@ -26,7 +26,7 @@ public class LifeCycleWithBundleActivity extends AppCompatActivity {
 
         tvData = (TextView) findViewById(R.id.tv_life_cycle_with_bundle);
 
-        Log.d(TAG, "Entering onCreate()");
+        Log.d(LOG_TAG, "Entering onCreate()");
 
         this.cptInt = 0;
         this.cptStr = "";
@@ -47,7 +47,7 @@ public class LifeCycleWithBundleActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "Entering onSaveInstanceState()");
+        Log.d(LOG_TAG, "Entering onSaveInstanceState()");
 
         // Save data before the activity is stopped
         outState.putInt(BUNDLE_INT_KEY, this.cptInt);

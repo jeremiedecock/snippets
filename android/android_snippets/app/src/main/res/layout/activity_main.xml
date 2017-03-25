@@ -146,7 +146,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Data persistance (SQL) (TODO)" />
+                android:text="Data persistance (SQLite)"
+                android:onClick="startSQLiteView" />
 
             <Button
                 android:layout_width="match_parent"

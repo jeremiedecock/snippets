@@ -11,14 +11,14 @@ public class LifeCycleActivity extends AppCompatActivity {
     * getSimpleName as that will greatly help to identify the location from which your logs are
     * being posted.
     */
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = LifeCycleActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_life_cycle);
 
-        Log.d(TAG, "Entering onCreate()");
+        Log.d(LOG_TAG, "Entering onCreate()");
     }
 
     /**
@@ -30,7 +30,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "Entering onStart()");
+        Log.d(LOG_TAG, "Entering onStart()");
     }
 
     /**
@@ -42,7 +42,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "Entering onResume()");
+        Log.d(LOG_TAG, "Entering onResume()");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,13 +59,13 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "Entering onPause()");
+        Log.d(LOG_TAG, "Entering onPause()");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "Entering onSaveInstanceState()");
+        Log.d(LOG_TAG, "Entering onSaveInstanceState()");
     }
 
     /**
@@ -80,7 +80,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "Entering onStop()");
+        Log.d(LOG_TAG, "Entering onStop()");
     }
 
     /**
@@ -91,7 +91,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "Entering onRestart()");
+        Log.d(LOG_TAG, "Entering onRestart()");
     }
 
     /**
@@ -103,7 +103,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "Entering onDestroy()");
+        Log.d(LOG_TAG, "Entering onDestroy()");
     }
 
 }

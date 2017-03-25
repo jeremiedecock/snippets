@@ -9,6 +9,13 @@ import android.widget.Toast;
 public class LogActivity extends AppCompatActivity {
 
     /*
+     * This tag will be used for logging. It is best practice to use the class's name using
+     * getSimpleName as that will greatly help to identify the location from which your logs are
+     * being posted.
+     */
+    private static final String LOG_TAG = LogActivity.class.getSimpleName();
+
+    /*
      * Log levels (from the most severe to the less severe)
      * ====================================================
      *
@@ -38,14 +45,13 @@ public class LogActivity extends AppCompatActivity {
     }
 
     public void makeLogMessages(View view) {
-        String className = LogActivity.class.getName();
         String message = "Hello from ";
 
-        Log.e(className, message + "ERROR");
-        Log.w(className, message + "WARN");
-        Log.i(className, message + "INFO");
-        Log.d(className, message + "DEBUG");
-        Log.v(className, message + "VERBOSE");
+        Log.e(LOG_TAG, message + "ERROR");
+        Log.w(LOG_TAG, message + "WARN");
+        Log.i(LOG_TAG, message + "INFO");
+        Log.d(LOG_TAG, message + "DEBUG");
+        Log.v(LOG_TAG, message + "VERBOSE");
 
         String toastMessage = "Watch the \"Android Monitor\"!";
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
