@@ -14,7 +14,7 @@ public class SwtHello {
         Shell shell = new Shell(display);
         shell.setLayout(new GridLayout(1, false));
 
-        shell.setText("Hello SWT");
+        shell.setText("Snippet SWT");
         shell.setMinimumSize(400, 350);
         shell.setSize(640, 480);
 
