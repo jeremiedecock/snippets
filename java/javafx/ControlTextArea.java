@@ -4,6 +4,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/*
+ * CAUTION!
+ * For obscure reasons, copy/paste from clipboard fails on MacOS when the java interpreter is called from Tmux...
+ */
+
 public class ControlTextArea extends Application {
 
     public void start(Stage stage) {
