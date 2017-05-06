@@ -1,5 +1,5 @@
-RaspberryPi snippets
-====================
+Raspberry Pi snippets
+=====================
 
 This directory contains snippets mostly written in Python plus some snippets
 written C and Shell.
