@@ -7,3 +7,9 @@
 [submodule "latex/beamer_snippets"]
 	path = latex/beamer_snippets
 	url = https://github.com/jdhp-docs/beamer-snippets.git
+[submodule "javascript/remark.js"]
+	path = javascript/remark.js
+	url = https://github.com/jdhp-docs/remarkjs-snippets.git
+[submodule "javascript/reveal.js"]
+	path = javascript/reveal.js
+	url = https://github.com/jdhp-docs/revealjs-snippets.git
