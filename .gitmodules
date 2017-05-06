@@ -4,12 +4,6 @@
 [submodule "sample-sounds"]
 	path = sample-sounds
 	url = https://github.com/jdhp-misc/sample-sounds.git
-[submodule "remark.js"]
-	path = remark.js
-	url = https://github.com/jdhp-docs/remarkjs-snippets.git
-[submodule "reveal.js"]
-	path = reveal.js
-	url = https://github.com/jdhp-docs/revealjs-snippets.git
 [submodule "latex/beamer_snippets"]
 	path = latex/beamer_snippets
 	url = https://github.com/jdhp-docs/beamer-snippets.git
