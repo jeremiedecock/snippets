@@ -13,3 +13,6 @@
 [submodule "javascript/reveal.js"]
 	path = javascript/reveal.js
 	url = https://github.com/jdhp-docs/revealjs-snippets.git
+[submodule "raspberry_pi/python"]
+	path = raspberry_pi/python
+	url = https://github.com/jeremiedecock/raspberry-pi-python-snippets.git
