@@ -31,18 +31,6 @@ FILES_TO_IGNORE = [
     "animation.py",
     "animation_alt.py",
     # TODO
-    "hist2d_contour.py",
-    "hist2d_contour_sigmas.py",
-    "hist2d_hexa.py",
-    "hist2d_hexa_logscale_xy.py",
-    "hist2d_logscale_xy.py",
-    "hist2d_logscale_z.py",
-    "hist2d_scatter_plot.py",
-    "hist2d_scatter_plot_logscale_xy.py",
-    "hist_logscale_x.py",
-    "hist_logscale_xy.py",
-    "hist_logscale_y.py",
-    "hist_with_weighted_values.py",
     "imshow_ax.py",
     "imshow_colour_map_ax.py",
     "imshow_colour_map_plt.py",
@@ -137,8 +125,13 @@ def get_file_content(python_file_path):
                         docstring.append(line)
                 elif status == 3:
                     if not(len(python_code) == 0 and len(line.strip()) == 0):
-                        if not line.strip().startswith("plt.savefig("):
-                            python_code.append(line)
+                        #if not line.strip().startswith("plt.savefig("):
+                        #    python_code.append(line)
+
+                        if line.strip().startswith("plt.savefig("):
+                            line = "#" + line
+
+                        python_code.append(line)
 
     markdown_code = rst_to_markdown(docstring)
 
