@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
+Plot a 2D histogram
+
+See:
+
+- http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

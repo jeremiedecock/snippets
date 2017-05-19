@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://bespokeblog.wordpress.com/2011/07/11/basic-data-plotting-with-matplotlib-part-3-histograms/  (nice introduction)
-# - http://matplotlib.org/examples/pylab_examples/histogram_demo_extended.html
-# - http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.hist
-# - http://matplotlib.org/users/image_tutorial.html
+"""
+Make a histogram with weighted values
+
+See:
+
+- http://bespokeblog.wordpress.com/2011/07/11/basic-data-plotting-with-matplotlib-part-3-histograms/  (nice introduction)
+- http://matplotlib.org/examples/pylab_examples/histogram_demo_extended.html
+- http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.hist
+- http://matplotlib.org/users/image_tutorial.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

@@ -3,6 +3,10 @@
 
 # Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Set the data limits for the x and y axis
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

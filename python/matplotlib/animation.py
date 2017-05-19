@@ -3,6 +3,12 @@
 
 # Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Animation
+
+Makes an animation by repeatedly calling a function
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt

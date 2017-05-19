@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
+Make a 2D histogram using a hexagonal binning
+
+See:
+
+- http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

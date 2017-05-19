@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# See http://stackoverflow.com/questions/11874767/real-time-plotting-in-while-loop-with-matplotlib
+"""
+Realtime animation
+
+See http://stackoverflow.com/questions/11874767/real-time-plotting-in-while-loop-with-matplotlib
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

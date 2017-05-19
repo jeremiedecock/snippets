@@ -3,6 +3,10 @@
 
 # Copyright (c) 2016 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Set axis title
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

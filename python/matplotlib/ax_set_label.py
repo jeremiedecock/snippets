@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Set axis label
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

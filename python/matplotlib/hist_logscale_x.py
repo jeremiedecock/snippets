@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://stackoverflow.com/questions/6855710/how-to-have-logarithmic-bins-in-a-python-histogram
+"""
+Make a histogram using a logarithmic scale on X axis
+
+See:
+
+- http://stackoverflow.com/questions/6855710/how-to-have-logarithmic-bins-in-a-python-histogram
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

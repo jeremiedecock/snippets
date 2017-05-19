@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Make a bar plot with rectangles
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

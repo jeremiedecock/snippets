@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Make a histogram using a logarithmic scale on Y axis
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

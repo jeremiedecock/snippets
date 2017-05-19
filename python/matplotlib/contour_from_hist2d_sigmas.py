@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Plot contours from an 2D histogram showing the standard deviation
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

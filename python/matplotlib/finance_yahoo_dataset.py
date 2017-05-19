@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Use the Yahoo finance dataset
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt

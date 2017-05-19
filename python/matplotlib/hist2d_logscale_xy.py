@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://stackoverflow.com/questions/29175093/creating-a-log-linear-plot-in-matplotlib-using-hist2d
+"""
+Make a 2D histogram using a logarithmic scale on X and Y axis
+
+See:
+
+- http://stackoverflow.com/questions/29175093/creating-a-log-linear-plot-in-matplotlib-using-hist2d
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Use the same scale on x and y axis
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

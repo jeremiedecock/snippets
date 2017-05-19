@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See: http://matplotlib.org/examples/pylab_examples/image_nonuniform.html
+"""
+Colormap with custom axes
+
+See: http://matplotlib.org/examples/pylab_examples/image_nonuniform.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

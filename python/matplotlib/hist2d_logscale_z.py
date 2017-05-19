@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See:
-# - http://matplotlib.org/examples/pylab_examples/hist2d_log_demo.html
-# - http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
+Make a 2D histogram using a logarithmic scale on Z axis
+
+See:
+
+- http://matplotlib.org/examples/pylab_examples/hist2d_log_demo.html
+- http://jakevdp.github.io/mpl_tutorial/tutorial_pages/tut3.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
