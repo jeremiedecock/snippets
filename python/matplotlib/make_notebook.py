@@ -22,7 +22,7 @@ SNIPPET CODE
 '''
 
 SCRIPT_NAME = os.path.basename(sys.argv[0])
-OUTPUT_FILE_PATH = "matplotlib_snippets.ipynb"
+OUTPUT_FILE_PATH = "../../../../jdhp-docs/notebooks/matplotlib_snippets.ipynb"
 NB_TITLE = "Matplotlib snippets"
 GIT_BASE_URL = "https://github.com/jeremiedecock/snippets/blob/master/python/matplotlib/"
 FILES_TO_IGNORE = [
@@ -234,6 +234,8 @@ if __name__ == '__main__':
         add_cells(ipynb_dict, title, file_path, markdown_code, python_code)
 
     # Save the notebook
+    print("Writing", OUTPUT_FILE_PATH)
+
     with open(OUTPUT_FILE_PATH, "w") as fd:
         #json.dump(ipynb_dict, fd)                           # no pretty print
         json.dump(ipynb_dict, fd, sort_keys=True, indent=1)  # pretty print format
