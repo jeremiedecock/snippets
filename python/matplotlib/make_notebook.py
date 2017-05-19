@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import datetime
 import json
 import os
 
@@ -152,7 +153,12 @@ def init_notebook():
                     "cell_type": "markdown",
                     "metadata": {},
                     "source": [
-                     "# {}".format(NB_TITLE)
+                     "# {}\n\n".format(NB_TITLE),
+                     "Author: Jérémie Decock (http://www.jdhp.org)\n",
+                     "\n",
+                     "Last update: {}\n".format(datetime.date.isoformat(datetime.date.today())),
+                     "\n",
+                     "This document has been made from snippets using {}make_notebook.py".format(GIT_BASE_URL)
                     ]
                    },
                    {
