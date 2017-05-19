@@ -137,7 +137,8 @@ def get_file_content(python_file_path):
                         docstring.append(line)
                 elif status == 3:
                     if not(len(python_code) == 0 and len(line.strip()) == 0):
-                        python_code.append(line)
+                        if not line.strip().startswith("plt.savefig("):
+                            python_code.append(line)
 
     markdown_code = rst_to_markdown(docstring)
 
