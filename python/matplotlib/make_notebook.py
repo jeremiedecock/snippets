@@ -25,6 +25,63 @@ SCRIPT_NAME = os.path.basename(sys.argv[0])
 OUTPUT_FILE_PATH = "matplotlib_snippets.ipynb"
 NB_TITLE = "Matplotlib snippets"
 GIT_BASE_URL = "https://github.com/jeremiedecock/snippets/blob/master/python/matplotlib/"
+FILES_TO_IGNORE = [
+    SCRIPT_NAME,                # Ignore this script
+    "animation.py",
+    "animation_alt.py",
+    # TODO
+    "hist2d_contour.py",
+    "hist2d_contour_sigmas.py",
+    "hist2d_hexa.py",
+    "hist2d_hexa_logscale_xy.py",
+    "hist2d_logscale_xy.py",
+    "hist2d_logscale_z.py",
+    "hist2d_scatter_plot.py",
+    "hist2d_scatter_plot_logscale_xy.py",
+    "hist_logscale_x.py",
+    "hist_logscale_xy.py",
+    "hist_logscale_y.py",
+    "hist_with_weighted_values.py",
+    "imshow_ax.py",
+    "imshow_colour_map_ax.py",
+    "imshow_colour_map_plt.py",
+    "imshow_plt.py",
+    "imshow_with_histogram_ax.py",
+    "log_scale.py",
+    "log_scale2.py",
+    "make_notebook.py",
+    "matplotlib_gtk3_widget.py",
+    "multiple_y_axis.py",
+    "no_axis.py",
+    "no_ticks_and_labels.py",
+    "parametric_curve.py",
+    "plot2d.py",
+    "plot_style_availables.py",
+    "plot_style_seaborn_paper.py",
+    "plot_style_seaborn_poster.py",
+    "plot_style_seaborn_talk.py",
+    "ratio_of_two_histograms.py",
+    "realtime_plot.py",
+    "realtime_plot_alt.py",
+    "save_without_borders.py",
+    "subplots_full_example.py",
+    "subplots_meth1.py",
+    "subplots_meth2.py",
+    "subplots_meth3.py",
+    "subplots_meth4.py",
+    "subplots_meth5.py",
+    "text_box.py",
+    "tkinter.py",
+    "tkinter_using_class.py",
+    "tkinter_using_class_and_toolbar.py",
+    "tkinter_using_class_and_toolbar_and_keyboard_events.py",
+    "tkinter_with_animation.py",
+    "tkinter_with_navigation_toolbar.py",
+    "tkinter_with_widgets_interactions.py",
+    "tkinter_without_navigation_toolbar.py",
+    "twinx.py",
+    "zorder.py"
+]
 
 # DIRECTORY PARSER ############################################################
 
@@ -34,15 +91,13 @@ def get_file_list(directory_path='.'):
     """
 
     # Parse the input directory
-    print("Parsing", directory_path)
-
     file_name_list = [os.path.join(directory_path, file_name)
                       for file_name
                       in os.listdir(directory_path)
                       if os.path.isfile(os.path.join(directory_path, file_name))
                       and file_name.endswith(".py")
                       and not os.path.islink(os.path.join(directory_path, file_name))
-                      and file_name != SCRIPT_NAME]  # Ignore this script
+                      and file_name not in FILES_TO_IGNORE]
 
     return file_name_list
 
@@ -182,4 +237,3 @@ if __name__ == '__main__':
     with open(OUTPUT_FILE_PATH, "w") as fd:
         #json.dump(ipynb_dict, fd)                           # no pretty print
         json.dump(ipynb_dict, fd, sort_keys=True, indent=1)  # pretty print format
-
