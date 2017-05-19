@@ -19,3 +19,5 @@
 ## Snippets
 
 - [ ] Patches et artists
+- [ ] Widgets
+- [ ] Listen keyboard and mouse events
