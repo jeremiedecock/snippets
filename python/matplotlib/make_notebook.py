@@ -24,6 +24,7 @@ SNIPPET CODE
 SCRIPT_NAME = os.path.basename(sys.argv[0])
 OUTPUT_FILE_PATH = "matplotlib_snippets.ipynb"
 NB_TITLE = "Matplotlib snippets"
+GIT_BASE_URL = "https://github.com/jeremiedecock/snippets/blob/master/python/matplotlib/"
 
 # DIRECTORY PARSER ############################################################
 
@@ -147,7 +148,7 @@ def add_cells(ipynb_dict, title, file_path, markdown_code, python_code):
                      "metadata": {},
                      "source": [
                       "## {}\n".format(title),
-                      "Source: {}\n\n".format(file_name)
+                      "Source: {}{}\n\n".format(GIT_BASE_URL, file_name)
                      ] + markdown_code
                     }
 
