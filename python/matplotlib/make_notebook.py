@@ -152,7 +152,7 @@ def init_notebook():
                      "\n",
                      "Last update: {}\n".format(datetime.date.isoformat(datetime.date.today())),
                      "\n",
-                     "This document has been made from snippets using {}make_notebook.py".format(GIT_BASE_URL)
+                     "This document has been made from [JDHP.org snippets](https://github.com/jeremiedecock/snippets) using {}make_notebook.py".format(GIT_BASE_URL)
                     ]
                    },
                    {
