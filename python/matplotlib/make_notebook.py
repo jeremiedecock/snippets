@@ -6,6 +6,21 @@ import os
 
 import sys
 
+'''
+Snippets should have the following structure:
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+SNIPPET_TITLE
+
+SNIPPET DESCRIPTION
+"""
+
+SNIPPET CODE
+'''
+
 SCRIPT_NAME = os.path.basename(sys.argv[0])
 OUTPUT_FILE_PATH = "matplotlib_snippets.ipynb"
 NB_TITLE = "Matplotlib snippets"
@@ -47,19 +62,25 @@ def get_file_content(python_file_path):
     python_code = []     # Python code
 
     # status=0 means the module docstring hasn't been reached yet
-    # status=1 means the current line is in the module docstring
-    # status=2 means the current line is in the module python code
+    # status=1 means the current line is the title
+    # status=2 means the current line is in the module docstring
+    # status=3 means the current line is in the module python code
     status = 0
 
     with open(python_file_path, 'rU') as fd:
         for line in fd.readlines():
-            if line in ("'''\n", '"""\n'):
+            if line.strip() in ("'''", '"""'):
                 status += 1
             else:
                 if status == 1:
-                    docstring.append(line)
+                    title = line
+                    status += 1
                 elif status == 2:
-                    python_code.append(line)
+                    if not(len(docstring) == 0 and len(line.strip()) == 0):
+                        docstring.append(line)
+                elif status == 3:
+                    if not(len(python_code) == 0 and len(line.strip()) == 0):
+                        python_code.append(line)
 
     markdown_code = rst_to_markdown(docstring)
 
