@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See: http://matplotlib.org/users/style_sheets.html
+"""
+List available plot styles
+
+See: http://matplotlib.org/users/style_sheets.html
+"""
 
 import matplotlib.pyplot as plt
 

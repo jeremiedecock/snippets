@@ -30,36 +30,10 @@ FILES_TO_IGNORE = [
     SCRIPT_NAME,                # Ignore this script
     "animation.py",
     "animation_alt.py",
-    # TODO
-    "imshow_ax.py",
-    "imshow_colour_map_ax.py",
-    "imshow_colour_map_plt.py",
-    "imshow_plt.py",
-    "imshow_with_histogram_ax.py",
-    "log_scale.py",
-    "log_scale2.py",
     "make_notebook.py",
     "matplotlib_gtk3_widget.py",
-    "multiple_y_axis.py",
-    "no_axis.py",
-    "no_ticks_and_labels.py",
-    "parametric_curve.py",
-    "plot2d.py",
-    "plot_style_availables.py",
-    "plot_style_seaborn_paper.py",
-    "plot_style_seaborn_poster.py",
-    "plot_style_seaborn_talk.py",
-    "ratio_of_two_histograms.py",
     "realtime_plot.py",
     "realtime_plot_alt.py",
-    "save_without_borders.py",
-    "subplots_full_example.py",
-    "subplots_meth1.py",
-    "subplots_meth2.py",
-    "subplots_meth3.py",
-    "subplots_meth4.py",
-    "subplots_meth5.py",
-    "text_box.py",
     "tkinter.py",
     "tkinter_using_class.py",
     "tkinter_using_class_and_toolbar.py",
@@ -67,9 +41,7 @@ FILES_TO_IGNORE = [
     "tkinter_with_animation.py",
     "tkinter_with_navigation_toolbar.py",
     "tkinter_with_widgets_interactions.py",
-    "tkinter_without_navigation_toolbar.py",
-    "twinx.py",
-    "zorder.py"
+    "tkinter_without_navigation_toolbar.py"
 ]
 
 # DIRECTORY PARSER ############################################################

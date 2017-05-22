@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See: http://matplotlib.org/examples/pylab_examples/multiple_yaxis_with_spines.html
-#      http://matplotlib.org/examples/subplots_axes_and_figures/fahrenheit_celsius_scales.html
+"""
+Make multiple plots with a sharex X-axis but independent Y axis
+
+See:
+
+- http://matplotlib.org/examples/pylab_examples/multiple_yaxis_with_spines.html
+- http://matplotlib.org/examples/subplots_axes_and_figures/fahrenheit_celsius_scales.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

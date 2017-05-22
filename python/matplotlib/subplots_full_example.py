@@ -3,6 +3,10 @@
 
 # Copyright (c) 2017 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Make subplots
+"""
+
 import math
 from matplotlib import pyplot as plt
 import numpy as np

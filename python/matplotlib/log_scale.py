@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Use a logarithmic scale on both axis
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt

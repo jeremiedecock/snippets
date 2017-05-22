@@ -3,6 +3,10 @@
 
 # Copyright (c) 2016,2017 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Don't show ticks and labels on axis
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

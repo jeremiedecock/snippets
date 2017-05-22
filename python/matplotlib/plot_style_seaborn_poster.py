@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Make plots using using the *seaborn-poster* style
+"""
+
 # See: http://matplotlib.org/users/style_sheets.html
 
 import numpy as np

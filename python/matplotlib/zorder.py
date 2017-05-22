@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See http://matplotlib.org/examples/pylab_examples/zorder_demo.html
+"""
+Define the *Z order* of drawn objects
+
+See http://matplotlib.org/examples/pylab_examples/zorder_demo.html
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
