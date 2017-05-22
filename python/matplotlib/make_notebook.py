@@ -23,7 +23,7 @@ SNIPPET CODE
 '''
 
 SCRIPT_NAME = os.path.basename(sys.argv[0])
-OUTPUT_FILE_PATH = "../../../../jdhp-docs/notebooks/matplotlib_snippets.ipynb"
+OUTPUT_FILE_PATH = "../../../../jdhp-docs/notebooks/python_matplotlib_snippets_en.ipynb"
 NB_TITLE = "Matplotlib snippets"
 GIT_BASE_URL = "https://github.com/jeremiedecock/snippets/blob/master/python/matplotlib/"
 FILES_TO_IGNORE = [
