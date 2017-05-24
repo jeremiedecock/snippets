@@ -10,6 +10,6 @@ See http://jinja.pocoo.org/docs/2.9/intro/
 from jinja2 import Template
 
 template = Template('Hello {{ name }}!')
-string = template.render(name='John Doe')
+res_str = template.render(name='John Doe')
 
-print(string)
+print(res_str)
