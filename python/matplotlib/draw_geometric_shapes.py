@@ -15,8 +15,16 @@ See:
 
 TODO:
 
-- Fancy Arrows: http://matthiaseisen.com/matplotlib/shapes/arrow/
-- Text with Fancy Box: https://matplotlib.org/api/patches_api.html#matplotlib.patches.BoxStyle
+- Fancy Arrows:
+
+    - http://matthiaseisen.com/matplotlib/shapes/arrow/
+    - http://matplotlib.org/examples/pylab_examples/fancyarrow_demo.html
+
+- Text with Fancy Box:
+
+    - https://matplotlib.org/api/patches_api.html#matplotlib.patches.BoxStyle
+    - http://matplotlib.org/examples/pylab_examples/fancybox_demo2.html
+
 - Path Patch: https://matplotlib.org/api/path_api.html#module-matplotlib.path
 - Transform:
 
@@ -51,8 +59,8 @@ for ax in axs:
 fill_color = "red"
 line_color = "blue"
 line_width = 2.
-line_style = 'dashed'     # 'solid' (default), 'dashed', 'dashdot', 'dotted'
-join_style = "miter"      # 'miter', 'round', 'bevel'
+line_style = 'dashed'     # 'solid' (default), 'dashed', 'dashdot', 'dotted'   see: http://matplotlib.org/examples/lines_bars_and_markers/linestyles.html
+join_style = "miter"      # 'miter', 'round', 'bevel'                          see: http://matplotlib.org/examples/api/joinstyle.html
 fill = True               # True or False
 fill_pattern = "/"        # "/", "\\", '-', '+', 'x', 'o', 'O', '.', '*'
 alpha = 0.5
