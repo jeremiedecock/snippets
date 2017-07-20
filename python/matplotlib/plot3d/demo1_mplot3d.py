@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Plot 2 dimension data (version 1)
+"""
+
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,7 +24,9 @@ ax = axes3d.Axes3D(fig)
 ax.plot_wireframe(xx, yy, z)
 
 # SAVE FILES ######################
+
 plt.savefig("demo1_mplot3d.png")
 
-plt.show()
+# Plot ######################
 
+plt.show()

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Plot 2 dimension data (version 3)
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt

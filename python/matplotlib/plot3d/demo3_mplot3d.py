@@ -3,6 +3,10 @@
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
 
+"""
+Plot 2 dimension data (version 4)
+"""
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt

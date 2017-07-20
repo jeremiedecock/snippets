@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See http://matplotlib.org/examples/mplot3d/surface3d_demo2.html
+"""
+Parametric sphere
+
+See http://matplotlib.org/examples/mplot3d/surface3d_demo2.html
+"""
 
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
