@@ -7,6 +7,9 @@ import os
 
 import sys
 
+# TODO:
+# - Use subdirectory to group snippets: the subdirectories name becomes a H2 tag and snippets a H3 tag
+
 '''
 Snippets should have the following structure:
 
@@ -28,6 +31,7 @@ NB_TITLE = "Matplotlib snippets"
 GIT_BASE_URL = "https://github.com/jeremiedecock/snippets/blob/master/python/matplotlib/"
 FILES_TO_IGNORE = [
     SCRIPT_NAME,                # Ignore this script
+    "demo2_mplot3d.py",
     "animation.py",
     "animation_alt.py",
     "make_notebook.py",
@@ -117,21 +121,38 @@ def init_notebook():
     ipynb_dict = {"cells": [
                    {
                     "cell_type": "markdown",
+                    "metadata": {
+                     "tags": [
+                      "meta",
+                      "toc_en"
+                     ]
+                    },
+                    "source": [
+                     "# {}".format(NB_TITLE),
+                    ]
+                   },
+                   {
+                    "cell_type": "markdown",
                     "metadata": {},
                     "source": [
-                     "# {}\n\n".format(NB_TITLE),
-                     "Author: Jérémie Decock (http://www.jdhp.org)\n",
-                     "\n",
-                     "Last update: {}\n".format(datetime.date.isoformat(datetime.date.today())),
-                     "\n",
                      "This document has been made from [JDHP.org snippets](https://github.com/jeremiedecock/snippets) using {}make_notebook.py".format(GIT_BASE_URL)
+                    ]
+                   },
+                   {
+                    "cell_type": "markdown",
+                    "metadata": {},
+                    "source": [
+                     "Last update: {}\n".format(datetime.date.isoformat(datetime.date.today()))
                     ]
                    },
                    {
                     "cell_type": "code",
                     "execution_count": None,
                     "metadata": {
-                     "collapsed": True
+                     "collapsed": False,
+                     "tags": [
+                      "hide"
+                     ]
                     },
                     "outputs": [],
                     "source": [
@@ -199,6 +220,7 @@ if __name__ == '__main__':
     ipynb_dict = init_notebook()
 
     file_path_list = get_file_list()
+    file_path_list += get_file_list(os.path.join('.', 'plot3d'))
 
     for file_path in file_path_list:
         print("Parsing", file_path)
@@ -211,3 +233,4 @@ if __name__ == '__main__':
     with open(OUTPUT_FILE_PATH, "w") as fd:
         #json.dump(ipynb_dict, fd)                           # no pretty print
         json.dump(ipynb_dict, fd, sort_keys=True, indent=1)  # pretty print format
+
