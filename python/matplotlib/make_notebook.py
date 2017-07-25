@@ -221,6 +221,7 @@ if __name__ == '__main__':
 
     file_path_list = get_file_list()
     file_path_list += get_file_list(os.path.join('.', 'plot3d'))
+    file_path_list += get_file_list(os.path.join('.', 'basemap'))
 
     for file_path in file_path_list:
         print("Parsing", file_path)
