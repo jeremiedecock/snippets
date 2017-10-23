@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2014 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python scatter_gather_pickle_big_data_iterative.py | sort
+#   mpirun -np 4 python3 scatter_gather_pickle_big_data_iterative.py | sort
 #     or
-#   mpiexec -n 4 python scatter_gather_pickle_big_data_iterative.py | sort
+#   mpiexec -n 4 python3 scatter_gather_pickle_big_data_iterative.py | sort
 
 from mpi4py import MPI
 import itertools
@@ -26,7 +26,7 @@ def flatten(nested_list):
     if nested_list is None:
         return None
     else:
-        transposed_nested_list = list(itertools.izip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
+        transposed_nested_list = list(itertools.zip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
         return [item for sublist in transposed_nested_list for item in sublist if item is not None]
 
 
@@ -54,7 +54,7 @@ for iteration_index in range(3):
 
     if rank == 0:
         input_data = ['x' + str(iteration_index) + '.' + str(i) for i in range(15)]
-        print "[" + str(iteration_index) + ".1 input]", input_data
+        print("[" + str(iteration_index) + ".1 input]", input_data)
 
         data = grouper(input_data, size)
     else:
@@ -62,11 +62,11 @@ for iteration_index in range(3):
 
     # SCATTER
 
-    print "[" + str(iteration_index) + ".2 before scatter] process", rank, ":", data
+    print("[" + str(iteration_index) + ".2 before scatter] process", rank, ":", data)
 
     data = comm.scatter(data, root=0)
 
-    print "[" + str(iteration_index) + ".3 after scatter] process", rank, ":", data
+    print("[" + str(iteration_index) + ".3 after scatter] process", rank, ":", data)
 
     # PROCESS DATA
 
@@ -74,18 +74,18 @@ for iteration_index in range(3):
 
     # GATHER
 
-    print "[" + str(iteration_index) + ".4 before gather] process", rank, ":", res
+    print("[" + str(iteration_index) + ".4 before gather] process", rank, ":", res)
 
     res = comm.gather(res, root=0)
 
-    print "[" + str(iteration_index) + ".5 after gather] process", rank, ":", res
+    print("[" + str(iteration_index) + ".5 after gather] process", rank, ":", res)
 
     # OUTPUT
 
     if rank == 0:
         output_res[iteration_index] = flatten(res)
-        print "[" + str(iteration_index) + ".6 output]", output_res[iteration_index]
+        print("[" + str(iteration_index) + ".6 output]", output_res[iteration_index])
 
 if rank == 0:
-    print "[output]", output_res
+    print("[output]", output_res)
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
@@ -13,6 +13,6 @@ rank = comm.rank
 data = None
 data = comm.bcast(data, root=0)
 
-print "process", rank, ":", data
+print("process", rank, ":", data)
 
 comm.Disconnect()

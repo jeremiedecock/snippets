@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
@@ -14,6 +14,6 @@ data = rank
 
 result = comm.reduce(data, op=MPI.SUM, root=0)
 
-print "process", rank, ":", result
+print("process", rank, ":", result)
 
 comm.Disconnect()

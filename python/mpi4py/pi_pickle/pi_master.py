@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun python pi_master.py
+#   mpirun python3 pi_master.py
 #     or
-#   mpiexec python pi_master.py
+#   mpiexec python3 pi_master.py
 
 from mpi4py import MPI
 import sys
@@ -18,6 +18,6 @@ comm.bcast(data, root=MPI.ROOT)
 
 result = comm.reduce(None, op=MPI.SUM, root=MPI.ROOT)
 
-print result
+print(result)
 
 comm.Disconnect()

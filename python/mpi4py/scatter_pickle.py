@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python scatter_pickle.py | sort
+#   mpirun -np 4 python3 scatter_pickle.py | sort
 #     or
-#   mpiexec -n 4 python scatter_pickle.py | sort
+#   mpiexec -n 4 python3 scatter_pickle.py | sort
 
 from mpi4py import MPI
 
@@ -19,8 +19,8 @@ if rank == 0:
 else:
     data = None
 
-print "[before scatter] process", rank, ":", data
+print("[before scatter] process", rank, ":", data)
 
 data = comm.scatter(data, root=0)
 
-print "[after scatter] process", rank, ":", data
+print("[after scatter] process", rank, ":", data)

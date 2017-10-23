@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2014 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python scatter_gather_pickle_big_data.py | sort
+#   mpirun -np 4 python3 scatter_gather_pickle_big_data.py | sort
 #     or
-#   mpiexec -n 4 python scatter_gather_pickle_big_data.py | sort
+#   mpiexec -n 4 python3 scatter_gather_pickle_big_data.py | sort
 
 from mpi4py import MPI
 import itertools
@@ -26,7 +26,7 @@ def flatten(nested_list):
     if nested_list is None:
         return None
     else:
-        transposed_nested_list = list(itertools.izip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
+        transposed_nested_list = list(itertools.zip_longest(*nested_list))  # transpose the 2d list (lines -> columns; columns -> lines)
         return [item for sublist in transposed_nested_list for item in sublist if item is not None]
 
 
@@ -42,7 +42,7 @@ def process_data(data):
 # INPUT
 
 input_data = ['x' + str(i) for i in range(15)]
-print "[1. input]", input_data
+print("[1. input]", input_data)
 
 # MPI
 
@@ -57,11 +57,11 @@ else:
 
 # SCATTER
 
-print "[2. before scatter] process", rank, ":", data
+print("[2. before scatter] process", rank, ":", data)
 
 data = comm.scatter(data, root=0)
 
-print "[3. after scatter] process", rank, ":", data
+print("[3. after scatter] process", rank, ":", data)
 
 # PROCESS DATA
 
@@ -69,14 +69,14 @@ res = process_data(data)
 
 # GATHER
 
-print "[4. before gather] process", rank, ":", res
+print("[4. before gather] process", rank, ":", res)
 
 res = comm.gather(res, root=0)
 
-print "[5. after gather] process", rank, ":", res
+print("[5. after gather] process", rank, ":", res)
 
 # OUTPUT
 
 output_res = flatten(res)
-print "[6. output]", output_res
+print("[6. output]", output_res)
 

@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python gather_pickle.py | sort
+#   mpirun -np 4 python3 gather_pickle.py | sort
 #     or
-#   mpiexec -n 4 python gather_pickle.py | sort
+#   mpiexec -n 4 python3 gather_pickle.py | sort
 
 from mpi4py import MPI
 
@@ -16,9 +16,9 @@ rank = comm.Get_rank()
 
 data = rank * 100
 
-print "[before gather] process", rank, ":", data
+print("[before gather] process", rank, ":", data)
 
 data = comm.gather(data, root=0)
 
-print "[after gather] process", rank, ":", data
+print("[after gather] process", rank, ":", data)
 

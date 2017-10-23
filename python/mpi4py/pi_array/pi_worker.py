@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from mpi4py import MPI
 import numpy as np
@@ -11,7 +11,7 @@ rank = comm.Get_rank()
 data = np.array(0, dtype='i')
 comm.Bcast([data, MPI.INT], root=0)
 
-print "[worker {0}] data = {1}".format(rank, data)
+print("[worker {0}] data = {1}".format(rank, data))
 
 h = 1.0 / float(data)
 s = 0.0

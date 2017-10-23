@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun -np 4 python broadcast_pickle.py
+#   mpirun -np 4 python3 broadcast_pickle.py
 #     or
-#   mpiexec -n 4 python broadcast_pickle.py
+#   mpiexec -n 4 python3 broadcast_pickle.py
 
 from mpi4py import MPI
 
@@ -20,5 +20,5 @@ else:
 
 data = comm.bcast(data, root=0)
 
-print "process", rank, ":", data
+print("process", rank, ":", data)
 

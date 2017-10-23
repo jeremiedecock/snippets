@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
@@ -14,7 +14,7 @@ rank = comm.rank
 data = None
 data = comm.bcast(data, root=0)
 
-print "[worker {0}] data = {1}".format(rank, data)
+print("[worker {0}] data = {1}".format(rank, data))
 
 h = 1.0 / float(data)
 s = 0.0

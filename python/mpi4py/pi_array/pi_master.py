@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2013 Jérémie DECOCK (http://www.jdhp.org)
 
 # run:
-#   mpirun python pi_master.py
+#   mpirun python3 pi_master.py
 #     or
-#   mpiexec python pi_master.py
+#   mpiexec python3 pi_master.py
 
 from mpi4py import MPI
 import numpy as np
