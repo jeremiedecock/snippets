@@ -49,3 +49,23 @@
 * https://www.quora.com/What-are-the-best-PyQt5-tutorial
 * https://www.reddit.com/r/learnpython/comments/3j6k8x/is_there_any_proper_tutorials_for_pyqt5/
 * https://stackoverflow.com/questions/20996193/is-there-a-tutorial-specifically-for-pyqt5
+
+## Tools (QtDesigner, QML, QtQuick)
+
+Source: https://stackoverflow.com/questions/20996193/is-there-a-tutorial-specifically-for-pyqt5
+
+* QtDesigner:
+    For those days when your keyboard catches fire, there's a rockin' GUI-Builder called in the installation package. When you see the code this produces (perhaps only in the community version?), you'll see why this may not be the panacea it seems.
+* QML:
+    Another candidate for panacea: declarative GUI building from formatted JSON. Yum.
+* Qt Quick:
+    The framework for QML. By this point, it may seem tantalizingly easy, but don't get sucked in by this stuff just yet. It always seems to come down to learning it by hand.
+* The Model-View Framework:
+    Model-View (not MVC) separates the code that deals with presentation/interaction from the code that manages the data, with the aim of providing modularity.
+
+    Coding in PyQt5 is greatly simplified by using the set of classes that
+    implement the Model-View design pattern. Model-View is an evolution of
+    Model-View-Controller (MVC), in which the Controller has been reunited with the
+    View. They seem like strange bedfellows, but, most of the program's logic is
+    dealing with either the user, or data: it seems to make a certain sense, at
+    least at a stratospheric level. 
