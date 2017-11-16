@@ -8,6 +8,11 @@
 
 * https://wiki.qt.io/Differences_Between_PySide_and_PyQt
 
+Discussions:
+* https://askubuntu.com/questions/140740/should-i-use-pyqt-or-pyside-for-a-new-qt-project
+* https://stackoverflow.com/questions/6888750/pyqt-or-pyside-which-one-to-use
+* https://www.reddit.com/r/Python/comments/424n4y/pyqt_or_pyside_debate_over_which_to_learn/
+
 ## Differences between PyQt4 and PyQt5
 
 * http://pyqt.sourceforge.net/Docs/PyQt5/pyqt4_differences.html
