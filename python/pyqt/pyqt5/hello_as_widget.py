@@ -22,30 +22,22 @@
 # THE SOFTWARE.
 
 import sys
-import PyQt5.QtWidgets as qtwidgets
+from PyQt5.QtWidgets import QApplication, QWidget
 
-def main():
-    """Main function"""
+app = QApplication(sys.argv)
 
-    app = qtwidgets.QApplication(sys.argv)
+# The default constructor has no parent.
+# A widget with no parent is a window.
+window = QWidget()
 
-    # The default constructor has no parent.
-    # A widget with no parent is a window.
-    window = qtwidgets.QWidget()
+window.resize(250, 150)
+window.setWindowTitle('Hello')
+window.show()
 
-    window.resize(250, 150)
-    window.setWindowTitle('Hello')
-    window.show()
+# The mainloop of the application. The event handling starts from this point.
+# The exec_() method has an underscore. It is because the exec is a Python keyword. And thus, exec_() was used instead. 
+exit_code = app.exec_()
 
-    # The mainloop of the application. The event handling starts from this point.
-    # The exec_() method has an underscore. It is because the exec is a Python keyword. And thus, exec_() was used instead. 
-    exit_code = app.exec_()
-
-    # The sys.exit() method ensures a clean exit.
-    # The environment will be informed, how the application ended.
-    sys.exit(exit_code)
-
-if __name__ == '__main__':
-    main()
-
-
+# The sys.exit() method ensures a clean exit.
+# The environment will be informed, how the application ended.
+sys.exit(exit_code)
