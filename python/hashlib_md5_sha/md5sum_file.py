@@ -43,6 +43,10 @@ def main():
             with open(file_path, 'rb') as fd:
                 try:
                     hash_generator = hashlib.md5()
+                    #hash_generator = hashlib.sha1()
+                    #hash_generator = hashlib.sha256()
+                    #hash_generator = hashlib.sha512()
+
                     data = fd.read(CHUNK_SIZE)
                     while len(data) > 0:
                         hash_generator.update(data)
