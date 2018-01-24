@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
@@ -23,6 +23,7 @@
 
 import argparse
 import hashlib
+import os
 
 CHUNK_SIZE = 2**12
 
@@ -31,24 +32,34 @@ def main():
 
     # PARSE OPTIONS ###########################################################
 
-    parser = argparse.ArgumentParser(description='Compute the md5sum of a file with "hashlib".')
-    parser.add_argument("filenames", nargs='+', type=file, metavar="FILE", help="file to read")
+    parser = argparse.ArgumentParser(description='Print or check MD5 checksums.')
+    parser.add_argument("filepaths", nargs='+', metavar="FILE", help="file to read")
     args = parser.parse_args()
 
     # COMPUTE HASHS ###########################################################
 
-    for file_descriptor in args.filenames:
-        hash = hashlib.md5()
+    for file_path in args.filepaths:
+        if os.path.isfile(file_path):
+            with open(file_path, 'rb') as fd:
+                try:
+                    hash_generator = hashlib.md5()
+                    data = fd.read(CHUNK_SIZE)
+                    while len(data) > 0:
+                        hash_generator.update(data)
+                        data = fd.read(CHUNK_SIZE)
+                except:
+                    print("{}: unknown error".format(file_path))  # TODO
+                finally:
+                    fd.close()
 
-        try:
-            data = file_descriptor.read(CHUNK_SIZE)
-            while data:
-                hash.update(data)
-                data = file_descriptor.read(CHUNK_SIZE)
-        finally:
-            file_descriptor.close()
+                hash_str = hash_generator.hexdigest()
+                print("{}  {}".format(hash_str, file_path))
+        else:
+            if os.path.isdir(file_path):
+                print('"{}" is a directory'.format(file_path))
+            else:
+                print("unable to read {}".format(file_path))
 
-        print hash.hexdigest()        # str
-
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()
 
