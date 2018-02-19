@@ -92,10 +92,9 @@ def example4(a):
     >>> a
     array([ 1.,  2.,  0.])
 
-    but this one won't
-    >>> a
-    ... # doctest: +NORMALIZE_WHITESPACE
-    array([ 1., 2., 0.])
+    but this one would't
+    # >>> a
+    # array([ 1., 2., 0.])
 
     As an alternative, the `doctest: +NORMALIZE_WHITESPACE` can be used (see
     https://docs.python.org/3/library/doctest.html#doctest.NORMALIZE_WHITESPACE
