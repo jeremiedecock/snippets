@@ -9,6 +9,12 @@ https://docs.python.org/3/library/doctest.html (reference)
 and
 www.fil.univ-lille1.fr/~L1S2API/CoursTP/tp_doctest.html (nice examples in
 French).
+
+To run doctest, execute this script (thanks to the
+`if __name__ == "__main__": import doctest ; doctest.testmod()` directives) 
+or execute the following command in a terminal::
+
+    python3 -m doctest datapipe/io/images.py
 """
 
 import numpy as np
