@@ -5,7 +5,10 @@
 This is a doctest example with Numpy arrays.
 
 For more information about doctest, see
-https://docs.python.org/3/library/doctest.html.
+https://docs.python.org/3/library/doctest.html (reference)
+and
+www.fil.univ-lille1.fr/~L1S2API/CoursTP/tp_doctest.html (nice examples in
+French).
 """
 
 import numpy as np
@@ -84,8 +87,24 @@ def example4(a):
     array([  1.,   2.,  nan])
     >>> example4(a)
     array([False, False,  True], dtype=bool)
+
+    Be careful with white space! The following will work...
     >>> a
     array([ 1.,  2.,  0.])
+
+    but this one won't
+    >>> a
+    ... # doctest: +NORMALIZE_WHITESPACE
+    array([ 1., 2., 0.])
+
+    As an alternative, the `doctest: +NORMALIZE_WHITESPACE` can be used (see
+    https://docs.python.org/3/library/doctest.html#doctest.NORMALIZE_WHITESPACE
+    and http://www.fil.univ-lille1.fr/~L1S2API/CoursTP/tp_doctest.html)
+    >>> a
+    ... # doctest: +NORMALIZE_WHITESPACE
+    array([ 1., 2., 0.])
+
+    but the space before the '1' is still required...
     """
     nan_mask = np.isnan(a)
     a[nan_mask] = 0
