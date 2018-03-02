@@ -1,8 +1,8 @@
-# Commons CLI snippets
+# Commons math3 snippets
 
 ## Dependencies
 
-Commons CLI (https://commons.apache.org/proper/commons-cli/)
+Commons Math3: https://commons.apache.org/proper/commons-math/
 
-For Debian users, install the following package: libcommons-cli-java
+Examples: http://www.baeldung.com/apache-commons-math
 
