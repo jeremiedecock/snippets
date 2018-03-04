@@ -1,5 +1,8 @@
-JShell
-======
+# JShell
+
+* Official documentation: https://docs.oracle.com/javase/9/jshell/introduction-jshell.htm
+
+## Note
 
 JShell has been made to be used interactively; it hasn't been made to be used
 as a regular Unix script... But a workaround exists:
