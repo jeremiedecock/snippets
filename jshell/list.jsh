@@ -8,6 +8,11 @@ list.add("un");
 list.add("deux");
 list.add("trois");
 
+// Init (alt) /////////////////////////////////////////////
+
+// String[] tab = {"un", "deux", "trois"};
+// List<String> list = Arrays.asList(tab);
+
 // Update /////////////////////////////////////////////////
 
 list.add("quatre");      // Add at the end
@@ -27,12 +32,27 @@ for(String val : list) {
 
 System.out.println(list.size());
 
+// To string //////////////////////////////////////////////
+
+System.out.println(list.toString());
+
 // Shuffle ////////////////////////////////////////////////
 
 java.util.Collections.shuffle(list);
+System.out.println(list.toString());
 
-for(String val : list) {
-    System.out.println(val);
-}
+// Sort ///////////////////////////////////////////////////
+
+list.sort(null);
+System.out.println(list.toString());
+
+// Is empty ? /////////////////////////////////////////////
+
+System.out.println("Is empty ? " + list.isEmpty());
+
+// Clear //////////////////////////////////////////////////
+
+list.clear();
+System.out.println(list.toString());
 
 /exit
