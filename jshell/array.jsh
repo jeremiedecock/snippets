@@ -1,0 +1,25 @@
+//usr/bin/env jshell --execution local "$0" "$@"; exit $?
+
+// Init ///////////////////////////////////////////////////
+
+String[] tab = {"un", "deux", "trois"};
+
+// Iterate ////////////////////////////////////////////////
+
+for(String val : tab) {
+    System.out.println(val);
+}
+
+// Size ///////////////////////////////////////////////////
+
+System.out.println(tab.length);
+
+// Sort ///////////////////////////////////////////////////
+
+Arrays.sort(tab);
+
+for(String val : tab) {
+    System.out.println(val);
+}
+
+/exit
