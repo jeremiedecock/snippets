@@ -14,12 +14,23 @@ for(String val : tab) {
 
 System.out.println(tab.length);
 
+// To string //////////////////////////////////////////////
+
+System.out.println(Arrays.toString(tab));
+
 // Sort ///////////////////////////////////////////////////
 
 Arrays.sort(tab);
+System.out.println(Arrays.toString(tab));
 
-for(String val : tab) {
-    System.out.println(val);
-}
+// Fill ///////////////////////////////////////////////////
+
+Arrays.fill(tab, "Hello")
+System.out.println(Arrays.toString(tab));
+
+// As list ////////////////////////////////////////////////
+
+List<String> list = Arrays.asList(tab);
+System.out.println(list.toString());
 
 /exit
