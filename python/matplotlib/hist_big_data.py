@@ -27,7 +27,7 @@ for data in range(100000):
 
 fig, ax = plt.subplots(figsize=(10, 10))
 
-ax.step(bins[:-1], hist, linewidth=1.5, label=r'X = $\mathcal{N}(100, 15)$')
+ax.step(bins[:-1], hist, linewidth=1.5, where='post', label=r'X = $\mathcal{N}(100, 15)$')
 
 # Set title and labels ################
 

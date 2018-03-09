@@ -31,7 +31,7 @@ for data in range(100000):
 
 fig, ax = plt.subplots(figsize=(10, 10))
 
-ax.step(bins[:-1], hist, linewidth=1.5, label=r'X = $\mathcal{N}(1000, 1000)$')
+ax.step(bins[:-1], hist, linewidth=1.5, where='post', label=r'X = $\mathcal{N}(1000, 1000)$')
 
 ax.set_xscale('log')
 ax.set_yscale('log')
