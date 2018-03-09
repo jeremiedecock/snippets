@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Plot a loglog histogram of a large input data (larger than memory), filling the histogram chunk by chunk.
+Plot a loglog histogram of a large input data (larger than memory), filling the histogram chunk by chunk
 
 See:
 - https://stackoverflow.com/questions/33371917/how-to-plot-result-of-np-histogram-with-matplotlib-analog-to-plt-his
