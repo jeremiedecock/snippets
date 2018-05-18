@@ -1,0 +1,26 @@
+## Useful documentation:
+
+- https://scitools.org.uk/cartopy/docs/v0.15/gallery.html
+- https://github.com/SciTools/cartopy/issues/384
+- https://stackoverflow.com/questions/35707514/download-data-from-natural-earth-and-openstreetmap-for-cartopy
+- http://www.naturalearthdata.com/downloads/
+- http://www.fabienpoulard.info/post/2011/01/24/Interroger-OpenStreetMap-en-Python-avec-OsmApi
+- http://fabienpoulard.info/post/2012/12/23/Extraction-de-donn%C3%A9es-d-OpenStreetMap-hors-ligne
+- https://github.com/grdscarabe/osm-utils/blob/master/osm2json-transportation.py
+- https://wiki.openstreetmap.org/wiki/FR:Osmosis
+- https://wiki.openstreetmap.org/wiki/Osmapi
+- http://osmapi.metaodi.ch/
+- http://michelleful.github.io/code-blog/2015/04/27/osm-data/
+- http://nbviewer.jupyter.org/gist/pelson/8912530
+- https://scitools.org.uk/cartopy/docs/v0.15/examples/tube_stations.html
+- http://www.xavierdupre.fr/app/papierstat/helpsphinx/notebooks/enedis_cartes.html
+- http://www.net-analysis.com/blog/cartopyintro.html
+- https://matplotlib.org/basemap/users/intro.html
+- http://darribas.org/gds_scipy16/ipynb_md/02_geovisualization.html
+- https://ocefpaf.github.io/python4oceanographers/blog/2015/02/02/cartopy_folium_shapefile/
+- http://earthpy.org/tag/cartopy.html
+- https://govhack-toolkit.readthedocs.io/technical/geographic-data/
+- https://scitools.org.uk/cartopy/docs/v0.13/matplotlib/advanced_plotting.html
+- http://andykee.com/visualizing-strava-tracks-with-python.html
+- https://scitools.org.uk/cartopy/docs/latest/matplotlib/intro.html
+- https://stackoverflow.com/questions/tagged/cartopy?page=3&sort=newest&pagesize=15
