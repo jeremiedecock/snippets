@@ -1,0 +1,9 @@
+class: Priest
+gold: 423
+hp: [32, 71]
+inventory: [a Holy Book of Prayers (Words of Wisdom), an Azure Potion of Cure Light
+    Wounds, a Siver Wand of Wonder]
+name: Vorlin Laruknuzum
+sex: Male
+sp: [1, 13]
+title: Acolyte
