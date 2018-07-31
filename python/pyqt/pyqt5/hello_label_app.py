@@ -26,9 +26,11 @@ import PyQt5.QtWidgets as widgets
 
 class MainWindow(widgets.QMainWindow):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         super().__init__()
+        self.setUI()
 
+    def setUI(self):
         label = widgets.QLabel("Hello!")
         self.setCentralWidget(label)
 
