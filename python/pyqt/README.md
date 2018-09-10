@@ -36,6 +36,7 @@ Discussions:
 
 ## PyQt5 tutorials and examples
 
+* http://code.qt.io/cgit/pyside/examples.git/tree/examples/widgets
 * http://www.gchagnon.fr/cours/python/pyqt.html
 * https://github.com/mfitzp/15-minute-apps
 * http://zetcode.com/gui/pyqt5/
