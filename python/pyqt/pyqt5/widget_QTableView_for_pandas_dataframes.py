@@ -41,15 +41,6 @@ class PandasModel(QAbstractTableModel):
 
         return None
 
-#    def flags(self, index):
-#        flags = super(self.__class__, self).flags(index)
-#        flags |= Qt.ItemIsEditable
-#        flags |= Qt.ItemIsSelectable
-#        flags |= Qt.ItemIsEnabled
-#        flags |= Qt.ItemIsDragEnabled
-#        flags |= Qt.ItemIsDropEnabled
-#        return flags
-#
 #    def sort(self, column_index, order):
 #        """Sort table by given column number."""
 #        try:
