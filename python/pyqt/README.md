@@ -24,9 +24,11 @@ Discussions:
 * http://doc.qt.io/qt-5/qtmodules.html
 * http://doc.qt.io/qt-5/classes.html
 * http://doc.qt.io/qt-5/functions.html
+* https://doc.qt.io/qt-5.11/examples-widgets.html
 
-## PyQt5 reference
+## PySide/PyQt5 reference
 
+* http://doc.qt.io/qtforpython/
 * http://pyqt.sourceforge.net/Docs/PyQt5/
 * Modules: http://pyqt.sourceforge.net/Docs/PyQt5/modules.html#ref-module-index
 
@@ -37,6 +39,8 @@ Discussions:
 ## PyQt5 tutorials and examples
 
 * http://code.qt.io/cgit/pyside/examples.git/tree/examples/widgets
+* http://doc.qt.io/qtforpython/
+* https://www.youtube.com/channel/UCD6ArU-AYbfIj5sx2L4SZAQ
 * http://www.gchagnon.fr/cours/python/pyqt.html
 * https://github.com/mfitzp/15-minute-apps
 * http://zetcode.com/gui/pyqt5/
