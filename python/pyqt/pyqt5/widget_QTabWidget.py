@@ -4,7 +4,7 @@
 # See https://pythonspot.com/en/pyqt5-tabs/
 
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QTabWidget, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QTabWidget, QVBoxLayout
 
 
 class MyTabWidget(QWidget):
