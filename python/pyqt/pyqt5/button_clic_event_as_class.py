@@ -29,13 +29,8 @@ class Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.resize(250, 150)
-        self.setWindowTitle('Hello')
-
         button = QPushButton('Hello', self)
         button.clicked.connect(self.on_clic)
-
-        self.show()
 
     def on_clic(self):
         print("Hello!")
@@ -44,6 +39,7 @@ class Window(QMainWindow):
 app = QApplication(sys.argv)
 
 window = Window()
+window.show()
 
 exit_code = app.exec_()
 sys.exit(exit_code)
