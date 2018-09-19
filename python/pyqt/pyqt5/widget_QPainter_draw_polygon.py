@@ -4,8 +4,8 @@
 # See https://www.youtube.com/watch?v=96FBrNR3XOY
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QVBoxLayout
-from PyQt5.QtGui import QPainter, QBrush, QColor, QPen, QPolygon
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QPainter, QBrush, QPen, QPolygon
 from PyQt5.QtCore import Qt, QPoint
 
 

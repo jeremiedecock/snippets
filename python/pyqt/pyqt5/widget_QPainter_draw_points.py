@@ -4,8 +4,8 @@
 # See https://pythonspot.com/en/pyqt5-pixels/
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QVBoxLayout
-from PyQt5.QtGui import QPainter, QColor, QPen
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import Qt
 import random
 
