@@ -4,7 +4,6 @@
 # Ref: http://doc.qt.io/qt-5/modelview.html#2-1-a-read-only-table
 
 import sys
-from PyQt5.QtCore import Qt, QVariant
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QApplication, QTreeView
 
@@ -22,23 +21,17 @@ if __name__ == '__main__':
 
     # Defining a couple of items
     americaItem = QStandardItem("America")
-    mexicoItem =  QStandardItem("Canada")
-    usaItem =     QStandardItem("USA")
-    bostonItem =  QStandardItem("Boston")
-    europeItem =  QStandardItem("Europe")
-    italyItem =   QStandardItem("Italy")
-    romeItem =    QStandardItem("Rome")
-    veronaItem =  QStandardItem("Verona")
+    canadaItem = QStandardItem("Canada")
+    europeItem = QStandardItem("Europe")
+    franceItem = QStandardItem("France")
+    brittanyItem = QStandardItem("Brittany")
 
     # Building up the hierarchy
     rootItem.appendRow(americaItem)
     rootItem.appendRow(europeItem)
-    americaItem.appendRow(mexicoItem)
-    americaItem.appendRow(usaItem)
-    usaItem.appendRow(bostonItem)
-    europeItem.appendRow(italyItem)
-    italyItem.appendRow(romeItem)
-    italyItem.appendRow(veronaItem)
+    americaItem.appendRow(canadaItem)
+    europeItem.appendRow(franceItem)
+    franceItem.appendRow(brittanyItem)
 
     tree_view.setModel(model)
     tree_view.expandAll()      # expand all (this is not the case by default)
