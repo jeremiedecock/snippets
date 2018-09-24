@@ -45,7 +45,7 @@ done
 
 # ADDITIONAL DOCUMENTATION ####################################################
 
-cat << 'EOF' > README.md
+cat << 'EOF' >> README.md
 
 ## Open source application examples
 
