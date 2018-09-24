@@ -51,13 +51,13 @@ do
         if test -f "${SNIPPET_GIF}"
         then
             ALT_TEXT="${SNIPPET_GIF}"
-            echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" src=\"${SNIPPET_GIF}\"></a>" >> README.md
+            echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" title="Display the source code" src=\"${SNIPPET_GIF}\"></a>" >> README.md
             echo "" >> README.md
         else
             if test -f "${SNIPPET_PNG}"
             then
                 ALT_TEXT="${SNIPPET_PNG}"
-                echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" src=\"${SNIPPET_PNG}\"></a>" >> README.md
+                echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" title="Display the source code" src=\"${SNIPPET_PNG}\"></a>" >> README.md
                 echo "" >> README.md
             else
                 echo "<a href=\"${GITHUB_LINK}\">${PY_FILE}</a>" >> README.md
