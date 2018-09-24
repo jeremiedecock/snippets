@@ -35,7 +35,7 @@ Tkinter online documentation:
 
 ### Animation canvas update shapes instances itemconfig
 
-<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_update_shapes_instances_itemconfig.py"><img alt="animation_canvas_update_shapes_instances_itemconfig.png" src="animation_canvas_update_shapes_instances_itemconfig.png"></a>
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_update_shapes_instances_itemconfig.py"><img alt="animation_canvas_update_shapes_instances_itemconfig.gif" src="animation_canvas_update_shapes_instances_itemconfig.gif"></a>
 
 ### Animation canvas update shapes instances move
 

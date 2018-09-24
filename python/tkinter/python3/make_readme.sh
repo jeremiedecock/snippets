@@ -36,6 +36,7 @@ for PY_FILE in *.py
 do
     SNIPPET_BASENAME=$(basename -s ".py" ${PY_FILE})
     SNIPPET_PNG="${SNIPPET_BASENAME}.png"
+    SNIPPET_GIF="${SNIPPET_BASENAME}.gif"
     SNIPPET_TITLE=$(echo ${SNIPPET_BASENAME} | tr "_" " ") 
     GITHUB_LINK="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/${PY_FILE}"
 
@@ -47,13 +48,20 @@ do
         echo "### ${SNIPPET_TITLE}" >> README.md
         echo "" >> README.md
 
-        if test -f "${SNIPPET_PNG}"
+        if test -f "${SNIPPET_GIF}"
         then
-            ALT_TEXT="${SNIPPET_PNG}"
-            echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" src=\"${SNIPPET_PNG}\"></a>" >> README.md
+            ALT_TEXT="${SNIPPET_GIF}"
+            echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" src=\"${SNIPPET_GIF}\"></a>" >> README.md
             echo "" >> README.md
         else
-            echo "<a href=\"${GITHUB_LINK}\">${PY_FILE}</a>" >> README.md
+            if test -f "${SNIPPET_PNG}"
+            then
+                ALT_TEXT="${SNIPPET_PNG}"
+                echo "<a href=\"${GITHUB_LINK}\"><img alt=\"${ALT_TEXT}\" src=\"${SNIPPET_PNG}\"></a>" >> README.md
+                echo "" >> README.md
+            else
+                echo "<a href=\"${GITHUB_LINK}\">${PY_FILE}</a>" >> README.md
+            fi
         fi
     fi
 done
