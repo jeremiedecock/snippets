@@ -20,7 +20,7 @@ echo "This directory contains ${NUM_SNIPPETS} Tkinter snippets." >> README.md
 cat << 'EOF' >> README.md
 Many aspects of this package are tested here. 
 
-## Online documentation
+Tkinter online documentation:
 
 - http://effbot.org/tkinterbook/tkinter-index.htm
 - http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
