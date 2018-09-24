@@ -1,5 +1,10 @@
 # Tkinter
 
+Tkinter is the Python's de-facto standard GUI (Graphical User Interface) package.
+
+This directory contains 114 Tkinter snippets.
+Many aspects of this package are tested here. 
+
 ## Online documentation
 
 - http://effbot.org/tkinterbook/tkinter-index.htm
@@ -449,7 +454,9 @@
 - "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013
 - "Programming Python (4th edition)" Mark Lutz (O'Reilly Media) 2010
 
-## Widget list
+## Tkinter widget list
+
+Here is a non-exhaustive list of Tkinter widgets:
 
 - Label
 - Button

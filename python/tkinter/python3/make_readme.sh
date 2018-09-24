@@ -1,9 +1,24 @@
 #!/bin/sh
 
+# TODO:
+# - Add a brief presentation of the library
+# - Say there is more than a hundred snippets here
+
+NUM_SNIPPETS=$(find . -type f -name "*.py" | wc -l)
+
 # MAKE TITLE AND MAIN DESCRIPTION #############################################
 
 cat << 'EOF' > README.md
 # Tkinter
+
+Tkinter is the Python's de-facto standard GUI (Graphical User Interface) package.
+
+EOF
+
+echo "This directory contains ${NUM_SNIPPETS} Tkinter snippets." >> README.md
+
+cat << 'EOF' >> README.md
+Many aspects of this package are tested here. 
 
 ## Online documentation
 
@@ -56,7 +71,9 @@ cat << 'EOF' >> README.md
 - "Tkinter GUI Application Development HOTSHOT" Bhaskar Chaudhary (Packt Publishing Ltd) 2013
 - "Programming Python (4th edition)" Mark Lutz (O'Reilly Media) 2010
 
-## Widget list
+## Tkinter widget list
+
+Here is a non-exhaustive list of Tkinter widgets:
 
 - Label
 - Button
