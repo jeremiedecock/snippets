@@ -44,471 +44,432 @@
 
 ## Add and remove widgets
 
-<img alt="add_and_remove_widgets.png" src="add_and_remove_widgets.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/add_and_remove_widgets.py"><img alt="add_and_remove_widgets.png" src="add_and_remove_widgets.png"></a>
 
 ## Animation canvas
 
-<img alt="animation_canvas.png" src="animation_canvas.png">
-
-## Animation canvas change colors
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas.py"><img alt="animation_canvas.png" src="animation_canvas.png"></a>
 
 ## Animation canvas clear all shapes and redraw
 
-<img alt="animation_canvas_clear_all_shapes_and_redraw.png" src="animation_canvas_clear_all_shapes_and_redraw.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_clear_all_shapes_and_redraw.py"><img alt="animation_canvas_clear_all_shapes_and_redraw.png" src="animation_canvas_clear_all_shapes_and_redraw.png"></a>
 
 ## Animation canvas rain
 
-<img alt="animation_canvas_rain.png" src="animation_canvas_rain.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_rain.py"><img alt="animation_canvas_rain.png" src="animation_canvas_rain.png"></a>
 
 ## Animation canvas update shapes instances coords
 
-<img alt="animation_canvas_update_shapes_instances_coords.png" src="animation_canvas_update_shapes_instances_coords.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_update_shapes_instances_coords.py"><img alt="animation_canvas_update_shapes_instances_coords.png" src="animation_canvas_update_shapes_instances_coords.png"></a>
 
 ## Animation canvas update shapes instances itemconfig
 
-<img alt="animation_canvas_update_shapes_instances_itemconfig.png" src="animation_canvas_update_shapes_instances_itemconfig.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_update_shapes_instances_itemconfig.py"><img alt="animation_canvas_update_shapes_instances_itemconfig.png" src="animation_canvas_update_shapes_instances_itemconfig.png"></a>
 
 ## Animation canvas update shapes instances move
 
-<img alt="animation_canvas_update_shapes_instances_move.png" src="animation_canvas_update_shapes_instances_move.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas_update_shapes_instances_move.py"><img alt="animation_canvas_update_shapes_instances_move.png" src="animation_canvas_update_shapes_instances_move.png"></a>
 
 ## Animation label
 
-<img alt="animation_label.png" src="animation_label.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label.py"><img alt="animation_label.png" src="animation_label.png"></a>
 
 ## Animation label clock
 
-<img alt="animation_label_clock.png" src="animation_label_clock.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label_clock.py"><img alt="animation_label_clock.png" src="animation_label_clock.png"></a>
 
 ## Animation print
 
-## Bind keyboard
-
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_print.py">animation_print.py</a>
 ## Bitmap image
 
-<img alt="bitmap_image.png" src="bitmap_image.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/bitmap_image.py"><img alt="bitmap_image.png" src="bitmap_image.png"></a>
 
 ## Button1
 
-<img alt="button1.png" src="button1.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button1.py"><img alt="button1.png" src="button1.png"></a>
 
 ## Button2
 
-<img alt="button2.png" src="button2.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button2.py"><img alt="button2.png" src="button2.png"></a>
 
 ## Button3
 
-<img alt="button3.png" src="button3.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button3.py"><img alt="button3.png" src="button3.png"></a>
 
 ## Button and label
 
-<img alt="button_and_label.png" src="button_and_label.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_and_label.py"><img alt="button_and_label.png" src="button_and_label.png"></a>
 
 ## Button color
 
-<img alt="button_color.png" src="button_color.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_color.py"><img alt="button_color.png" src="button_color.png"></a>
 
 ## Button quit
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_quit.py">button_quit.py</a>
 ## Button styles
 
-<img alt="button_styles.png" src="button_styles.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_styles.py"><img alt="button_styles.png" src="button_styles.png"></a>
 
 ## Cairo with pil
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/cairo_with_pil.py">cairo_with_pil.py</a>
 ## Callback with arguments
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/callback_with_arguments.py">callback_with_arguments.py</a>
 ## Canvas
 
-<img alt="canvas.png" src="canvas.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas.py"><img alt="canvas.png" src="canvas.png"></a>
 
 ## Canvas active
 
-<img alt="canvas_active.png" src="canvas_active.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_active.py"><img alt="canvas_active.png" src="canvas_active.png"></a>
 
 ## Canvas chessboard
 
-<img alt="canvas_chessboard.png" src="canvas_chessboard.png">
-
-## Canvas clear all
-
-## Canvas items config when mouse hover
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_chessboard.py"><img alt="canvas_chessboard.png" src="canvas_chessboard.png"></a>
 
 ## Canvas items events using current tag
 
-<img alt="canvas_items_events_using_current_tag.png" src="canvas_items_events_using_current_tag.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_items_events_using_current_tag.py"><img alt="canvas_items_events_using_current_tag.png" src="canvas_items_events_using_current_tag.png"></a>
 
 ## Canvas items events using ids
 
-<img alt="canvas_items_events_using_ids.png" src="canvas_items_events_using_ids.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_items_events_using_ids.py"><img alt="canvas_items_events_using_ids.png" src="canvas_items_events_using_ids.png"></a>
 
 ## Canvas items events using tags
 
-<img alt="canvas_items_events_using_tags.png" src="canvas_items_events_using_tags.png">
-
-## Canvas screencast
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_items_events_using_tags.py"><img alt="canvas_items_events_using_tags.png" src="canvas_items_events_using_tags.png"></a>
 
 ## Canvas screenshot
 
-<img alt="canvas_screenshot.png" src="canvas_screenshot.png">
-
-## Canvas tag all
-
-## Canvas tag current
-
-## Canvas tags
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_screenshot.py"><img alt="canvas_screenshot.png" src="canvas_screenshot.png"></a>
 
 ## Canvas transparent shape
 
-<img alt="canvas_transparent_shape.png" src="canvas_transparent_shape.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas_transparent_shape.py"><img alt="canvas_transparent_shape.png" src="canvas_transparent_shape.png"></a>
 
 ## Checkbutton
 
-<img alt="checkbutton.png" src="checkbutton.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/checkbutton.py"><img alt="checkbutton.png" src="checkbutton.png"></a>
 
 ## Color chooser
 
-<img alt="color_chooser.png" src="color_chooser.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/color_chooser.py"><img alt="color_chooser.png" src="color_chooser.png"></a>
 
 ## Colors
 
-<img alt="colors.png" src="colors.png">
-
-## Container
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/colors.py"><img alt="colors.png" src="colors.png"></a>
 
 ## Display gif images
 
-<img alt="display_gif_images.png" src="display_gif_images.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/display_gif_images.py"><img alt="display_gif_images.png" src="display_gif_images.png"></a>
 
 ## Display png images
 
-<img alt="display_png_images.png" src="display_png_images.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/display_png_images.py"><img alt="display_png_images.png" src="display_png_images.png"></a>
 
 ## Entry
 
-<img alt="entry.png" src="entry.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/entry.py"><img alt="entry.png" src="entry.png"></a>
 
 ## Event configure resize widget
 
-<img alt="event_configure_resize_widget.png" src="event_configure_resize_widget.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_configure_resize_widget.py"><img alt="event_configure_resize_widget.png" src="event_configure_resize_widget.png"></a>
 
 ## Event delete window
 
-<img alt="event_delete_window.png" src="event_delete_window.png">
-
-## Event keyboard
-
-## Event keyboard meth2
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_delete_window.py"><img alt="event_delete_window.png" src="event_delete_window.png"></a>
 
 ## Event keyboard move shape in canvas
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_keyboard_move_shape_in_canvas.py">event_keyboard_move_shape_in_canvas.py</a>
 ## Event mouse
 
-<img alt="event_mouse.png" src="event_mouse.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_mouse.py"><img alt="event_mouse.png" src="event_mouse.png"></a>
 
 ## Event mouse draw polygon on canvas
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_mouse_draw_polygon_on_canvas.py">event_mouse_draw_polygon_on_canvas.py</a>
 ## Fake table
 
-<img alt="fake_table.png" src="fake_table.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/fake_table.py"><img alt="fake_table.png" src="fake_table.png"></a>
 
 ## File dialog open directory
 
-<img alt="file_dialog_open_directory.png" src="file_dialog_open_directory.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_directory.py"><img alt="file_dialog_open_directory.png" src="file_dialog_open_directory.png"></a>
 
 ## File dialog open in entry
 
-<img alt="file_dialog_open_in_entry.png" src="file_dialog_open_in_entry.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_in_entry.py"><img alt="file_dialog_open_in_entry.png" src="file_dialog_open_in_entry.png"></a>
 
 ## File dialog open multiple file descriptor
 
-<img alt="file_dialog_open_multiple_file_descriptor.png" src="file_dialog_open_multiple_file_descriptor.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_multiple_file_descriptor.py"><img alt="file_dialog_open_multiple_file_descriptor.png" src="file_dialog_open_multiple_file_descriptor.png"></a>
 
 ## File dialog open multiple file path
 
-<img alt="file_dialog_open_multiple_file_path.png" src="file_dialog_open_multiple_file_path.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_multiple_file_path.py"><img alt="file_dialog_open_multiple_file_path.png" src="file_dialog_open_multiple_file_path.png"></a>
 
 ## File dialog open single file descriptor
 
-<img alt="file_dialog_open_single_file_descriptor.png" src="file_dialog_open_single_file_descriptor.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_single_file_descriptor.py"><img alt="file_dialog_open_single_file_descriptor.png" src="file_dialog_open_single_file_descriptor.png"></a>
 
 ## File dialog open single file path
 
-<img alt="file_dialog_open_single_file_path.png" src="file_dialog_open_single_file_path.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_open_single_file_path.py"><img alt="file_dialog_open_single_file_path.png" src="file_dialog_open_single_file_path.png"></a>
 
 ## File dialog save file descriptor
 
-<img alt="file_dialog_save_file_descriptor.png" src="file_dialog_save_file_descriptor.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_save_file_descriptor.py"><img alt="file_dialog_save_file_descriptor.png" src="file_dialog_save_file_descriptor.png"></a>
 
 ## File dialog save file path
 
-<img alt="file_dialog_save_file_path.png" src="file_dialog_save_file_path.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/file_dialog_save_file_path.py"><img alt="file_dialog_save_file_path.png" src="file_dialog_save_file_path.png"></a>
 
 ## Font
 
-<img alt="font.png" src="font.png">
-
-## Font style
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/font.py"><img alt="font.png" src="font.png"></a>
 
 ## Frame as separator
 
-<img alt="frame_as_separator.png" src="frame_as_separator.png">
-
-## Frame label
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/frame_as_separator.py"><img alt="frame_as_separator.png" src="frame_as_separator.png"></a>
 
 ## Frame styles
 
-<img alt="frame_styles.png" src="frame_styles.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/frame_styles.py"><img alt="frame_styles.png" src="frame_styles.png"></a>
 
 ## Frame with border
 
-<img alt="frame_with_border.png" src="frame_with_border.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/frame_with_border.py"><img alt="frame_with_border.png" src="frame_with_border.png"></a>
 
 ## Frame without border
 
-<img alt="frame_without_border.png" src="frame_without_border.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/frame_without_border.py"><img alt="frame_without_border.png" src="frame_without_border.png"></a>
 
 ## Full application template
 
-<img alt="full_application_template.png" src="full_application_template.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/full_application_template.py"><img alt="full_application_template.png" src="full_application_template.png"></a>
 
 ## Fullscreen
 
-<img alt="fullscreen.png" src="fullscreen.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/fullscreen.py"><img alt="fullscreen.png" src="fullscreen.png"></a>
 
 ## Geometry manager grid
 
-<img alt="geometry_manager_grid.png" src="geometry_manager_grid.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_grid.py"><img alt="geometry_manager_grid.png" src="geometry_manager_grid.png"></a>
 
 ## Geometry manager grid 2
 
-<img alt="geometry_manager_grid_2.png" src="geometry_manager_grid_2.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_grid_2.py"><img alt="geometry_manager_grid_2.png" src="geometry_manager_grid_2.png"></a>
 
 ## Geometry manager pack info
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_info.py">geometry_manager_pack_info.py</a>
 ## Geometry manager pack left right
 
-<img alt="geometry_manager_pack_left_right.png" src="geometry_manager_pack_left_right.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_left_right.py"><img alt="geometry_manager_pack_left_right.png" src="geometry_manager_pack_left_right.png"></a>
 
 ## Geometry manager pack short syntax
 
-<img alt="geometry_manager_pack_short_syntax.png" src="geometry_manager_pack_short_syntax.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_short_syntax.py"><img alt="geometry_manager_pack_short_syntax.png" src="geometry_manager_pack_short_syntax.png"></a>
 
 ## Geometry manager pack test with 1 widget
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_test_with_1_widget.py">geometry_manager_pack_test_with_1_widget.py</a>
 ## Geometry manager pack top bottom
 
-<img alt="geometry_manager_pack_top_bottom.png" src="geometry_manager_pack_top_bottom.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_top_bottom.py"><img alt="geometry_manager_pack_top_bottom.png" src="geometry_manager_pack_top_bottom.png"></a>
 
 ## Get screens
 
-## Get widget size
-
-## Hello
-
-## Image pil
-
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/get_screens.py">get_screens.py</a>
 ## Keyboard events
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/keyboard_events.py">keyboard_events.py</a>
 ## Keyboard events meth2
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/keyboard_events_meth2.py">keyboard_events_meth2.py</a>
 ## Label
 
-<img alt="label.png" src="label.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/label.py"><img alt="label.png" src="label.png"></a>
 
 ## Label justify
 
-<img alt="label_justify.png" src="label_justify.png">
-
-## Label style and font
-
-## Label unicode
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/label_justify.py"><img alt="label_justify.png" src="label_justify.png"></a>
 
 ## Labelframe
 
-<img alt="labelframe.png" src="labelframe.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/labelframe.py"><img alt="labelframe.png" src="labelframe.png"></a>
 
 ## Listbox
 
-<img alt="listbox.png" src="listbox.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/listbox.py"><img alt="listbox.png" src="listbox.png"></a>
 
 ## Listbox with object items
 
-<img alt="listbox_with_object_items.png" src="listbox_with_object_items.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/listbox_with_object_items.py"><img alt="listbox_with_object_items.png" src="listbox_with_object_items.png"></a>
 
 ## Listbox with scrollbar
 
-<img alt="listbox_with_scrollbar.png" src="listbox_with_scrollbar.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/listbox_with_scrollbar.py"><img alt="listbox_with_scrollbar.png" src="listbox_with_scrollbar.png"></a>
 
 ## Macosx startup focus workaround
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/macosx_startup_focus_workaround.py">macosx_startup_focus_workaround.py</a>
 ## Macosx startup focus workaround v2
 
-## Matplotlib canvas
-
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/macosx_startup_focus_workaround_v2.py">macosx_startup_focus_workaround_v2.py</a>
 ## Matplotlib canvas using class
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class.py">matplotlib_canvas_using_class.py</a>
 ## Matplotlib canvas using class and toolbar
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class_and_toolbar.py">matplotlib_canvas_using_class_and_toolbar.py</a>
 ## Matplotlib canvas using class and toolbar and keyboard events
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class_and_toolbar_and_keyboard_events.py">matplotlib_canvas_using_class_and_toolbar_and_keyboard_events.py</a>
 ## Matplotlib canvas with animation
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_animation.py">matplotlib_canvas_with_animation.py</a>
 ## Matplotlib canvas with navigation toolbar
 
-<img alt="matplotlib_canvas_with_navigation_toolbar.png" src="matplotlib_canvas_with_navigation_toolbar.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_navigation_toolbar.py"><img alt="matplotlib_canvas_with_navigation_toolbar.png" src="matplotlib_canvas_with_navigation_toolbar.png"></a>
 
 ## Matplotlib canvas with widgets interactions
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_widgets_interactions.py">matplotlib_canvas_with_widgets_interactions.py</a>
 ## Matplotlib canvas without navigation toolbar
 
-<img alt="matplotlib_canvas_without_navigation_toolbar.png" src="matplotlib_canvas_without_navigation_toolbar.png">
-
-## Menu
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_without_navigation_toolbar.py"><img alt="matplotlib_canvas_without_navigation_toolbar.png" src="matplotlib_canvas_without_navigation_toolbar.png"></a>
 
 ## Menu checkbutton
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_checkbutton.py">menu_checkbutton.py</a>
 ## Menu enable disable items
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_enable_disable_items.py">menu_enable_disable_items.py</a>
 ## Menu popup
 
-<img alt="menu_popup.png" src="menu_popup.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_popup.py"><img alt="menu_popup.png" src="menu_popup.png"></a>
 
 ## Menu pulldown
 
-<img alt="menu_pulldown.png" src="menu_pulldown.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_pulldown.py"><img alt="menu_pulldown.png" src="menu_pulldown.png"></a>
 
 ## Menu radiobutton
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_radiobutton.py">menu_radiobutton.py</a>
 ## Menu toplevel
 
-<img alt="menu_toplevel.png" src="menu_toplevel.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_toplevel.py"><img alt="menu_toplevel.png" src="menu_toplevel.png"></a>
 
 ## Messagebox
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/messagebox.py">messagebox.py</a>
 ## Minimal
 
-<img alt="minimal.png" src="minimal.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/minimal.py"><img alt="minimal.png" src="minimal.png"></a>
 
 ## Multiple windows
 
-<img alt="multiple_windows.png" src="multiple_windows.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/multiple_windows.py"><img alt="multiple_windows.png" src="multiple_windows.png"></a>
 
 ## Optionmenu
 
-<img alt="optionmenu.png" src="optionmenu.png">
-
-## Pack info
-
-## Pack short syntax
-
-## Pack test with 1 widget
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/optionmenu.py"><img alt="optionmenu.png" src="optionmenu.png"></a>
 
 ## Paned window horizontal
 
-<img alt="paned_window_horizontal.png" src="paned_window_horizontal.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/paned_window_horizontal.py"><img alt="paned_window_horizontal.png" src="paned_window_horizontal.png"></a>
 
 ## Paned window vertical
 
-<img alt="paned_window_vertical.png" src="paned_window_vertical.png">
-
-## Photo image
-
-## Photo image gif
-
-## Photo image png
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/paned_window_vertical.py"><img alt="paned_window_vertical.png" src="paned_window_vertical.png"></a>
 
 ## Pil
 
-<img alt="pil.png" src="pil.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/pil.py"><img alt="pil.png" src="pil.png"></a>
 
 ## Radiobutton
 
-<img alt="radiobutton.png" src="radiobutton.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/radiobutton.py"><img alt="radiobutton.png" src="radiobutton.png"></a>
 
 ## Radiobutton factorized
 
-<img alt="radiobutton_factorized.png" src="radiobutton_factorized.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/radiobutton_factorized.py"><img alt="radiobutton_factorized.png" src="radiobutton_factorized.png"></a>
 
 ## Scale horizontal
 
-<img alt="scale_horizontal.png" src="scale_horizontal.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/scale_horizontal.py"><img alt="scale_horizontal.png" src="scale_horizontal.png"></a>
 
 ## Scale vertical
 
-<img alt="scale_vertical.png" src="scale_vertical.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/scale_vertical.py"><img alt="scale_vertical.png" src="scale_vertical.png"></a>
 
 ## Scrolled text
 
-<img alt="scrolled_text.png" src="scrolled_text.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/scrolled_text.py"><img alt="scrolled_text.png" src="scrolled_text.png"></a>
 
 ## Show and resize image with pil
 
-<img alt="show_and_resize_image_with_pil.png" src="show_and_resize_image_with_pil.png">
-
-## Spinbox
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/show_and_resize_image_with_pil.py"><img alt="show_and_resize_image_with_pil.png" src="show_and_resize_image_with_pil.png"></a>
 
 ## Spinbox range
 
-<img alt="spinbox_range.png" src="spinbox_range.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/spinbox_range.py"><img alt="spinbox_range.png" src="spinbox_range.png"></a>
 
 ## Spinbox tuple
 
-<img alt="spinbox_tuple.png" src="spinbox_tuple.png">
-
-## Tcl version
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/spinbox_tuple.py"><img alt="spinbox_tuple.png" src="spinbox_tuple.png"></a>
 
 ## Text
 
-<img alt="text.png" src="text.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/text.py"><img alt="text.png" src="text.png"></a>
 
 ## Text insert
 
-<img alt="text_insert.png" src="text_insert.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/text_insert.py"><img alt="text_insert.png" src="text_insert.png"></a>
 
 ## Text readonly
 
-<img alt="text_readonly.png" src="text_readonly.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/text_readonly.py"><img alt="text_readonly.png" src="text_readonly.png"></a>
 
 ## Title
 
-<img alt="title.png" src="title.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/title.py"><img alt="title.png" src="title.png"></a>
 
 ## Tk version
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/tk_version.py">tk_version.py</a>
 ## Tk version window
 
-<img alt="tk_version_window.png" src="tk_version_window.png">
-
-## Top level
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/tk_version_window.py"><img alt="tk_version_window.png" src="tk_version_window.png"></a>
 
 ## Ttk label
 
-<img alt="ttk_label.png" src="ttk_label.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/ttk_label.py"><img alt="ttk_label.png" src="ttk_label.png"></a>
 
 ## Unicode
 
-<img alt="unicode.png" src="unicode.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/unicode.py"><img alt="unicode.png" src="unicode.png"></a>
 
 ## Variables
 
-## Widget get size
-
-## Window always visible
-
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/variables.py">variables.py</a>
 ## Window attributes topmost
 
-<img alt="window_attributes_topmost.png" src="window_attributes_topmost.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_attributes_topmost.py"><img alt="window_attributes_topmost.png" src="window_attributes_topmost.png"></a>
 
 ## Window set fixed size
 
-<img alt="window_set_fixed_size.png" src="window_set_fixed_size.png">
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_set_fixed_size.py"><img alt="window_set_fixed_size.png" src="window_set_fixed_size.png"></a>
 
 ## Window set min size
 
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_set_min_size.py">window_set_min_size.py</a>
 ## Window set size
 
-<img alt="window_set_size.png" src="window_set_size.png">
-
-## Window title
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_set_size.py"><img alt="window_set_size.png" src="window_set_size.png"></a>
 
