@@ -70,7 +70,7 @@ done
 
 cat << 'EOF' >> README.md
 
-## Open source application examples
+## Some applications using Tkinter
 
 - IDLE (Python's official IDE)
 
