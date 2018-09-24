@@ -19,7 +19,7 @@ Tkinter online documentation:
 
 ### Animation canvas
 
-<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas.py"><img alt="animation_canvas.png" src="animation_canvas.png"></a>
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_canvas.py"><img alt="animation_canvas.gif" src="animation_canvas.gif"></a>
 
 ### Animation canvas clear all shapes and redraw
 
@@ -43,15 +43,16 @@ Tkinter online documentation:
 
 ### Animation label
 
-<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label.py"><img alt="animation_label.png" src="animation_label.png"></a>
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label.py"><img alt="animation_label.gif" src="animation_label.gif"></a>
 
 ### Animation label clock
 
-<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label_clock.py"><img alt="animation_label_clock.png" src="animation_label_clock.png"></a>
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_label_clock.py"><img alt="animation_label_clock.gif" src="animation_label_clock.gif"></a>
 
 ### Animation print
 
-<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_print.py">animation_print.py</a>
+<a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/animation_print.py"><img alt="animation_print.gif" src="animation_print.gif"></a>
+
 ### Bitmap image
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/bitmap_image.py"><img alt="bitmap_image.png" src="bitmap_image.png"></a>
