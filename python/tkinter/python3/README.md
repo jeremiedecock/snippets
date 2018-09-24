@@ -44,41 +44,41 @@
 
 ## Add and remove widgets
 
-![add_and_remove_widgets.png](add_and_remove_widgets.png Snippet screenshot)
+<img alt="add_and_remove_widgets.png" src="add_and_remove_widgets.png">
 
 ## Animation canvas
 
-![animation_canvas.png](animation_canvas.png Snippet screenshot)
+<img alt="animation_canvas.png" src="animation_canvas.png">
 
 ## Animation canvas change colors
 
 ## Animation canvas clear all shapes and redraw
 
-![animation_canvas_clear_all_shapes_and_redraw.png](animation_canvas_clear_all_shapes_and_redraw.png Snippet screenshot)
+<img alt="animation_canvas_clear_all_shapes_and_redraw.png" src="animation_canvas_clear_all_shapes_and_redraw.png">
 
 ## Animation canvas rain
 
-![animation_canvas_rain.png](animation_canvas_rain.png Snippet screenshot)
+<img alt="animation_canvas_rain.png" src="animation_canvas_rain.png">
 
 ## Animation canvas update shapes instances coords
 
-![animation_canvas_update_shapes_instances_coords.png](animation_canvas_update_shapes_instances_coords.png Snippet screenshot)
+<img alt="animation_canvas_update_shapes_instances_coords.png" src="animation_canvas_update_shapes_instances_coords.png">
 
 ## Animation canvas update shapes instances itemconfig
 
-![animation_canvas_update_shapes_instances_itemconfig.png](animation_canvas_update_shapes_instances_itemconfig.png Snippet screenshot)
+<img alt="animation_canvas_update_shapes_instances_itemconfig.png" src="animation_canvas_update_shapes_instances_itemconfig.png">
 
 ## Animation canvas update shapes instances move
 
-![animation_canvas_update_shapes_instances_move.png](animation_canvas_update_shapes_instances_move.png Snippet screenshot)
+<img alt="animation_canvas_update_shapes_instances_move.png" src="animation_canvas_update_shapes_instances_move.png">
 
 ## Animation label
 
-![animation_label.png](animation_label.png Snippet screenshot)
+<img alt="animation_label.png" src="animation_label.png">
 
 ## Animation label clock
 
-![animation_label_clock.png](animation_label_clock.png Snippet screenshot)
+<img alt="animation_label_clock.png" src="animation_label_clock.png">
 
 ## Animation print
 
@@ -86,33 +86,33 @@
 
 ## Bitmap image
 
-![bitmap_image.png](bitmap_image.png Snippet screenshot)
+<img alt="bitmap_image.png" src="bitmap_image.png">
 
 ## Button1
 
-![button1.png](button1.png Snippet screenshot)
+<img alt="button1.png" src="button1.png">
 
 ## Button2
 
-![button2.png](button2.png Snippet screenshot)
+<img alt="button2.png" src="button2.png">
 
 ## Button3
 
-![button3.png](button3.png Snippet screenshot)
+<img alt="button3.png" src="button3.png">
 
 ## Button and label
 
-![button_and_label.png](button_and_label.png Snippet screenshot)
+<img alt="button_and_label.png" src="button_and_label.png">
 
 ## Button color
 
-![button_color.png](button_color.png Snippet screenshot)
+<img alt="button_color.png" src="button_color.png">
 
 ## Button quit
 
 ## Button styles
 
-![button_styles.png](button_styles.png Snippet screenshot)
+<img alt="button_styles.png" src="button_styles.png">
 
 ## Cairo with pil
 
@@ -120,15 +120,15 @@
 
 ## Canvas
 
-![canvas.png](canvas.png Snippet screenshot)
+<img alt="canvas.png" src="canvas.png">
 
 ## Canvas active
 
-![canvas_active.png](canvas_active.png Snippet screenshot)
+<img alt="canvas_active.png" src="canvas_active.png">
 
 ## Canvas chessboard
 
-![canvas_chessboard.png](canvas_chessboard.png Snippet screenshot)
+<img alt="canvas_chessboard.png" src="canvas_chessboard.png">
 
 ## Canvas clear all
 
@@ -136,21 +136,21 @@
 
 ## Canvas items events using current tag
 
-![canvas_items_events_using_current_tag.png](canvas_items_events_using_current_tag.png Snippet screenshot)
+<img alt="canvas_items_events_using_current_tag.png" src="canvas_items_events_using_current_tag.png">
 
 ## Canvas items events using ids
 
-![canvas_items_events_using_ids.png](canvas_items_events_using_ids.png Snippet screenshot)
+<img alt="canvas_items_events_using_ids.png" src="canvas_items_events_using_ids.png">
 
 ## Canvas items events using tags
 
-![canvas_items_events_using_tags.png](canvas_items_events_using_tags.png Snippet screenshot)
+<img alt="canvas_items_events_using_tags.png" src="canvas_items_events_using_tags.png">
 
 ## Canvas screencast
 
 ## Canvas screenshot
 
-![canvas_screenshot.png](canvas_screenshot.png Snippet screenshot)
+<img alt="canvas_screenshot.png" src="canvas_screenshot.png">
 
 ## Canvas tag all
 
@@ -160,41 +160,41 @@
 
 ## Canvas transparent shape
 
-![canvas_transparent_shape.png](canvas_transparent_shape.png Snippet screenshot)
+<img alt="canvas_transparent_shape.png" src="canvas_transparent_shape.png">
 
 ## Checkbutton
 
-![checkbutton.png](checkbutton.png Snippet screenshot)
+<img alt="checkbutton.png" src="checkbutton.png">
 
 ## Color chooser
 
-![color_chooser.png](color_chooser.png Snippet screenshot)
+<img alt="color_chooser.png" src="color_chooser.png">
 
 ## Colors
 
-![colors.png](colors.png Snippet screenshot)
+<img alt="colors.png" src="colors.png">
 
 ## Container
 
 ## Display gif images
 
-![display_gif_images.png](display_gif_images.png Snippet screenshot)
+<img alt="display_gif_images.png" src="display_gif_images.png">
 
 ## Display png images
 
-![display_png_images.png](display_png_images.png Snippet screenshot)
+<img alt="display_png_images.png" src="display_png_images.png">
 
 ## Entry
 
-![entry.png](entry.png Snippet screenshot)
+<img alt="entry.png" src="entry.png">
 
 ## Event configure resize widget
 
-![event_configure_resize_widget.png](event_configure_resize_widget.png Snippet screenshot)
+<img alt="event_configure_resize_widget.png" src="event_configure_resize_widget.png">
 
 ## Event delete window
 
-![event_delete_window.png](event_delete_window.png Snippet screenshot)
+<img alt="event_delete_window.png" src="event_delete_window.png">
 
 ## Event keyboard
 
@@ -204,101 +204,101 @@
 
 ## Event mouse
 
-![event_mouse.png](event_mouse.png Snippet screenshot)
+<img alt="event_mouse.png" src="event_mouse.png">
 
 ## Event mouse draw polygon on canvas
 
 ## Fake table
 
-![fake_table.png](fake_table.png Snippet screenshot)
+<img alt="fake_table.png" src="fake_table.png">
 
 ## File dialog open directory
 
-![file_dialog_open_directory.png](file_dialog_open_directory.png Snippet screenshot)
+<img alt="file_dialog_open_directory.png" src="file_dialog_open_directory.png">
 
 ## File dialog open in entry
 
-![file_dialog_open_in_entry.png](file_dialog_open_in_entry.png Snippet screenshot)
+<img alt="file_dialog_open_in_entry.png" src="file_dialog_open_in_entry.png">
 
 ## File dialog open multiple file descriptor
 
-![file_dialog_open_multiple_file_descriptor.png](file_dialog_open_multiple_file_descriptor.png Snippet screenshot)
+<img alt="file_dialog_open_multiple_file_descriptor.png" src="file_dialog_open_multiple_file_descriptor.png">
 
 ## File dialog open multiple file path
 
-![file_dialog_open_multiple_file_path.png](file_dialog_open_multiple_file_path.png Snippet screenshot)
+<img alt="file_dialog_open_multiple_file_path.png" src="file_dialog_open_multiple_file_path.png">
 
 ## File dialog open single file descriptor
 
-![file_dialog_open_single_file_descriptor.png](file_dialog_open_single_file_descriptor.png Snippet screenshot)
+<img alt="file_dialog_open_single_file_descriptor.png" src="file_dialog_open_single_file_descriptor.png">
 
 ## File dialog open single file path
 
-![file_dialog_open_single_file_path.png](file_dialog_open_single_file_path.png Snippet screenshot)
+<img alt="file_dialog_open_single_file_path.png" src="file_dialog_open_single_file_path.png">
 
 ## File dialog save file descriptor
 
-![file_dialog_save_file_descriptor.png](file_dialog_save_file_descriptor.png Snippet screenshot)
+<img alt="file_dialog_save_file_descriptor.png" src="file_dialog_save_file_descriptor.png">
 
 ## File dialog save file path
 
-![file_dialog_save_file_path.png](file_dialog_save_file_path.png Snippet screenshot)
+<img alt="file_dialog_save_file_path.png" src="file_dialog_save_file_path.png">
 
 ## Font
 
-![font.png](font.png Snippet screenshot)
+<img alt="font.png" src="font.png">
 
 ## Font style
 
 ## Frame as separator
 
-![frame_as_separator.png](frame_as_separator.png Snippet screenshot)
+<img alt="frame_as_separator.png" src="frame_as_separator.png">
 
 ## Frame label
 
 ## Frame styles
 
-![frame_styles.png](frame_styles.png Snippet screenshot)
+<img alt="frame_styles.png" src="frame_styles.png">
 
 ## Frame with border
 
-![frame_with_border.png](frame_with_border.png Snippet screenshot)
+<img alt="frame_with_border.png" src="frame_with_border.png">
 
 ## Frame without border
 
-![frame_without_border.png](frame_without_border.png Snippet screenshot)
+<img alt="frame_without_border.png" src="frame_without_border.png">
 
 ## Full application template
 
-![full_application_template.png](full_application_template.png Snippet screenshot)
+<img alt="full_application_template.png" src="full_application_template.png">
 
 ## Fullscreen
 
-![fullscreen.png](fullscreen.png Snippet screenshot)
+<img alt="fullscreen.png" src="fullscreen.png">
 
 ## Geometry manager grid
 
-![geometry_manager_grid.png](geometry_manager_grid.png Snippet screenshot)
+<img alt="geometry_manager_grid.png" src="geometry_manager_grid.png">
 
 ## Geometry manager grid 2
 
-![geometry_manager_grid_2.png](geometry_manager_grid_2.png Snippet screenshot)
+<img alt="geometry_manager_grid_2.png" src="geometry_manager_grid_2.png">
 
 ## Geometry manager pack info
 
 ## Geometry manager pack left right
 
-![geometry_manager_pack_left_right.png](geometry_manager_pack_left_right.png Snippet screenshot)
+<img alt="geometry_manager_pack_left_right.png" src="geometry_manager_pack_left_right.png">
 
 ## Geometry manager pack short syntax
 
-![geometry_manager_pack_short_syntax.png](geometry_manager_pack_short_syntax.png Snippet screenshot)
+<img alt="geometry_manager_pack_short_syntax.png" src="geometry_manager_pack_short_syntax.png">
 
 ## Geometry manager pack test with 1 widget
 
 ## Geometry manager pack top bottom
 
-![geometry_manager_pack_top_bottom.png](geometry_manager_pack_top_bottom.png Snippet screenshot)
+<img alt="geometry_manager_pack_top_bottom.png" src="geometry_manager_pack_top_bottom.png">
 
 ## Get screens
 
@@ -314,11 +314,11 @@
 
 ## Label
 
-![label.png](label.png Snippet screenshot)
+<img alt="label.png" src="label.png">
 
 ## Label justify
 
-![label_justify.png](label_justify.png Snippet screenshot)
+<img alt="label_justify.png" src="label_justify.png">
 
 ## Label style and font
 
@@ -326,19 +326,19 @@
 
 ## Labelframe
 
-![labelframe.png](labelframe.png Snippet screenshot)
+<img alt="labelframe.png" src="labelframe.png">
 
 ## Listbox
 
-![listbox.png](listbox.png Snippet screenshot)
+<img alt="listbox.png" src="listbox.png">
 
 ## Listbox with object items
 
-![listbox_with_object_items.png](listbox_with_object_items.png Snippet screenshot)
+<img alt="listbox_with_object_items.png" src="listbox_with_object_items.png">
 
 ## Listbox with scrollbar
 
-![listbox_with_scrollbar.png](listbox_with_scrollbar.png Snippet screenshot)
+<img alt="listbox_with_scrollbar.png" src="listbox_with_scrollbar.png">
 
 ## Macosx startup focus workaround
 
@@ -356,13 +356,13 @@
 
 ## Matplotlib canvas with navigation toolbar
 
-![matplotlib_canvas_with_navigation_toolbar.png](matplotlib_canvas_with_navigation_toolbar.png Snippet screenshot)
+<img alt="matplotlib_canvas_with_navigation_toolbar.png" src="matplotlib_canvas_with_navigation_toolbar.png">
 
 ## Matplotlib canvas with widgets interactions
 
 ## Matplotlib canvas without navigation toolbar
 
-![matplotlib_canvas_without_navigation_toolbar.png](matplotlib_canvas_without_navigation_toolbar.png Snippet screenshot)
+<img alt="matplotlib_canvas_without_navigation_toolbar.png" src="matplotlib_canvas_without_navigation_toolbar.png">
 
 ## Menu
 
@@ -372,31 +372,31 @@
 
 ## Menu popup
 
-![menu_popup.png](menu_popup.png Snippet screenshot)
+<img alt="menu_popup.png" src="menu_popup.png">
 
 ## Menu pulldown
 
-![menu_pulldown.png](menu_pulldown.png Snippet screenshot)
+<img alt="menu_pulldown.png" src="menu_pulldown.png">
 
 ## Menu radiobutton
 
 ## Menu toplevel
 
-![menu_toplevel.png](menu_toplevel.png Snippet screenshot)
+<img alt="menu_toplevel.png" src="menu_toplevel.png">
 
 ## Messagebox
 
 ## Minimal
 
-![minimal.png](minimal.png Snippet screenshot)
+<img alt="minimal.png" src="minimal.png">
 
 ## Multiple windows
 
-![multiple_windows.png](multiple_windows.png Snippet screenshot)
+<img alt="multiple_windows.png" src="multiple_windows.png">
 
 ## Optionmenu
 
-![optionmenu.png](optionmenu.png Snippet screenshot)
+<img alt="optionmenu.png" src="optionmenu.png">
 
 ## Pack info
 
@@ -406,11 +406,11 @@
 
 ## Paned window horizontal
 
-![paned_window_horizontal.png](paned_window_horizontal.png Snippet screenshot)
+<img alt="paned_window_horizontal.png" src="paned_window_horizontal.png">
 
 ## Paned window vertical
 
-![paned_window_vertical.png](paned_window_vertical.png Snippet screenshot)
+<img alt="paned_window_vertical.png" src="paned_window_vertical.png">
 
 ## Photo image
 
@@ -420,75 +420,75 @@
 
 ## Pil
 
-![pil.png](pil.png Snippet screenshot)
+<img alt="pil.png" src="pil.png">
 
 ## Radiobutton
 
-![radiobutton.png](radiobutton.png Snippet screenshot)
+<img alt="radiobutton.png" src="radiobutton.png">
 
 ## Radiobutton factorized
 
-![radiobutton_factorized.png](radiobutton_factorized.png Snippet screenshot)
+<img alt="radiobutton_factorized.png" src="radiobutton_factorized.png">
 
 ## Scale horizontal
 
-![scale_horizontal.png](scale_horizontal.png Snippet screenshot)
+<img alt="scale_horizontal.png" src="scale_horizontal.png">
 
 ## Scale vertical
 
-![scale_vertical.png](scale_vertical.png Snippet screenshot)
+<img alt="scale_vertical.png" src="scale_vertical.png">
 
 ## Scrolled text
 
-![scrolled_text.png](scrolled_text.png Snippet screenshot)
+<img alt="scrolled_text.png" src="scrolled_text.png">
 
 ## Show and resize image with pil
 
-![show_and_resize_image_with_pil.png](show_and_resize_image_with_pil.png Snippet screenshot)
+<img alt="show_and_resize_image_with_pil.png" src="show_and_resize_image_with_pil.png">
 
 ## Spinbox
 
 ## Spinbox range
 
-![spinbox_range.png](spinbox_range.png Snippet screenshot)
+<img alt="spinbox_range.png" src="spinbox_range.png">
 
 ## Spinbox tuple
 
-![spinbox_tuple.png](spinbox_tuple.png Snippet screenshot)
+<img alt="spinbox_tuple.png" src="spinbox_tuple.png">
 
 ## Tcl version
 
 ## Text
 
-![text.png](text.png Snippet screenshot)
+<img alt="text.png" src="text.png">
 
 ## Text insert
 
-![text_insert.png](text_insert.png Snippet screenshot)
+<img alt="text_insert.png" src="text_insert.png">
 
 ## Text readonly
 
-![text_readonly.png](text_readonly.png Snippet screenshot)
+<img alt="text_readonly.png" src="text_readonly.png">
 
 ## Title
 
-![title.png](title.png Snippet screenshot)
+<img alt="title.png" src="title.png">
 
 ## Tk version
 
 ## Tk version window
 
-![tk_version_window.png](tk_version_window.png Snippet screenshot)
+<img alt="tk_version_window.png" src="tk_version_window.png">
 
 ## Top level
 
 ## Ttk label
 
-![ttk_label.png](ttk_label.png Snippet screenshot)
+<img alt="ttk_label.png" src="ttk_label.png">
 
 ## Unicode
 
-![unicode.png](unicode.png Snippet screenshot)
+<img alt="unicode.png" src="unicode.png">
 
 ## Variables
 
@@ -498,17 +498,17 @@
 
 ## Window attributes topmost
 
-![window_attributes_topmost.png](window_attributes_topmost.png Snippet screenshot)
+<img alt="window_attributes_topmost.png" src="window_attributes_topmost.png">
 
 ## Window set fixed size
 
-![window_set_fixed_size.png](window_set_fixed_size.png Snippet screenshot)
+<img alt="window_set_fixed_size.png" src="window_set_fixed_size.png">
 
 ## Window set min size
 
 ## Window set size
 
-![window_set_size.png](window_set_size.png Snippet screenshot)
+<img alt="window_set_size.png" src="window_set_size.png">
 
 ## Window title
 
