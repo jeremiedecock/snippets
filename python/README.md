@@ -3,7 +3,7 @@
 ## Description
 
 This is a collection of hundreds of original Python snippets, i.e. small pieces
-of code I have written to test a specific aspect of the Python programming
+of code I have written to test specific aspects of the Python programming
 language and various Python libraries.
 
 ### Scientific programming libraries

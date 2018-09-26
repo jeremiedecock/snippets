@@ -5,8 +5,8 @@ Copyright (c) 2009-2018 Jérémie DECOCK (http://www.jdhp.org)
 ## Description
 
 This is a collection of hundreds of original snippets, i.e. small pieces of
-code I have written to test a specific aspect of a programming language, a
-programming library, a description format, a protocol, ...
+code I have written to test specific aspects of programming language,
+programming libraries, description formats, protocols, ...
 
 Here you will find snippets for several topics:
 

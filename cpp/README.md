@@ -2,8 +2,8 @@
 
 ## Description
 
-This is a collection of hundreds of original C++ snippets, i.e. small pieces of
-code I have written to test a specific aspect of the C++ language and various
+This is a collection of original C++ snippets, i.e. small pieces of
+code I have written to test specific aspects of the C++ language and various
 C++ programming libraries.
 
 ### Scientific programming libraries
