@@ -25,7 +25,7 @@ Here you will find snippets for several topics:
 
 For more exhaustive information, see the following sections.
 
-### <a name="sec_lang"></a>Programming languages
+### <a name="sec_lang"></a>Programming languages
 
 - The [python](https://github.com/jeremiedecock/snippets/tree/master/python) directory contains hundreds of snippets on Python language and some Python libraries.
 - The [cpp](https://github.com/jeremiedecock/snippets/tree/master/cpp) directory contains hundreds of snippets on the C++ language and some C++ libraries.
@@ -34,7 +34,7 @@ For more exhaustive information, see the following sections.
 - The [java](https://github.com/jeremiedecock/snippets/tree/master/java) directory contains some snippets on the Java language and some Java libraries.
 - The [shell](https://github.com/jeremiedecock/snippets/tree/master/shell) and [commands](https://github.com/jeremiedecock/snippets/tree/master/commands) directories contain some snippets on shell scripts (Bourne shell and Bash).
 
-### <a name="sec_unix"></a>Unix programming
+### <a name="sec_unix"></a>Unix programming
 
 - The [c/unix](https://github.com/jeremiedecock/snippets/tree/master/c/unix) directory contains about fifty snippets on Unix/Linux system calls in C.
 - The [c/debian](), [python/debian]() and [java/debian]() directories contain some snippets on Debian packaging in C/C++, Python and Java.
@@ -56,18 +56,18 @@ For more exhaustive information, see the following sections.
 - The [python/mpi4py](https://github.com/jeremiedecock/snippets/tree/master/python/mpi4py) directory contains some snippets on [MPI (Message Passing Interface)](http://en.wikipedia.org/wiki/Message_Passing_Interface) for Python.
 - The [openmp](https://github.com/jeremiedecock/snippets/tree/master/openmp) directory contains some snippets on [OpenMP](http://openmp.org), an API for parallel programming.
 
-### <a name="sec_img"></a>Image processing programming libraries
+### <a name="sec_img"></a>Image processing programming libraries
 
 - The [python/opencv](https://github.com/jeremiedecock/snippets/tree/master/python/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for Python.
 - The [c/opencv](https://github.com/jeremiedecock/snippets/tree/master/c/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C programming language.
 - The [cpp/opencv](https://github.com/jeremiedecock/snippets/tree/master/cpp/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C++ programming language.
 - The [python/pil](https://github.com/jeremiedecock/snippets/tree/master/python/pil) directory contains some snippets on the [PIL](http://www.pythonware.com/products/pil/) and [Pillow](https://python-pillow.github.io/) Python imaging libraries.
 
-### <a name="sec_api"></a>General API
+### <a name="sec_api"></a>General API
 
 - The [cpp/boost](https://github.com/jeremiedecock/snippets/tree/master/cpp/boost) directory contains some snippets on the [Boost](http://www.boost.org/) C++ libraries ([Boost.Chrono](http://www.boost.org/doc/libs/1_58_0/doc/html/chrono.html), [Boost.Date_Time](http://www.boost.org/doc/libs/1_58_0/doc/html/date_time.html), [Boost.Graph](http://www.boost.org/doc/libs/1_58_0/libs/graph/doc/index.html), [Boost.Program_options](http://www.boost.org/doc/libs/1_58_0/doc/html/program_options.html), [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/index.html), [Boost.Random](http://www.boost.org/doc/libs/1_58_0/doc/html/boost_random.html), ...).
 
-### <a name="sec_tools"></a>Programming tools
+### <a name="sec_tools"></a>Programming tools
 
 - The [make/c](https://github.com/jeremiedecock/snippets/tree/master/c/hello) and [make/cpp](https://github.com/jeremiedecock/snippets/tree/master/cpp/hello) directories contain some snippets on [Gnu Make](http://www.gnu.org/software/make/), the famous multi-language build system.
 - The [cmake](https://github.com/jeremiedecock/snippets/tree/master/cmake) directory contains some snippets on [CMake](http://www.cmake.org/), the powerful cross-platform build system.
@@ -111,7 +111,7 @@ For more exhaustive information, see the following sections.
 - The [python/pygame](https://github.com/jeremiedecock/snippets/tree/master/python/pygame) directory contains some snippets on [Pygame](http://www.pygame.org), the Python wrapper for SDL.
 - The [cpp/sfml](https://github.com/jeremiedecock/snippets/tree/master/cpp/sfml) directory contains some snippets on the [SFML](http://www.sfml-dev.org) C++ Multimedia Library.
 
-### <a name="sec_others"></a>Others
+### <a name="sec_others"></a>Others
 
 - The [design_patterns](https://github.com/jeremiedecock/snippets/tree/master/design_patterns) directory contains some snippets on [Design patterns](http://en.wikipedia.org/wiki/Software_design_pattern) for the C++ and Java programming languages.
 - The [latex](https://github.com/jeremiedecock/snippets/tree/master/latex) directory contains some snippets on the [LaTeX](http://en.wikipedia.org/wiki/LaTeX) language.
