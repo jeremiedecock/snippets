@@ -10,7 +10,7 @@ C++ programming libraries.
 
 - The [cpp/eigen](https://github.com/jeremiedecock/snippets/tree/master/cpp/eigen) directory contains some snippets on the [Eigen](http://eigen.tuxfamily.org) C++ template library for linear algebra.
 
-### Image processing programming libraries
+### Image processing programming libraries
 
 - The [cpp/opencv](https://github.com/jeremiedecock/snippets/tree/master/cpp/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C++ programming language.
 
