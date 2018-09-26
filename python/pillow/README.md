@@ -1,4 +1,4 @@
-# PIL / Pillow
+# PIL / Pillow Snippets
 
 ## WARNING
 

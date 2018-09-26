@@ -1,0 +1,2 @@
+# OpenMP Snippets
+

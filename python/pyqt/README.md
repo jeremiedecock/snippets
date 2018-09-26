@@ -1,4 +1,4 @@
-# PyQt
+# Qt5 Snippets for Python
 
 * https://riverbankcomputing.com/software/pyqt/intro
 * https://www.riverbankcomputing.com/software/pyqt/download5

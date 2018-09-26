@@ -1,6 +1,8 @@
-# ATTENTION
+# GTK+3 Snippets for Python
 
-"PyGTK" (GTK+2) est remplacé par "PyGObject" à partir de GTK+3.
+## Warning
+
+"PyGTK" (GTK+2) had been replaced with "PyGObject" starting with GTK+3.
 
 "PyGTK is phased out with the transition to GTK+ version 3 and is replaced
 with PyGObject, which uses GObject Introspection to generate bindings for
