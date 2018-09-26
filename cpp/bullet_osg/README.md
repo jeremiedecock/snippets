@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Required packages : pkg-config.
+Required packages : openscenegraph, pkg-config.
 
 Bullet physics is also a prerequisite but there are no Debian packages for this
 library*. To install it, fallow these steps :
@@ -19,9 +19,9 @@ library*. To install it, fallow these steps :
 
 ## Build and run demos
 
+    cd src/<A_DEMO>
     make
     ./demo
-
 
 ## Copying
 
