@@ -1,4 +1,4 @@
-# Tkinter
+# Tkinter Snippets
 
 Tkinter is the Python's de-facto standard GUI (Graphical User Interface) package.
 
@@ -12,6 +12,7 @@ Tkinter online documentation:
 - https://wiki.python.org/moin/TkInter
 
 ## Snippets list
+
 
 ### Add and remove widgets
 
@@ -80,6 +81,7 @@ Tkinter online documentation:
 ### Button quit
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_quit.py">button_quit.py</a>
+
 ### Button styles
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/button_styles.py"><img alt="button_styles.png" title="Display the source code" src="button_styles.png"></a>
@@ -87,9 +89,11 @@ Tkinter online documentation:
 ### Cairo with pil
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/cairo_with_pil.py">cairo_with_pil.py</a>
+
 ### Callback with arguments
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/callback_with_arguments.py">callback_with_arguments.py</a>
+
 ### Canvas
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/canvas.py"><img alt="canvas.png" title="Display the source code" src="canvas.png"></a>
@@ -157,6 +161,7 @@ Tkinter online documentation:
 ### Event keyboard move shape in canvas
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_keyboard_move_shape_in_canvas.py">event_keyboard_move_shape_in_canvas.py</a>
+
 ### Event mouse
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_mouse.py"><img alt="event_mouse.png" title="Display the source code" src="event_mouse.png"></a>
@@ -164,6 +169,7 @@ Tkinter online documentation:
 ### Event mouse draw polygon on canvas
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/event_mouse_draw_polygon_on_canvas.py">event_mouse_draw_polygon_on_canvas.py</a>
+
 ### Fake table
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/fake_table.py"><img alt="fake_table.png" title="Display the source code" src="fake_table.png"></a>
@@ -239,6 +245,7 @@ Tkinter online documentation:
 ### Geometry manager pack info
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_info.py">geometry_manager_pack_info.py</a>
+
 ### Geometry manager pack left right
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_left_right.py"><img alt="geometry_manager_pack_left_right.png" title="Display the source code" src="geometry_manager_pack_left_right.png"></a>
@@ -250,6 +257,7 @@ Tkinter online documentation:
 ### Geometry manager pack test with 1 widget
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_test_with_1_widget.py">geometry_manager_pack_test_with_1_widget.py</a>
+
 ### Geometry manager pack top bottom
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/geometry_manager_pack_top_bottom.py"><img alt="geometry_manager_pack_top_bottom.png" title="Display the source code" src="geometry_manager_pack_top_bottom.png"></a>
@@ -257,12 +265,15 @@ Tkinter online documentation:
 ### Get screens
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/get_screens.py">get_screens.py</a>
+
 ### Keyboard events
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/keyboard_events.py">keyboard_events.py</a>
+
 ### Keyboard events meth2
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/keyboard_events_meth2.py">keyboard_events_meth2.py</a>
+
 ### Label
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/label.py"><img alt="label.png" title="Display the source code" src="label.png"></a>
@@ -290,21 +301,27 @@ Tkinter online documentation:
 ### Macosx startup focus workaround
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/macosx_startup_focus_workaround.py">macosx_startup_focus_workaround.py</a>
+
 ### Macosx startup focus workaround v2
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/macosx_startup_focus_workaround_v2.py">macosx_startup_focus_workaround_v2.py</a>
+
 ### Matplotlib canvas using class
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class.py">matplotlib_canvas_using_class.py</a>
+
 ### Matplotlib canvas using class and toolbar
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class_and_toolbar.py">matplotlib_canvas_using_class_and_toolbar.py</a>
+
 ### Matplotlib canvas using class and toolbar and keyboard events
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_using_class_and_toolbar_and_keyboard_events.py">matplotlib_canvas_using_class_and_toolbar_and_keyboard_events.py</a>
+
 ### Matplotlib canvas with animation
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_animation.py">matplotlib_canvas_with_animation.py</a>
+
 ### Matplotlib canvas with navigation toolbar
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_navigation_toolbar.py"><img alt="matplotlib_canvas_with_navigation_toolbar.png" title="Display the source code" src="matplotlib_canvas_with_navigation_toolbar.png"></a>
@@ -312,6 +329,7 @@ Tkinter online documentation:
 ### Matplotlib canvas with widgets interactions
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_with_widgets_interactions.py">matplotlib_canvas_with_widgets_interactions.py</a>
+
 ### Matplotlib canvas without navigation toolbar
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/matplotlib_canvas_without_navigation_toolbar.py"><img alt="matplotlib_canvas_without_navigation_toolbar.png" title="Display the source code" src="matplotlib_canvas_without_navigation_toolbar.png"></a>
@@ -319,9 +337,11 @@ Tkinter online documentation:
 ### Menu checkbutton
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_checkbutton.py">menu_checkbutton.py</a>
+
 ### Menu enable disable items
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_enable_disable_items.py">menu_enable_disable_items.py</a>
+
 ### Menu popup
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_popup.py"><img alt="menu_popup.png" title="Display the source code" src="menu_popup.png"></a>
@@ -333,6 +353,7 @@ Tkinter online documentation:
 ### Menu radiobutton
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_radiobutton.py">menu_radiobutton.py</a>
+
 ### Menu toplevel
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/menu_toplevel.py"><img alt="menu_toplevel.png" title="Display the source code" src="menu_toplevel.png"></a>
@@ -340,6 +361,7 @@ Tkinter online documentation:
 ### Messagebox
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/messagebox.py">messagebox.py</a>
+
 ### Minimal
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/minimal.py"><img alt="minimal.png" title="Display the source code" src="minimal.png"></a>
@@ -415,6 +437,7 @@ Tkinter online documentation:
 ### Tk version
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/tk_version.py">tk_version.py</a>
+
 ### Tk version window
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/tk_version_window.py"><img alt="tk_version_window.png" title="Display the source code" src="tk_version_window.png"></a>
@@ -430,6 +453,7 @@ Tkinter online documentation:
 ### Variables
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/variables.py">variables.py</a>
+
 ### Window attributes topmost
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_attributes_topmost.py"><img alt="window_attributes_topmost.png" title="Display the source code" src="window_attributes_topmost.png"></a>
@@ -441,12 +465,12 @@ Tkinter online documentation:
 ### Window set min size
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_set_min_size.py">window_set_min_size.py</a>
+
 ### Window set size
 
 <a href="https://github.com/jeremiedecock/snippets/blob/master/python/tkinter/python3/window_set_size.py"><img alt="window_set_size.png" title="Display the source code" src="window_set_size.png"></a>
 
-
-## Open source application examples
+## Some applications using Tkinter
 
 - IDLE (Python's official IDE)
 
