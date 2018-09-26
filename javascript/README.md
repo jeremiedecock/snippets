@@ -1,4 +1,10 @@
-# Javascript
+# Javascript Snippets
+
+## Description
+
+This is a collection of original Javascript snippets, i.e. small pieces of code I
+have written to test specific aspects of the Javascript programming language and
+various Javascript libraries.
 
 ## Resources
 
