@@ -14,11 +14,11 @@ C++ programming libraries.
 
 - The [cpp/opencv](https://github.com/jeremiedecock/snippets/tree/master/cpp/opencv) directory contains some snippets on the [OpenCV](http://opencv.org/) image processing library for the C++ programming language.
 
-### General API
+### General API
 
 - The [cpp/boost](https://github.com/jeremiedecock/snippets/tree/master/cpp/boost) directory contains some snippets on the [Boost](http://www.boost.org/) C++ libraries ([Boost.Chrono](http://www.boost.org/doc/libs/1_58_0/doc/html/chrono.html), [Boost.Date_Time](http://www.boost.org/doc/libs/1_58_0/doc/html/date_time.html), [Boost.Graph](http://www.boost.org/doc/libs/1_58_0/libs/graph/doc/index.html), [Boost.Program_options](http://www.boost.org/doc/libs/1_58_0/doc/html/program_options.html), [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/index.html), [Boost.Random](http://www.boost.org/doc/libs/1_58_0/doc/html/boost_random.html), ...).
 
-### Programming tools
+### Programming tools
 
 - The [make/cpp](https://github.com/jeremiedecock/snippets/tree/master/cpp/hello) directory contains some snippets on [Gnu Make](http://www.gnu.org/software/make/), the famous multi-language build system.
 - The [cmake](https://github.com/jeremiedecock/snippets/tree/master/cmake) directory contains some snippets on [CMake](http://www.cmake.org/), the powerful cross-platform build system.
