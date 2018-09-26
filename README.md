@@ -1,6 +1,6 @@
 # [JDHP Snippets](http://www.jdhp.org/projects_en.html#snippets)
 
-Copyright (c) 2009-2016 Jérémie DECOCK (http://www.jdhp.org)
+Copyright (c) 2009-2018 Jérémie DECOCK (http://www.jdhp.org)
 
 ## Description
 
