@@ -9,19 +9,22 @@ library*. To install it, fallow these steps :
 - install freeglut-dev
 - download bullet-2.77.tgz (http://code.google.com/p/bullet/) and untar it
 - generate ./configure script typing ./autogen.sh
-- install bullet library::
+- install bullet library:
 
-    ./configure --prefix=/usr
-    make
-    sudo make install
+```
+./configure --prefix=/usr
+make
+sudo make install
+```
 
 (*) : WNPP Bullet -> http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=476284
 
 ## Build and run demos
 
-    make
-    ./demo
-
+```
+make
+./demo
+```
 
 ## Copying
 
