@@ -12,7 +12,7 @@ class MyData:
         self._num_rows = 3
         self._num_columns = 2
 
-        self._data = [["-" for j in range(self._num_columns)] for i in range(self._num_rows)]
+        self._data = [["hello" for j in range(self._num_columns)] for i in range(self._num_rows)]
 
     def get_num_rows(self):
         return self._num_rows
