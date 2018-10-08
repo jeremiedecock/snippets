@@ -14,7 +14,6 @@ print(wf.getnchannels())
 print(wf.getframerate())
 
 p = pyaudio.PyAudio()
-print(p.get_device_count())
 
 stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
                 channels=wf.getnchannels(),
