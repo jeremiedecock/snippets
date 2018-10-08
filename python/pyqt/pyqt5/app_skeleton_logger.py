@@ -1,22 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Documentation:
+# - http://doc.qt.io/qt-5/modelview.html
+# - http://doc.qt.io/qt-5/model-view-programming.html
+
 # TODO:
 # - [x] Keep the current value while editing a cell -> see https://stackoverflow.com/a/8480223
 # -
-# - [+] Remove selected lines instead of the last one
-# - [+] Remove using the "Suppr" key instead of a button
-# - [+] Sort by datetime
+# - [x] Remove selected lines instead of the last one TODO: check the possible (but very unlikely bug) when reomving non-contiguous rows
+# - [+] Remove using the "Suppr" key instead of a button -> simply call the remove_rows callback when the suppr key is pressed...
+# - Add a keyboard shortcut to add a row
+# - [+] Sort by datetime or by value. See http://doc.qt.io/qt-5/model-view-programming.html#sorting , http://doc.qt.io/qt-5/qsortfilterproxymodel.html#sorting and https://stackoverflow.com/questions/11606259/how-to-sort-a-qtableview-by-a-column#11606946
 # -
-# - Add Tabs widgets + add a matplotlib plot of values
+# - [+] Use Qt delegate example
+# - [+] Don't show all Model's columns (+ add a description column in the model but don't show it in the view): "table_view.setColumnHidden(column_num, True)"
+# - [+] Use QDataWidgetMapper example (with the hidden description column for instance)
+# -
+# - [+] Add Tabs widgets + add a matplotlib plot of values
+# - [+] Add "undo" and "redo" actions (search "(python) design pattern for undo redo actions") -> Command pattern and Memento pattern (https://stackoverflow.com/a/3448959)
 # - Add doc strings
 # -
 # - When a row is inserted, select it (+ auto scroll to it) + automatically edit its first value column
 # - Use a system date time dialog box to edit date time (with calendar and clock...)
 # - Improve the architecture: merge DataWrapper and IO module functions ?
-# - Add a keyboard shortcut to add a row
-# -
-# - Use Qt delegate example
 
 import copy
 import datetime
@@ -197,48 +204,110 @@ class DataQtModel(QAbstractTableModel):
         return returned_value
 
     def flags(self, index):
+        """Returns the item flags for the given `index`.
+
+        See Also
+        --------
+        - http://doc.qt.io/qt-5/qabstractitemmodel.html#flags
+        - http://doc.qt.io/qt-5/qt.html#ItemFlag-enum
+
+        Parameters
+        ----------
+        index : QModelIndex
+            TODO
+
+        Returns
+        -------
+        ItemFlags
+            The item flags for the given `index`.
+        """
         return Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
 
     def insertRows(self, row, count, parent):
+        """Inserts `count` rows into the model before the given `row`.
+
+        Items in the new row will be children of the item represented by the `parent` model index.
+
+        If `row` is 0, the rows are prepended to any existing rows in the `parent`.
+
+        If `row` is `rowCount()`, the rows are appended to any existing rows in the `parent`.
+
+        If `parent` has no children, a single column with `count` rows is inserted.
+
+        Returns `True` if the rows were successfully inserted; otherwise returns `False`.
+
+        See Also
+        --------
+        http://doc.qt.io/qt-5/qabstractitemmodel.html#insertRows
+
+        Parameters
+        ----------
+        row : int
+            TODO
+        count : int
+            TODO
+        parent : QModelIndex, optional
+            TODO
+
+        Returns
+        -------
+        bool
+            Returns `True` if the rows were successfully removed; otherwise returns `False`.
         """
-        On models that support this, inserts count rows into the model before the given row.
-        Items in the new row will be children of the item represented by the parent model index.
+        try:
+            parent = parent
+            first_index = row
+            last_index = first_index + count - 1
 
-        If row is 0, the rows are prepended to any existing rows in the parent.
+            self.beginInsertRows(parent, first_index, last_index)
 
-        If row is rowCount(), the rows are appended to any existing rows in the parent.
+            for i in range(count):
+                self.data.insert_row(first_index)
 
-        If parent has no children, a single column with count rows is inserted.
+            self.endInsertRows()
+        except:
+            return False
 
-        Returns true if the rows were successfully inserted; otherwise returns false.
-
-        If you implement your own model, you can reimplement this function if you want to support insertions.
-        Alternatively, you can provide your own API for altering the data.
-        In either case, you will need to call beginInsertRows() and endInsertRows() to notify other components that the
-        model has changed.
-        """
-        parent = parent
-        first_index = row
-        last_index = first_index + count - 1
-
-        self.beginInsertRows(parent, first_index, last_index)
-
-        for i in range(count):
-            self.data.insert_row(first_index)
-
-        self.endInsertRows()
+        return True
 
     def removeRows(self, row, count, parent):
-        parent = parent
-        first_index = row
-        last_index = first_index + count - 1
+        """Removes `count` rows starting with the given `row` under parent `parent` from the model.
 
-        self.beginRemoveRows(parent, first_index, last_index)
+        See Also
+        --------
+        http://doc.qt.io/qt-5/qabstractitemmodel.html#removeRows
 
-        for i in range(count):
-            self.data.remove_row(first_index)
+        Parameters
+        ----------
+        row : int
+            TODO
+        count : int
+            TODO
+        parent : QModelIndex, optional
+            TODO
 
-        self.endRemoveRows()
+        Returns
+        -------
+        bool
+            Returns `True` if the rows were successfully removed; otherwise returns `False`.
+        """
+        # See http://doc.qt.io/qt-5/qabstractitemmodel.html#removeRows
+
+        try:
+            parent = parent
+            first_index = row
+            last_index = first_index + count - 1
+
+            self.beginRemoveRows(parent, first_index, last_index)
+
+            for i in range(count):
+                self.data.remove_row(first_index)
+
+            self.endRemoveRows()
+        except:
+            return False
+
+        return True
 
 # VIEW ################################
 
@@ -257,7 +326,7 @@ class Window(QMainWindow):
 
         self.table_view = QTableView()
         self.btn_add_row = QPushButton("Add a row")
-        self.btn_remove_row = QPushButton("Remove the last row")
+        self.btn_remove_row = QPushButton("Remove selected rows")
 
         # Set the layout
 
@@ -280,6 +349,8 @@ class Window(QMainWindow):
         self.btn_add_row.clicked.connect(self.add_row_btn_callback)
         self.btn_remove_row.clicked.connect(self.remove_row_callback)
 
+        #self.table_view.setColumnHidden(1, True)
+
         # Show
 
         self.show()
@@ -295,10 +366,28 @@ class Window(QMainWindow):
     def remove_row_callback(self):
         parent = QModelIndex()                                   # More useful with e.g. tree structures
 
-        #row_index = 0                                           # Remove the first row
-        row_index = self.table_view.model().rowCount(parent) - 1 # Remove the last row
+        # See http://doc.qt.io/qt-5/model-view-programming.html#handling-selections-in-item-views
+        #current_index = self.table_view.selectionModel().currentIndex()
+        #print("Current index:", current_index.row(), current_index.column())
 
-        self.table_view.model().removeRows(row_index, 1, parent)
+        selection_index_list = self.table_view.selectionModel().selectedRows()
+        selected_row_list = [selection_index.row() for selection_index in selection_index_list]
+
+        print("Current selection:", selected_row_list)
+
+        #row_index = 0                                           # Remove the first row
+        #row_index = self.table_view.model().rowCount(parent) - 1 # Remove the last row
+
+        # WARNING: the list of rows to remove MUST be sorted in reverse order
+        # otherwise the index of rows to remove may change at each iteration of the for loop!
+
+        # TODO: there should be a lock mechanism to avoid model modifications from external sources while iterating this loop...
+        #       Or as a much simpler alternative, modify the ItemSelectionMode to forbid the non contiguous selection of rows and remove the following for loop
+        for row_index in sorted(selected_row_list, reverse=True):
+            # Remove rows one by one to allow the removql of non-contiguously selected rows (e.g. "rows 0, 2 and 3")
+            success = self.table_view.model().removeRows(row_index, 1, parent)
+            if not success:
+                raise Exception("Unknown error...")   # TODO
 
 # RUN MODULE ##################################################################
 
