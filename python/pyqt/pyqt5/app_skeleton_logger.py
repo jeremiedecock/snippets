@@ -31,7 +31,7 @@ import fcntl
 import os
 import sys
 
-from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex
+from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
 from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow
 
 HOME_PATH = os.path.expanduser("~")                 # TODO: works on Unix only ?
@@ -338,10 +338,21 @@ class Window(QMainWindow):
 
         central_widget.setLayout(vbox)
 
-        # Set models
+        # Set model
 
         my_model = DataQtModel(data)
-        self.table_view.setModel(my_model)
+
+        # Proxy model
+
+        proxy_model = QSortFilterProxyModel()
+        proxy_model.setSourceModel(my_model)
+
+        self.table_view.setModel(proxy_model)
+        #self.table_view.setModel(my_model)
+
+        # Set the view
+
+        self.table_view.setSortingEnabled(True)
         self.table_view.setColumnWidth(0, 200)                       # TODO: automatically get the best width
 
         # Set slots
