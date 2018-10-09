@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# See https://pythonspot.com/en/pyqt5-matplotlib/
+# See https://matplotlib.org/examples/user_interfaces/embedding_in_qt5.html
 
 import sys
 
@@ -13,7 +13,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QSizePolicy, QHBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-import random
+import numpy as np
+import pandas as pd
 
 
 class Window(QMainWindow):
@@ -21,7 +22,9 @@ class Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        plot_canvas = PlotCanvas(self, width=5, height=4)
+        self.resize(600, 500)
+
+        plot_canvas = PlotCanvas(self, width=5, height=4, dpi=100)
 
         # Set the layout
         layout = QHBoxLayout()
@@ -30,11 +33,19 @@ class Window(QMainWindow):
 
 
 class PlotCanvas(FigureCanvas):
+    """This is a Matplotlib QWidget.
+
+    See https://matplotlib.org/examples/user_interfaces/embedding_in_qt5.html
+    """
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
-
         self.axes = fig.add_subplot(111)
+
+        self.data_x = np.arange(0, 10, 0.1)
+        self.data_y = np.sin(self.data_x)
+
+        self.compute_initial_figure()
 
         FigureCanvas.__init__(self, fig)
         self.setParent(parent)
@@ -42,14 +53,20 @@ class PlotCanvas(FigureCanvas):
         FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
-        # Plot
-        data = [random.random() for i in range(25)]
+    def compute_initial_figure(self):
+        s = pd.DataFrame(self.data_y, index=self.data_x)
+        s.plot(ax=self.axes)
 
-        ax = self.figure.add_subplot(111)
-        ax.plot(data, 'r-')
-        ax.set_title('PyQt Matplotlib Example')
+        #self.axes.plot(x, y)
 
-        self.draw()
+#    def update_figure(self):
+#        self.axes.cla()
+#
+#        s = pd.DataFrame(self.data_y, index=self.data_x)
+#        s.plot(ax=self.axes)
+#        #self.axes.plot(x, y)
+#
+#        self.draw()
 
 
 if __name__ == '__main__':
