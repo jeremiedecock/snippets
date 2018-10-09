@@ -30,10 +30,14 @@ import datetime
 import fcntl
 import os
 import sys
+import numpy as np
+import pandas as pd
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
 from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView, \
-    QAction
+    QAction, QTabWidget, QHeaderView, QSizePolicy
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 HOME_PATH = os.path.expanduser("~")                 # TODO: works on Unix only ?
 FILE_NAME = ".logger_skeleton"
@@ -321,32 +325,40 @@ class DataQtModel(QAbstractTableModel):
 
 # VIEW ################################
 
-class Window(QMainWindow):
+class MainWindow(QMainWindow):
 
     def __init__(self, data):
         super().__init__()
 
         self.resize(400, 600)
         self.setWindowTitle('Logger Skeleton')
+        self.statusBar().showMessage("Ready", 2000)
 
         # Make widgets ####################################
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+        self.tabs = QTabWidget(self)
+        self.setCentralWidget(self.tabs)
 
-        self.table_view = QTableView()
+        # Add tabs
+        self.table_tab = QWidget(self)
+        self.stats_tab = QWidget(self)
+
+        self.tabs.addTab(self.table_tab, "Table")
+        self.tabs.addTab(self.stats_tab, "Stats")
+
+        # Table tab ###########################################################
+
+        self.table_view = QTableView(self.table_tab)
         self.btn_add_row = QPushButton("Add a row")
-        self.btn_remove_row = QPushButton("Remove selected rows")
+        #self.btn_remove_row = QPushButton("Remove selected rows")
 
-        # Set the layout ##################################
+        table_tab_vbox = QVBoxLayout()
 
-        vbox = QVBoxLayout()
+        table_tab_vbox.addWidget(self.table_view)
+        table_tab_vbox.addWidget(self.btn_add_row)
+        #table_tab_vbox.addWidget(self.btn_remove_row)
 
-        vbox.addWidget(self.table_view)
-        vbox.addWidget(self.btn_add_row)
-        vbox.addWidget(self.btn_remove_row)
-
-        central_widget.setLayout(vbox)
+        self.table_tab.setLayout(table_tab_vbox)
 
         # Set model #######################################
 
@@ -369,6 +381,8 @@ class Window(QMainWindow):
         self.table_view.setSortingEnabled(True)
         self.table_view.setColumnWidth(0, 200)                       # TODO: automatically get the best width
 
+        self.table_view.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)    # https://stackoverflow.com/q/17535563
+
         # Set key shortcut ################################
 
         # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
@@ -383,13 +397,45 @@ class Window(QMainWindow):
         # Set slots #######################################
 
         self.btn_add_row.clicked.connect(self.add_row_btn_callback)
-        self.btn_remove_row.clicked.connect(self.remove_row_callback)
+        #self.btn_remove_row.clicked.connect(self.remove_row_callback)
 
         #self.table_view.setColumnHidden(1, True)
+
+        # Stats tab ###########################################################
+
+        # See https://matplotlib.org/examples/user_interfaces/embedding_in_qt5.html
+
+        stats_tab_layout = QVBoxLayout(self.stats_tab)
+        self.plot_canvas = PlotCanvas(data, self.stats_tab, width=5, height=4, dpi=100)
+        stats_tab_layout.addWidget(self.plot_canvas)
+
+        ###################################################
+
+        #proxy_model.dataChanged.connect(plot_canvas.update_figure)
+        #proxy_model.rowsInserted.connect(plot_canvas.update_figure)  # TODO
+        #proxy_model.rowsRemoved.connect(plot_canvas.update_figure)   # TODO
+
+        self.tabs.currentChanged.connect(self.updatePlot)  # Update the stats plot when the tabs switch to the stats tab
 
         # Show ############################################
 
         self.show()
+
+
+    def updatePlot(self, index):
+        """
+
+        Parameters
+        ----------
+        index
+
+        Returns
+        -------
+
+        """
+        if index == self.tabs.indexOf(self.stats_tab):
+            self.plot_canvas.update_figure()
+
 
     def add_row_btn_callback(self):
         parent = QModelIndex()                                   # More useful with e.g. tree structures
@@ -425,6 +471,52 @@ class Window(QMainWindow):
             if not success:
                 raise Exception("Unknown error...")   # TODO
 
+
+class PlotCanvas(FigureCanvas):
+    """This is a Matplotlib QWidget.
+
+    See https://matplotlib.org/examples/user_interfaces/embedding_in_qt5.html
+    """
+
+    def __init__(self, data, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+
+        self.data = data
+
+        self.compute_initial_figure()
+
+        FigureCanvas.__init__(self, fig)
+        self.setParent(parent)
+
+        FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
+
+    def compute_initial_figure(self):
+        data = np.array(self.data._data)
+        x = data[:, 0]
+        y = data[:, 1]
+
+        s = pd.DataFrame(y, index=x)
+        s.plot(ax=self.axes)
+
+        #self.axes.plot(x, y)
+
+    def update_figure(self):
+        data = np.array(self.data._data)
+
+        x = data[:, 0]
+        y = data[:, 1]
+
+        self.axes.cla()
+
+        s = pd.DataFrame(y, index=x)
+        s.plot(ax=self.axes)
+        #self.axes.plot(x, y)
+
+        self.draw()
+
+
 # RUN MODULE ##################################################################
 
 def main():
@@ -435,7 +527,7 @@ def main():
     app.setApplicationName("Logger Skeleton")
 
     # Make widgets
-    window = Window(data)
+    window = MainWindow(data)
 
     # The mainloop of the application. The event handling starts from this point.
     # The exec_() method has an underscore. It is because the exec is a Python keyword. And thus, exec_() was used instead.
