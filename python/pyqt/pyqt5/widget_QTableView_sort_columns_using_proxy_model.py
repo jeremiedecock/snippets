@@ -6,6 +6,8 @@
 # - http://doc.qt.io/qt-5/model-view-programming.html#proxy-models
 # - http://doc.qt.io/qt-5/qsortfilterproxymodel.html#sorting
 # - https://stackoverflow.com/a/11606946
+# - http://doc.qt.io/qt-5/qtwidgets-itemviews-basicsortfiltermodel-example.html
+# - http://doc.qt.io/qt-5/qtwidgets-itemviews-customsortfiltermodel-example.html
 
 import numpy as np
 import sys
