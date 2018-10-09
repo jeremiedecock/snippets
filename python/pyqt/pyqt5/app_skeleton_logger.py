@@ -32,7 +32,8 @@ import os
 import sys
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
-from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView
+from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView, \
+    QAction
 
 HOME_PATH = os.path.expanduser("~")                 # TODO: works on Unix only ?
 FILE_NAME = ".logger_skeleton"
@@ -328,7 +329,7 @@ class Window(QMainWindow):
         self.resize(400, 600)
         self.setWindowTitle('Logger Skeleton')
 
-        # Make widgets
+        # Make widgets ####################################
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -337,7 +338,7 @@ class Window(QMainWindow):
         self.btn_add_row = QPushButton("Add a row")
         self.btn_remove_row = QPushButton("Remove selected rows")
 
-        # Set the layout
+        # Set the layout ##################################
 
         vbox = QVBoxLayout()
 
@@ -347,11 +348,11 @@ class Window(QMainWindow):
 
         central_widget.setLayout(vbox)
 
-        # Set model
+        # Set model #######################################
 
         my_model = DataQtModel(data, parent=self)  # TODO: right use of "parent" ?
 
-        # Proxy model
+        # Proxy model #####################################
 
         proxy_model = QSortFilterProxyModel(parent=self)  # TODO: right use of "parent" ?
         proxy_model.setSourceModel(my_model)
@@ -359,22 +360,34 @@ class Window(QMainWindow):
         self.table_view.setModel(proxy_model)
         #self.table_view.setModel(my_model)
 
-        # Set the view
+        # Set the view ####################################
 
         self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)    # Select the full row when a cell is selected (See http://doc.qt.io/qt-5/qabstractitemview.html#selectionBehavior-prop )
         #self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)  # Set selection mode. See http://doc.qt.io/qt-5/qabstractitemview.html#selectionMode-prop
 
+        self.table_view.setAlternatingRowColors(True)
         self.table_view.setSortingEnabled(True)
         self.table_view.setColumnWidth(0, 200)                       # TODO: automatically get the best width
 
-        # Set slots
+        # Set key shortcut ################################
+
+        # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
+
+        del_action = QAction(self.table_view)
+        #del_action.setShortcut(Qt.Key_Q | Qt.CTRL)
+        del_action.setShortcut(Qt.Key_Delete)
+
+        del_action.triggered.connect(self.remove_row_callback)
+        self.table_view.addAction(del_action)
+
+        # Set slots #######################################
 
         self.btn_add_row.clicked.connect(self.add_row_btn_callback)
         self.btn_remove_row.clicked.connect(self.remove_row_callback)
 
         #self.table_view.setColumnHidden(1, True)
 
-        # Show
+        # Show ############################################
 
         self.show()
 
