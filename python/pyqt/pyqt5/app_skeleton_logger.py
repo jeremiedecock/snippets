@@ -201,6 +201,15 @@ class DataQtModel(QAbstractTableModel):
     def setData(self, index, value, role):
         if role == Qt.EditRole:
             returned_value = self.data.set_data(index.row(), index.column(), value)
+
+            # The following lines are necessary e.g. to dynamically update the QSortFilterProxyModel
+            # "When reimplementing the setData() function, dataChanged signal must be emitted explicitly"
+            # http://doc.qt.io/qt-5/qabstractitemmodel.html#setData
+            # TODO: check whether this is the "right" way to use the dataChanged signal
+
+            if returned_value:
+                self.dataChanged.emit(index, index, [Qt.EditRole])
+
         return returned_value
 
     def flags(self, index):
@@ -340,11 +349,11 @@ class Window(QMainWindow):
 
         # Set model
 
-        my_model = DataQtModel(data)
+        my_model = DataQtModel(data, parent=self)  # TODO: right use of "parent" ?
 
         # Proxy model
 
-        proxy_model = QSortFilterProxyModel()
+        proxy_model = QSortFilterProxyModel(parent=self)  # TODO: right use of "parent" ?
         proxy_model.setSourceModel(my_model)
 
         self.table_view.setModel(proxy_model)
