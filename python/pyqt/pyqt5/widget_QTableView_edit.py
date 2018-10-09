@@ -50,7 +50,16 @@ class MyModel(QAbstractTableModel):
 
     def setData(self, index, value, role):
         if role == Qt.EditRole:
-            self.data.set_data(index.row(), index.column(), value)
+
+            try:
+                self.data.set_data(index.row(), index.column(), value)
+
+                # The following line are necessary e.g. to dynamically update the QSortFilterProxyModel
+                self.dataChanged.emit(index, index, [Qt.EditRole])
+            except Exception as e:
+                print(e)
+                return False
+
         return True
 
     def flags(self, index):
