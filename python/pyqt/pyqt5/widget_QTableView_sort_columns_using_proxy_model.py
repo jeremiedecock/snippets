@@ -38,9 +38,9 @@ if __name__ == '__main__':
     table_view = QTableView()
     my_model = MyModel(None)
 
-    proxyModel = QSortFilterProxyModel()   # <--
-    proxyModel.setSourceModel(my_model)    # <--
-    table_view.setModel(proxyModel)        # <--
+    proxy_model = QSortFilterProxyModel()   # <--
+    proxy_model.setSourceModel(my_model)    # <--
+    table_view.setModel(proxy_model)        # <--
     #table_view.setModel(my_model)
 
     table_view.setSortingEnabled(True)     # <--
