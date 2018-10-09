@@ -32,7 +32,7 @@ import os
 import sys
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
-from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow
+from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView
 
 HOME_PATH = os.path.expanduser("~")                 # TODO: works on Unix only ?
 FILE_NAME = ".logger_skeleton"
@@ -360,6 +360,9 @@ class Window(QMainWindow):
         #self.table_view.setModel(my_model)
 
         # Set the view
+
+        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)    # Select the full row when a cell is selected (See http://doc.qt.io/qt-5/qabstractitemview.html#selectionBehavior-prop )
+        #self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)  # Set selection mode. See http://doc.qt.io/qt-5/qabstractitemview.html#selectionMode-prop
 
         self.table_view.setSortingEnabled(True)
         self.table_view.setColumnWidth(0, 200)                       # TODO: automatically get the best width
