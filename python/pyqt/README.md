@@ -26,6 +26,11 @@ Discussions:
 * http://doc.qt.io/qt-5/functions.html
 * https://doc.qt.io/qt-5.11/examples-widgets.html
 
+## List of available widgets
+
+* http://doc.qt.io/qt-5/widget-classes.html
+* http://doc.qt.io/qt-5/gallery.html
+
 ## PySide/PyQt5 reference
 
 * http://doc.qt.io/qtforpython/
