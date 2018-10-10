@@ -5,7 +5,7 @@
 
 import sys
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant
-from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QVBoxLayout, QTextEdit, QSpinBox, QLineEdit, \
+from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QVBoxLayout, QSpinBox, QLineEdit, \
     QDataWidgetMapper
 
 
