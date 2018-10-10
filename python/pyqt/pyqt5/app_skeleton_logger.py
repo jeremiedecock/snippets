@@ -42,7 +42,7 @@ import pandas as pd
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
 from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView, \
-    QAction, QTabWidget, QHeaderView, QSizePolicy
+    QAction, QTabWidget, QHeaderView, QSizePolicy, QDataWidgetMapper, QPlainTextEdit
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -50,6 +50,8 @@ HOME_PATH = os.path.expanduser("~")                 # TODO: works on Unix only ?
 FILE_NAME = ".logger_skeleton"
 FILE_PATH = os.path.join(HOME_PATH, FILE_NAME)
 LOCK_PATH = FILE_PATH + ".lock"
+
+COMMENT_COLUMN_INDEX = 2
 
 DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -140,8 +142,8 @@ class DataWrapper:
     def __init__(self, raw_data):
         self._data = raw_data
 
-        self.headers = ["Date time", "Value"]
-        self.default_values = [None, 0]
+        self.headers = ["Date time", "Value", "Comment"]
+        self.default_values = [None, 0, ""]
 
     def get_num_rows(self):
         return len(self._data)
@@ -162,7 +164,7 @@ class DataWrapper:
         try:
             if column_index == 0:
                 value = datetime.datetime.strptime(value, DATE_TIME_FORMAT)
-            else:
+            elif column_index == 1:
                 value = float(value)                      # Expect numerical values here... remove otherwise
             self._data[row_index][column_index] = value
         except Exception as e:
@@ -356,12 +358,14 @@ class MainWindow(QMainWindow):
         # Table tab ###########################################################
 
         self.table_view = QTableView(self.table_tab)
+        self.text_edit = QPlainTextEdit()
         self.btn_add_row = QPushButton("Add a row")
         #self.btn_remove_row = QPushButton("Remove selected rows")
 
         table_tab_vbox = QVBoxLayout()
 
         table_tab_vbox.addWidget(self.table_view)
+        table_tab_vbox.addWidget(self.text_edit)
         table_tab_vbox.addWidget(self.btn_add_row)
         #table_tab_vbox.addWidget(self.btn_remove_row)
 
@@ -390,6 +394,8 @@ class MainWindow(QMainWindow):
 
         self.table_view.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)    # https://stackoverflow.com/q/17535563
 
+        self.table_view.setColumnHidden(COMMENT_COLUMN_INDEX, True)
+
         # Set key shortcut ################################
 
         # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
@@ -409,6 +415,15 @@ class MainWindow(QMainWindow):
 
         del_action.triggered.connect(self.remove_row_callback)
         self.table_view.addAction(del_action)
+
+        # Set QDataWidgetMapper ###########################
+
+        self.mapper = QDataWidgetMapper()
+        self.mapper.setModel(proxy_model)          # WARNING: do not use `my_model` here otherwise the index mapping will be wrong!
+        self.mapper.addMapping(self.text_edit, COMMENT_COLUMN_INDEX)
+        self.mapper.toFirst()                      # TODO: is it a good idea ?
+
+        self.table_view.selectionModel().selectionChanged.connect(self.update_selection)
 
         # Set slots #######################################
 
@@ -436,6 +451,12 @@ class MainWindow(QMainWindow):
         # Show ############################################
 
         self.show()
+
+
+    def update_selection(self, selected, deselected):
+        index = self.table_view.selectionModel().currentIndex()
+        self.mapper.setCurrentIndex(index.row())
+        print("Index: ", index.row())
 
 
     def updatePlot(self, index):
