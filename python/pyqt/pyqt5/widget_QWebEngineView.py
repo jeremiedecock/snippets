@@ -3,6 +3,11 @@
 
 # See http://doc.qt.io/qt-5/qwebengineview.html#details
 
+# This class replace the deprecated QWebView (based on QtWebKit).
+# See:
+# - https://stackoverflow.com/questions/29055475/qwebview-or-qwebengineview
+# - https://wiki.qt.io/QtWebEngine/Porting_from_QtWebKit
+
 import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
