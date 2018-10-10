@@ -4,7 +4,7 @@
 # See http://doc.qt.io/qt-5/qcombobox.html#details
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QComboBox, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QComboBox
 
 
 def printText(index):
