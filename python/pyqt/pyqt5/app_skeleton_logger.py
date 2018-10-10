@@ -7,23 +7,30 @@
 
 # TODO:
 # - [x] Keep the current value while editing a cell -> see https://stackoverflow.com/a/8480223
-# -
+#
 # - [x] Remove selected lines instead of the last one TODO: check the possible (but very unlikely bug) when reomving non-contiguous rows
-# - [+] Remove using the "Suppr" key instead of a button -> simply call the remove_rows callback when the suppr key is pressed...
-# - Add a keyboard shortcut to add a row
-# - [+] Sort by datetime or by value. See http://doc.qt.io/qt-5/model-view-programming.html#sorting , http://doc.qt.io/qt-5/qsortfilterproxymodel.html#sorting and https://stackoverflow.com/questions/11606259/how-to-sort-a-qtableview-by-a-column#11606946
-# -
-# - [+] Use Qt delegate example
-# - [+] Don't show all Model's columns (+ add a description column in the model but don't show it in the view): "table_view.setColumnHidden(column_num, True)"
-# - [+] Use QDataWidgetMapper example (with the hidden description column for instance)
-# -
-# - [+] Add Tabs widgets + add a matplotlib plot of values
-# - [+] Add "undo" and "redo" actions (search "(python) design pattern for undo redo actions") -> Command pattern and Memento pattern (https://stackoverflow.com/a/3448959)
-# - Add doc strings
-# -
-# - When a row is inserted, select it (+ auto scroll to it) + automatically edit its first value column
-# - Use a system date time dialog box to edit date time (with calendar and clock...)
-# - Improve the architecture: merge DataWrapper and IO module functions ?
+# - [x] Remove using the "Suppr" key instead of a button -> simply call the remove_rows callback when the suppr key is pressed...
+# - [x] Add a keyboard shortcut to add a row
+# - [x] Sort by datetime or by value. See http://doc.qt.io/qt-5/model-view-programming.html#sorting , http://doc.qt.io/qt-5/qsortfilterproxymodel.html#sorting and https://stackoverflow.com/questions/11606259/how-to-sort-a-qtableview-by-a-column#11606946
+#
+# - [ ] Use Qt delegate example
+# - [ ] Don't show all Model's columns (+ add a description column in the model but don't show it in the view): "table_view.setColumnHidden(column_num, True)"
+# - [ ] Use QDataWidgetMapper example (with the hidden description column for instance)
+#
+# - [ ] Add Tabs widgets + add a matplotlib plot of values
+# - [ ] Add "undo" and "redo" actions (search "(python) design pattern for undo redo actions") -> Command pattern and Memento pattern (https://stackoverflow.com/a/3448959)
+#       - http://doc.qt.io/qt-5/qundoview.html#details
+#       - http://doc.qt.io/qt-5/qundostack.html#details
+#       - http://doc.qt.io/qt-5/qundocommand.html#details
+#       - http://doc.qt.io/qt-5/qundo.html
+# - [ ] Add/clean doc strings
+#
+# - [ ] When a row is inserted, select it (+ auto scroll to it) + automatically edit its first value column
+# - [ ] Use a system date time dialog box to edit date time (with calendar and clock...)
+#       - http://doc.qt.io/qt-5/widget-classes.html
+#       - http://doc.qt.io/qt-5/gallery.html
+#       - http://doc.qt.io/qt-5/qtwidgets-widgets-calendarwidget-example.html
+# - [ ] Improve the architecture: merge DataWrapper and IO module functions ?
 
 import copy
 import datetime
@@ -387,8 +394,17 @@ class MainWindow(QMainWindow):
 
         # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
 
+        # Add row action
+
+        add_action = QAction(self.table_view)
+        add_action.setShortcut(Qt.CTRL | Qt.Key_N)
+
+        add_action.triggered.connect(self.add_row_btn_callback)
+        self.table_view.addAction(add_action)
+
+        # Delete action
+
         del_action = QAction(self.table_view)
-        #del_action.setShortcut(Qt.Key_Q | Qt.CTRL)
         del_action.setShortcut(Qt.Key_Delete)
 
         del_action.triggered.connect(self.remove_row_callback)
