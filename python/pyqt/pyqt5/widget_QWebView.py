@@ -3,6 +3,14 @@
 
 # See https://pythonspot.com/en/pyqt5-browser/
 
+##############################################################################
+# WARNING: QWebView/QtWebKit are DEPRECATED !!! Use QWebEngineView instead ! #
+# (That's why it is not available on Anaconda !)                             #
+# See:                                                                       #
+# - https://stackoverflow.com/questions/29055475/qwebview-or-qwebengineview  #
+# - https://wiki.qt.io/QtWebEngine/Porting_from_QtWebKit                     #
+##############################################################################
+
 import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWebKit import *
