@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # See http://doc.qt.io/qt-5/qcalendarwidget.html#details
+# See also http://doc.qt.io/qt-5/qtwidgets-widgets-calendarwidget-example.html
 
 import sys
 
@@ -14,9 +15,6 @@ def printValue():
 app = QApplication(sys.argv)
 
 calendar = QCalendarWidget()
-
-#calendar.setMinimum(-15)
-#calendar.setMaximum(15)
 
 calendar.selectionChanged.connect(printValue)
 
