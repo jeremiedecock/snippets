@@ -31,6 +31,10 @@ class Window(QWidget):
         self.edit2.setDate(datetime.datetime.now().date())
         self.edit3.setDate(datetime.datetime.now().date())
 
+        #self.edit1.setCalendarPopup(True)
+        #self.edit2.setCalendarPopup(True)
+        #self.edit3.setCalendarPopup(True)
+
         # Format: see http://doc.qt.io/qt-5/qdatetime.html#toString-2
         self.edit1.setDisplayFormat("yyyy-MM-dd")
         self.edit2.setDisplayFormat("dd/MM/yyyy")
