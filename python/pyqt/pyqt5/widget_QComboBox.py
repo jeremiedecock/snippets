@@ -14,6 +14,8 @@ app = QApplication(sys.argv)
 
 combobox = QComboBox()
 combobox.addItems(["Linux", "MacOS", "Windows"])
+#combobox.setCurrentIndex(1)
+combobox.setCurrentText("MacOS")
 combobox.currentIndexChanged.connect(printText)
 
 combobox.show()
