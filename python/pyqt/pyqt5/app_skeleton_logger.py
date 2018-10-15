@@ -13,11 +13,11 @@
 # - [x] Add a keyboard shortcut to add a row
 # - [x] Sort by datetime or by value. See http://doc.qt.io/qt-5/model-view-programming.html#sorting , http://doc.qt.io/qt-5/qsortfilterproxymodel.html#sorting and https://stackoverflow.com/questions/11606259/how-to-sort-a-qtableview-by-a-column#11606946
 #
-# - [ ] Use Qt delegate example
-# - [ ] Don't show all Model's columns (+ add a description column in the model but don't show it in the view): "table_view.setColumnHidden(column_num, True)"
-# - [ ] Use QDataWidgetMapper example (with the hidden description column for instance)
+# - [x] Use Qt delegate example
+# - [x] Don't show all Model's columns (+ add a description column in the model but don't show it in the view): "table_view.setColumnHidden(column_num, True)"
+# - [x] Use QDataWidgetMapper example (with the hidden description column for instance)
 #
-# - [ ] Add Tabs widgets + add a matplotlib plot of values
+# - [x] Add Tabs widgets + add a matplotlib plot of values
 # - [ ] Add "undo" and "redo" actions (search "(python) design pattern for undo redo actions") -> Command pattern and Memento pattern (https://stackoverflow.com/a/3448959)
 #       - http://doc.qt.io/qt-5/qundoview.html#details
 #       - http://doc.qt.io/qt-5/qundostack.html#details
@@ -26,7 +26,7 @@
 # - [ ] Add/clean doc strings
 #
 # - [ ] When a row is inserted, select it (+ auto scroll to it) + automatically edit its first value column
-# - [ ] Use a system date time dialog box to edit date time (with calendar and clock...)
+# - [x] Use a system date time dialog box to edit date time (with calendar and clock...)
 #       - http://doc.qt.io/qt-5/widget-classes.html
 #       - http://doc.qt.io/qt-5/gallery.html
 #       - http://doc.qt.io/qt-5/qtwidgets-widgets-calendarwidget-example.html
@@ -42,7 +42,7 @@ import pandas as pd
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QVariant, QModelIndex, QSortFilterProxyModel
 from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QPushButton, QVBoxLayout, QMainWindow, QAbstractItemView, \
-    QAction, QTabWidget, QHeaderView, QSizePolicy, QDataWidgetMapper, QPlainTextEdit
+    QAction, QTabWidget, QHeaderView, QSizePolicy, QDataWidgetMapper, QPlainTextEdit, QStyledItemDelegate, QDateTimeEdit
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -51,9 +51,13 @@ FILE_NAME = ".logger_skeleton"
 FILE_PATH = os.path.join(HOME_PATH, FILE_NAME)
 LOCK_PATH = FILE_PATH + ".lock"
 
-COMMENT_COLUMN_INDEX = 2
+PY_DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+QT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
-DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_TIME_COLUMN_LIST = (0, )
+FLOAT_COLUMN_LIST = (1, )
+
+COMMENT_COLUMN_INDEX = 2
 
 # I/O MODULE ##################################################################
 
@@ -99,7 +103,7 @@ def load_data_json(file_path):
         data = json.load(fd)
 
     for row in data:
-        row[0] = datetime.datetime.strptime(row[0], DATE_TIME_FORMAT)
+        row[0] = datetime.datetime.strptime(row[0], PY_DATE_TIME_FORMAT)
 
     return data
 
@@ -107,7 +111,7 @@ def save_data_json(data, file_path):
     data = copy.deepcopy(data)
 
     for row in data:
-        row[0] = row[0].strftime(format=DATE_TIME_FORMAT)
+        row[0] = row[0].strftime(format=PY_DATE_TIME_FORMAT)
 
     with open(file_path, "w") as fd:
         #json.dump(data, fd)                           # no pretty print
@@ -152,26 +156,14 @@ class DataWrapper:
         return len(self.headers)
 
     def get_data(self, row_index, column_index):
-        value = self._data[row_index][column_index]
-        if column_index == 0:
-            #value = value.isoformat()
-            value = value.strftime(format=DATE_TIME_FORMAT)
-        return value
+        return self._data[row_index][column_index]
 
     def set_data(self, row_index, column_index, value):
-        #print("write ({},{}): {}".format(row_index, column_index, value))
-
-        try:
-            if column_index == 0:
-                value = datetime.datetime.strptime(value, DATE_TIME_FORMAT)
-            elif column_index == 1:
-                value = float(value)                      # Expect numerical values here... remove otherwise
-            self._data[row_index][column_index] = value
-        except Exception as e:
-            print(e, file=sys.stderr)
-            return False
-
-        return True
+        if column_index in DATE_TIME_COLUMN_LIST and not isinstance(value, datetime.datetime):
+            raise ValueError("Expect datetime.datetime instance. Got {}".format(type(value)))
+        elif column_index in FLOAT_COLUMN_LIST and not isinstance(value, float):
+            raise ValueError("Expect float instance. Got {}".format(type(value)))
+        self._data[row_index][column_index] = value
 
     def insert_row(self, index):
         new_row = copy.deepcopy(self.default_values)
@@ -199,10 +191,16 @@ class DataQtModel(QAbstractTableModel):
         return self._data.get_num_columns()
 
     def data(self, index, role):
-        if role == Qt.DisplayRole or role == Qt.EditRole:
-            # See https://stackoverflow.com/a/8480223
-            return self._data.get_data(index.row(), index.column())
-        return QVariant()
+
+        if role in (Qt.DisplayRole, Qt.EditRole):
+            value = self._data.get_data(index.row(), index.column())
+
+            if role == Qt.DisplayRole and index.column() in DATE_TIME_COLUMN_LIST:
+                value = value.strftime(format=PY_DATE_TIME_FORMAT)
+
+            return value
+
+        return QVariant()    # For others roles...
 
     def headerData(self, index, orientation, role):
         if role == Qt.DisplayRole:
@@ -214,17 +212,27 @@ class DataQtModel(QAbstractTableModel):
 
     def setData(self, index, value, role):
         if role == Qt.EditRole:
-            returned_value = self._data.set_data(index.row(), index.column(), value)
+            try:
+                row_index, column_index = index.row(), index.column()
+
+                if column_index in DATE_TIME_COLUMN_LIST:
+                    value = datetime.datetime.strptime(value, PY_DATE_TIME_FORMAT)
+                elif column_index in FLOAT_COLUMN_LIST:
+                    value = float(value)                      # Expect numerical values here... remove otherwise
+
+                self._data.set_data(row_index, column_index, value)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return False
 
             # The following lines are necessary e.g. to dynamically update the QSortFilterProxyModel
             # "When reimplementing the setData() function, dataChanged signal must be emitted explicitly"
             # http://doc.qt.io/qt-5/qabstractitemmodel.html#setData
             # TODO: check whether this is the "right" way to use the dataChanged signal
 
-            if returned_value:
-                self.dataChanged.emit(index, index, [Qt.EditRole])
+            self.dataChanged.emit(index, index, [Qt.EditRole])
 
-        return returned_value
+        return True
 
     def flags(self, index):
         """Returns the item flags for the given `index`.
@@ -396,6 +404,9 @@ class MainWindow(QMainWindow):
 
         self.table_view.setColumnHidden(COMMENT_COLUMN_INDEX, True)
 
+        delegate = Delegate()
+        self.table_view.setItemDelegate(delegate)
+
         # Set key shortcut ################################
 
         # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
@@ -553,6 +564,46 @@ class PlotCanvas(FigureCanvas):
 
         self.draw()
 
+###############################################################################
+
+class Delegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        if index.column() in DATE_TIME_COLUMN_LIST:
+            editor = QDateTimeEdit(parent=parent)
+
+            #editor.setMinimumDate(datetime.datetime(year=2018, month=1, day=1, hour=0, minute=0))
+            #editor.setMaximumDate(datetime.datetime(year=2020, month=9, day=1, hour=18, minute=30))
+            editor.setDisplayFormat(QT_DATE_TIME_FORMAT)
+            #editor.setCalendarPopup(True)
+
+            # setFrame(): tell whether the line edit draws itself with a frame.
+            # If enabled (the default) the line edit draws itself inside a frame, otherwise the line edit draws itself without any frame.
+            editor.setFrame(False)
+
+            return editor
+        else:
+            return QStyledItemDelegate.createEditor(self, parent, option, index)
+
+    def setEditorData(self, editor, index):
+        if index.column() in DATE_TIME_COLUMN_LIST:
+            value = index.model().data(index, Qt.EditRole)
+            editor.setDateTime(value)     # value cannot be a string, it have to be a datetime...
+        else:
+            return QStyledItemDelegate.setEditorData(self, editor, index)
+
+    def setModelData(self, editor, model, index):
+        if index.column() in DATE_TIME_COLUMN_LIST:
+            editor.interpretText()
+            str_value = editor.text()
+            model.setData(index, str_value, Qt.EditRole)
+        else:
+            return QStyledItemDelegate.setModelData(self, editor, model, index)
+
+    def updateEditorGeometry(self, editor, option, index):
+        if index.column() in DATE_TIME_COLUMN_LIST:
+            editor.setGeometry(option.rect)
+        else:
+            return QStyledItemDelegate.updateEditorGeometry(self, editor, option, index)
 
 # RUN MODULE ##################################################################
 
