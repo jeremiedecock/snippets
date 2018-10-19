@@ -14,29 +14,27 @@ window = QWidget()
 # Make widgets
 
 btn1 = QPushButton("One")
-widget = QWidget()
-
 btn2 = QPushButton("Two")
 btn3 = QPushButton("Three")
 
-# VBox
+# Make layouts
 
 vbox = QVBoxLayout()
-
-vbox.addWidget(btn1)
-vbox.addWidget(widget)
+hbox = QHBoxLayout()
 
 # HBox
-
-hbox = QHBoxLayout()
 
 hbox.addWidget(btn2)
 hbox.addWidget(btn3)
 
+# VBox
+
+vbox.addWidget(btn1)
+vbox.addLayout(hbox)
+
 # Set layouts
 
 window.setLayout(vbox)
-widget.setLayout(hbox)
 
 # Show
 
