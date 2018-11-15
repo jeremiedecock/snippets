@@ -27,7 +27,7 @@ public class EnhancedForLoops {
 		
 		// 2D demo ////////////////////////////////////////////////////////////
 		
-		int tab[][] = {{1, 2, 3}, {4, 5, 6}};
+		int[][] tab = {{1, 2, 3}, {4, 5, 6}};
 
 		for(int[] row : tab) {
 			for(int elem : row) {
