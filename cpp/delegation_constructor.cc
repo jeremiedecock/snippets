@@ -26,22 +26,23 @@ class Foo {
     public:
 
         int x;
-
-        Foo() {
-            std::cout << "Hello" << std::endl;
-        }
+        int y;
 
         Foo(int x) {
-            Foo();
+            std::cout << "Hello" << std::endl;
             this->x = x;
+        }
+
+        Foo(int x, int y) : Foo(x) {
+            this->y = y;
         }
 };
 
 
 main() {
 
-    Foo foo(3);
+    Foo foo(1, 2);
 
-    std::cout << foo.x << std::endl;
+    std::cout << foo.x << " " << foo.y << std::endl;
 
 }
