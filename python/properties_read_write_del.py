@@ -46,28 +46,23 @@ class Foo(object):
 
     x = property(get_x, set_x, del_x, "The 'x' property docstring.")
 
+#######################################
 
-def main():
-    """Main function"""
+foo = Foo() 
+print(foo.x)
+print()
 
-    foo = Foo() 
-    print(foo.x)
-    print()
+foo.x = 3
+print(foo.x)
+print()
 
-    foo.x = 3
-    print(foo.x)
-    print()
+del foo.x
+foo.x = 3
+print(foo.x)
+print()
 
-    del foo.x
-    foo.x = 3
-    print(foo.x)
-    print()
-    
-    print(Foo.x.__doc__)
-    print()
+print(Foo.x.__doc__)
+print()
 
-    foo.set_x(3)
-    print(foo.get_x())
-
-if __name__ == '__main__':
-    main()
+foo.set_x(3)
+print(foo.get_x())
