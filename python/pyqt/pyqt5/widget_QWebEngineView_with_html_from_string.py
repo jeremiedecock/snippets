@@ -8,6 +8,34 @@
 # - https://stackoverflow.com/questions/29055475/qwebview-or-qwebengineview
 # - https://wiki.qt.io/QtWebEngine/Porting_from_QtWebKit
 
+HTML = r'''<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all">
+* {
+    border-width      : 0px;
+
+    font-family       : monospace,fixed;
+    font-size         : 32px;
+
+    margin            : 0px;
+    padding           : 0px;
+}
+
+p {
+    background-color  : #ee0000;
+}
+        </style>
+    </head>
+    <body>
+
+        <p>Hello!</p>
+
+    </body>
+</html>
+'''
+
 # The next two lines are a workaround to fix an issue with QWebEngineView (see https://github.com/ContinuumIO/anaconda-issues/issues/9199#issuecomment-383842265)
 import ctypes
 ctypes.CDLL("libGL.so.1", mode=ctypes.RTLD_GLOBAL)
@@ -20,7 +48,7 @@ from PyQt5.QtWidgets import QApplication
 app = QApplication(sys.argv)
 
 web = QWebEngineView()
-web.load(QUrl("http://www.jdhp.org"))
+web.setHtml(HTML)
 web.show()
 
 # The mainloop of the application. The event handling starts from this point.
