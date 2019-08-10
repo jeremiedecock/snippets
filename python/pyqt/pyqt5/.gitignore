@@ -1,0 +1,4 @@
+*.pdf
+*.docx
+.vscode/
+official_examples
