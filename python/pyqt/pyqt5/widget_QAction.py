@@ -1,9 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Copyright (c) 2015 Jérémie DECOCK (http://www.jdhp.org)
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+ 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 import sys
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QAction, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLabel
 
 app = QApplication(sys.argv)
 
@@ -11,10 +31,18 @@ app = QApplication(sys.argv)
 # A widget with no parent is a window.
 window = QMainWindow()
 
+window.resize(350, 150)
 window.setWindowTitle('Hello')
 
 label = QLabel("Press Ctrl+P to print a message on the terminal", window)
-label.resize(800, 100)
+
+# The `Qt` namespace has a lot of attributes to customise
+# widgets. See: http://doc.qt.io/qt-5/qt.html
+label.setAlignment(Qt.AlignCenter)
+
+# Set the central widget of the Window. Widget will expand
+# to take up all the space in the window by default.
+window.setCentralWidget(label)
 
 # Set key shortcut ################################
 
@@ -24,11 +52,11 @@ def action_callback():
 
 # see https://stackoverflow.com/a/17631703  and  http://doc.qt.io/qt-5/qaction.html#details
 
-action = QAction(label)                    # <-
+action = QAction(window)                   # <-
 action.setShortcut(Qt.Key_P | Qt.CTRL)     # <-
 
 action.triggered.connect(action_callback)  # <-
-label.addAction(action)                    # <-
+window.addAction(action)                   # <-
 
 ###################################################
 
