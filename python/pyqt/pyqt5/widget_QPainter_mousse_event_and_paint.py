@@ -27,7 +27,7 @@ class MyWidget(QWidget):
         painter = QPainter(self)
 
         if self.cursor_pos is not None:
-            painter.drawEllipse(self.cursor_pos.x()-7, self.cursor_pos.y()-7, 10, 10)
+            painter.drawEllipse(self.cursor_pos.x()-5, self.cursor_pos.y()-5, 10, 10)
 
 
 if __name__ == '__main__':
