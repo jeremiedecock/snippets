@@ -41,6 +41,10 @@ Discussions:
 
 * http://www.tutorialspoint.com/pyqt/
 
+## Très bon slides concernant le dessin dans les widgets
+
+* https://hci.isir.upmc.fr/wp-content/uploads/2018/03/PyQt-Dessin.pdf
+
 ## PyQt5 tutorials and examples
 
 * http://code.qt.io/cgit/pyside/examples.git/tree/examples/widgets
