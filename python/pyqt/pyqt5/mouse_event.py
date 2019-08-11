@@ -13,10 +13,25 @@ import random
 class MyWidget(QWidget):
 
     def mousePressEvent(self, event):
-        print("press:", event.pos())
+
+        if event.button() == Qt.LeftButton:
+            btn = "left button"
+        elif event.button() == Qt.RightButton:
+            btn = "right button"
+        elif event.button() == Qt.MidButton:
+            btn = "mid button"
+        else:
+            btn = "unknown button"
+
+        print("press:", event.pos(), btn)
 
     def mouseReleaseEvent(self, event):
         print("release:", event.pos())
+
+    # Warning: by default mouseMoveEvent sent signal only when mouse buttons are pressed (drag)!
+    #          To send mouseMoveEvent even when buttons are not pressed, "mouse tracking" should be activated : self.setMouseTracking(True)
+    def mouseMoveEvent(self, event):
+        print("move:", event.pos())
 
 
 
