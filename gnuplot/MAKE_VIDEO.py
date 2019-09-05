@@ -42,7 +42,10 @@ def main():
 
     # Write video file ##############################################
 
+    # Using FFMPEG
     #os.system('ffmpeg2theora -f image2 /tmp/frame_%04d.png -o {}.ogv'.format(outfile))
+
+    # Using AVCONV (apt-get install libav-tools)
     os.system('avconv -f image2 -i /tmp/frame_%04d.png {}.mp4'.format(outfile))
 
 
