@@ -5,7 +5,7 @@
 
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtGui import QPainter, QBrush, QPen
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor
 from PyQt5.QtCore import Qt
 
 
@@ -32,7 +32,7 @@ class MyPaintWidget(QWidget):
 
         qp.drawRect(10, 10, 180, 50)   # x_start, y_start, x_length, y_length
 
-        qp.setBrush(QBrush(Qt.red, Qt.DiagCrossPattern))
+        qp.setBrush(QBrush(QColor("#fcaf3e"), Qt.DiagCrossPattern))
 
         qp.drawRect(210, 10, 180, 50)
 
