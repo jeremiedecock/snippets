@@ -25,20 +25,13 @@
 
 import json
 
-def main():
-    """Main function"""
+data = {"key1": "value1",
+        "key2": 2,
+        "key3": 3.14,
+        "key4": True,
+        "key5": (1, 2, 3, 4)}
 
-    data = {"key1": "value1",
-            "key2": 2,
-            "key3": 3.14,
-            "key4": True,
-            "key5": (1, 2, 3, 4)}
+data_str = json.dumps(data)
+#data_str = json.dumps(data, sort_keys=True, indent=4)  # pretty print format
 
-    data_str = json.dumps(data)
-    #data_str = json.dumps(data, sort_keys=True, indent=4)  # pretty print format
-
-    print data_str
-
-
-if __name__ == '__main__':
-    main()
+print(data_str)

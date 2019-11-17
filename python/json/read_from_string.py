@@ -25,14 +25,8 @@
 
 import json
 
-def main():
-    """Main function"""
+data_str = '{"key1": "val1", "key2": 2, "key3": 3.14, "key4": true, "key5": [1, 2, 3, 4]}'
 
-    data_str = '{"key1": "val1", "key2": 2, "key3": 3.14, "key4": true, "key5": [1, 2, 3, 4]}'
+data = json.loads(data_str)
 
-    data = json.loads(data_str)
-
-    print data
-
-if __name__ == '__main__':
-    main()
+print(data)

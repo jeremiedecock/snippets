@@ -25,13 +25,7 @@
 
 import json
 
-def main():
-    """Main function"""
+with open("test.json", "r") as fd:
+    data = json.load(fd)
 
-    with open("test.json", "r") as fd:
-        data = json.load(fd)
-
-    print data
-
-if __name__ == '__main__':
-    main()
+print(data)

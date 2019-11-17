@@ -44,14 +44,8 @@ def load_json_with_comments(filename):
     return data
 
 
-def main():
-    """Main function"""
+data = load_json_with_comments("test_with_comments.json")
+print(data)
 
-    data = load_json_with_comments("test_with_comments.json")
-    print data
-
-    data = load_json_with_comments("test.json")
-    print data
-
-if __name__ == '__main__':
-    main()
+data = load_json_with_comments("test.json")
+print(data)

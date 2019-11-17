@@ -25,21 +25,14 @@
 
 import json
 
-def main():
-    """Main function"""
+data = {"key1": "value1",
+        "key2": 2,
+        "key3": 3.14,
+        "key4": True,
+        "key5": (1, 2, 3, 4)}
 
-    data = {"key1": "value1",
-            "key2": 2,
-            "key3": 3.14,
-            "key4": True,
-            "key5": (1, 2, 3, 4)}
+print(data)
 
-    print data
-
-    with open("test.json", "w") as fd:
-        #json.dump(data, fd)                           # no pretty print
-        json.dump(data, fd, sort_keys=True, indent=4)  # pretty print format
-
-
-if __name__ == '__main__':
-    main()
+with open("test.json", "w") as fd:
+    #json.dump(data, fd)                           # no pretty print
+    json.dump(data, fd, sort_keys=True, indent=4)  # pretty print format
