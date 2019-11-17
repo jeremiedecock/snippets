@@ -26,4 +26,4 @@
 import lzma
 
 with lzma.open("test.xz", "wt") as fd:
-    print("Hello", file=fd)
+    fd.write("Hello")
