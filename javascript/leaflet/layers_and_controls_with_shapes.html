@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    </head>
+    <body>
+        <div id="mapid" style="width: 800px; height: 600px;"></div>
+
+		<script>
+			// https://leafletjs.com/examples/layers-control/
+
+            // Make groups
+			var markergrp1 = L.layerGroup();
+			var markergrp2 = L.layerGroup();
+			var circlegrp = L.layerGroup();
+			var polygongrp = L.layerGroup();
+
+            // Add markers and shapes in groups
+            L.marker([51.5, -0.07]).addTo(markergrp1).bindPopup("<b>Hello world!</b><br />I am a popup.");
+            L.marker([51.5, -0.09]).addTo(markergrp2).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+            L.circle([51.508, -0.11], 500, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5
+            }).addTo(circlegrp).bindPopup("I am a circle.");
+
+            L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]).addTo(polygongrp).bindPopup("I am a polygon.");
+
+            // Make map
+			var mymap = L.map('mapid', {
+				center: [51.505, -0.09],
+				zoom: 13,
+				layers: [polygongrp, markergrp1]                // Default selected layers
+				//layers: [polygongrp, markergrp1, markergrp2]  // Default selected layers
+			});
+
+			var mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+			    mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+					'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+
+			L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr}).addTo(mymap);
+
+            // Make controls
+            var baseLayers = {
+				"Circle": circlegrp,
+				"Ploygon": polygongrp 
+            };
+
+			var overlays = {
+				"Markers 1": markergrp1,
+				"Markers 2": markergrp2,
+			};
+
+            L.control.layers(baseLayers, overlays).addTo(mymap);
+            //L.control.layers(null, overlays).addTo(mymap);
+		</script>
+    </body>
+</html>
