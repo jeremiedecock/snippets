@@ -7,6 +7,8 @@ Unit tests defined there highlight tips and tricks specific to the object to be 
 
 ## Install PyTest
 
+In a terminal:
+
 ```
 pip install pytest
 ```
