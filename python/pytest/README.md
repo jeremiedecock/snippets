@@ -15,8 +15,8 @@ pip install pytest
 
 ## Notes
 
-Each module (.py file) having a name starting with `test_` is a test module.
-Each function starting with `test_` and defined in a test module is a unit test.
+Each module (.py file) having a name starting with `test_` is a *test module*.
+Each function starting with `test_` and defined in a *test module* is a *unit test*.
 
 Tests are launched with the `pytest` command:
 
