@@ -1,6 +1,7 @@
 """This module contains (bogus) functions to be tested with PyTest.
 
-These functions have no particular interest, they are just a support to test PyTest."""
+These functions have no particular interest, they are just a support to test PyTest.
+"""
 
 import numpy as np
 import warnings

@@ -7,11 +7,11 @@ Unit tests defined there highlight tips and tricks specific to the object to be 
 
 ## Install PyTest
 
-::
+```
+pip install pytest
+```
 
-    pip install pytest
-
-Note: PyTest is installed by default with Anaconda.
+**Note**: PyTest is installed by default with Anaconda.
 
 ## Notes
 
@@ -31,4 +31,7 @@ A unit test "fails" when it raises an exception.
 
 ## See Also
 
-https://docs.pytest.org
+- Official web site: https://docs.pytest.org
+- Naming conventions: https://docs.pytest.org/en/latest/goodpractices.html#test-discovery
+- API reference: https://docs.pytest.org/en/latest/reference.html
+- Numpy test routines: https://docs.scipy.org/doc/numpy/reference/routines.testing.html
