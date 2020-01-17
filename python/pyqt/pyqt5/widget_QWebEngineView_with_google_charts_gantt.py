@@ -6,6 +6,7 @@
 # - https://stackoverflow.com/questions/50830399/how-to-add-a-horizontal-scroll-bar-to-google-gantt-chart
 
 HTML = r'''<!DOCTYPE html>
+<html>
 <head>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
@@ -17,29 +18,22 @@ HTML = r'''<!DOCTYPE html>
     }
 
     function drawChart() {
-
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Task ID');
       data.addColumn('string', 'Task Name');
       data.addColumn('string', 'Resource');
-      data.addColumn('date', 'Start Date');
-      data.addColumn('date', 'End Date');
+      data.addColumn('date',   'Start Date');
+      data.addColumn('date',   'End Date');
       data.addColumn('number', 'Duration');
       data.addColumn('number', 'Percent Complete');
       data.addColumn('string', 'Dependencies');
 
       data.addRows([
-        ['Research', 'Find sources', null,
-         new Date(2015, 0, 1), new Date(2015, 0, 25), null,  100,  null],
-        ['Write', 'Write paper', 'write',
-         null, new Date(2015, 1, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-        ['Cite', 'Create bibliography', 'write',
-         null, new Date(2015, 1, 7), daysToMilliseconds(1), 20, 'Research'],
-        ['Complete', 'Hand in paper', 'complete',
-         new Date(2015, 2, 6), null, daysToMilliseconds(30), 0, 'Cite,Write'],
-        ['Outline', 'Outline paper', 'write',
-         null, new Date(2015, 1, 6), daysToMilliseconds(1), 100, 'Research']
-
+        ['Research', 'Find sources',         null,      new Date(2015, 0, 1), new Date(2015, 0, 25), null,                   100, null],
+        ['Write',    'Write paper',         'write',    null,                 new Date(2015, 1, 9),  daysToMilliseconds(3),   25, 'Research,Outline'],
+        ['Cite',     'Create bibliography', 'write',    null,                 new Date(2015, 1, 7),  daysToMilliseconds(1),   20, 'Research'],
+        ['Complete', 'Hand in paper',       'complete', new Date(2015, 2, 6), null,                  daysToMilliseconds(30),   0, 'Cite,Write'],
+        ['Outline',  'Outline paper',       'write',    null,                 new Date(2015, 1, 6),  daysToMilliseconds(1),  100, 'Research']
       ]);
 
       var options = {
