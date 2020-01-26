@@ -17,7 +17,26 @@
 
 ```pip install gym```
 
-### Troubleshooting
+## Optional dependencies
+
+    To install the full set of environments, you'll need to have some system packages installed.
+    Also, take a look at the docker files (py.Dockerfile) to see the composition of our CI-tested images.
+
+### Atari games
+
+```pip install gym[atari]```
+
+### MuJoCo
+
+    MuJoCo has a proprietary dependency we can't set up for you.
+    Follow the instructions in the mujoco-py package for help.
+    As an alternative to mujoco-py, consider PyBullet which uses the open source Bullet physics engine and has no license requirement.
+
+### All dependencies
+
+```pip install 'gym[all]'```
+
+## Troubleshooting
 
 On Debian/Ubuntu, the following error may arise:
 
