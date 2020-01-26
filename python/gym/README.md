@@ -16,3 +16,20 @@
 ## Install Gym
 
 ```pip install gym```
+
+### Troubleshooting
+
+On Debian/Ubuntu, the following error may arise:
+
+    ERROR: Could not find a version that satisfies the requirement opencv-python (from gym) (from versions: none)
+    ERROR: No matching distribution found for opencv-python (from gym)
+
+Solution:
+
+```
+pip install --upgrade pip
+pip install opencv-python
+pip install gym
+```
+
+https://stackoverflow.com/questions/45293933/could-not-find-a-version-that-satisfies-the-requirement-opencv-python
