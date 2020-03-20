@@ -11,8 +11,7 @@ from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import Qt, QTimer
 
 def getTime():
-    t = datetime.datetime.now().time().isoformat()
-    t = t.split('.')[0]
+    t = datetime.datetime.now().strftime("%H:%M:%S")
     return t
 
 class MyPaintWidget(QWidget):

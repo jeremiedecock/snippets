@@ -52,6 +52,10 @@ class MyPaintWidget(QWidget):
 
         qp.drawRect(1010, 10, 180, 50)
 
+        qp.setBrush(QBrush(QColor(194, 135, 0, 128), Qt.SolidPattern))  # Add an alpha channel
+
+        qp.drawRect(30, 30, 300, 200)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

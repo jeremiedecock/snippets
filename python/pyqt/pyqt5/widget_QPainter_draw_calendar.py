@@ -8,7 +8,7 @@ import datetime
 
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 
 
 class CalendarWidget(QWidget):
@@ -34,7 +34,6 @@ class CalendarWidget(QWidget):
 
         self.starting_time_str = "05:00"
         self.ending_time_str = "23:00"
-        self.current_time_str = "12:17"
 
         self.starting_time = datetime.datetime.strptime(self.starting_time_str, "%H:%M")
         self.ending_time = datetime.datetime.strptime(self.ending_time_str, "%H:%M")
@@ -42,8 +41,14 @@ class CalendarWidget(QWidget):
 
         self.data = [
                         {"start": "06:00", "end": "06:30", "label": "wakeup"},
-                        {"start": "12:00", "end": "13:00", "label": "lunch"}
+                        {"start": "12:00", "end": "14:00", "label": "lunch"}
                     ]
+
+        # ADD A TIMER ###########################
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update)
+        self.timer.start(1000 * 60)  # ms
 
 
     def timeCoordinateMapper(self, time_str):
@@ -51,8 +56,14 @@ class CalendarWidget(QWidget):
         widget_height = self.size().height() - 2*self.margin_size - 2*self.border_size
 
         if widget_height > 0:
-            relative_time = datetime.datetime.strptime(time_str, "%H:%M") - self.starting_time
-            y_pos = self.margin_size + self.border_size + relative_time * widget_height / self.working_day_duration
+            time_obj = datetime.datetime.strptime(time_str, "%H:%M")
+            if time_obj < self.starting_time:
+                y_pos = self.margin_size + self.border_size
+            elif time_obj > self.ending_time:
+                y_pos = self.size().height() - self.margin_size - self.border_size
+            else:
+                relative_time = time_obj - self.starting_time
+                y_pos = self.margin_size + self.border_size + relative_time * widget_height / self.working_day_duration
         else:
             y_pos = self.margin_size + self.border_size
 
@@ -85,34 +96,38 @@ class CalendarWidget(QWidget):
                     widget_width - 2*self.margin_size - self.time_label_margin, # x_size
                     widget_height - 2*self.margin_size)                         # y_size
 
-        # Starting time label
+        ## Starting time label
 
-        qp.setFont(time_label_font)
+        #qp.setFont(time_label_font)
 
-        qp.drawText(0, #self.margin_size,   # x_start
-                    self.margin_size - int(self.time_label_font_size/2), # y_start
-                    self.time_label_margin, # x_size
-                    self.time_label_font_size,   # y_size
-                    Qt.AlignCenter,
-                    self.starting_time_str)
+        #qp.drawText(0, #self.margin_size,   # x_start
+        #            self.margin_size - int(self.time_label_font_size/2), # y_start
+        #            self.time_label_margin, # x_size
+        #            self.time_label_font_size,   # y_size
+        #            Qt.AlignCenter,
+        #            self.starting_time_str)
 
-        # Ending time label
+        ## Ending time label
 
-        qp.setFont(time_label_font)
+        #qp.setFont(time_label_font)
 
-        qp.drawText(0, #self.margin_size,   # x_start
-                    widget_height - self.margin_size - int(self.time_label_font_size/2), # y_start
-                    self.time_label_margin, # x_size
-                    self.time_label_font_size,   # y_size
-                    Qt.AlignCenter,
-                    self.ending_time_str)
+        #qp.drawText(0, #self.margin_size,   # x_start
+        #            widget_height - self.margin_size - int(self.time_label_font_size/2), # y_start
+        #            self.time_label_margin, # x_size
+        #            self.time_label_font_size,   # y_size
+        #            Qt.AlignCenter,
+        #            self.ending_time_str)
 
         # Draw a line for each hour
 
         qp.setPen(QPen(Qt.gray, 1, Qt.SolidLine))
         qp.setFont(time_label_font)
 
-        i = 1
+        if self.starting_time.minute == 0:
+            i = 0
+        else:
+            i = 1
+
         marker_time = datetime.datetime(year=self.starting_time.year,
                                        month=self.starting_time.month,
                                        day=self.starting_time.day,
@@ -146,7 +161,9 @@ class CalendarWidget(QWidget):
         # Tasks
 
         qp.setPen(QPen(Qt.black, self.border_size, Qt.SolidLine))
-        qp.setBrush(QBrush(Qt.yellow, Qt.SolidPattern))
+        #qp.setBrush(QBrush(Qt.yellow, Qt.SolidPattern))
+        #qp.setBrush(QBrush(QColor("#fcaf3e88"), Qt.SolidPattern))
+        qp.setBrush(QBrush(QColor(194, 135, 0, 128), Qt.SolidPattern))
 
         qp.setFont(task_label_font)
 
@@ -167,7 +184,8 @@ class CalendarWidget(QWidget):
 
         # Draw a line to show the current time
 
-        current_time_y_pos = self.timeCoordinateMapper(self.current_time_str)
+        current_time_str = datetime.datetime.now().strftime("%H:%M")
+        current_time_y_pos = self.timeCoordinateMapper(current_time_str)
 
         qp.setPen(QPen(Qt.red, self.border_size, Qt.SolidLine))
         qp.setBrush(QBrush(Qt.red, Qt.SolidPattern))
@@ -198,7 +216,7 @@ class CalendarWidget(QWidget):
         #            self.time_label_margin, # x_size
         #            self.time_label_font_size,   # y_size
         #            Qt.AlignCenter,
-        #            self.current_time_str)
+        #            current_time_str)
 
 
 
