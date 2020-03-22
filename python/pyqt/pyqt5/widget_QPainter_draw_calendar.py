@@ -10,6 +10,9 @@ from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor
 from PyQt5.QtCore import Qt, QTimer
 
+DAY_LIST = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
+WEEKDAY_LIST = ("monday", "tuesday", "wednesday", "thursday", "friday")
+WEEKEND_LIST = ("saturday", "sunday")
 
 class CalendarWidget(QWidget):
 
@@ -25,9 +28,13 @@ class CalendarWidget(QWidget):
         self.setPalette(palette)
 
         self.time_label_margin = 30
+        self.day_label_margin = 30
+
         self.margin_size = 5
         self.border_size = 2
+
         self.task_label_font_size = 9
+        self.day_label_font_size = 9
         self.time_label_font_size = 7
 
         # DATA ##################################
@@ -40,8 +47,10 @@ class CalendarWidget(QWidget):
         self.working_day_duration = self.ending_time - self.starting_time
 
         self.data = [
-                        {"start": "06:00", "end": "06:30", "label": "wakeup"},
-                        {"start": "12:00", "end": "14:00", "label": "lunch"}
+                        {"day": "all",       "start": "06:00", "end": "06:30", "label": "wakeup"},
+                        {"day": "weekdays",  "start": "08:00", "end": "11:30", "label": "work"},   # weekdays = days of the week other than Sunday or Saturday
+                        {"day": "weekend",   "start": "14:00", "end": "15:00", "label": "sleep"},
+                        {"day": "wednesday", "start": "12:00", "end": "14:00", "label": "lunch"}
                     ]
 
         # ADD A TIMER ###########################
@@ -53,21 +62,42 @@ class CalendarWidget(QWidget):
 
     def timeCoordinateMapper(self, time_str):
         """Convert time string to widget y pixels coordinate"""
-        widget_height = self.size().height() - 2*self.margin_size - 2*self.border_size
+        frame_height = self.size().height() - 2*self.margin_size - 2*self.border_size - self.day_label_margin
 
-        if widget_height > 0:
+        if frame_height > 0:
             time_obj = datetime.datetime.strptime(time_str, "%H:%M")
             if time_obj < self.starting_time:
-                y_pos = self.margin_size + self.border_size
+                y_pos = self.margin_size + self.day_label_margin + self.border_size
             elif time_obj > self.ending_time:
                 y_pos = self.size().height() - self.margin_size - self.border_size
             else:
                 relative_time = time_obj - self.starting_time
-                y_pos = self.margin_size + self.border_size + relative_time * widget_height / self.working_day_duration
+                y_pos = self.margin_size + self.day_label_margin + self.border_size + relative_time * frame_height / self.working_day_duration
         else:
-            y_pos = self.margin_size + self.border_size
+            y_pos = self.margin_size + self.day_label_margin + self.border_size
 
         return y_pos
+
+
+    def dayCoordinateMapper(self, day_str):
+        """Convert day string ("Monday", "Tuesday", ...) to widget y pixels coordinate"""
+        frame_width = self.size().width() - 2*self.margin_size - self.time_label_margin
+        day_width, residual_width = divmod(frame_width, 7)
+
+        day_str = day_str.lower()
+
+        if day_width > 0:
+            day_index = DAY_LIST.index(day_str)
+            x_pos_start = self.margin_size + self.time_label_margin + day_index * day_width
+            x_pos_end   = x_pos_start + day_width
+
+            if day_index == 6:
+                x_pos_end += residual_width
+        else:
+            x_pos_start = self.margin_size + self.time_label_margin
+            x_pos_end = x_pos_start
+
+        return x_pos_start, x_pos_end
 
 
     def paintEvent(self, event):
@@ -83,6 +113,9 @@ class CalendarWidget(QWidget):
         time_label_font = qp.font()
         time_label_font.setPointSize(self.time_label_font_size)
 
+        day_label_font = qp.font()
+        day_label_font.setPointSize(self.day_label_font_size)
+
         task_label_font = qp.font()
         task_label_font.setPointSize(self.task_label_font_size)
 
@@ -92,31 +125,28 @@ class CalendarWidget(QWidget):
         qp.setBrush(QBrush(Qt.white, Qt.SolidPattern))
 
         qp.drawRect(self.margin_size + self.time_label_margin,                  # x_start
-                    self.margin_size,                                           # y_start
+                    self.margin_size + self.day_label_margin,                   # y_start
                     widget_width - 2*self.margin_size - self.time_label_margin, # x_size
-                    widget_height - 2*self.margin_size)                         # y_size
+                    widget_height - 2*self.margin_size - self.day_label_margin) # y_size
 
-        ## Starting time label
+        # Frame for each day
 
-        #qp.setFont(time_label_font)
+        qp.setFont(day_label_font)
 
-        #qp.drawText(0, #self.margin_size,   # x_start
-        #            self.margin_size - int(self.time_label_font_size/2), # y_start
-        #            self.time_label_margin, # x_size
-        #            self.time_label_font_size,   # y_size
-        #            Qt.AlignCenter,
-        #            self.starting_time_str)
+        for day_str in DAY_LIST:
+            x_pos_start, x_pos_end = self.dayCoordinateMapper(day_str)
 
-        ## Ending time label
+            qp.drawRect(x_pos_start,                                                # x_start
+                        self.margin_size + self.day_label_margin,                   # y_start
+                        x_pos_end - x_pos_start,                                    # x_size
+                        widget_height - 2*self.margin_size - self.day_label_margin) # y_size
 
-        #qp.setFont(time_label_font)
-
-        #qp.drawText(0, #self.margin_size,   # x_start
-        #            widget_height - self.margin_size - int(self.time_label_font_size/2), # y_start
-        #            self.time_label_margin, # x_size
-        #            self.time_label_font_size,   # y_size
-        #            Qt.AlignCenter,
-        #            self.ending_time_str)
+            qp.drawText(x_pos_start,              # x_start
+                        0,         # y_start
+                        x_pos_end - x_pos_start,  # x_size
+                        self.margin_size + self.day_label_margin,          # y_size
+                        Qt.AlignCenter,
+                        day_str.capitalize())
 
         # Draw a line for each hour
 
@@ -129,9 +159,9 @@ class CalendarWidget(QWidget):
             i = 1
 
         marker_time = datetime.datetime(year=self.starting_time.year,
-                                       month=self.starting_time.month,
-                                       day=self.starting_time.day,
-                                       hour=self.starting_time.hour + i)
+                                        month=self.starting_time.month,
+                                        day=self.starting_time.day,
+                                        hour=self.starting_time.hour + i)
 
         while marker_time.hour <= self.ending_time.hour:
             time_marker_str = marker_time.strftime("%H:%M")
@@ -142,9 +172,9 @@ class CalendarWidget(QWidget):
                         widget_width - self.margin_size,            # x_end
                         marker_time_y_pos)                          # y_end
 
-            qp.drawText(0, #self.margin_size,   # x_start
-                        marker_time_y_pos - int(self.time_label_font_size/2), # y_start
-                        self.time_label_margin, # x_size
+            qp.drawText(0,  # self.margin_size,      # x_start
+                        marker_time_y_pos - int(self.time_label_font_size/2),  # y_start
+                        self.time_label_margin,      # x_size
                         self.time_label_font_size,   # y_size
                         Qt.AlignCenter,
                         time_marker_str)
@@ -154,9 +184,9 @@ class CalendarWidget(QWidget):
 
             i += 1
             marker_time = datetime.datetime(year=self.starting_time.year,
-                                           month=self.starting_time.month,
-                                           day=self.starting_time.day,
-                                           hour=self.starting_time.hour + i)
+                                            month=self.starting_time.month,
+                                            day=self.starting_time.day,
+                                            hour=self.starting_time.hour + i)
 
         # Tasks
 
@@ -170,29 +200,82 @@ class CalendarWidget(QWidget):
         for task in self.data:
             y_start = self.timeCoordinateMapper(task["start"])
             y_end = self.timeCoordinateMapper(task["end"])
-            qp.drawRect(self.margin_size + self.time_label_margin,                  # x_start
-                        y_start,                                                    # y_start
-                        widget_width - 2*self.margin_size - self.time_label_margin, # x_size
-                        y_end - y_start)                                            # y_size
 
-            qp.drawText(self.margin_size + self.time_label_margin,                  # x_start
-                        y_start,                                                    # y_start
-                        widget_width - 2*self.margin_size - self.time_label_margin, # x_size
-                        y_end - y_start,                                            # y_size
-                        Qt.AlignCenter,
-                        task["label"])
+            if task["day"].lower() == "all":
+                for day_str in DAY_LIST:
+                    x_pos_start, x_pos_end = self.dayCoordinateMapper(day_str)
+
+                    qp.drawRect(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start)          # y_size
+
+                    qp.drawText(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start,          # y_size
+                                Qt.AlignCenter,
+                                task["label"])
+            elif task["day"].lower() == "weekdays":
+                for day_str in WEEKDAY_LIST:
+                    x_pos_start, x_pos_end = self.dayCoordinateMapper(day_str)
+
+                    qp.drawRect(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start)          # y_size
+
+                    qp.drawText(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start,          # y_size
+                                Qt.AlignCenter,
+                                task["label"])
+            elif task["day"].lower() == "weekend":
+                for day_str in WEEKEND_LIST:
+                    x_pos_start, x_pos_end = self.dayCoordinateMapper(day_str)
+
+                    qp.drawRect(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start)          # y_size
+
+                    qp.drawText(x_pos_start,              # x_start
+                                y_start,                  # y_start
+                                x_pos_end - x_pos_start,  # x_size
+                                y_end - y_start,          # y_size
+                                Qt.AlignCenter,
+                                task["label"])
+            else:
+                x_pos_start, x_pos_end = self.dayCoordinateMapper(task["day"])
+
+                qp.drawRect(x_pos_start,              # x_start
+                            y_start,                  # y_start
+                            x_pos_end - x_pos_start,  # x_size
+                            y_end - y_start)          # y_size
+
+                qp.drawText(x_pos_start,              # x_start
+                            y_start,                  # y_start
+                            x_pos_end - x_pos_start,  # x_size
+                            y_end - y_start,          # y_size
+                            Qt.AlignCenter,
+                            task["label"])
 
         # Draw a line to show the current time
 
         current_time_str = datetime.datetime.now().strftime("%H:%M")
         current_time_y_pos = self.timeCoordinateMapper(current_time_str)
 
+        current_day_index = int(datetime.datetime.now().strftime("%w")) - 1
+        current_day_str = DAY_LIST[current_day_index]
+        x_pos_start, x_pos_end = self.dayCoordinateMapper(current_day_str)
+
         qp.setPen(QPen(Qt.red, self.border_size, Qt.SolidLine))
         qp.setBrush(QBrush(Qt.red, Qt.SolidPattern))
-        qp.drawLine(self.margin_size + self.time_label_margin,  # x_start
-                    current_time_y_pos,                         # y_start
-                    widget_width - self.margin_size,            # x_end
-                    current_time_y_pos)                         # y_end
+        qp.drawLine(x_pos_start,          # x_start
+                    current_time_y_pos,   # y_start
+                    x_pos_end,            # x_end
+                    current_time_y_pos)   # y_end
 
         # Current time bullet
 
@@ -202,22 +285,10 @@ class CalendarWidget(QWidget):
         qp.setRenderHint(QPainter.Antialiasing)           # <- Set anti-aliasing  See https://wiki.python.org/moin/PyQt/Painting%20and%20clipping%20demonstration
 
         bullet_radius = 3
-        qp.drawEllipse(self.margin_size + self.time_label_margin - bullet_radius,  # x_start,
-                       current_time_y_pos - bullet_radius,                         # y_start,
+        qp.drawEllipse(x_pos_start - bullet_radius,          # x_start
+                       current_time_y_pos - bullet_radius,   # y_start
                        2 * bullet_radius,
                        2 * bullet_radius)
-
-        ## Current time label
-
-        #qp.setFont(time_label_font)
-
-        #qp.drawText(0, #self.margin_size,   # x_start
-        #            current_time_y_pos - int(self.time_label_font_size/2), # y_start
-        #            self.time_label_margin, # x_size
-        #            self.time_label_font_size,   # y_size
-        #            Qt.AlignCenter,
-        #            current_time_str)
-
 
 
 if __name__ == '__main__':
@@ -233,4 +304,3 @@ if __name__ == '__main__':
     # The sys.exit() method ensures a clean exit.
     # The environment will be informed, how the application ended.
     sys.exit(exit_code)
-
