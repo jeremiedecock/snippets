@@ -40,17 +40,17 @@ class MyModel(QAbstractTableModel):
 
     def __init__(self, data, parent=None):
         super().__init__(parent)
-        self.data = data
+        self._data = data               # DON'T CALL THIS ATTRIBUTE "data", A QAbstractItemModel METHOD ALREADY HAVE THIS NAME (model.data(index, role)) !!!
 
     def rowCount(self, parent):
-        return self.data.get_num_rows()
+        return self._data.get_num_rows()
 
     def columnCount(self, parent):
-        return self.data.get_num_columns()
+        return self._data.get_num_columns()
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            return self.data.get_data(index.row(), index.column())
+            return self._data.get_data(index.row(), index.column())
         return QVariant()
 
     def insertRows(self, row, count, parent):
@@ -78,7 +78,7 @@ class MyModel(QAbstractTableModel):
         self.beginInsertRows(parent, first_index, last_index)
 
         for i in range(count):
-            self.data.insert_row(first_index)
+            self._data.insert_row(first_index)
 
         self.endInsertRows()
 
@@ -90,7 +90,7 @@ class MyModel(QAbstractTableModel):
         self.beginRemoveRows(parent, first_index, last_index)
 
         for i in range(count):
-            self.data.remove_row(first_index)
+            self._data.remove_row(first_index)
 
         self.endRemoveRows()
 

@@ -14,22 +14,22 @@ class MyModel(QAbstractTableModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.mydata = [[0, 0], [0, 0]]   # CAUTION: don't call this "self.data", it's already taken by "self.data(...)"
+        self._data = [[0, 0], [0, 0]]   # CAUTION: don't call this "self.data", it's already taken by "self.data(...)"
 
     def rowCount(self, parent):
-        return len(self.mydata)
+        return len(self._data)
 
     def columnCount(self, parent):
-        return len(self.mydata[0])
+        return len(self._data[0])
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            return self.mydata[index.row()][index.column()]
+            return self._data[index.row()][index.column()]
         return QVariant()
 
     def setData(self, index, value, role=Qt.EditRole):
         if role == Qt.EditRole:
-            self.mydata[index.row()][index.column()] = value
+            self._data[index.row()][index.column()] = value
 
             # The following line are necessary e.g. to dynamically update the QSortFilterProxyModel
             self.dataChanged.emit(index, index, [Qt.EditRole])

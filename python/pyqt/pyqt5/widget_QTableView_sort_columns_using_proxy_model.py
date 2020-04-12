@@ -20,17 +20,17 @@ class MyModel(QAbstractTableModel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.data = np.random.randint(0, 9, (10, 3))
+        self._data = np.random.randint(0, 9, (10, 3))               # DON'T CALL THIS ATTRIBUTE "data", A QAbstractItemModel METHOD ALREADY HAVE THIS NAME (model.data(index, role)) !!!
 
     def rowCount(self, parent):
-        return self.data.shape[0]
+        return self._data.shape[0]
 
     def columnCount(self, parent):
-        return self.data.shape[1]
+        return self._data.shape[1]
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            return "{}".format(self.data[index.row(), index.column()])
+            return "{}".format(self._data[index.row(), index.column()])
 
         return QVariant()
 

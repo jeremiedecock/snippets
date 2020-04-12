@@ -90,7 +90,7 @@ class MyDelegate(QStyledItemDelegate):
         return editor
 
     def setEditorData(self, editor, index):
-        value = index.model().data(index, Qt.EditRole)
+        value = index.data(Qt.EditRole)       # equivalent of    value = index.model().data(index, Qt.EditRole)
         editor.setCurrentText(value)
 
     def setModelData(self, editor, model, index):

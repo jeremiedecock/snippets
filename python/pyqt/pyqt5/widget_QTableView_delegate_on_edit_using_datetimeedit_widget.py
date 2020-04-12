@@ -95,7 +95,7 @@ class MyDelegate(QStyledItemDelegate):
         return editor
 
     def setEditorData(self, editor, index):
-        str_value = index.model().data(index, Qt.EditRole)
+        str_value = index.data(Qt.EditRole)       # equivalent of    value = index.model().data(index, Qt.EditRole)
         value = datetime.datetime.strptime(str_value, DATETIME_FORMAT)
         editor.setDateTime(value)     # value cannot be a string, it have to be a datetime...
 
