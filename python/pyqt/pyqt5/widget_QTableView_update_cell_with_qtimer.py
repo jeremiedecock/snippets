@@ -19,7 +19,7 @@ class MyModel(QAbstractTableModel):
         self.timer.start(1000)
 
     def timerHit(self):
-        top_left_cell = self.createIndex(0, 0)
+        top_left_cell = self.index(0, 0)
         self.dataChanged.emit(top_left_cell, top_left_cell)
 
     def rowCount(self, parent):

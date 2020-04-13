@@ -45,7 +45,7 @@ def timerHit():
     global cpt
     cpt += 1
 
-    index = my_model.createIndex(0, 0)   # Top left cell
+    index = my_model.index(0, 0)   # Top left cell
     my_model.setData(index, str(cpt), Qt.EditRole)
     print(my_model.data(index, Qt.DisplayRole))
 
