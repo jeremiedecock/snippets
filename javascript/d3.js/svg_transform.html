@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var svg = d3.select("#fig");
+
+                var g = svg.append("g").attr("transform", "rotate(10)");
+
+                var rect1 = g.append("rect")
+                             .attr("x", 100)
+                             .attr("y", 100)
+                             .attr("width", 200)
+                             .attr("height", 100)
+                             .attr("rx", 10)
+                             .attr("ry", 10)
+                             .attr("fill", "red");
+
+                var rect2 = svg.append("rect")
+                               .attr("x", 100)
+                               .attr("y", 100)
+                               .attr("width", 200)
+                               .attr("height", 100)
+                               .attr("rx", 10)
+                               .attr("ry", 10)
+                               .attr("transform", "rotate(30)")
+                               .attr("fill", "#00ff00aa");
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey" />
+
+    </body>
+</html>

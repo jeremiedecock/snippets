@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var svg = d3.select("#fig");
+                var rect = svg.append("rect")
+                                .attr("x", 50)
+                                .attr("y", 50)
+                                .attr("width", 200)
+                                .attr("height", 100)
+                                .attr("rx", 10)
+                                .attr("ry", 10)
+                                .attr("fill", "red");
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey" />
+
+    </body>
+</html>
