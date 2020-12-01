@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var l = [30, 60];
+                cs = d3.select("#fig").selectAll("circle").data(l)
+                cs.exit().remove();
+                cs.attr("r", d=>d);
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey">
+            <circle cx="100" cy="250" r="10" />
+            <circle cx="200" cy="250" r="10" />
+            <circle cx="300" cy="250" r="10" />
+        <svg>
+
+    </body>
+</html>
