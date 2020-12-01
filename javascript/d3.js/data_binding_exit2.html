@@ -6,7 +6,7 @@
         <script>
             function makeSVG() {
                 var l = [30, 60];
-                cs = d3.select("#fig").selectAll("circle").data(l)
+                cs = d3.select("#fig").selectAll("circle").data(l);
                 cs.exit().remove();
                 cs.attr("r", d=>d);
             }
