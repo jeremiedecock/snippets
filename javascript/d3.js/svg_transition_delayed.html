@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                d3.select("#fig").selectAll("circle")
+                                 .transition()
+                                 .delay(2000)
+                                 .duration(1000)
+                                 .attr("r", 45);
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey">
+            <circle cx="100" cy="250" r="10" />
+            <circle cx="200" cy="250" r="10" />
+            <circle cx="300" cy="250" r="10" />
+        <svg>
+
+    </body>
+</html>
