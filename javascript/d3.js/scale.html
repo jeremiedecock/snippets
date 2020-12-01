@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+
+                var scX = d3.scaleLinear().domain([0, 6]).range([100, 300]);
+                var scY = d3.scaleLinear().domain([0, 3]).range([ 50, 450]);
+
+                var l = [[0, 0], [0, 3], [6, 0], [6, 3]];
+                d3.select("#fig").selectAll("circle").data(l)
+                                                     .enter()
+                                                     .append("circle")
+                                                     .attr("r", 10)
+                                                     .attr("cx", d=>scX(d[0]))
+                                                     .attr("cy", d=>scY(d[1]));
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey" />
+
+    </body>
+</html>
