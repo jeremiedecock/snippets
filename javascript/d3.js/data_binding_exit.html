@@ -5,9 +5,10 @@
 		<script src= "d3.js"></script>
         <script>
             function makeSVG() {
-                var l = [10, 20, 30];
+                var l = [30, 60];
                 d3.select("#fig").selectAll("circle").data(l)
-                                                     .attr("r", d=>d);
+                                                     .exit()
+                                                     .remove();
             }
         </script>
     </head>

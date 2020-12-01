@@ -6,8 +6,12 @@
         <script>
             function makeSVG() {
                 var l = [10, 20, 30];
-                d3.select("#fig").selectAll("circle").data(l)
-                                                     .attr("r", d=>d);
+
+                d3.select("#fig").selectAll("circle")
+                                 .data(l)
+                                 .transition()
+                                 .duration(2000)
+                                 .attr("r", d=>d);
             }
         </script>
     </head>
