@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var ds = [[1, 1], [2, 2], [3, 4], [4, 4], [5, 2], [6, 2], [7, 3], [8, 1], [9, 2]];
+
+                var xSc = d3.scaleLinear().domain([1, 9]).range([50, 250]);
+                var ySc = d3.scaleLinear().domain([0, 5]).range([175, 25]);
+
+                ds = ds.map(d => [ xSc(d[0]), ySc(d[1]) ]);
+
+                // Draw data points
+
+                d3.select("#fig").selectAll("circle")
+                                 .data(ds)
+                                 .enter()
+                                 .append("circle")
+                                 .attr("r", 3)
+                                 .attr("cx", d => d[0])
+                                 .attr("cy", d => d[1]);
+
+                // Draw lines
+
+                var lnMkr = d3.line().curve(d3.curveStepAfter);
+
+                d3.select("#fig").append("path")
+                                 .attr("d", lnMkr(ds))
+                                 .attr("fill", "none")
+                                 .attr("stroke", "red");
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="300" height="200" style="background: lightgrey" />
+
+    </body>
+</html>
