@@ -17,6 +17,7 @@
                          0, 0, 0, 2,
                          2, 0, 0, 3];
 
+                // Display the grid
 
                 d3.select("#grid").selectAll("rect").data(d)
                                                     .enter()
@@ -40,14 +41,14 @@
                                       .attr("height", square_size - 2 * image_border);
                 };
 
-                addImage("robot3.svg", 0);
-
-                addImage("ok.svg", 15);
-
-                const trap_index = [5, 7, 11, 12];
-
-                trap_index.forEach(function (index) {
-                    addImage("skull.svg", index);
+                d.forEach(function (value, index) {
+                    if(value == 1) {
+                        addImage("robot3.svg", index);
+                    } else if(value == 2) {
+                        addImage("skull.svg", index);
+                    } else if(value == 3) {
+                        addImage("ok.svg", index);
+                    }
                 });
 
                 // Display state index
@@ -59,6 +60,8 @@
                                                     .attr("y", (value, index) => Math.floor((index / num_col) + 1) * square_size - 0.5 * index_text_size)
                                                     .attr("font-size", index_text_size + "pt")
                                                     .text((value, index) => index);
+
+                // Transform
 
                 d3.select("#grid").attr("transform", "translate(" + margin + ", " + margin + ")")
 
