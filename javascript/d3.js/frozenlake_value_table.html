@@ -10,6 +10,7 @@
                 const square_size = 100;
                 const image_border = square_size * 0.15;
                 const index_text_size = 10;
+                const value_text_size = 20;
                 const margin = 5;
 
                 var d = [0.4, 0.5, 0.6, 0.7,
@@ -45,9 +46,20 @@
                                                     .attr("stroke-width", 3)
                                                     .attr("fill", value => colorSc(value));
 
+                // Display state value
+
+                d3.select("#grid").append("g").selectAll("text").data(d)
+                                                    .enter()
+                                                    .append("text")
+                                                    .attr("x", (value, index) => (index % num_col) * square_size + 0.5 * square_size)
+                                                    .attr("y", (value, index) => Math.floor(index / num_col) * square_size + 0.5 * square_size + 0.5 * value_text_size)
+                                                    .attr("font-size", value_text_size + "pt")
+                                                    .attr("text-anchor", "middle")
+                                                    .text(value => value);
+
                 // Display state index
 
-                d3.select("#grid").selectAll("text").data(d)
+                d3.select("#grid").append("g").selectAll("text").data(d)
                                                     .enter()
                                                     .append("text")
                                                     .attr("x", (value, index) => ((index % num_col) + 1) * square_size - (index_text_size * 2))
