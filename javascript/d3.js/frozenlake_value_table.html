@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+
+                const num_col = 4;
+                const square_size = 100;
+                const image_border = square_size * 0.15;
+                const index_text_size = 10;
+                const margin = 5;
+
+                var d = [0.4, 0.5, 0.6, 0.7,
+                         0.5, 0.6, 0.7, 0.8,
+                         0.6, 0.7, 0.8, 0.9,
+                         0.7, 0.8, 0.9, 1.0];
+
+                // Display the grid
+
+                // https://www.d3indepth.com/scales/#scales-with-continuous-input-and-continuous-output
+                //var colorSc = d3.scaleSequential()
+                //                .domain([0.0, 1.0])
+                //                //.interpolator(d3.interpolatePlasma);
+                //                //.interpolator(d3.interpolateOrRd);
+                //                //.interpolator(d3.interpolateYlOrRd);
+                //                //.interpolator(d3.interpolateGreys);
+                //                //.interpolator(d3.interpolateReds);
+                //                //.interpolator(d3.interpolateBlues);
+                //                .interpolator(d3.interpolateRdBu);
+
+                var colorSc = d3.scaleSequential()
+                                .domain([1.1, 0.0])
+                                .interpolator(d3.interpolateRdBu);
+
+                d3.select("#grid").selectAll("rect").data(d)
+                                                    .enter()
+                                                    .append("rect")
+                                                    .attr("x", (value, index) => (index % num_col) * square_size)
+                                                    .attr("y", (value, index) => Math.floor(index / num_col) * square_size)
+                                                    .attr("width",  square_size)
+                                                    .attr("height", square_size)
+                                                    .attr("stroke", "black")
+                                                    .attr("stroke-width", 3)
+                                                    .attr("fill", value => colorSc(value));
+
+                // Display state index
+
+                d3.select("#grid").selectAll("text").data(d)
+                                                    .enter()
+                                                    .append("text")
+                                                    .attr("x", (value, index) => ((index % num_col) + 1) * square_size - (index_text_size * 2))
+                                                    .attr("y", (value, index) => Math.floor((index / num_col) + 1) * square_size - 0.5 * index_text_size)
+                                                    .attr("font-size", index_text_size + "pt")
+                                                    .text((value, index) => index);
+
+                // Transform
+
+                d3.select("#grid").attr("transform", "translate(" + margin + ", " + margin + ")")
+
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey">
+            <g id="grid" />
+        </svg>
+
+    </body>
+</html>
