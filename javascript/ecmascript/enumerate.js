@@ -1,11 +1,18 @@
 const foo = ['A', 'B', 'C'];
 
-foo.map((element, index) => console.log(index, element));
+foo.map((value, index) => console.log(index, value));
 
 // Alternative method
 
 console.log()
 
-for (const [index, element] of foo.entries()) {
-    console.log(index, element);
+for(let [index, value] of foo.entries()) 
+    console.log(index, value);
+
+// Alternative method
+
+console.log()
+
+for (const [index, value] of foo.entries()) {
+    console.log(index, value);
 }
