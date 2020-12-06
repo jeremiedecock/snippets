@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+
+                const num_col = 4;
+                const square_size = 100;
+                const image_border = square_size * 0.15;
+                const index_text_size = 10;
+                const margin = 5;
+
+                var d = [1, 0, 0, 0,
+                         0, 2, 0, 2,
+                         0, 0, 0, 2,
+                         2, 0, 0, 3];
+
+
+                d3.select("#grid").selectAll("rect").data(d)
+                                                    .enter()
+                                                    .append("rect")
+                                                    .attr("x", (value, index) => (index % num_col) * square_size)
+                                                    .attr("y", (value, index) => Math.floor(index / num_col) * square_size)
+                                                    .attr("width",  square_size)
+                                                    .attr("height", square_size)
+                                                    .attr("stroke", "black")
+                                                    .attr("stroke-width", 3)
+                                                    .attr("fill", "none");
+
+                // Display state image
+
+                function addImage(img_file, index) {
+                    d3.select("#grid").append("image")
+                                      .attr("href", img_file)
+                                      .attr("x", (index % num_col) * square_size + image_border)
+                                      .attr("y", Math.floor(index / num_col) * square_size + image_border)
+                                      .attr("width",  square_size - 2 * image_border)
+                                      .attr("height", square_size - 2 * image_border);
+                };
+
+                addImage("robot3.svg", 0);
+
+                addImage("ok.svg", 15);
+
+                const trap_index = [5, 7, 11, 12];
+
+                trap_index.forEach(function (index) {
+                    addImage("skull.svg", index);
+                });
+
+                // Display state index
+
+                d3.select("#grid").selectAll("text").data(d)
+                                                    .enter()
+                                                    .append("text")
+                                                    .attr("x", (value, index) => ((index % num_col) + 1) * square_size - (index_text_size * 2))
+                                                    .attr("y", (value, index) => Math.floor((index / num_col) + 1) * square_size - 0.5 * index_text_size)
+                                                    .attr("font-size", index_text_size + "pt")
+                                                    .text((value, index) => index);
+
+                d3.select("#grid").attr("transform", "translate(" + margin + ", " + margin + ")")
+
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="500" style="background: lightgrey">
+            <g id="grid" />
+        </svg>
+
+    </body>
+</html>
