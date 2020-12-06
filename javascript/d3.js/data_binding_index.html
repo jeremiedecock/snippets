@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeP() {
+
+                var d = [  1,   2,   3,
+                          10,  20,  30,
+                         100, 200, 300];
+
+                d3.select("body").selectAll("p").data(d)
+                                                .enter()
+                                                .append("p")
+                                                .text((value, index) => index + ":" + value);
+
+            }
+        </script>
+    </head>
+    <body onload="makeP()">
+
+
+    </body>
+</html>
