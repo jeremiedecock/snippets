@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var years = [2019, 2020];
+
+
+                years.forEach(function (year) {
+
+                    d3.text(year + ".csv").then(res => {
+
+                        d3.select("body").append("h2").text(year);
+
+                        var svg = d3.select("body").append("svg")
+                                                   .attr("width", 1200)
+                                                   .attr("height", 200);
+
+                        const height = svg.attr("height");
+                        const width = svg.attr("width");
+                        const margin = 20;
+                        
+                        var parse = d3.utcParse("%Y-%m-%d");
+                        var format = d3.utcFormat("%b");     // https://d3-wiki.readthedocs.io/zh_CN/master/Time-Formatting/
+
+                        var data = d3.csvParse(res, function(d) { return { ts: parse(d.date), ypos: +d.ypos, color: d.color, label: d.label } } );
+
+                        var scT = d3.scaleUtc().domain([parse(year + "-01-01"), parse(year + "-12-31")])
+                                               .range([0, width - 2*margin]);
+
+                        //svg.style("background", "lightgrey");
+
+                        var fig = svg.append("g")
+
+                        fig.attr("transform", "translate(" + margin + "," + height/2 + ")")
+                           .call(d3.axisBottom(scT).tickFormat(format).ticks(d3.utcMonth.every(1)));
+
+                        fig.select("path")
+                           .attr("stroke-width", 2);
+
+                        fig.append("g")
+                           .selectAll("line").data(data)
+                           .enter()
+                           .append("line")
+                           .attr("x1", d => scT(d.ts))
+                           .attr("y1", 0)
+                           .attr("x2", d => scT(d.ts))
+                           .attr("y2", d => d.ypos)
+                           .attr("stroke", d => d.color)
+                           .attr("stroke-width", "2");
+
+                        fig.append("g")
+                           .selectAll("text").data(data)
+                           .enter()
+                           .append("text")
+                           .attr("x", d => scT(d.ts))
+                           .attr("y", d => d.ypos < 0 ? d.ypos - 5 : d.ypos + 15)
+                           .attr("font-size", "10px")
+                           .attr("fill", d => d.color)
+                           .attr("text-anchor", "middle")
+                           .text(d => d.label);
+
+                        fig.append("g")
+                           .selectAll("circle").data(data)
+                           .enter()
+                           .append("circle")
+                           .attr("stroke", d => d.color)
+                           .attr("stroke-width", "2")
+                           .attr("fill", "white")
+                           .attr("r", 5)
+                           .attr("cx", d => scT(d.ts))
+                           .attr("cy", 0);
+
+                        var lineMkr = d3.line()
+
+                        var xend = scT(parse(year + "-12-31"));
+                        var arrowPoints = [[xend, -5], [xend, 5], [xend + 10, 0]];
+
+                        fig.append("g")
+                           .append("path")
+                           .attr("d", lineMkr(arrowPoints))
+                           .attr("fill", "black")
+                           .attr("stroke", "black")
+                           .attr("stroke-width", 2);
+                    });
+                });
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+
+    </body>
+</html>
