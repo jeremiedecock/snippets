@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var height = d3.select("#fig").attr("height");
+                var width = d3.select("#fig").attr("width");
+                var margin = 20;
+
+                var d = [["2020-02-01"],
+                         ["2020-05-01"],
+                         ["2020-12-01"]];
+                
+                var parse = d3.utcParse("%Y-%m-%d");
+                var scT = d3.scaleUtc().domain([parse("2020-01-01"), parse("2020-12-31")])
+                                       .range([margin, width - margin]);
+
+                d3.select("#fig").append("line")
+                                 .attr("stroke", "black")
+                                 .attr("stroke-width", 2)
+                                 .attr("x1", margin)
+                                 .attr("y1", height/2)
+                                 .attr("x2", width - margin)
+                                 .attr("y2", height/2);
+
+                d3.select("#fig").selectAll("circle").data(d)
+                                                     .enter()
+                                                     .append("circle")
+                                                     .attr("r", 5)
+                                                     .attr("cx", d => scT(parse(d)))
+                                                     .attr("cy", height/2);
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="1200" height="200" style="background: lightgrey" \>
+
+    </body>
+</html>
