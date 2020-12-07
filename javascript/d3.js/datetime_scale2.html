@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+                var markerBoxWidth = 10;
+                var markerBoxHeight = 10;
+                var refX = markerBoxWidth / 2;
+                var refY = markerBoxHeight / 2;
+                var arrowPoints = [[0, 0], [0, 10], [10, 5]];
+
+                d3.select("#fig").append('defs')
+                                 .append('marker')
+                                 .attr('id', 'arrow')
+                                 .attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+                                 .attr('refX', refX)
+                                 .attr('refY', refY)
+                                 .attr('markerWidth', markerBoxWidth)
+                                 .attr('markerHeight', markerBoxHeight)
+                                 .attr('orient', 'auto-start-reverse')
+                                 .append('path')
+                                 .attr('d', d3.line()(arrowPoints))
+                                 .attr('stroke', 'black');
+
+                var height = d3.select("#fig").attr("height");
+                var width = d3.select("#fig").attr("width");
+                var margin = 20;
+
+                var d = [["2020-02-01"],
+                         ["2020-05-01"],
+                         ["2020-09-01"],
+                         ["2020-12-01"]];
+                
+                var parse = d3.utcParse("%Y-%m-%d");
+                var format = d3.utcFormat("%b");     // https://d3-wiki.readthedocs.io/zh_CN/master/Time-Formatting/
+
+                var scT = d3.scaleUtc().domain([parse("2020-01-01"), parse("2020-12-31")])
+                                       .range([0, width - 2*margin]);
+
+                var svg = d3.select("#fig");
+                var fig = svg.append("g")
+
+                fig.attr("transform", "translate(" + margin + "," + height/2 + ")")
+                   .call(d3.axisBottom(scT).tickFormat(format).ticks(d3.utcMonth.every(1)));
+
+                fig.select("path")
+                //fig.append("line")
+                //   .attr("stroke", "black")
+                   .attr("stroke-width", 2);
+                //   .attr("x1", 0)
+                //   .attr("y1", 0)
+                //   .attr("x2", width - 2 * margin)
+                //   .attr("y2", 0)
+                //   .attr('marker-end', 'url(#arrow)');
+
+                fig.selectAll("circle").data(d)
+                   .enter()
+                   .append("circle")
+                   .attr("fill", "black")
+                   .attr("r", 5)
+                   .attr("cx", d => scT(parse(d)))
+                   .attr("cy", 0);
+
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="1000" height="200" style="background: lightgrey" \>
+
+    </body>
+</html>
