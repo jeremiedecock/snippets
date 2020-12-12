@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+		<script src= "d3.js"></script>
+        <script>
+            function makeSVG() {
+
+				var svg = d3.select("#fig");
+
+				const width = svg.attr("width");
+				const height = svg.attr("height");
+
+				const margin = { left: 30, top: 10, right: 20, bottom: 20 }
+
+				var ds = [["2020-01-01", 1],
+                          ["2020-01-02", 2],
+                          ["2020-01-03", 4],
+                          ["2020-01-04", 4],
+                          ["2020-01-05", 2],
+                          ["2020-01-06", 2],
+                          ["2020-01-07", 3],
+                          ["2020-01-08", 1],
+                          ["2020-01-09", 2]];
+
+                var parse = d3.utcParse("%Y-%m-%d");
+                var format = d3.utcFormat("%m-%d");     // https://d3-wiki.readthedocs.io/zh_CN/master/Time-Formatting/
+
+                //var ds = ds.map(d => [parse(d[0]), d[1]] );
+
+				// X scale and axis
+
+                var xSc = d3.scaleUtc().domain([parse("2020-01-01"), parse("2020-01-10")])
+                                       .range([margin.left, width - margin.right]);
+
+                //const xAxMkr = d3.axisBottom(xSc);
+  
+				//var xg = svg.append('g')
+				//            .attr('transform', `translate(0,${height - margin.bottom})`);
+                //xAxMkr(xg);
+
+                svg.append('g')
+                   .attr("transform", `translate(0,${height - margin.bottom})`)
+                   .call(d3.axisBottom(xSc).tickFormat(format).ticks(d3.utcDay.every(1)));
+
+				// X scale and axis
+
+				const ySc = d3.scaleLinear()
+				              .domain([0, 5])
+				              .range([height - margin.bottom, margin.top]);
+
+                const yAxMkr = d3.axisLeft(ySc);
+
+				var yg = svg.append('g')
+				            .attr('transform', `translate(${margin.left},0)`);
+                yAxMkr(yg);
+
+				// Draw points
+
+                ds = ds.map(d => [ xSc(parse(d[0])), ySc(d[1]) ]);
+
+                svg.selectAll("circle")
+                   .data(ds)
+                   .enter()
+                   .append("circle")
+                   .attr("r", 3)
+                   .attr("cx", d => d[0])
+                   .attr("cy", d => d[1]);
+
+                // Draw lines
+
+                var lnMkr = d3.line();
+
+                svg.append("path")
+                   .attr("d", lnMkr(ds))
+                   .attr("fill", "none")
+                   .attr("stroke", "red");
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+        <svg id="fig" width="500" height="250" style="background: lightgrey" />
+
+    </body>
+</html>
