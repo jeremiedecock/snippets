@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset= "utf-8">
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+
+        <script>
+            function makeSVG() {
+
+                const width = 800;
+                const height = 250;
+                const margin = { left: 50, top: 10, right: 20, bottom: 20 }
+
+                var parse = d3.utcParse("%Y-%m-%dT%H:%M:%S%Z");
+                var format = d3.utcFormat("%H:%M");     // https://d3-wiki.readthedocs.io/zh_CN/master/Time-Formatting/
+
+                // TEMPERATURE ///////////////////////////////////////////////////////////////////////////////////////
+
+                var data_url = "http://0.0.0.0:8000/ts.json";
+
+                d3.json(data_url).then(
+                    function(res) {
+
+                        //var svg = d3.select("#temperature");
+                        var svg = d3.select("body").append("p").append("svg")
+                        svg.attr("width", width);
+                        svg.attr("height", height);
+
+
+                        // X SCALE AND AXIS ///////////////////////////////////
+
+                        var xSc = d3.scaleUtc().domain([parse("2020-01-01T00:00:00+0000"), parse("2020-01-01T23:59:59+0000")])
+                                               .range([margin.left, width - margin.right]);
+
+                        svg.append('g')
+                           .attr("transform", `translate(0,${height - margin.bottom})`)
+                           .call(d3.axisBottom(xSc).tickFormat(format).ticks(d3.utcHour.every(1)));
+
+
+                        // Y SCALE AND AXIS ///////////////////////////////////
+
+                        const ySc = d3.scaleLinear()
+                                    //.domain([15, 40])
+                                    .domain(d3.extent(res.measurements, d=>d.value))
+                                    .range([height - margin.bottom, margin.top]);
+
+                        const yAxMkr = d3.axisLeft(ySc);
+
+                        var yg = svg.append('g')
+                                    .attr('transform', `translate(${margin.left},0)`);
+                        yAxMkr(yg);
+            
+
+                        // DRAW LINES /////////////////////////////////////////
+
+                        var ds = res.measurements.map(d => [ xSc(parse(d.timestamp)), ySc(d.value) ]);
+
+                        var lnMkr = d3.line();
+
+                        svg.append("path")
+                           .attr("d", lnMkr(ds))
+                           .attr("fill", "none")
+                           .attr("stroke", "red");
+                    },
+                    function(err) {
+                        throw err;
+                    }
+                );
+            }
+        </script>
+    </head>
+    <body onload="makeSVG()">
+
+    </body>
+</html>
