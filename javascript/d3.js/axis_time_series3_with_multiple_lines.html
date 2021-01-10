@@ -16,7 +16,7 @@
 
                 // TEMPERATURE ///////////////////////////////////////////////////////////////////////////////////////
 
-                var data_url = "ts.json";
+                var data_url = "ts2.json";
 
                 d3.json(data_url).then(
                     function(res) {
@@ -43,7 +43,11 @@
 
                         const ySc = d3.scaleLinear()
                                     //.domain([15, 40])
-                                    .domain(d3.extent(res.measurements, d=>d.value))
+                                    .domain([
+                                        d3.min(res.measurements, d=>d3.min([d.value1, d.value2])),   // See https://github.com/d3/d3-array/issues/64   and   https://github.com/d3/d3-array/blob/master/README.md#statistics
+                                        d3.max(res.measurements, d=>d3.max([d.value1, d.value2]))
+                                    ])
+                                    //.domain(d3.extent(res.measurements, d=>d.value1))
                                     .range([height - margin.bottom, margin.top]);
 
 
@@ -58,14 +62,23 @@
 
                         // DRAW LINES /////////////////////////////////////////
 
-                        var ds = res.measurements.map(d => [ xSc(parse(d.timestamp)), ySc(d.value) ]);
-
                         var lnMkr = d3.line();
 
+
+                        var ds1 = res.measurements.map(d => [ xSc(parse(d.timestamp)), ySc(d.value1) ]);
+
                         svg.append("path")
-                           .attr("d", lnMkr(ds))
+                           .attr("d", lnMkr(ds1))
                            .attr("fill", "none")
                            .attr("stroke", "red");
+
+
+                        var ds2 = res.measurements.map(d => [ xSc(parse(d.timestamp)), ySc(d.value2) ]);
+
+                        svg.append("path")
+                           .attr("d", lnMkr(ds2))
+                           .attr("fill", "none")
+                           .attr("stroke", "blue");
                     },
                     function(err) {
                         throw err;
@@ -78,3 +91,4 @@
 
     </body>
 </html>
+
