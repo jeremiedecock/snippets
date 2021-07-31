@@ -7,7 +7,10 @@ Source: https://doc.qt.io/qtforpython/quickstart.html
 You can do this by running the following on a terminal:
 
 ```
-python -m venv env                 (Your Python executable might be called python3)
+conda deactivate                   (if you use anaconda)
+apt install python3-venv           (on Linux/Debian, if required)
+
+python3 -m venv env                (your Python executable might be called python)
 source env/bin/activate            (for Linux and macOS)
 env\Scripts\activate.bat           (for Windows)
 ```
@@ -17,6 +20,7 @@ env\Scripts\activate.bat           (for Windows)
 Now you are ready to install the Qt for Python packages using pip. From the terminal, run the following command:
 
 ```
+pip install --upgrade pip
 pip install pyside6                (for the latest version)
 pip install pyside6==6.0           (for the version 6.0 specifically)
 ```
