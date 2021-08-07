@@ -11,42 +11,29 @@ from PySide6.QtWidgets import QApplication, QTableView
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 
 
-def add_employee(q, first_name, last_name):
-    q.addBindValue(first_name)
-    q.addBindValue(last_name)
-    q.exec()
+# INIT THE DATABASE #############################
 
-EMPLOYEE_SQL = """
-    create table employee(id integer primary key, first_name varchar, last_name varchar)
-    """
+db = QSqlDatabase.addDatabase("QSQLITE")
+db.setDatabaseName("./employee.db")
+assert db.open()
 
-INSERT_EMPLOYEE_SQL = """
-    insert into employee(first_name, last_name)
-                values(?, ?)
-    """
+# INSERT VALUES
 
-def init_db():
-    def check(func, *args):
-        if not func(*args):
-            raise ValueError(func.__self__.lastError())
+q = QSqlQuery()
+assert q.prepare("INSERT INTO employee(first_name, last_name) VALUES(?, ?)")
 
-    db = QSqlDatabase.addDatabase("QSQLITE")
-    db.setDatabaseName(":memory:")
+q.addBindValue("Jean")
+q.addBindValue("Dupont")
+q.exec()
 
-    check(db.open)
+q.addBindValue("Paul")
+q.addBindValue("Dupond")
+q.exec()
 
-    q = QSqlQuery()
-    check(q.exec, EMPLOYEE_SQL)
-
-    check(q.prepare, INSERT_EMPLOYEE_SQL)
-    add_employee(q, "Dupont", "Paul")
-    add_employee(q, "Dupond", "Jean")
 
 #################################################
 
 app = QApplication(sys.argv)
-
-init_db()
 
 table_view = QTableView()
 
