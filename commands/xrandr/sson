@@ -1,6 +1,7 @@
 #!/bin/sh
 
-OUTPUT_DEV_LIST=$(xrandr | grep -e " connected (" | grep -v -e "^eDP" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+#OUTPUT_DEV_LIST=$(xrandr | grep -e " connected (" | grep -v -e "^eDP" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+OUTPUT_DEV_LIST=$(xrandr | grep -e " connected " | grep -v -e "^eDP" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
 
 # Get connected outputs
 for OUTPUT_DEV in ${OUTPUT_DEV_LIST}
