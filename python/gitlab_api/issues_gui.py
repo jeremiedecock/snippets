@@ -9,8 +9,9 @@
 
 import sys
 import sqlite3
-from PySide6 import QtCore, QtWidgets
+import webbrowser
 
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
 from PySide6.QtWidgets import QApplication, QWidget, QTableView, QLineEdit, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
@@ -153,6 +154,7 @@ def open_action_callback():
     for row_index in sorted(selected_row_list):
         web_url = model.index(row_index, 7).data()     # TODO
         print(web_url)
+        webbrowser.open(web_url)
 
 
 title_desc_filter_edit.textChanged.connect(filter_callback)
