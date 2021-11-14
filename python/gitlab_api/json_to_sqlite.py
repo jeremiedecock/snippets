@@ -71,19 +71,19 @@ cur.execute(sql_query_str)
 # FETCH JSON DATA ###########
 
 sql_insert_params = [
-    (
-        issue_dict["id"],
-        issue_dict["state"],
-        issue_dict["title"],
-        issue_dict["description"],
-        ",".join(issue_dict["labels"]),
-        issue_dict["updated_at"],
-        #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
-        issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
-        issue_dict["web_url"],
-        0,
-    ) for issue_dict in issue_list
-]
+        (
+            issue_dict["id"],
+            issue_dict["state"],
+            issue_dict["title"],
+            issue_dict["description"],
+            ",".join(issue_dict["labels"]),
+            issue_dict["updated_at"],
+            #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+            issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+            issue_dict["web_url"],
+            0,
+            ) for issue_dict in issue_list
+        ]
 
 # INSERT SQL DATA ###########
 
