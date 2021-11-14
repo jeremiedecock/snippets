@@ -1,0 +1,5 @@
+GITLAB_SECRET_TOKEN
+GITLAB_HOST
+*.json
+*.sqlite
+misc/
