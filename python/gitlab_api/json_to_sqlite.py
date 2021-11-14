@@ -5,13 +5,13 @@
 - [x] id
 - [x] title
 - [x] web_url
-- [ ] state
+- [x] state
 - [ ] description
 - [ ] labels
 - [ ] updated_at
 - [ ] milestone_id
-- [ ] type
-- [ ] issue_type   ?
+- [ ] type         ? non
+- [ ] issue_type   ? non
 - [ ] iid    ?
 - [ ] created_at
 - [ ] closed_at
@@ -55,10 +55,15 @@ except:
 # CREATE TABLE ##############
 
 sql_query_str = """CREATE TABLE {} (
-id       INTEGER,
-state    TEXT,
-title    TEXT,
-web_url  TEXT
+    id               INTEGER,
+    state            TEXT,
+    title            TEXT,
+    description      TEXT,
+    labels           TEXT,
+    updated_at       TEXT,
+    milestone_id     INTEGER,
+    web_url          TEXT,
+    upload_required  INTEGER
 )""".format(TABLE_NAME)
 
 cur.execute(sql_query_str)
@@ -70,13 +75,19 @@ sql_insert_params = [
         issue_dict["id"],
         issue_dict["state"],
         issue_dict["title"],
-        issue_dict["web_url"]
+        issue_dict["description"],
+        ",".join(issue_dict["labels"]),
+        issue_dict["updated_at"],
+        #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+        issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+        issue_dict["web_url"],
+        0,
     ) for issue_dict in issue_list
 ]
 
 # INSERT SQL DATA ###########
 
-cur.executemany("INSERT INTO {} VALUES (?, ?, ?, ?)".format(TABLE_NAME), sql_insert_params)
+cur.executemany("INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)".format(TABLE_NAME), sql_insert_params)
 con.commit()
 
 # PRINT DATA ################
