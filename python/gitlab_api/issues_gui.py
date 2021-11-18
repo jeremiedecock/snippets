@@ -13,7 +13,7 @@ import webbrowser
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
-from PySide6.QtWidgets import QApplication, QWidget, QTableView, QLineEdit, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
+from PySide6.QtWidgets import QApplication, QWidget, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 
@@ -38,6 +38,7 @@ window = QWidget()
 # Make widgets ##############
 
 title_desc_filter_edit = QLineEdit()
+title_desc_filter_edit.setPlaceholderText("Filter text (on title and description)")
 
 milestone_combobox = QComboBox()
 milestone_combobox.addItems(["*"] + list(MILESTONES_DICT.keys()))
@@ -63,19 +64,38 @@ ft_hbox.addWidget(ft_perf_cb)
 
 state_hbox = QVBoxLayout()
 
-table_view = QTableView()
+splitter = QSplitter(orientation=Qt.Vertical, parent=window)
 
-title_desc_filter_edit.setPlaceholderText("Filter text (on title and description)")
+table_view = QTableView(parent=splitter)
+
+# Splitter
+
+splitter.addWidget(table_view)
+
+# Mapped widgets
+
+description_widget = QPlainTextEdit(splitter)
+splitter.addWidget(description_widget)
+##set_mapped_widgets_enabled(False)
+#description_widget.setPlainText("")
+#description_widget.setPlaceholderText("")
+#description_widget.setDisabled(True)
 
 # Set the layout ############
 
 vbox = QVBoxLayout()
 
-vbox.addWidget(title_desc_filter_edit)
-vbox.addWidget(milestone_combobox)
-vbox.addWidget(state_combobox)
+filter_layout = QFormLayout()
+
+# Filter form
+
+filter_layout.addRow("Contains:", title_desc_filter_edit)
+filter_layout.addRow("State:", state_combobox)
+filter_layout.addRow("Milestone:", milestone_combobox)
+
+vbox.addLayout(filter_layout)
 vbox.addLayout(ft_hbox)
-vbox.addWidget(table_view)
+vbox.addWidget(splitter)
 
 window.setLayout(vbox)
 
@@ -90,20 +110,53 @@ model.setHeaderData(1, Qt.Horizontal, "State")
 model.setHeaderData(2, Qt.Horizontal, "Title")
 model.setHeaderData(3, Qt.Horizontal, "Description")
 model.setHeaderData(4, Qt.Horizontal, "Labels")
-model.setHeaderData(5, Qt.Horizontal, "Updated at")
-model.setHeaderData(6, Qt.Horizontal, "Milestone id")
-model.setHeaderData(7, Qt.Horizontal, "Web URL")
-model.setHeaderData(8, Qt.Horizontal, "Upload required")
+model.setHeaderData(5, Qt.Horizontal, "Created at")
+model.setHeaderData(6, Qt.Horizontal, "Updated at")
+model.setHeaderData(7, Qt.Horizontal, "Milestone id")
+model.setHeaderData(8, Qt.Horizontal, "Web URL")
+model.setHeaderData(9, Qt.Horizontal, "Upload required")
 
 table_view.setModel(model)
 table_view.setSortingEnabled(True)
 table_view.setSelectionBehavior(QAbstractItemView.SelectRows)    # Select the full row when a cell is selected (See http://doc.qt.io/qt-5/qabstractitemview.html#selectionBehavior-prop )
+table_view.setAlternatingRowColors(True)
+
+table_view.verticalHeader().setVisible(False)              # Hide the vertical header
+table_view.horizontalHeader().setStretchLastSection(True)  # http://doc.qt.io/qt-5/qheaderview.html#stretchLastSection-prop
 
 #table_view.hideColumn(0) # don't show the ID
 table_view.hideColumn(3) # don't show the ID
-table_view.hideColumn(6) # don't show the ID
 table_view.hideColumn(7) # don't show the ID
 table_view.hideColumn(8) # don't show the ID
+table_view.hideColumn(9) # don't show the ID
+
+table_view.setColumnWidth(model.fieldIndex("ID"), 50)
+table_view.setColumnWidth(model.fieldIndex("State"), 60)
+table_view.setColumnWidth(model.fieldIndex("Title"), 1150)
+table_view.setColumnWidth(model.fieldIndex("Labels"), 400)
+
+# SET QDATAWIDGETMAPPER ###########################
+
+mapper = QDataWidgetMapper()
+mapper.setModel(model)          # WARNING: do not use `self.table_source_model` here otherwise the index mapping will be wrong!
+mapper.addMapping(description_widget, model.fieldIndex("Description"))
+
+# https://doc.qt.io/qtforpython/examples/example_sql__books.html
+selection_model = table_view.selectionModel()
+selection_model.currentRowChanged.connect(mapper.setCurrentModelIndex)
+
+table_view.setCurrentIndex(model.index(0, 0))
+
+        #self.mapper.toFirst()                      # TODO: is it a good idea ?
+
+#table_view.selectionModel().selectionChanged.connect(self.update_selection)
+
+        # TODO: http://doc.qt.io/qt-5/qdatawidgetmapper.html#setCurrentModelIndex
+        #self.table_view.selectionModel().currentRowChanged.connect(self.mapper.setCurrentModelIndex())
+
+        # TODO: https://doc-snapshots.qt.io/qtforpython/PySide2/QtWidgets/QDataWidgetMapper.html#PySide2.QtWidgets.PySide2.QtWidgets.QDataWidgetMapper.setCurrentModelIndex
+        #connect(myTableView.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
+        #mapper, SLOT(setCurrentModelIndex(QModelIndex)))
 
 
 # Set LineEdit slot #########################
@@ -218,7 +271,8 @@ table_view.addAction(del_action)
 
 #############################
 
-window.show()
+#window.show()
+window.showMaximized()
 
 # The mainloop of the application. The event handling starts from this point.
 exit_code = app.exec()
