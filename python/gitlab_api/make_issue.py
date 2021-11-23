@@ -6,21 +6,13 @@
 # http://docs.python-requests.org/en/master/user/quickstart/
 #################################################################
 
-# https://docs.gitlab.com/ee/api/index.html#personalproject-access-tokens
+# https://docs.gitlab.com/ee/api/issues.html#new-issue
 
 # dict_keys(['id', 'iid', 'project_id', 'title', 'description', 'state', 'created_at', 'updated_at', 'closed_at', 'closed_by', 'labels', 'milestone', 'assignees', 'author', 'type', 'assignee', 'user_notes_count', 'merge_requests_count', 'upvotes', 'downvotes', 'due_date', 'confidential', 'discussion_locked', 'issue_type', 'web_url', 'time_stats', 'task_completion_status', 'blocking_issues_count', 'has_tasks', 'task_status', '_links', 'references', 'moved_to_id', 'service_desk_reply_to'])
 
 import requests
 import json
 import urllib
-
-# WRITE DATA ####################################################
-
-#data_str = "mem,host=host1 used_percent=70.0"
-#resp = requests.post(POST_URL, data=data_str, headers=HEADER_DICT)
-#
-#if resp.status_code != 204:
-#    print("Error:", resp.text)
 
 PROJECT_ID = 80
 

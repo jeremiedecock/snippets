@@ -85,6 +85,8 @@ def make_sqlite_database(issue_list):
         updated_at       TEXT,
         milestone_id     INTEGER,
         web_url          TEXT,
+        project_id       INTEGER,
+        iid              INTEGER,
         upload_required  INTEGER,
         PRIMARY KEY (id)
     )""".format(TABLE_NAME)
@@ -105,6 +107,8 @@ def make_sqlite_database(issue_list):
                 #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
                 issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
                 issue_dict["web_url"],
+                issue_dict["project_id"],
+                issue_dict["iid"],
                 0,
                 ) for issue_dict in issue_list
             ]

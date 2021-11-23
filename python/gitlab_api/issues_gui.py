@@ -7,13 +7,31 @@
 # - Ajouter un filtre "me" et un filtre "Meta" (sur les labels) + un filtre sur les numéros de sujets
 # - Couleur du background défini par le label, comme sur les slides : en cours = orange, fini = vert, etc.
 
+# TODO: REMPLACER PARTOUT LES NUMÉROS DE COLONNE ÉCRITS EN DURE PAR e.g. model.fieldIndex("description")
+#        id               INTEGER,
+#        state            TEXT,
+#        title            TEXT,
+#        description      TEXT,
+#        labels           TEXT,
+#        created_at       TEXT,
+#        updated_at       TEXT,
+#        milestone_id     INTEGER,
+#        web_url          TEXT,
+#        project_id       INTEGER,
+#        iid              INTEGER,
+#        upload_required  INTEGER,
+
+
 import sys
 import sqlite3
 import webbrowser
+import requests
+import json
+import urllib
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
-from PySide6.QtWidgets import QApplication, QWidget, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
+from PySide6.QtWidgets import QApplication, QWidget, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 
@@ -24,11 +42,65 @@ MILESTONES_DICT = {
     "C3 Sprint 4": 207
 }
 
+with open("GITLAB_SECRET_TOKEN", "r") as fd:
+    GITLAB_TOKEN = fd.read().strip()
+
+with open("GITLAB_HOST", "r") as fd:
+    GITLAB_HOST = fd.read().strip()
+
+HEADER_DICT = {"PRIVATE-TOKEN": GITLAB_TOKEN}
+
 # OPEN THE DATABASE #############################
 
 db = QSqlDatabase.addDatabase("QSQLITE")
 db.setDatabaseName("./issues.sqlite")
 assert db.open()
+
+
+def put_request(put_url):
+    resp = requests.put(put_url, headers=HEADER_DICT)
+
+    if resp.status_code != 200:
+        raise Exception("Error:" + resp.text)
+
+    json_dict = json.loads(resp.text)
+    return json_dict
+
+
+def push_button_callback():
+    selection_index_list = table_view.selectionModel().selectedRows()
+    selected_row_list = [source_index.row() for source_index in selection_index_list]
+
+    for row_index in sorted(selected_row_list, reverse=True):
+        # Remove rows one by one to allow the removql of non-contiguously selected rows (e.g. "rows 0, 2 and 3")
+        print(row_index, model.fieldIndex("description"))
+
+        iid_index = model.index(row_index, model.fieldIndex("iid"))          # GET INDEX
+        issue_iid = iid_index.data(Qt.EditRole)  
+
+        project_id_index = model.index(row_index, model.fieldIndex("project_id"))          # GET INDEX
+        project_id = project_id_index.data(Qt.EditRole)  
+
+        description_index = model.index(row_index, model.fieldIndex("description"))          # GET INDEX
+        description_str = description_index.data(Qt.EditRole)                                # GET DATA
+        description_str = urllib.parse.quote(description_str)
+
+        title_index = model.index(row_index, model.fieldIndex("title"))          # GET INDEX
+        title_str = title_index.data(Qt.EditRole)                                # GET DATA
+        title_str = urllib.parse.quote(title_str)
+
+        labels_index = model.index(row_index, model.fieldIndex("labels"))          # GET INDEX
+        labels_str = labels_index.data(Qt.EditRole)                                # GET DATA
+        labels_str = urllib.parse.quote(labels_str)
+
+        put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}?title={}&labels={}&description={}".format(project_id, issue_iid, title_str, labels_str, description_str)
+        #print(put_url)
+
+        json_dict = put_request(put_url)
+        print(json_dict)
+
+    #model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+    #model.select()
 
 #################################################
 
@@ -41,7 +113,7 @@ title_desc_filter_edit = QLineEdit()
 title_desc_filter_edit.setPlaceholderText("Filter text (on title and description)")
 
 milestone_combobox = QComboBox()
-milestone_combobox.addItems(["*"] + list(MILESTONES_DICT.keys()))
+milestone_combobox.addItems(["*", "Meta"] + list(MILESTONES_DICT.keys()))
 milestone_combobox.setCurrentText("*")
 
 state_combobox = QComboBox()
@@ -67,6 +139,9 @@ state_hbox = QVBoxLayout()
 splitter = QSplitter(orientation=Qt.Vertical, parent=window)
 
 table_view = QTableView(parent=splitter)
+
+push_button = QPushButton('Push', parent=window)
+push_button.clicked.connect(push_button_callback)
 
 # Splitter
 
@@ -96,6 +171,7 @@ filter_layout.addRow("Milestone:", milestone_combobox)
 vbox.addLayout(filter_layout)
 vbox.addLayout(ft_hbox)
 vbox.addWidget(splitter)
+vbox.addWidget(push_button)
 
 window.setLayout(vbox)
 
@@ -105,16 +181,18 @@ model = QSqlTableModel()
 model.setTable("issues")
 #model.setEditStrategy(QSqlTableModel.OnManualSubmit)
 model.select()
-model.setHeaderData(0, Qt.Horizontal, "ID")
-model.setHeaderData(1, Qt.Horizontal, "State")
-model.setHeaderData(2, Qt.Horizontal, "Title")
-model.setHeaderData(3, Qt.Horizontal, "Description")
-model.setHeaderData(4, Qt.Horizontal, "Labels")
-model.setHeaderData(5, Qt.Horizontal, "Created at")
-model.setHeaderData(6, Qt.Horizontal, "Updated at")
-model.setHeaderData(7, Qt.Horizontal, "Milestone id")
-model.setHeaderData(8, Qt.Horizontal, "Web URL")
-model.setHeaderData(9, Qt.Horizontal, "Upload required")
+model.setHeaderData(model.fieldIndex("id"), Qt.Horizontal, "ID")
+model.setHeaderData(model.fieldIndex("state"), Qt.Horizontal, "State")
+model.setHeaderData(model.fieldIndex("title"), Qt.Horizontal, "Title")
+#model.setHeaderData(model.fieldIndex("description"), Qt.Horizontal, "Description")
+model.setHeaderData(model.fieldIndex("labels"), Qt.Horizontal, "Labels")
+model.setHeaderData(model.fieldIndex("created_at"), Qt.Horizontal, "Created at")
+model.setHeaderData(model.fieldIndex("updated_at"), Qt.Horizontal, "Updated at")
+#model.setHeaderData(model.fieldIndex("milestone_id"), Qt.Horizontal, "Milestone id")
+#model.setHeaderData(model.fieldIndex("web_url"), Qt.Horizontal, "Web URL")
+#model.setHeaderData(model.fieldIndex("project_id"), Qt.Horizontal, "Project ID")
+model.setHeaderData(model.fieldIndex("iid"), Qt.Horizontal, "IID")
+model.setHeaderData(model.fieldIndex("upload_required"), Qt.Horizontal, "Up")
 
 table_view.setModel(model)
 table_view.setSortingEnabled(True)
@@ -124,16 +202,17 @@ table_view.setAlternatingRowColors(True)
 table_view.verticalHeader().setVisible(False)              # Hide the vertical header
 table_view.horizontalHeader().setStretchLastSection(True)  # http://doc.qt.io/qt-5/qheaderview.html#stretchLastSection-prop
 
-#table_view.hideColumn(0) # don't show the ID
-table_view.hideColumn(3) # don't show the ID
-table_view.hideColumn(7) # don't show the ID
-table_view.hideColumn(8) # don't show the ID
-table_view.hideColumn(9) # don't show the ID
+table_view.hideColumn(model.fieldIndex("description"))
+table_view.hideColumn(model.fieldIndex("milestone_id"))
+table_view.hideColumn(model.fieldIndex("web_url"))
+table_view.hideColumn(model.fieldIndex("project_id"))
 
-table_view.setColumnWidth(model.fieldIndex("ID"), 50)
-table_view.setColumnWidth(model.fieldIndex("State"), 60)
-table_view.setColumnWidth(model.fieldIndex("Title"), 1150)
-table_view.setColumnWidth(model.fieldIndex("Labels"), 400)
+table_view.setColumnWidth(model.fieldIndex("id"), 50)
+table_view.setColumnWidth(model.fieldIndex("state"), 60)
+table_view.setColumnWidth(model.fieldIndex("title"), 1090)
+table_view.setColumnWidth(model.fieldIndex("labels"), 400)
+table_view.setColumnWidth(model.fieldIndex("iid"), 35)
+table_view.setColumnWidth(model.fieldIndex("upload_required"), 25)
 
 # SET QDATAWIDGETMAPPER ###########################
 
@@ -172,7 +251,10 @@ def filter_callback():
     if title_desc_filter_str != '':
         global_filter_list.append("(title LIKE '{}' OR description LIKE '{}')".format('%' + title_desc_filter_str + '%', '%' + title_desc_filter_str + '%'))
     if milestone_filter_str != '*':
-        global_filter_list.append("milestone_id = {}".format(MILESTONES_DICT[milestone_filter_str]))
+        if milestone_filter_str == 'Meta':
+            global_filter_list.append("labels LIKE '%Meta%'")
+        else:
+            global_filter_list.append("milestone_id = {}".format(MILESTONES_DICT[milestone_filter_str]))
     if state_filter_str != '*':
         global_filter_list.append("state = '{}'".format(state_filter_str))
     if ft_ia_cb.isChecked():
@@ -205,7 +287,7 @@ def open_action_callback():
     selected_row_list = [source_index.row() for source_index in selection_index_list]
 
     for row_index in sorted(selected_row_list):
-        web_url = model.index(row_index, 7).data()     # TODO
+        web_url = model.index(row_index, model.fieldIndex("web_url")).data()     # TODO
         print(web_url)
         webbrowser.open(web_url)
 
@@ -233,10 +315,10 @@ def add_row_callback():
     # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
     row = 0
     model.insertRows(row, 1)
-    #model.setData(model.index(row, 0), 1013)
-    model.setData(model.index(row, 1), "n/a")
-    model.setData(model.index(row, 2), "n/a")
-    model.setData(model.index(row, 3), "n/a")
+    #model.setData(model.index(row, model.fieldIndex("id")), 1013)
+    model.setData(model.index(row, model.fieldIndex("state")), "opened")
+    model.setData(model.index(row, model.fieldIndex("title")), "n/a")
+    model.setData(model.index(row, model.fieldIndex("labels")), "n/a")
     model.submitAll()
     #model.select()
 
@@ -256,6 +338,10 @@ def remove_row_callback():
 
     model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
     model.select()
+
+
+
+
 
 # Add row action
 add_action = QAction(table_view)
