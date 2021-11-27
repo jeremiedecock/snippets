@@ -28,16 +28,17 @@ import webbrowser
 import requests
 import json
 import urllib
+import datetime
 import logging
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
-from PySide6.QtWidgets import QApplication, QWidget, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
+from PySide6.QtWidgets import QApplication, QWidget, QMessageBox, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 
-PROJECT_ID = 80
-CURRENT_MILESTONE_ID = 207
+PUSH_NUM_ROWS_ALERT_THRESHOLD = 1
+DEFAULT_PROJECT_ID = 80
 DEFAULT_LABELS = "FT::IA,W::Backlog"
 
 MILESTONES_DICT = {
@@ -46,6 +47,9 @@ MILESTONES_DICT = {
     "C3 Sprint 3": 206,
     "C3 Sprint 4": 207
 }
+
+CURRENT_MILESTONE_ID = 207
+
 
 with open("GITLAB_SECRET_TOKEN", "r") as fd:
     GITLAB_TOKEN = fd.read().strip()
@@ -57,6 +61,72 @@ HEADER_DICT = {
     "PRIVATE-TOKEN": GITLAB_TOKEN,
     "Content-Type": "application/json"
 }
+
+def str_to_datetime(datetime_str):
+    """e.g. : 2021-11-16T16:07:05.688Z (GITLAB FORMAT) -> 2021-11-16T16:07:05.688+00:00 (SQLITE FORMAT)"""
+    return datetime.datetime.fromisoformat(datetime_str.replace("Z", "+00:00"))
+
+def put_request(put_url, data_dict):
+    """
+    Update issues on GitLab.
+
+    Parameters
+    ----------
+    put_url : [type]
+        [description]
+    data_dict : [type]
+        [description]
+
+    Returns
+    -------
+    [type]
+        [description]
+
+    Raises
+    ------
+    Exception
+        [description]
+    """
+    # https://docs.gitlab.com/ee/api/#request-payload
+    resp = requests.put(put_url, json=data_dict, headers=HEADER_DICT)
+
+    if resp.status_code != 200:
+        raise Exception("Error:" + resp.text)
+
+    json_dict = json.loads(resp.text)
+    return json_dict
+
+
+def post_request(post_url, data_dict):
+    """
+    Post new issues on GitLab.
+
+    Parameters
+    ----------
+    post_url : [type]
+        [description]
+    data_dict : [type]
+        [description]
+
+    Returns
+    -------
+    [type]
+        [description]
+
+    Raises
+    ------
+    Exception
+        [description]
+    """
+    # https://docs.gitlab.com/ee/api/issues.html#new-issue
+    resp = requests.post(post_url, json=data_dict, headers=HEADER_DICT)
+
+    if resp.status_code != 201:
+        raise Exception("Error:" + resp.text)
+
+    json_dict = json.loads(resp.text)
+    return json_dict
+
 
 class Window(QtWidgets.QWidget):
     def __init__(self):
@@ -102,7 +172,7 @@ class Window(QtWidgets.QWidget):
         self.table_view = QTableView(parent=splitter)
 
         push_button = QPushButton('Push', parent=self)
-        push_button.clicked.connect(self.push_button_callback)
+        push_button.clicked.connect(self.push_updates_callback)
 
         # Splitter
 
@@ -110,12 +180,12 @@ class Window(QtWidgets.QWidget):
 
         # Mapped widgets
 
-        description_widget = QPlainTextEdit(splitter)
-        splitter.addWidget(description_widget)
+        self.description_widget = QPlainTextEdit(splitter)
+        splitter.addWidget(self.description_widget)
         ##set_mapped_widgets_enabled(False)
-        #description_widget.setPlainText("")
-        #description_widget.setPlaceholderText("")
-        #description_widget.setDisabled(True)
+        #self.description_widget.setPlainText("")
+        #self.description_widget.setPlaceholderText("")
+        #self.description_widget.setDisabled(True)
 
         # Set the layout ############
 
@@ -177,27 +247,25 @@ class Window(QtWidgets.QWidget):
 
         # SET QDATAWIDGETMAPPER ###########################
 
-        mapper = QDataWidgetMapper()
-        mapper.setModel(self.model)          # WARNING: do not use `self.table_source_self.model` here otherwise the index mapping will be wrong!
-        mapper.addMapping(description_widget, self.model.fieldIndex("Description"))
+        self.mapper = QDataWidgetMapper()
+        self.mapper.setModel(self.model)          # WARNING: do not use `self.table_source_self.model` here otherwise the index mapping will be wrong!
+        self.mapper.addMapping(self.description_widget, self.model.fieldIndex("description"))
 
         # https://doc.qt.io/qtforpython/examples/example_sql__books.html
         selection_model = self.table_view.selectionModel()
-        selection_model.currentRowChanged.connect(mapper.setCurrentModelIndex)
-
+        selection_model.currentRowChanged.connect(self.mapper.setCurrentModelIndex)
 
         self.table_view.setCurrentIndex(self.model.index(0, 0))
-
-                #self.mapper.toFirst()                      # TODO: is it a good idea ?
+        #self.self.mapper.toFirst()                      # TODO: is it a good idea ?
 
         #self.table_view.selectionModel().selectionChanged.connect(self.update_selection)
 
-                # TODO: http://doc.qt.io/qt-5/qdatawidgetmapper.html#setCurrentModelIndex
-                #self.self.table_view.selectionModel().currentRowChanged.connect(self.mapper.setCurrentModelIndex())
+        # TODO: http://doc.qt.io/qt-5/qdatawidgetmapper.html#setCurrentModelIndex
+        #self.self.table_view.selectionModel().currentRowChanged.connect(self.mapper.setCurrentModelIndex())
 
-                # TODO: https://doc-snapshots.qt.io/qtforpython/PySide2/QtWidgets/QDataWidgetMapper.html#PySide2.QtWidgets.PySide2.QtWidgets.QDataWidgetMapper.setCurrentModelIndex
-                #connect(myTableView.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
-                #mapper, SLOT(setCurrentModelIndex(QModelIndex)))
+        # TODO: https://doc-snapshots.qt.io/qtforpython/PySide2/QtWidgets/QDataWidgetMapper.html#PySide2.QtWidgets.PySide2.QtWidgets.QDataWidgetMapper.setCurrentModelIndex
+        #connect(myTableView.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
+        #mapper, SLOT(setCurrentModelIndex(QModelIndex)))
 
         self.title_desc_filter_edit.textChanged.connect(self.filter_callback)
         self.milestone_combobox.currentIndexChanged.connect(self.filter_callback)
@@ -221,7 +289,7 @@ class Window(QtWidgets.QWidget):
         push_action = QAction(self.table_view)
         push_action.setShortcut(Qt.CTRL | Qt.Key_S)
 
-        push_action.triggered.connect(self.push_button_callback)
+        push_action.triggered.connect(self.push_updates_callback)
         self.table_view.addAction(push_action)
 
         # Add row action
@@ -237,71 +305,84 @@ class Window(QtWidgets.QWidget):
         self.table_view.addAction(del_action)
 
 
-    #def put_request(put_url):
-    #    resp = requests.put(put_url, headers=HEADER_DICT)
-    #
-    #    if resp.status_code != 200:
-    #        raise Exception("Error:" + resp.text)
-    #
-    #    json_dict = json.loads(resp.text)
-    #    return json_dict
-
-
-    def put_request(self, put_url, data_dict):
-        # https://docs.gitlab.com/ee/api/#request-payload
-        resp = requests.put(put_url, json=data_dict, headers=HEADER_DICT)
-
-        if resp.status_code != 200:
-            raise Exception("Error:" + resp.text)
-
-        json_dict = json.loads(resp.text)
-        return json_dict
-
-
-    def push_button_callback(self):
+    def push_updates_callback(self):
         selection_index_list = self.table_view.selectionModel().selectedRows()
         selected_row_list = [source_index.row() for source_index in selection_index_list]
 
+        if len(selected_row_list) > PUSH_NUM_ROWS_ALERT_THRESHOLD:
+            # Add a dialog box to confirm the operation (and show the number of rows concerned)
+            title = "{} issues will be updated.".format(len(selected_row_list))
+            msg = "Do you want to proceed anyway?"
+
+            msgBox = QMessageBox()
+            msgBox.setText(title)
+            msgBox.setInformativeText(msg)
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            msgBox.setDefaultButton(QMessageBox.Cancel)
+            reply = msgBox.exec()
+
+            if reply == QMessageBox.Cancel:
+                return
+
         for row_index in sorted(selected_row_list, reverse=True):
-            # Remove rows one by one to allow the removql of non-contiguously selected rows (e.g. "rows 0, 2 and 3")
-            print(row_index, self.model.fieldIndex("description"))
+            # Remove rows one by one to allow the removal of non-contiguously selected rows (e.g. "rows 0, 2 and 3")
+            
+            #print(self.model.index(row_index, self.model.fieldIndex("id")).data(Qt.EditRole), self.model.record(row_index).value("id"))
+            record = self.model.record(row_index)
 
-            iid_index = self.model.index(row_index, self.model.fieldIndex("iid"))          # GET INDEX
-            issue_iid = iid_index.data(Qt.EditRole)  
-
-            project_id_index = self.model.index(row_index, self.model.fieldIndex("project_id"))          # GET INDEX
-            project_id = project_id_index.data(Qt.EditRole)  
-
-            description_index = self.model.index(row_index, self.model.fieldIndex("description"))          # GET INDEX
-            description_str = description_index.data(Qt.EditRole)                                # GET DATA
-            #description_str = urllib.parse.quote(description_str)
-
-            title_index = self.model.index(row_index, self.model.fieldIndex("title"))          # GET INDEX
-            title_str = title_index.data(Qt.EditRole)                                # GET DATA
-            #title_str = urllib.parse.quote(title_str)
-
-            labels_index = self.model.index(row_index, self.model.fieldIndex("labels"))          # GET INDEX
-            labels_str = labels_index.data(Qt.EditRole)                                # GET DATA
-            #labels_str = urllib.parse.quote(labels_str)
-
-            #put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}?title={}&labels={}&description={}".format(project_id, issue_iid, title_str, labels_str, description_str)
-            put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}".format(project_id, issue_iid)
-            #print(put_url)
+            issue_id = record.value("id")
+            description_str = record.value("description")
+            title_str = record.value("title")
+            labels_str = record.value("labels")
+            state_str = record.value("state")
+            milestone_id = record.value("milestone_id")
 
             data_dict = {
                 "title": title_str,
-                "description": description_str
+                "description": description_str,
+                "labels": labels_str,
+                "state": state_str,
+                "milestone_id": milestone_id
             }
 
-            json_dict = self.put_request(put_url, data_dict)
-            print(json_dict)
+            if issue_id >= 0:   # UPDATE AN EXISTING ISSUE ON THE REMOTE DATABASE ('PUT' REQUEST)
+                issue_iid = record.value("iid")
+                project_id = record.value("project_id")
 
-        #self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+                put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}".format(project_id, issue_iid)
+                json_dict = put_request(put_url, data_dict)
+                print("PUT:", json_dict)
+            else:               # CREATE NEW ISSUE ON THE REMOTE DATABASE ('POST' REQUEST)
+                post_url = GITLAB_HOST + "/api/v4/projects/{}/issues".format(DEFAULT_PROJECT_ID)
+                json_dict = post_request(post_url, data_dict)
+                print("POST:", json_dict)
+
+                # UPDATE LOCAL DB WITH THE API RESPONSE
+                issue_actual_id = json_dict["id"]
+                issue_created_at = json_dict["created_at"]
+                issue_updated_at = json_dict["updated_at"]
+                issue_web_url = json_dict["web_url"]
+                issue_iid = json_dict["iid"]
+
+                #record.setValue("id", issue_actual_id)
+                #record.setValue("created_at", issue_created_at)
+                #record.setValue("updated_at", issue_updated_at)
+                #record.setValue("web_url", issue_web_url)
+                #record.setValue("iid", issue_iid)
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("id")), issue_actual_id)
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("created_at")), issue_created_at)
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("updated_at")), issue_updated_at)
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("web_url")), issue_web_url)
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("iid")), issue_iid)
+
+            # UPDATE THE "upload_required" flag
+            #record.setValue("upload_required", 0)
+            self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 0)
+
+            #self.model.setRecord(row_index, record)    # TODO ???!!!
+
+        self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
         #self.model.select()
-
-
-
-    # Set LineEdit slot #########################
 
     def filter_callback(self):
         title_desc_filter_str = self.title_desc_filter_edit.text()
@@ -342,6 +423,9 @@ class Window(QtWidgets.QWidget):
 
 
     def open_action_callback(self):
+        """
+        Display selected issues on GitLab with the default web browser. 
+        """
         # See https://doc.qt.io/qt-5/qsqltablemodel.html#removeRows
         # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
         # See http://doc.qt.io/qt-5/model-view-programming.html#handling-selections-in-item-views
@@ -354,8 +438,6 @@ class Window(QtWidgets.QWidget):
             print(web_url)
             webbrowser.open(web_url)
 
-
-    #############################
 
     def add_row_callback(self):
         # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
@@ -386,7 +468,7 @@ class Window(QtWidgets.QWidget):
         new_record.setValue("state", "opened")
         new_record.setValue("labels", DEFAULT_LABELS)
         new_record.setValue("milestone_id", CURRENT_MILESTONE_ID)
-        new_record.setValue("project_id", PROJECT_ID)
+        new_record.setValue("project_id", DEFAULT_PROJECT_ID)
         new_record.setValue("upload_required", 1)
 
         if not self.model.insertRecord(-1, new_record):
