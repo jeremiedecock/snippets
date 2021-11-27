@@ -28,12 +28,17 @@ import webbrowser
 import requests
 import json
 import urllib
+import logging
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
 from PySide6.QtWidgets import QApplication, QWidget, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
+
+PROJECT_ID = 80
+CURRENT_MILESTONE_ID = 207
+DEFAULT_LABELS = "FT::IA,W::Backlog"
 
 MILESTONES_DICT = {
     "C3 Sprint 1": 204,
@@ -48,7 +53,10 @@ with open("GITLAB_SECRET_TOKEN", "r") as fd:
 with open("GITLAB_HOST", "r") as fd:
     GITLAB_HOST = fd.read().strip()
 
-HEADER_DICT = {"PRIVATE-TOKEN": GITLAB_TOKEN}
+HEADER_DICT = {
+    "PRIVATE-TOKEN": GITLAB_TOKEN,
+    "Content-Type": "application/json"
+}
 
 # OPEN THE DATABASE #############################
 
@@ -57,8 +65,19 @@ db.setDatabaseName("./issues.sqlite")
 assert db.open()
 
 
-def put_request(put_url):
-    resp = requests.put(put_url, headers=HEADER_DICT)
+#def put_request(put_url):
+#    resp = requests.put(put_url, headers=HEADER_DICT)
+#
+#    if resp.status_code != 200:
+#        raise Exception("Error:" + resp.text)
+#
+#    json_dict = json.loads(resp.text)
+#    return json_dict
+
+
+def put_request(put_url, data_dict):
+    # https://docs.gitlab.com/ee/api/#request-payload
+    resp = requests.put(put_url, json=data_dict, headers=HEADER_DICT)
 
     if resp.status_code != 200:
         raise Exception("Error:" + resp.text)
@@ -83,20 +102,26 @@ def push_button_callback():
 
         description_index = model.index(row_index, model.fieldIndex("description"))          # GET INDEX
         description_str = description_index.data(Qt.EditRole)                                # GET DATA
-        description_str = urllib.parse.quote(description_str)
+        #description_str = urllib.parse.quote(description_str)
 
         title_index = model.index(row_index, model.fieldIndex("title"))          # GET INDEX
         title_str = title_index.data(Qt.EditRole)                                # GET DATA
-        title_str = urllib.parse.quote(title_str)
+        #title_str = urllib.parse.quote(title_str)
 
         labels_index = model.index(row_index, model.fieldIndex("labels"))          # GET INDEX
         labels_str = labels_index.data(Qt.EditRole)                                # GET DATA
-        labels_str = urllib.parse.quote(labels_str)
+        #labels_str = urllib.parse.quote(labels_str)
 
-        put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}?title={}&labels={}&description={}".format(project_id, issue_iid, title_str, labels_str, description_str)
+        #put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}?title={}&labels={}&description={}".format(project_id, issue_iid, title_str, labels_str, description_str)
+        put_url = GITLAB_HOST + "/api/v4/projects/{}/issues/{}".format(project_id, issue_iid)
         #print(put_url)
 
-        json_dict = put_request(put_url)
+        data_dict = {
+            "title": title_str,
+            "description": description_str
+        }
+
+        json_dict = put_request(put_url, data_dict)
         print(json_dict)
 
     #model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
@@ -252,21 +277,21 @@ def filter_callback():
         global_filter_list.append("(title LIKE '{}' OR description LIKE '{}')".format('%' + title_desc_filter_str + '%', '%' + title_desc_filter_str + '%'))
     if milestone_filter_str != '*':
         if milestone_filter_str == 'Meta':
-            global_filter_list.append("labels LIKE '%Meta%'")
+            global_filter_list.append(r"labels LIKE '%Meta%'")
         else:
             global_filter_list.append("milestone_id = {}".format(MILESTONES_DICT[milestone_filter_str]))
     if state_filter_str != '*':
         global_filter_list.append("state = '{}'".format(state_filter_str))
     if ft_ia_cb.isChecked():
-        ft_filter_list.append("labels LIKE '%FT::IA%'")
+        ft_filter_list.append(r"labels LIKE '%FT::IA%'")
     if ft_data_cb.isChecked():
-        ft_filter_list.append("labels LIKE '%FT::Data%'")
+        ft_filter_list.append(r"labels LIKE '%FT::Data%'")
     if ft_ops_cb.isChecked():
-        ft_filter_list.append("labels LIKE '%FT::Ops%'")
+        ft_filter_list.append(r"labels LIKE '%FT::Ops%'")
     if ft_scale_cb.isChecked():
-        ft_filter_list.append("labels LIKE '%FT::Scale%'")
+        ft_filter_list.append(r"labels LIKE '%FT::Scale%'")
     if ft_perf_cb.isChecked():
-        ft_filter_list.append("labels LIKE '%FT::Perf%'")
+        ft_filter_list.append(r"labels LIKE '%FT::Perf%'")
 
     if len(ft_filter_list) > 0:
         ft_filter_str = " OR ".join(ft_filter_list)
@@ -309,20 +334,75 @@ open_action.setShortcut(Qt.CTRL | Qt.Key_Space)
 open_action.triggered.connect(open_action_callback)
 table_view.addAction(open_action)
 
+# Push action
+
+push_action = QAction(table_view)
+push_action.setShortcut(Qt.CTRL | Qt.Key_S)
+
+push_action.triggered.connect(push_button_callback)
+table_view.addAction(push_action)
+
+
 #############################
 
 def add_row_callback():
     # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
-    row = 0
-    model.insertRows(row, 1)
-    #model.setData(model.index(row, model.fieldIndex("id")), 1013)
-    model.setData(model.index(row, model.fieldIndex("state")), "opened")
-    model.setData(model.index(row, model.fieldIndex("title")), "n/a")
-    model.setData(model.index(row, model.fieldIndex("labels")), "n/a")
-    model.submitAll()
+
+    #db = model.database()   # OK ! (but useless here...)
+    #query = model.query()   # OK ???
+    query = QSqlQuery()
+    query.exec("SELECT MIN(id) FROM issues")
+    query.next()
+    min_id = query.value(0)
+
+    new_id = min_id - 1 if min_id < 0 else -1
+    print(min_id, new_id)
+
+    #row_index = 0
+    #model.insertRows(row_index, 1)
+    #model.setData(model.index(row_index, model.fieldIndex("id")), new_id)
+    #model.setData(model.index(row_index, model.fieldIndex("state")), "opened")
+    #model.setData(model.index(row_index, model.fieldIndex("labels")), DEFAULT_LABELS)
+    #model.setData(model.index(row_index, model.fieldIndex("milestone_id")), CURRENT_MILESTONE_ID)
+    #model.setData(model.index(row_index, model.fieldIndex("project_id")), PROJECT_ID)
+    #model.setData(model.index(row_index, model.fieldIndex("upload_required")), 1)
+    #model.submitAll()
     #model.select()
 
+    new_record = model.record()
+    new_record.setValue("id", new_id)
+    new_record.setValue("state", "opened")
+    new_record.setValue("labels", DEFAULT_LABELS)
+    new_record.setValue("milestone_id", CURRENT_MILESTONE_ID)
+    new_record.setValue("project_id", PROJECT_ID)
+    new_record.setValue("upload_required", 1)
+
+    if not model.insertRecord(-1, new_record):
+        logging.error("Failed to create new issue: {model.lastError().text()}")
+        return
+
+    model.submitAll()
+    model.select()
+
+#        id               INTEGER,
+#        state            TEXT,
+#        title            TEXT,
+#        description      TEXT,
+#        labels           TEXT,
+#        created_at       TEXT,
+#        updated_at       TEXT,
+#        milestone_id     INTEGER,
+#        web_url          TEXT,
+#        project_id       INTEGER,
+#        iid              INTEGER,
+#        upload_required  INTEGER,
+
 def remove_row_callback():
+    """
+    This callback remove selected rows from the LOCAL DATABASE ONLY!
+    Locally removed rows won't be removed from the remote GitLab database
+    (on purpose for safety reasons to avoid disastrous accidental actions).
+    """
     # See https://doc.qt.io/qt-5/qsqltablemodel.html#removeRows
     # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
     # See http://doc.qt.io/qt-5/model-view-programming.html#handling-selections-in-item-views
