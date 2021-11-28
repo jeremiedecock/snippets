@@ -44,11 +44,12 @@ DEFAULT_LABELS = "FT::IA,W::Backlog"
 MILESTONES_DICT = {
     "C3 Sprint 1": 204,
     "C3 Sprint 2": 205,
-    "C3 Sprint 3": 206,
-    "C3 Sprint 4": 207
+    "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)": 206,
+    "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)": 207,
+    "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)": 209
 }
 
-CURRENT_MILESTONE_ID = 207
+CURRENT_MILESTONE_ID = 209
 
 
 with open("GITLAB_SECRET_TOKEN", "r") as fd:
@@ -128,17 +129,47 @@ def post_request(post_url, data_dict):
     return json_dict
 
 
+class IssuesTableModel(QSqlTableModel):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def flags(self, index):
+        """Returns the item flags for the given `index`.
+
+        See Also
+        --------
+        - http://doc.qt.io/qt-5/qabstractitemmodel.html#flags
+        - http://doc.qt.io/qt-5/qt.html#ItemFlag-enum
+
+        Parameters
+        ----------
+        index : QModelIndex
+            TODO
+
+        Returns
+        -------
+        ItemFlags
+            The item flags for the given `index`.
+        """
+        if index.column() in (self.fieldIndex("state"), self.fieldIndex("title"), self.fieldIndex("description"), self.fieldIndex("labels")):
+            return Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
+        else:
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+
+
 class Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        # OPEN THE DATABASE #############################
+        # OPEN THE DATABASE ###############################
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("./issues.sqlite")
         assert db.open()
 
-        # Make widgets ##############
+        # MAKE WIDGETS ####################################
+
+        # Selection widgets
 
         self.title_desc_filter_edit = QLineEdit()
         self.title_desc_filter_edit.setPlaceholderText("Filter text (on title and description)")
@@ -149,7 +180,7 @@ class Window(QtWidgets.QWidget):
 
         self.state_combobox = QComboBox()
         self.state_combobox.addItems(["*", "opened", "closed"])
-        self.state_combobox.setCurrentText("*")
+        self.state_combobox.setCurrentText("opened")
 
         ft_hbox = QHBoxLayout()
 
@@ -165,7 +196,7 @@ class Window(QtWidgets.QWidget):
         ft_hbox.addWidget(self.ft_scale_cb)
         ft_hbox.addWidget(self.ft_perf_cb)
 
-        state_hbox = QVBoxLayout()
+        # Splitter
 
         splitter = QSplitter(orientation=Qt.Vertical, parent=self)
 
@@ -174,11 +205,9 @@ class Window(QtWidgets.QWidget):
         push_button = QPushButton('Push', parent=self)
         push_button.clicked.connect(self.push_updates_callback)
 
-        # Splitter
-
         splitter.addWidget(self.table_view)
 
-        # Mapped widgets
+        # MAPPED WIDGETS ##################################
 
         self.description_widget = QPlainTextEdit(splitter)
         splitter.addWidget(self.description_widget)
@@ -187,13 +216,10 @@ class Window(QtWidgets.QWidget):
         #self.description_widget.setPlaceholderText("")
         #self.description_widget.setDisabled(True)
 
-        # Set the layout ############
+        # SET THE LAYOUT ##################################
 
         vbox = QVBoxLayout()
-
         filter_layout = QFormLayout()
-
-        # Filter form
 
         filter_layout.addRow("Contains:", self.title_desc_filter_edit)
         filter_layout.addRow("State:", self.state_combobox)
@@ -208,7 +234,7 @@ class Window(QtWidgets.QWidget):
 
         #############################
 
-        self.model = QSqlTableModel()
+        self.model = IssuesTableModel()
         self.model.setTable("issues")
         #self.model.setEditStrategy(QSqlTableModel.OnManualSubmit)
         self.model.select()
@@ -267,6 +293,9 @@ class Window(QtWidgets.QWidget):
         #connect(myTableView.selectionModel(), SIGNAL("currentRowChanged(QModelIndex,QModelIndex)"),
         #mapper, SLOT(setCurrentModelIndex(QModelIndex)))
 
+        # CONNECT CALLBACKS ###############################
+
+        # self.model.dataChanged.connect(self.data_changed_callback)
         self.title_desc_filter_edit.textChanged.connect(self.filter_callback)
         self.milestone_combobox.currentIndexChanged.connect(self.filter_callback)
         self.state_combobox.currentIndexChanged.connect(self.filter_callback)
@@ -276,8 +305,9 @@ class Window(QtWidgets.QWidget):
         self.ft_scale_cb.stateChanged.connect(self.filter_callback)
         self.ft_perf_cb.stateChanged.connect(self.filter_callback)
 
-        # Open web page action
+        # DEFINE ACTIONS AND SHORTCUT KEYS ################
 
+        # Open web page action
         open_action = QAction(self.table_view)
         open_action.setShortcut(Qt.CTRL | Qt.Key_Space)
 
@@ -285,7 +315,6 @@ class Window(QtWidgets.QWidget):
         self.table_view.addAction(open_action)
 
         # Push action
-
         push_action = QAction(self.table_view)
         push_action.setShortcut(Qt.CTRL | Qt.Key_S)
 
@@ -305,13 +334,24 @@ class Window(QtWidgets.QWidget):
         self.table_view.addAction(del_action)
 
 
+    # def data_changed_callback(self, topLeft, bottomRight):
+    #     # TODO:
+    #     # - empecher les appels en boucle causé par le changement de la colonne "update_required"
+    #     # - ce callback ne doit être executé que si le changement vient de la vue (le TableView), pas du backend (i.e. GitLab)
+    #     # => il faut probablement plutôt utiliser le Delegate pour ça...
+    #     print("CHANGED:", topLeft, bottomRight)
+    #     row_index = topLeft.row()   # TODO: DIRTY WORKAROUND
+    #     self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
+    #     self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+
+
     def push_updates_callback(self):
         selection_index_list = self.table_view.selectionModel().selectedRows()
         selected_row_list = [source_index.row() for source_index in selection_index_list]
 
         if len(selected_row_list) > PUSH_NUM_ROWS_ALERT_THRESHOLD:
             # Add a dialog box to confirm the operation (and show the number of rows concerned)
-            title = "{} issues will be updated.".format(len(selected_row_list))
+            title = "{} issues will be updated on GitLab.".format(len(selected_row_list))
             msg = "Do you want to proceed anyway?"
 
             msgBox = QMessageBox()
@@ -379,10 +419,11 @@ class Window(QtWidgets.QWidget):
             #record.setValue("upload_required", 0)
             self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 0)
 
-            #self.model.setRecord(row_index, record)    # TODO ???!!!
+            #self.model.setRecord(row_index, record)    # TODO: it doesn't work ???!!!
 
         self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
         #self.model.select()
+
 
     def filter_callback(self):
         title_desc_filter_str = self.title_desc_filter_edit.text()
