@@ -33,7 +33,7 @@ import logging
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
-from PySide6.QtWidgets import QApplication, QWidget, QMessageBox, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QSizePolicy, QLabel, QMessageBox, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 
@@ -47,6 +47,14 @@ MILESTONES_DICT = {
     "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)": 206,
     "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)": 207,
     "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)": 209
+}
+
+MILESTONES_DICT2 = {     # Workaround
+    "C3 Sprint 1": "C3 Sprint 1",
+    "C3 Sprint 2": "C3 Sprint 2",
+    "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)": "C3 Sprint 3",
+    "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)": "C3 Sprint 4 - Current",
+    "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)": "C3 Sprint 5 - Next"
 }
 
 CURRENT_MILESTONE_ID = 209
@@ -66,6 +74,34 @@ HEADER_DICT = {
 def str_to_datetime(datetime_str):
     """e.g. : 2021-11-16T16:07:05.688Z (GITLAB FORMAT) -> 2021-11-16T16:07:05.688+00:00 (SQLITE FORMAT)"""
     return datetime.datetime.fromisoformat(datetime_str.replace("Z", "+00:00"))
+
+
+def get_request(get_url):
+    resp = requests.get(get_url, headers=HEADER_DICT)
+
+    json_list = json.loads(resp.text)
+    if resp.status_code != 200:
+        raise Exception("Error:" + resp.text)
+
+    return json_list, resp
+
+
+def fetch_issues(update_after=None):
+    issue_list = []
+
+    params_str = "updated_after={},".format(update_after) if update_after is not None else ""
+
+    json_list, resp = get_request(GITLAB_HOST + "/api/v4/issues?{}per_page=100&page=1&scope=all".format(params_str))
+    num_pages = int(resp.headers['X-Total-Pages'])
+
+    for page in range(2, num_pages+1):
+        print("page {}/{}".format(page, num_pages))
+        issue_list.extend(json_list)
+        next_page = GITLAB_HOST + "/api/v4/issues?{}per_page=100&page={}&scope=all".format(params_str, page)
+        json_list, resp = get_request(next_page)
+
+    return issue_list
+
 
 def put_request(put_url, data_dict):
     """
@@ -151,63 +187,144 @@ class IssuesTableModel(QSqlTableModel):
         ItemFlags
             The item flags for the given `index`.
         """
-        if index.column() in (self.fieldIndex("state"), self.fieldIndex("title"), self.fieldIndex("description"), self.fieldIndex("labels")):
+        if index.column() in (self.fieldIndex("state"), self.fieldIndex("title"), self.fieldIndex("description"), self.fieldIndex("labels"), self.fieldIndex("milestone_id"), self.fieldIndex("upload_required")):
             return Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
         else:
             return Qt.ItemIsSelectable | Qt.ItemIsEnabled
 
 
-class Window(QtWidgets.QWidget):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.setWindowTitle('GitLab Board Mg')
+        self.statusBar().showMessage("Ready", 2000)
+
+        # Make widgets ####################################
+
+        self.tabs = QTabWidget(parent=self)
+        self.setCentralWidget(self.tabs)
+
+        # Add tabs
+        self.issues_tab = IssuesTab(parent=self.tabs)
+        self.tabs.addTab(self.issues_tab, "Issues")
+
+        # SHOW ############################################
+
+        self.showMaximized()
+
+class IssuesTab(QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
+
+        self.tabs = parent
+        self.main_window = parent.parentWidget()
+
         # OPEN THE DATABASE ###############################
 
-        db = QSqlDatabase.addDatabase("QSQLITE")
-        db.setDatabaseName("./issues.sqlite")
-        assert db.open()
+        self.db = QSqlDatabase.addDatabase("QSQLITE")
+        self.db.setDatabaseName("./issues.sqlite")
+        assert self.db.open()
 
         # MAKE WIDGETS ####################################
 
-        # Selection widgets
+        filter_hbox = QHBoxLayout()
+        batch_processing_hbox = QHBoxLayout()
+
+        # Filters widgets #############
+
+        title_desc_filter_label = QLabel("Contains:", self)
 
         self.title_desc_filter_edit = QLineEdit()
         self.title_desc_filter_edit.setPlaceholderText("Filter text (on title and description)")
 
-        self.milestone_combobox = QComboBox()
-        self.milestone_combobox.addItems(["*", "Meta"] + list(MILESTONES_DICT.keys()))
-        self.milestone_combobox.setCurrentText("*")
+        state_filter_label = QLabel("State:", self)
 
-        self.state_combobox = QComboBox()
-        self.state_combobox.addItems(["*", "opened", "closed"])
-        self.state_combobox.setCurrentText("opened")
+        self.state_filter_combobox = QComboBox()
+        self.state_filter_combobox.addItems(["*", "opened", "closed"])
 
-        ft_hbox = QHBoxLayout()
+        milestone_filter_label = QLabel("Milestone:", self)
 
-        self.ft_ia_cb = QCheckBox('FT IA')
-        self.ft_data_cb = QCheckBox('FT Data')
-        self.ft_ops_cb = QCheckBox('FT Ops')
-        self.ft_scale_cb = QCheckBox('FT Scale')
-        self.ft_perf_cb = QCheckBox('FT Perf')
+        self.milestone_filter_combobox = QComboBox()
+        self.milestone_filter_combobox.addItems(["*", "Meta"] + list(MILESTONES_DICT.keys()))
 
-        ft_hbox.addWidget(self.ft_ia_cb)
-        ft_hbox.addWidget(self.ft_data_cb)
-        ft_hbox.addWidget(self.ft_ops_cb)
-        ft_hbox.addWidget(self.ft_scale_cb)
-        ft_hbox.addWidget(self.ft_perf_cb)
+        ft_filter_label = QLabel("FT:", self)
 
-        # Splitter
+        self.ft_filter_combobox = QComboBox()
+        self.ft_filter_combobox.addItems(["*", "FT IA", "FT Data", "FT Ops", "FT Scale", "FT Perf"])
+
+        open_board_button = QPushButton('Open', parent=self)
+        open_board_button.clicked.connect(self.open_board_action_callback)
+
+        filter_hbox.addWidget(title_desc_filter_label)
+        filter_hbox.addWidget(self.title_desc_filter_edit)
+        filter_hbox.addWidget(state_filter_label)
+        filter_hbox.addWidget(self.state_filter_combobox)
+        filter_hbox.addWidget(milestone_filter_label)
+        filter_hbox.addWidget(self.milestone_filter_combobox)
+        filter_hbox.addWidget(ft_filter_label)
+        filter_hbox.addWidget(self.ft_filter_combobox)
+        filter_hbox.addWidget(open_board_button)
+
+        # Batch processing widgets ####
+
+        state_bp_label = QLabel("State:", self)
+        #state_bp_label.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        state_bp_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.state_bp_combobox = QComboBox()
+        self.state_bp_combobox.addItems(["", "opened", "closed"])
+
+        milestone_bp_label = QLabel("Milestone:", self)
+        milestone_bp_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.milestone_bp_combobox = QComboBox()
+        self.milestone_bp_combobox.addItems([""] + list(MILESTONES_DICT.keys()))
+
+        board_list_bp_label = QLabel("Board list:", self)
+        board_list_bp_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.board_list_bp_combobox = QComboBox()
+        self.board_list_bp_combobox.addItems(["", "Longue durée", "Backlog", "En cours/dev", "Bloqué", "Staging/Test", "Prodable", "Déployée/Fini"])  # TODO
+
+        weight_bp_label = QLabel("Weight:", self)
+        weight_bp_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.weight_bp_combobox = QComboBox()
+        self.weight_bp_combobox.addItems(["", "opened", "closed"])
+
+        assignee_bp_label = QLabel("Assignee:", self)
+        assignee_bp_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.assignee_bp_combobox = QComboBox()
+        self.assignee_bp_combobox.addItems(["", "Charbel", "Cécile", "Cyril", "Guillaume", "Jérémie", "Marc-Arthur", "Nicolas", "Pierre"])  # TODO
+
+        bp_button = QPushButton('Batch Processing', parent=self)
+        bp_button.clicked.connect(self.batch_processing_button_callback)
+
+        batch_processing_hbox.addWidget(state_bp_label)
+        batch_processing_hbox.addWidget(self.state_bp_combobox)
+
+        batch_processing_hbox.addWidget(milestone_bp_label)
+        batch_processing_hbox.addWidget(self.milestone_bp_combobox)
+
+        batch_processing_hbox.addWidget(board_list_bp_label)
+        batch_processing_hbox.addWidget(self.board_list_bp_combobox)
+
+        batch_processing_hbox.addWidget(weight_bp_label)
+        batch_processing_hbox.addWidget(self.weight_bp_combobox)
+
+        batch_processing_hbox.addWidget(assignee_bp_label)
+        batch_processing_hbox.addWidget(self.assignee_bp_combobox)
+
+        batch_processing_hbox.addWidget(bp_button)
+
+        # Splitter ####################
 
         splitter = QSplitter(orientation=Qt.Vertical, parent=self)
-
         self.table_view = QTableView(parent=splitter)
-
-        push_button = QPushButton('Push', parent=self)
-        push_button.clicked.connect(self.push_updates_callback)
-
         splitter.addWidget(self.table_view)
-
-        # MAPPED WIDGETS ##################################
 
         self.description_widget = QPlainTextEdit(splitter)
         splitter.addWidget(self.description_widget)
@@ -216,19 +333,31 @@ class Window(QtWidgets.QWidget):
         #self.description_widget.setPlaceholderText("")
         #self.description_widget.setDisabled(True)
 
+        # Sync widget #################
+
+        sync_hbox = QHBoxLayout()
+
+        init_db_button = QPushButton('Init', parent=self)
+        init_db_button.clicked.connect(self.init_db_callback)
+
+        pull_button = QPushButton('Pull', parent=self)
+        pull_button.clicked.connect(self.pull_updates_callback)
+
+        push_button = QPushButton('Push', parent=self)
+        push_button.clicked.connect(self.push_updates_callback)
+
+        sync_hbox.addWidget(init_db_button)
+        sync_hbox.addWidget(pull_button)
+        sync_hbox.addWidget(push_button)
+
         # SET THE LAYOUT ##################################
 
         vbox = QVBoxLayout()
-        filter_layout = QFormLayout()
 
-        filter_layout.addRow("Contains:", self.title_desc_filter_edit)
-        filter_layout.addRow("State:", self.state_combobox)
-        filter_layout.addRow("Milestone:", self.milestone_combobox)
-
-        vbox.addLayout(filter_layout)
-        vbox.addLayout(ft_hbox)
+        vbox.addLayout(filter_hbox)
+        vbox.addLayout(batch_processing_hbox)
         vbox.addWidget(splitter)
-        vbox.addWidget(push_button)
+        vbox.addLayout(sync_hbox)
 
         self.setLayout(vbox)
 
@@ -295,24 +424,27 @@ class Window(QtWidgets.QWidget):
 
         # CONNECT CALLBACKS ###############################
 
-        # self.model.dataChanged.connect(self.data_changed_callback)
+        self.model.dataChanged.connect(self.data_changed_callback)                # TODO
         self.title_desc_filter_edit.textChanged.connect(self.filter_callback)
-        self.milestone_combobox.currentIndexChanged.connect(self.filter_callback)
-        self.state_combobox.currentIndexChanged.connect(self.filter_callback)
-        self.ft_ia_cb.stateChanged.connect(self.filter_callback)
-        self.ft_data_cb.stateChanged.connect(self.filter_callback)
-        self.ft_ops_cb.stateChanged.connect(self.filter_callback)
-        self.ft_scale_cb.stateChanged.connect(self.filter_callback)
-        self.ft_perf_cb.stateChanged.connect(self.filter_callback)
+        self.state_filter_combobox.currentIndexChanged.connect(self.filter_callback)
+        self.milestone_filter_combobox.currentIndexChanged.connect(self.filter_callback)
+        self.ft_filter_combobox.currentIndexChanged.connect(self.filter_callback)
 
         # DEFINE ACTIONS AND SHORTCUT KEYS ################
 
         # Open web page action
-        open_action = QAction(self.table_view)
-        open_action.setShortcut(Qt.CTRL | Qt.Key_Space)
+        open_issue_action = QAction(self.table_view)
+        open_issue_action.setShortcut(Qt.CTRL | Qt.Key_Space)
 
-        open_action.triggered.connect(self.open_action_callback)
-        self.table_view.addAction(open_action)
+        open_issue_action.triggered.connect(self.open_issue_action_callback)
+        self.table_view.addAction(open_issue_action)
+
+        # Open board web page action
+        open_board_action = QAction(self.table_view)
+        open_board_action.setShortcut(Qt.CTRL | Qt.Key_B)
+
+        open_board_action.triggered.connect(self.open_board_action_callback)
+        self.table_view.addAction(open_board_action)
 
         # Push action
         push_action = QAction(self.table_view)
@@ -333,16 +465,78 @@ class Window(QtWidgets.QWidget):
         del_action.triggered.connect(self.remove_row_callback)
         self.table_view.addAction(del_action)
 
+        # DEFAULT FILTERS #################################
 
-    # def data_changed_callback(self, topLeft, bottomRight):
-    #     # TODO:
-    #     # - empecher les appels en boucle causé par le changement de la colonne "update_required"
-    #     # - ce callback ne doit être executé que si le changement vient de la vue (le TableView), pas du backend (i.e. GitLab)
-    #     # => il faut probablement plutôt utiliser le Delegate pour ça...
-    #     print("CHANGED:", topLeft, bottomRight)
-    #     row_index = topLeft.row()   # TODO: DIRTY WORKAROUND
-    #     self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
-    #     self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+        # This has to be set *after* these statements: `self.state_***.currentIndexChanged.connect(self.filter_callback)`...
+
+        self.state_filter_combobox.setCurrentText("opened")
+        self.milestone_filter_combobox.setCurrentText("*")
+        self.ft_filter_combobox.setCurrentText("FT IA")
+
+        self.table_view.sortByColumn(self.model.fieldIndex("title"), Qt.AscendingOrder)
+
+
+    def data_changed_callback(self, topLeft, bottomRight):
+        # TODO: DIRTY WORKAROUND -> SHOULD USE DELEGATES INSTEAD!!!
+        # - empecher les appels en boucle causé par le changement de la colonne "update_required"
+        # - ce callback ne doit être executé que si le changement vient de la vue (le TableView), pas du backend (i.e. GitLab)
+        # => il faut probablement plutôt utiliser le Delegate pour ça...
+        print("CHANGED:", topLeft, bottomRight)
+        row_index = topLeft.row()   # TODO: DIRTY WORKAROUND
+        self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
+        self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+
+
+    def batch_processing_button_callback(self):
+        state_str = self.state_bp_combobox.currentText().strip()
+        milestone_str = self.milestone_bp_combobox.currentText().strip()
+        board_list_str = self.board_list_bp_combobox.currentText().strip()
+
+        if (state_str != "") or (milestone_str != "") or (board_list_str != ""):
+            selection_index_list = self.table_view.selectionModel().selectedRows()
+            selected_row_list = [source_index.row() for source_index in selection_index_list]
+
+            if len(selected_row_list) > PUSH_NUM_ROWS_ALERT_THRESHOLD:
+                # Add a dialog box to confirm the operation (and show the number of rows concerned)
+                title = "{} issues will be updated.".format(len(selected_row_list))
+                msg = "Do you want to proceed anyway?"
+
+                msgBox = QMessageBox()
+                msgBox.setText(title)
+                msgBox.setInformativeText(msg)
+                msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+                msgBox.setDefaultButton(QMessageBox.Cancel)
+                reply = msgBox.exec()
+
+                if reply == QMessageBox.Cancel:
+                    return
+
+            for row_index in sorted(selected_row_list, reverse=True):
+                if state_str != "":
+                    self.model.setData(self.model.index(row_index, self.model.fieldIndex("state")), state_str)
+                if milestone_str != "":
+                    print("***", MILESTONES_DICT[milestone_str])
+                    self.model.setData(self.model.index(row_index, self.model.fieldIndex("milestone_id")), MILESTONES_DICT[milestone_str])
+                if board_list_str != "":
+                    pass
+                    #self.model.setData(self.model.index(row_index, self.model.fieldIndex("board_list")), board_list_str)     # TODO
+
+                self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
+
+            self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+            self.model.select()
+
+        self.state_bp_combobox.setCurrentText("")
+        self.milestone_bp_combobox.setCurrentText("")
+        self.board_list_bp_combobox.setCurrentText("")
+
+
+    def init_db_callback(self):
+        pass
+
+
+    def pull_updates_callback(self):
+        pass
 
 
     def push_updates_callback(self):
@@ -427,35 +621,31 @@ class Window(QtWidgets.QWidget):
 
     def filter_callback(self):
         title_desc_filter_str = self.title_desc_filter_edit.text()
-        milestone_filter_str = self.milestone_combobox.currentText()
-        state_filter_str = self.state_combobox.currentText()
+        state_filter_str = self.state_filter_combobox.currentText()
+        milestone_filter_str = self.milestone_filter_combobox.currentText()
+        ft_filter_str = self.ft_filter_combobox.currentText()
 
         global_filter_list = []
-        ft_filter_list = []
 
         if title_desc_filter_str != '':
             global_filter_list.append("(title LIKE '{}' OR description LIKE '{}')".format('%' + title_desc_filter_str + '%', '%' + title_desc_filter_str + '%'))
+        if state_filter_str != '*':
+            global_filter_list.append("state = '{}'".format(state_filter_str))
         if milestone_filter_str != '*':
             if milestone_filter_str == 'Meta':
                 global_filter_list.append(r"labels LIKE '%Meta%'")
             else:
                 global_filter_list.append("milestone_id = {}".format(MILESTONES_DICT[milestone_filter_str]))
-        if state_filter_str != '*':
-            global_filter_list.append("state = '{}'".format(state_filter_str))
-        if self.ft_ia_cb.isChecked():
-            ft_filter_list.append(r"labels LIKE '%FT::IA%'")
-        if self.ft_data_cb.isChecked():
-            ft_filter_list.append(r"labels LIKE '%FT::Data%'")
-        if self.ft_ops_cb.isChecked():
-            ft_filter_list.append(r"labels LIKE '%FT::Ops%'")
-        if self.ft_scale_cb.isChecked():
-            ft_filter_list.append(r"labels LIKE '%FT::Scale%'")
-        if self.ft_perf_cb.isChecked():
-            ft_filter_list.append(r"labels LIKE '%FT::Perf%'")
-
-        if len(ft_filter_list) > 0:
-            ft_filter_str = " OR ".join(ft_filter_list)
-            global_filter_list.append("(" + ft_filter_str + ")" )
+        if ft_filter_str == 'FT IA':
+            global_filter_list.append(r"labels LIKE '%FT::IA%'")
+        if ft_filter_str == 'FT Data':
+            global_filter_list.append(r"labels LIKE '%FT::Data%'")
+        if ft_filter_str == 'FT Ops':
+            global_filter_list.append(r"labels LIKE '%FT::Ops%'")
+        if ft_filter_str == 'FT Scale':
+            global_filter_list.append(r"labels LIKE '%FT::Scale%'")
+        if ft_filter_str == 'FT Perf':
+            global_filter_list.append(r"labels LIKE '%FT::Perf%'")
 
         global_filter_str = "" if len(global_filter_list) == 0 else " AND ".join(global_filter_list)
         self.model.setFilter(global_filter_str)
@@ -463,7 +653,7 @@ class Window(QtWidgets.QWidget):
         print(global_filter_str)
 
 
-    def open_action_callback(self):
+    def open_issue_action_callback(self):
         """
         Display selected issues on GitLab with the default web browser. 
         """
@@ -478,6 +668,36 @@ class Window(QtWidgets.QWidget):
             web_url = self.model.index(row_index, self.model.fieldIndex("web_url")).data()     # TODO
             print(web_url)
             webbrowser.open(web_url)
+
+
+    def open_board_action_callback(self):
+        """
+        Display selected board on GitLab with the default web browser. 
+        """
+        # See https://doc.qt.io/qt-5/qsqltablemodel.html#removeRows
+        # See https://doc.qt.io/qtforpython/overviews/sql-model.html#using-the-sql-model-classes
+        # See http://doc.qt.io/qt-5/model-view-programming.html#handling-selections-in-item-views
+
+        title_desc_filter_str = self.title_desc_filter_edit.text()
+        title_desc_filter_str = urllib.parse.quote(title_desc_filter_str)     # urlencodé
+
+        milestone_filter_str = self.milestone_filter_combobox.currentText()
+        milestone_filter_str = MILESTONES_DICT2[milestone_filter_str]         # TODO: DIRTY WORKAROUND !
+        milestone_filter_str = urllib.parse.quote(milestone_filter_str)     # urlencodé
+
+        ft_filter_str = self.ft_filter_combobox.currentText()
+        ft_filter_str = ft_filter_str.replace(" ", "::")
+        ft_filter_str = ft_filter_str.replace("*", "")
+        ft_filter_str = urllib.parse.quote(ft_filter_str)     # urlencodé
+
+        if milestone_filter_str == "Meta":
+            web_url = "{}/groups/accenta/-/boards?scope=all&label_name[]={}&search={}".format(GITLAB_HOST, "Meta", title_desc_filter_str)    # TODO
+        else:
+            web_url = "{}/groups/accenta/-/boards?scope=all&label_name[]={}&milestone_title={}&search={}".format(GITLAB_HOST, ft_filter_str, milestone_filter_str, title_desc_filter_str)    # TODO
+            #&milestone_title=C3%20Sprint%203    # TODO: ajouter le milestone dans la ligne ci-dessus... ce qui nécessite de récupérer le "vrai nom" du milestone (celui sur Gitlab)... on ne peut pas utiliser l'ID...
+
+        print(web_url)
+        webbrowser.open(web_url)
 
 
     def add_row_callback(self):
@@ -548,8 +768,7 @@ class Window(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
-    window = Window()
-    window.showMaximized()
+    window = MainWindow()
 
     # The mainloop of the application. The event handling starts from this point.
     exit_code = app.exec()
