@@ -30,9 +30,10 @@ import json
 import urllib
 import datetime
 import logging
+import traceback
 
 from PySide6 import QtCore, QtWidgets
-from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex
+from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex, QRunnable, Slot, Signal, QObject, QThreadPool
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QSizePolicy, QLabel, QMessageBox, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
@@ -68,7 +69,8 @@ with open("GITLAB_HOST", "r") as fd:
 
 HEADER_DICT = {
     "PRIVATE-TOKEN": GITLAB_TOKEN,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "charset": "utf-8"
 }
 
 def str_to_datetime(datetime_str):
@@ -82,11 +84,26 @@ def get_request(get_url):
     json_list = json.loads(resp.text)
     if resp.status_code != 200:
         raise Exception("Error:" + resp.text)
+    if resp.encoding.lower() != 'utf-8':
+        raise Exception("Encoding error:", resp.encoding)
 
     return json_list, resp
 
 
-def fetch_issues(update_after=None):
+def fetch_issues(update_after=None, progress_callback=None):
+    """
+    [summary]
+
+    Parameters
+    ----------
+    update_after : [type], optional
+        [description], by default None
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
     issue_list = []
 
     params_str = "updated_after={},".format(update_after) if update_after is not None else ""
@@ -95,7 +112,12 @@ def fetch_issues(update_after=None):
     num_pages = int(resp.headers['X-Total-Pages'])
 
     for page in range(2, num_pages+1):
-        print("page {}/{}".format(page, num_pages))
+        if progress_callback is not None:
+            progress_callback.emit(int(page/num_pages * 100))
+        msg = "page {}/{}".format(page, num_pages)
+        print(msg)
+        #main_window.statusBar().showMessage(msg, 2000)
+
         issue_list.extend(json_list)
         next_page = GITLAB_HOST + "/api/v4/issues?{}per_page=100&page={}&scope=all".format(params_str, page)
         json_list, resp = get_request(next_page)
@@ -193,12 +215,55 @@ class IssuesTableModel(QSqlTableModel):
             return Qt.ItemIsSelectable | Qt.ItemIsEnabled
 
 
+###############################################################################
+
+
+class WorkerSignals(QObject):
+    '''
+    Defines the signals available from a running worker thread.
+    Supported signals are:
+
+    error
+        tuple (exctype, value, traceback.format_exc() )
+
+    progress
+        int indicating % progress
+    '''
+    error = Signal(tuple)
+    progress = Signal(int)
+
+
+class Worker(QRunnable):
+    '''
+    Worker thread
+    Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
+    '''
+
+    def __init__(self):
+        super(Worker, self).__init__()
+        self.signals = WorkerSignals()
+
+    @Slot()
+    def run(self):
+        try:
+            result = fetch_issues(progress_callback=self.signals.progress)
+        except:
+            traceback.print_exc()
+            exctype, value = sys.exc_info()[:2]
+            self.signals.error.emit((exctype, value, traceback.format_exc()))
+
+
+###############################################################################
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle('GitLab Board Mg')
         self.statusBar().showMessage("Ready", 2000)
+
+        self.threadpool = QThreadPool()
+        print("Multithreading with maximum {} threads".format(self.threadpool.maxThreadCount()))
 
         # Make widgets ####################################
 
@@ -465,6 +530,12 @@ class IssuesTab(QWidget):
         del_action.triggered.connect(self.remove_row_callback)
         self.table_view.addAction(del_action)
 
+        # Fix encoding
+        fix_encoding_action = QAction(self.table_view)
+        fix_encoding_action.setShortcut(Qt.CTRL | Qt.Key_F)
+        fix_encoding_action.triggered.connect(self.fix_encoding_callback)
+        self.table_view.addAction(fix_encoding_action)
+
         # DEFAULT FILTERS #################################
 
         # This has to be set *after* these statements: `self.state_***.currentIndexChanged.connect(self.filter_callback)`...
@@ -482,9 +553,11 @@ class IssuesTab(QWidget):
         # - ce callback ne doit être executé que si le changement vient de la vue (le TableView), pas du backend (i.e. GitLab)
         # => il faut probablement plutôt utiliser le Delegate pour ça...
         print("CHANGED:", topLeft, bottomRight)
-        row_index = topLeft.row()   # TODO: DIRTY WORKAROUND
-        self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
-        self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
+        row_index = topLeft.row()      # TODO: DIRTY WORKAROUND
+        col_index = topLeft.column()   # TODO: DIRTY WORKAROUND
+        if col_index != self.model.fieldIndex("upload_required"):
+            self.model.setData(self.model.index(row_index, self.model.fieldIndex("upload_required")), 1)
+            self.model.submitAll()  # When you’re finished changing a record, you should always call submitAll() to ensure that the changes are written to the database
 
 
     def batch_processing_button_callback(self):
@@ -532,11 +605,80 @@ class IssuesTab(QWidget):
 
 
     def init_db_callback(self):
-        pass
+        #issue_list = fetch_issues(main_window=self.main_window)
+        #print([i["title"] for i in issue_list if i["id"]==1990][0])
+
+        # Pass the function to execute
+        worker = Worker()
+        worker.signals.progress.connect(self.progress_callback)
+
+        # Execute
+        self.main_window.threadpool.start(worker)
+
+
+    def progress_callback(self, percent_progress):
+        msg = "{}%".format(percent_progress)
+        print(msg)
+        self.main_window.statusBar().showMessage(msg, 2000)
+
 
 
     def pull_updates_callback(self):
-        pass
+        """
+        https://gitlab.com/gitlab-org/gitlab/-/issues/19339#note_512137414
+
+        resp.headers
+        {'Server': 'nginx/1.14.2', 'Date': 'Mon, 29 Nov 2021 15:19:13 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding, Origin', 'Cache-Control': 'max-age=0, private, must-revalidate', 'Etag': 'W/"1825a7596223c6ea717a42f397377331"', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'SAMEORIGIN', 'X-Request-Id': '01FNP4EKX0QG4H9G7W7AT7QF41', 'X-Runtime': '0.865469', 'Strict-Transport-Security': 'max-age=63072000, max-age=31536000;\n       includeSubdomains', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'Content-Encoding': 'gzip'}
+
+        resp.encoding
+        'utf-8'
+
+        resp.apparent_encoding
+        'CP932'
+
+        json_list['title']
+        'S1.17) DÃ©ployer lâ€™inertie active sur le cloud et relancer les tests Ã©crits pour la tÃ¢che 1.6 depuis le cloud'
+
+        s.encode("cp1252").decode("utf-8")
+
+        json_list['title']
+        "Ajout d'une valeur d'unité impossible"
+
+        sqlite> select title from issues where id=1990;
+        Ajout d'une valeur d'unitÃ© impossible
+
+        sqlite> PRAGMA encoding;
+        UTF-8
+
+
+        Encoding err: 2650 https://gitlab.accenta.ai/accenta/accenta/-/issues/227
+        page 3/29
+        page 4/29
+        Encoding err: 2496 https://gitlab.accenta.ai/accenta/accenta/-/issues/166
+        Encoding err: 2495 https://gitlab.accenta.ai/accenta/accenta/-/issues/165
+        Encoding err: 2494 https://gitlab.accenta.ai/accenta/accenta/-/issues/164
+        """
+        #json_list, resp = get_request(GITLAB_HOST + "/api/v4/issues/2494")
+        json_list, resp = get_request(GITLAB_HOST + "/api/v4/issues/1990")
+        print(resp)
+
+
+    def fix_encoding_callback(self):
+        selection_index_list = self.table_view.selectionModel().selectedRows()
+        selected_row_list = [source_index.row() for source_index in selection_index_list]
+
+        for row_index in sorted(selected_row_list, reverse=True):
+            record = self.model.record(row_index)
+
+            description_str = record.value("description")
+            title_str = record.value("title")
+            labels_str = record.value("labels")
+
+            self.model.setData(self.model.index(row_index, self.model.fieldIndex("description")), description_str.encode("cp1252").decode("utf-8"))
+            self.model.setData(self.model.index(row_index, self.model.fieldIndex("title")), title_str.encode("cp1252").decode("utf-8"))
+            self.model.setData(self.model.index(row_index, self.model.fieldIndex("labels")), labels_str.encode("cp1252").decode("utf-8"))
+        
+        self.model.submitAll()
 
 
     def push_updates_callback(self):
@@ -682,8 +824,6 @@ class IssuesTab(QWidget):
         title_desc_filter_str = urllib.parse.quote(title_desc_filter_str)     # urlencodé
 
         milestone_filter_str = self.milestone_filter_combobox.currentText()
-        milestone_filter_str = MILESTONES_DICT2[milestone_filter_str]         # TODO: DIRTY WORKAROUND !
-        milestone_filter_str = urllib.parse.quote(milestone_filter_str)     # urlencodé
 
         ft_filter_str = self.ft_filter_combobox.currentText()
         ft_filter_str = ft_filter_str.replace(" ", "::")
@@ -693,10 +833,13 @@ class IssuesTab(QWidget):
         if milestone_filter_str == "Meta":
             web_url = "{}/groups/accenta/-/boards?scope=all&label_name[]={}&search={}".format(GITLAB_HOST, "Meta", title_desc_filter_str)    # TODO
         else:
+            milestone_filter_str = MILESTONES_DICT2[milestone_filter_str]       # TODO: DIRTY WORKAROUND !
+            milestone_filter_str = urllib.parse.quote(milestone_filter_str)     # urlencodé
+
             web_url = "{}/groups/accenta/-/boards?scope=all&label_name[]={}&milestone_title={}&search={}".format(GITLAB_HOST, ft_filter_str, milestone_filter_str, title_desc_filter_str)    # TODO
             #&milestone_title=C3%20Sprint%203    # TODO: ajouter le milestone dans la ligne ci-dessus... ce qui nécessite de récupérer le "vrai nom" du milestone (celui sur Gitlab)... on ne peut pas utiliser l'ID...
 
-        print(web_url)
+        print("OPEN:", web_url)
         webbrowser.open(web_url)
 
 
