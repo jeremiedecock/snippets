@@ -36,11 +36,15 @@ from PySide6 import QtCore, QtWidgets
 from PySide6.QtCore import Qt, QSortFilterProxyModel, QModelIndex, QRunnable, Slot, Signal, QObject, QThreadPool
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QSizePolicy, QLabel, QMessageBox, QSplitter, QDataWidgetMapper, QPlainTextEdit, QFormLayout, QTableView, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QAbstractItemView, QComboBox, QCheckBox
 from PySide6.QtGui import QAction
-from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
+from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlRelationalTableModel
 
 PUSH_NUM_ROWS_ALERT_THRESHOLD = 1
 DEFAULT_PROJECT_ID = 80
 DEFAULT_LABELS = "FT::IA,W::Backlog"
+
+SQLITE_FILE_PATH = "issues.sqlite"
+ISSUES_TABLE_NAME = "issues"
+MILESTONES_TABLE_NAME = "milestones"
 
 MILESTONES_DICT = {
     "C3 Sprint 1": 204,
@@ -86,6 +90,12 @@ def get_request(get_url):
         raise Exception("Error:" + resp.text)
     if resp.encoding.lower() != 'utf-8':
         raise Exception("Encoding error:", resp.encoding)
+    if resp.apparent_encoding.lower() != 'utf-8':
+        raise Exception("Apparent_encoding error:", resp.apparent_encoding)
+
+    for issue_dict in json_list:
+        if ("Ã©" in issue_dict["title"]) or ("â€™" in issue_dict["title"]) or ("Ã‰" in issue_dict["title"]) or ("Ã¢" in issue_dict["title"]): # Ã¨
+            print("Encoding err:", issue_dict["id"], issue_dict["web_url"])
 
     return json_list, resp
 
@@ -123,6 +133,175 @@ def fetch_issues(update_after=None, progress_callback=None):
         json_list, resp = get_request(next_page)
 
     return issue_list
+
+
+def make_sqlite_database(issue_list):
+    con = sqlite3.connect(SQLITE_FILE_PATH)
+    cur = con.cursor()
+
+#    # MILESTONES ################################
+#
+#    # DELETE TABLE ##############
+#
+#    try:
+#        cur.execute("DROP TABLE {}".format(MILESTONES_TABLE_NAME))
+#    except:
+#        pass
+#
+#    # CREATE TABLE ##############
+#
+#    sql_query_str = """CREATE TABLE {} (
+#        id               INTEGER,
+#        label            TEXT,
+#        PRIMARY KEY (id)
+#    )""".format(MILESTONES_TABLE_NAME)
+#
+#    cur.execute(sql_query_str)
+#
+#    # INSERT SQL DATA ###########
+#
+#    sql_insert_params = [
+#            (204, "C3 Sprint 1"),
+#            (205, "C3 Sprint 2"),
+#            (206, "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)"),
+#            (207, "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)"),
+#            (209, "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)")
+#        ]
+#
+#    query_str = "INSERT INTO {} VALUES (?, ?)".format(MILESTONES_TABLE_NAME)
+#    cur.executemany(query_str, sql_insert_params)
+
+    # ISSUES ####################################
+
+    # DELETE TABLE ##############
+
+    try:
+        cur.execute("DROP TABLE {}".format(ISSUES_TABLE_NAME))
+    except:
+        pass
+
+    # CREATE TABLE ##############
+
+    sql_query_str = """CREATE TABLE {} (
+        id               INTEGER,
+        state            TEXT,
+        title            TEXT,
+        description      TEXT,
+        labels           TEXT,
+        created_at       TEXT,
+        updated_at       TEXT,
+        milestone_id     INTEGER,
+        web_url          TEXT,
+        project_id       INTEGER,
+        iid              INTEGER,
+        upload_required  INTEGER,
+        PRIMARY KEY (id)
+    )""".format(ISSUES_TABLE_NAME)
+
+    cur.execute(sql_query_str)
+
+    # FETCH JSON DATA ###########
+
+    sql_insert_params = [
+            (
+                issue_dict["id"],
+                issue_dict["state"],
+                issue_dict["title"],
+                issue_dict["description"],
+                ",".join(issue_dict["labels"]),
+                issue_dict["created_at"],
+                issue_dict["updated_at"],
+                #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+                issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+                issue_dict["web_url"],
+                issue_dict["project_id"],
+                issue_dict["iid"],
+                0,
+                ) for issue_dict in issue_list
+            ]
+
+    # INSERT SQL DATA ###########
+
+    question_marks = ", ".join(["?" for x in sql_insert_params[0]])
+    query_str = "INSERT INTO {} VALUES ({})".format(ISSUES_TABLE_NAME, question_marks)
+    cur.executemany(query_str, sql_insert_params)
+
+    # COMMIT ####################################
+
+    con.commit()
+    con.close()
+
+
+def get_last_db_update_datetime():
+    # GET THE LAST UPDATE DATE IN THE SQLITE DATABASE #########
+    con = sqlite3.connect(SQLITE_FILE_PATH)
+    cur = con.cursor()
+
+    cur.execute("SELECT MAX(updated_at) FROM {}".format(ISSUES_TABLE_NAME))
+    last_db_update_str = cur.fetchone()[0]
+    con.close()
+
+    print("Last DB update:", last_db_update_str)
+    return last_db_update_str
+
+
+def update_sqlite_database(issue_list, last_db_update_dt):
+    con = sqlite3.connect(SQLITE_FILE_PATH)
+    cur = con.cursor()
+
+    # INSERT SQL DATA ###########
+
+    sql_insert_params = [
+            (
+                issue_dict["id"],
+                issue_dict["state"],
+                issue_dict["title"],
+                issue_dict["description"],
+                ",".join(issue_dict["labels"]),
+                issue_dict["updated_at"],
+                #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+                issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+                issue_dict["web_url"],
+                0,
+                ) for issue_dict in issue_list if str_to_datetime(issue_dict["created_at"]) > last_db_update_dt
+            ]
+
+    cur.executemany("INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)".format(ISSUES_TABLE_NAME), sql_insert_params)
+
+    # UPDATE SQL DATA ###########
+
+    sql_update_params = [
+            (
+                issue_dict["id"],
+                issue_dict["state"],
+                issue_dict["title"],
+                issue_dict["description"],
+                ",".join(issue_dict["labels"]),
+                issue_dict["updated_at"],
+                #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+                issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+                issue_dict["web_url"],
+                0,
+                issue_dict["id"]
+                ) for issue_dict in issue_list if str_to_datetime(issue_dict["created_at"]) <= last_db_update_dt
+            ]
+
+    SQL_UPDATE_QUERY = """UPDATE {} SET
+        id=?,
+        state=?,
+        title=?,
+        description=?,
+        labels=?,
+        updated_at=?,
+        milestone_id=?,
+        web_url=?,
+        upload_required=?
+        WHERE id=?""".format(ISSUES_TABLE_NAME)
+
+    cur.executemany(SQL_UPDATE_QUERY, sql_update_params)
+
+    con.commit()
+    con.close()
 
 
 def put_request(put_url, data_dict):
@@ -187,7 +366,7 @@ def post_request(post_url, data_dict):
     return json_dict
 
 
-class IssuesTableModel(QSqlTableModel):
+class IssuesTableModel(QSqlRelationalTableModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -224,12 +403,16 @@ class WorkerSignals(QObject):
     Supported signals are:
 
     error
-        tuple (exctype, value, traceback.format_exc() )
+        tuple (exctype, value, traceback.format_exc())
+    
+    finished
+        No data
 
     progress
         int indicating % progress
     '''
     error = Signal(tuple)
+    finished = Signal()
     progress = Signal(int)
 
 
@@ -239,18 +422,29 @@ class Worker(QRunnable):
     Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
     '''
 
-    def __init__(self):
+    def __init__(self, fast_pull=False):
         super(Worker, self).__init__()
+        self.fast_pull = fast_pull
         self.signals = WorkerSignals()
 
     @Slot()
     def run(self):
         try:
-            result = fetch_issues(progress_callback=self.signals.progress)
+            if self.fast_pull:
+                last_db_update_str = get_last_db_update_datetime()
+                last_db_update_dt = str_to_datetime(last_db_update_str)
+
+                issue_list = fetch_issues(update_after=last_db_update_str, progress_callback=self.signals.progress)
+                update_sqlite_database(issue_list, last_db_update_dt)
+            else:
+                issue_list = fetch_issues(progress_callback=self.signals.progress)
+                make_sqlite_database(issue_list)
         except:
             traceback.print_exc()
             exctype, value = sys.exc_info()[:2]
             self.signals.error.emit((exctype, value, traceback.format_exc()))
+        finally:
+            self.signals.finished.emit()      # Done
 
 
 ###############################################################################
@@ -289,7 +483,7 @@ class IssuesTab(QWidget):
         # OPEN THE DATABASE ###############################
 
         self.db = QSqlDatabase.addDatabase("QSQLITE")
-        self.db.setDatabaseName("./issues.sqlite")
+        self.db.setDatabaseName(SQLITE_FILE_PATH)
         assert self.db.open()
 
         # MAKE WIDGETS ####################################
@@ -604,63 +798,36 @@ class IssuesTab(QWidget):
         self.board_list_bp_combobox.setCurrentText("")
 
 
-    def init_db_callback(self):
-        #issue_list = fetch_issues(main_window=self.main_window)
-        #print([i["title"] for i in issue_list if i["id"]==1990][0])
+    def progress_callback(self, percent_progress):
+        msg = "{}%".format(percent_progress)
+        print(msg)
+        self.main_window.statusBar().showMessage(msg, 5000)
 
-        # Pass the function to execute
+    def thread_complete_callback(self):
+        self.model.select()   # Update the model (and the view)
+        # TODO: update the description widget
+
+        msg = "Finished"
+        print(msg)
+        self.main_window.statusBar().showMessage(msg, 2000)
+
+
+    def init_db_callback(self):
         worker = Worker()
         worker.signals.progress.connect(self.progress_callback)
+        worker.signals.finished.connect(self.thread_complete_callback)
 
         # Execute
         self.main_window.threadpool.start(worker)
 
 
-    def progress_callback(self, percent_progress):
-        msg = "{}%".format(percent_progress)
-        print(msg)
-        self.main_window.statusBar().showMessage(msg, 2000)
-
-
-
     def pull_updates_callback(self):
-        """
-        https://gitlab.com/gitlab-org/gitlab/-/issues/19339#note_512137414
+        worker = Worker(fast_pull=True)
+        worker.signals.progress.connect(self.progress_callback)
+        worker.signals.finished.connect(self.thread_complete_callback)
 
-        resp.headers
-        {'Server': 'nginx/1.14.2', 'Date': 'Mon, 29 Nov 2021 15:19:13 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding, Origin', 'Cache-Control': 'max-age=0, private, must-revalidate', 'Etag': 'W/"1825a7596223c6ea717a42f397377331"', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'SAMEORIGIN', 'X-Request-Id': '01FNP4EKX0QG4H9G7W7AT7QF41', 'X-Runtime': '0.865469', 'Strict-Transport-Security': 'max-age=63072000, max-age=31536000;\n       includeSubdomains', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'Content-Encoding': 'gzip'}
-
-        resp.encoding
-        'utf-8'
-
-        resp.apparent_encoding
-        'CP932'
-
-        json_list['title']
-        'S1.17) DÃ©ployer lâ€™inertie active sur le cloud et relancer les tests Ã©crits pour la tÃ¢che 1.6 depuis le cloud'
-
-        s.encode("cp1252").decode("utf-8")
-
-        json_list['title']
-        "Ajout d'une valeur d'unité impossible"
-
-        sqlite> select title from issues where id=1990;
-        Ajout d'une valeur d'unitÃ© impossible
-
-        sqlite> PRAGMA encoding;
-        UTF-8
-
-
-        Encoding err: 2650 https://gitlab.accenta.ai/accenta/accenta/-/issues/227
-        page 3/29
-        page 4/29
-        Encoding err: 2496 https://gitlab.accenta.ai/accenta/accenta/-/issues/166
-        Encoding err: 2495 https://gitlab.accenta.ai/accenta/accenta/-/issues/165
-        Encoding err: 2494 https://gitlab.accenta.ai/accenta/accenta/-/issues/164
-        """
-        #json_list, resp = get_request(GITLAB_HOST + "/api/v4/issues/2494")
-        json_list, resp = get_request(GITLAB_HOST + "/api/v4/issues/1990")
-        print(resp)
+        # Execute
+        self.main_window.threadpool.start(worker)
 
 
     def fix_encoding_callback(self):
