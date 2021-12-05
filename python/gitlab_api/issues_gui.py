@@ -83,6 +83,28 @@ def str_to_datetime(datetime_str):
 
 
 def get_request(get_url):
+    """
+    https://docs.gitlab.com/ee/api/issues.html
+
+    Parameters
+    ----------
+    get_url : [type]
+        [description]
+
+    Returns
+    -------
+    [type]
+        [description]
+
+    Raises
+    ------
+    Exception
+        [description]
+    Exception
+        [description]
+    Exception
+        [description]
+    """
     resp = requests.get(get_url, headers=HEADER_DICT)
 
     json_list = json.loads(resp.text)
@@ -140,33 +162,53 @@ def make_sqlite_database(issue_list):
     cur = con.cursor()
 
 #    # MILESTONES ################################
-#
+# 
 #    # DELETE TABLE ##############
-#
+# 
 #    try:
 #        cur.execute("DROP TABLE {}".format(MILESTONES_TABLE_NAME))
 #    except:
 #        pass
-#
+# 
 #    # CREATE TABLE ##############
-#
+# 
 #    sql_query_str = """CREATE TABLE {} (
 #        id               INTEGER,
-#        label            TEXT,
+#        title            TEXT,
 #        PRIMARY KEY (id)
 #    )""".format(MILESTONES_TABLE_NAME)
-#
+# 
 #    cur.execute(sql_query_str)
-#
+# 
 #    # INSERT SQL DATA ###########
 #
-#    sql_insert_params = [
-#            (204, "C3 Sprint 1"),
-#            (205, "C3 Sprint 2"),
-#            (206, "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)"),
-#            (207, "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)"),
-#            (209, "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)")
-#        ]
+#    # "milestone" : {
+#    #     "project_id" : 1,
+#    #     "description" : "Ducimus nam enim ex consequatur cumque ratione.",
+#    #     "state" : "closed",
+#    #     "due_date" : null,
+#    #     "iid" : 2,
+#    #     "created_at" : "2016-01-04T15:31:39.996Z",
+#    #     "title" : "v4.0",
+#    #     "id" : 17,
+#    #     "updated_at" : "2016-01-04T15:31:39.996Z"
+#    # },
+#
+#    milestones_dict = {}
+#
+#    for issue_dict in issue_list:
+#        milestone_id = issue_dict["milestone"]["id"]
+#        if milestone_id not in milestones_dict:
+#            milestone_title = issue_dict["milestone"]["title"]
+#            milestones_dict[milestone_id] = milestone_title
+#
+#    sql_insert_params = [(key, value) for key, value in milestones_dict.items()]
+#
+#    #(204, "C3 Sprint 1"),
+#    #(205, "C3 Sprint 2"),
+#    #(206, "C3 Sprint 3 (Nov  1, 2021 - Nov 12, 2021)"),
+#    #(207, "C3 Sprint 4 (Nov 15, 2021 - Nov 26, 2021)"),
+#    #(209, "C3 Sprint 5 (Nov 29, 2021 - Dec 10, 2021)")
 #
 #    query_str = "INSERT INTO {} VALUES (?, ?)".format(MILESTONES_TABLE_NAME)
 #    cur.executemany(query_str, sql_insert_params)
@@ -194,6 +236,7 @@ def make_sqlite_database(issue_list):
         web_url          TEXT,
         project_id       INTEGER,
         iid              INTEGER,
+        num_notes        INTEGER,
         upload_required  INTEGER,
         PRIMARY KEY (id)
     )""".format(ISSUES_TABLE_NAME)
@@ -216,6 +259,7 @@ def make_sqlite_database(issue_list):
                 issue_dict["web_url"],
                 issue_dict["project_id"],
                 issue_dict["iid"],
+                issue_dict["user_notes_count"],
                 0,
                 ) for issue_dict in issue_list
             ]
@@ -370,6 +414,19 @@ class IssuesTableModel(QSqlRelationalTableModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        read_only_columns = (
+            "state",
+            "title",
+            "description",
+            "labels",
+            "milestone_id",
+            "upload_required",
+            "num_notes"
+        )
+
+        self.read_only_columns_index = (self.fieldIndex(columns_name) for columns_name in read_only_columns)
+
+
     def flags(self, index):
         """Returns the item flags for the given `index`.
 
@@ -388,7 +445,7 @@ class IssuesTableModel(QSqlRelationalTableModel):
         ItemFlags
             The item flags for the given `index`.
         """
-        if index.column() in (self.fieldIndex("state"), self.fieldIndex("title"), self.fieldIndex("description"), self.fieldIndex("labels"), self.fieldIndex("milestone_id"), self.fieldIndex("upload_required")):
+        if index.column() in self.read_only_columns_index:
             return Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
         else:
             return Qt.ItemIsSelectable | Qt.ItemIsEnabled
@@ -637,6 +694,7 @@ class IssuesTab(QWidget):
         #self.model.setHeaderData(self.model.fieldIndex("web_url"), Qt.Horizontal, "Web URL")
         #self.model.setHeaderData(self.model.fieldIndex("project_id"), Qt.Horizontal, "Project ID")
         self.model.setHeaderData(self.model.fieldIndex("iid"), Qt.Horizontal, "IID")
+        self.model.setHeaderData(self.model.fieldIndex("num_notes"), Qt.Horizontal, "#Notes")
         self.model.setHeaderData(self.model.fieldIndex("upload_required"), Qt.Horizontal, "Up")
 
         self.table_view.setModel(self.model)
@@ -655,8 +713,9 @@ class IssuesTab(QWidget):
         self.table_view.setColumnWidth(self.model.fieldIndex("id"), 50)
         self.table_view.setColumnWidth(self.model.fieldIndex("state"), 60)
         self.table_view.setColumnWidth(self.model.fieldIndex("title"), 1090)
-        self.table_view.setColumnWidth(self.model.fieldIndex("labels"), 400)
+        self.table_view.setColumnWidth(self.model.fieldIndex("labels"), 350)
         self.table_view.setColumnWidth(self.model.fieldIndex("iid"), 35)
+        self.table_view.setColumnWidth(self.model.fieldIndex("num_notes"), 50)
         self.table_view.setColumnWidth(self.model.fieldIndex("upload_required"), 25)
 
         # SET QDATAWIDGETMAPPER ###########################
@@ -705,12 +764,13 @@ class IssuesTab(QWidget):
         open_board_action.triggered.connect(self.open_board_action_callback)
         self.table_view.addAction(open_board_action)
 
-        # Push action
-        push_action = QAction(self.table_view)
-        push_action.setShortcut(Qt.CTRL | Qt.Key_S)
+        ## Push action
+        # TODO: pour le moment, qd on fait ctrl+s, ça écrase les modifs en cours dans le widget "description" car tant qu'on est pas sorti du widget description les changements ne sont pas enregistrés dans le model et donc ne sont pas poussés (et pour une raison inconnue les modifs en cours sont perdues) => il faut au tout début de l'action push enregistrer le contenu actuel du widget dans le model !!!
+        #push_action = QAction(self.table_view)
+        #push_action.setShortcut(Qt.CTRL | Qt.Key_S)
 
-        push_action.triggered.connect(self.push_updates_callback)
-        self.table_view.addAction(push_action)
+        #push_action.triggered.connect(self.push_updates_callback)
+        #self.table_view.addAction(push_action)
 
         # Add row action
         add_action = QAction(self.table_view)
@@ -735,7 +795,7 @@ class IssuesTab(QWidget):
         # This has to be set *after* these statements: `self.state_***.currentIndexChanged.connect(self.filter_callback)`...
 
         self.state_filter_combobox.setCurrentText("opened")
-        self.milestone_filter_combobox.setCurrentText("*")
+        self.milestone_filter_combobox.setCurrentText([key for key, value in MILESTONES_DICT.items() if value == CURRENT_MILESTONE_ID][0])
         self.ft_filter_combobox.setCurrentText("FT IA")
 
         self.table_view.sortByColumn(self.model.fieldIndex("title"), Qt.AscendingOrder)
