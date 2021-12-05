@@ -157,6 +157,53 @@ def fetch_issues(update_after=None, progress_callback=None):
     return issue_list
 
 
+def fetch_selected_issues(project_iid_list, progress_callback=None):
+    """
+    [summary]
+
+    Parameters
+    ----------
+    project_iid_list : list
+        [description], by default None
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+
+    iid_dict = {}
+    for project_id, iid in project_iid_list:
+        if project_id not in iid_dict:
+            iid_dict[project_id] = []
+        iid_dict[project_id].append(iid)
+
+    issue_list = []
+
+    # Group requests per project id
+    for project_id, iid_list in iid_dict.items():
+        url = GITLAB_HOST + "/api/v4/projects/{}/issues?per_page=100&page={}&scope=all"
+
+        for iid in iid_list:
+            url += "&iids[]={}".format(iid)
+
+        json_list, resp = get_request(url.format(project_id, 1))
+        issue_list.extend(json_list)
+
+        num_pages = int(resp.headers['X-Total-Pages'])
+
+        for page in range(2, num_pages+1):
+            if progress_callback is not None:
+                progress_callback.emit(int(page/num_pages * 100))
+            print("page {}/{}".format(page, num_pages))
+
+            json_list, resp = get_request(url.format(project_id, page))
+            issue_list.extend(json_list)
+
+    return issue_list
+
+
+
 def make_sqlite_database(issue_list):
     con = sqlite3.connect(SQLITE_FILE_PATH)
     cur = con.cursor()
@@ -289,60 +336,97 @@ def get_last_db_update_datetime():
     return last_db_update_str
 
 
-def update_sqlite_database(issue_list, last_db_update_dt):
+def update_sqlite_database(issue_list):
     con = sqlite3.connect(SQLITE_FILE_PATH)
     cur = con.cursor()
 
+    # GET THE LIST OF KNOWN IDS #
+
+    print(issue_list)
+    
+    known_ids = []
+    for row in cur.execute('SELECT id FROM {}'.format(ISSUES_TABLE_NAME)):
+        known_ids.append(row[0])
+
+    # SPLIT issue_list ##########
+
+    issues_to_insert_list = []
+    issues_to_update_list = []
+
+    for issue_dict in issue_list:
+        if issue_dict["id"] in known_ids:
+            issues_to_update_list.append(issue_dict)
+        else:
+            issues_to_insert_list.append(issue_dict)
+
+    print("- issues_to_insert_list", len(issues_to_insert_list))
+    print("- issues_to_update_list", len(issues_to_update_list))
+
     # INSERT SQL DATA ###########
 
-    sql_insert_params = [
-            (
-                issue_dict["id"],
-                issue_dict["state"],
-                issue_dict["title"],
-                issue_dict["description"],
-                ",".join(issue_dict["labels"]),
-                issue_dict["updated_at"],
-                #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
-                issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
-                issue_dict["web_url"],
-                0,
-                ) for issue_dict in issue_list if str_to_datetime(issue_dict["created_at"]) > last_db_update_dt
-            ]
+    if len(issues_to_insert_list) > 0:
+        sql_insert_params = [
+                (
+                    issue_dict["id"],
+                    issue_dict["state"],
+                    issue_dict["title"],
+                    issue_dict["description"],
+                    ",".join(issue_dict["labels"]),
+                    issue_dict["created_at"],
+                    issue_dict["updated_at"],
+                    #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+                    issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+                    issue_dict["web_url"],
+                    issue_dict["project_id"],
+                    issue_dict["iid"],
+                    issue_dict["user_notes_count"],
+                    0,
+                    ) for issue_dict in issues_to_insert_list
+                ]
 
-    cur.executemany("INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)".format(ISSUES_TABLE_NAME), sql_insert_params)
+        question_marks = ", ".join(["?" for x in sql_insert_params[0]])
+        cur.executemany("INSERT INTO {} VALUES ({})".format(ISSUES_TABLE_NAME), sql_insert_params, question_marks)
 
     # UPDATE SQL DATA ###########
 
-    sql_update_params = [
-            (
-                issue_dict["id"],
-                issue_dict["state"],
-                issue_dict["title"],
-                issue_dict["description"],
-                ",".join(issue_dict["labels"]),
-                issue_dict["updated_at"],
-                #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
-                issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
-                issue_dict["web_url"],
-                0,
-                issue_dict["id"]
-                ) for issue_dict in issue_list if str_to_datetime(issue_dict["created_at"]) <= last_db_update_dt
-            ]
+    if len(issues_to_update_list) > 0:
+        sql_update_params = [
+                (
+                    issue_dict["id"],
+                    issue_dict["state"],
+                    issue_dict["title"],
+                    issue_dict["description"],
+                    ",".join(issue_dict["labels"]),
+                    issue_dict["created_at"],
+                    issue_dict["updated_at"],
+                    #issue_dict["milestone"]["id"] if ("milestone" in issue_dict and "id" in issue_dict["milestone"]) else "",
+                    issue_dict["milestone"]["id"] if (issue_dict["milestone"] is not None) else "",
+                    issue_dict["web_url"],
+                    issue_dict["project_id"],
+                    issue_dict["iid"],
+                    issue_dict["user_notes_count"],
+                    0,
+                    issue_dict["id"]
+                    ) for issue_dict in issues_to_update_list
+                ]
 
-    SQL_UPDATE_QUERY = """UPDATE {} SET
-        id=?,
-        state=?,
-        title=?,
-        description=?,
-        labels=?,
-        updated_at=?,
-        milestone_id=?,
-        web_url=?,
-        upload_required=?
-        WHERE id=?""".format(ISSUES_TABLE_NAME)
+        SQL_UPDATE_QUERY = """UPDATE {} SET
+            id=?,
+            state=?,
+            title=?,
+            description=?,
+            labels=?,
+            created_at=?,
+            updated_at=?,
+            milestone_id=?,
+            web_url=?,
+            project_id=?,
+            iid=?,
+            num_notes=?,
+            upload_required=?
+            WHERE id=?""".format(ISSUES_TABLE_NAME)
 
-    cur.executemany(SQL_UPDATE_QUERY, sql_update_params)
+        cur.executemany(SQL_UPDATE_QUERY, sql_update_params)
 
     con.commit()
     con.close()
@@ -479,20 +563,22 @@ class Worker(QRunnable):
     Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
     '''
 
-    def __init__(self, fast_pull=False):
+    def __init__(self, project_iid_list=None, update_after=None):
         super(Worker, self).__init__()
-        self.fast_pull = fast_pull
+        self.project_iid_list = project_iid_list
+        self.update_after = update_after
         self.signals = WorkerSignals()
 
     @Slot()
     def run(self):
         try:
-            if self.fast_pull:
-                last_db_update_str = get_last_db_update_datetime()
-                last_db_update_dt = str_to_datetime(last_db_update_str)
-
+            if self.project_iid_list is not None:
+                issue_list = fetch_selected_issues(self.project_iid_list, progress_callback=self.signals.progress)
+                update_sqlite_database(issue_list)
+            elif self.update_after is not None:
+                last_db_update_str = get_last_db_update_datetime()       # TODO: THIS IS WRONG BECAUSE OF PUSH AND SELECTIVE PULL !!!
                 issue_list = fetch_issues(update_after=last_db_update_str, progress_callback=self.signals.progress)
-                update_sqlite_database(issue_list, last_db_update_dt)
+                update_sqlite_database(issue_list)
             else:
                 issue_list = fetch_issues(progress_callback=self.signals.progress)
                 make_sqlite_database(issue_list)
@@ -656,6 +742,9 @@ class IssuesTab(QWidget):
         init_db_button = QPushButton('Init', parent=self)
         init_db_button.clicked.connect(self.init_db_callback)
 
+        pull_selected_issues_button = QPushButton('Pull Selected', parent=self)
+        pull_selected_issues_button.clicked.connect(self.pull_selected_issues_callback)
+
         pull_button = QPushButton('Pull', parent=self)
         pull_button.clicked.connect(self.pull_updates_callback)
 
@@ -663,6 +752,7 @@ class IssuesTab(QWidget):
         push_button.clicked.connect(self.push_updates_callback)
 
         sync_hbox.addWidget(init_db_button)
+        sync_hbox.addWidget(pull_selected_issues_button)
         sync_hbox.addWidget(pull_button)
         sync_hbox.addWidget(push_button)
 
@@ -881,8 +971,49 @@ class IssuesTab(QWidget):
         self.main_window.threadpool.start(worker)
 
 
-    def pull_updates_callback(self):
-        worker = Worker(fast_pull=True)
+    def pull_selected_issues_callback(self):
+        selection_index_list = self.table_view.selectionModel().selectedRows()
+        selected_row_list = [source_index.row() for source_index in selection_index_list]
+
+        project_iid_list = []
+
+        if len(selected_row_list) > PUSH_NUM_ROWS_ALERT_THRESHOLD:
+            # Add a dialog box to confirm the operation (and show the number of rows concerned)
+            title = "{} issues will be updated on GitLab.".format(len(selected_row_list))
+            msg = "Do you want to proceed anyway?"
+
+            msgBox = QMessageBox()
+            msgBox.setText(title)
+            msgBox.setInformativeText(msg)
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            msgBox.setDefaultButton(QMessageBox.Cancel)
+            reply = msgBox.exec()
+
+            if reply == QMessageBox.Cancel:
+                return
+
+        for row_index in sorted(selected_row_list, reverse=True):
+            # Remove rows one by one to allow the removal of non-contiguously selected rows (e.g. "rows 0, 2 and 3")
+            
+            #print(self.model.index(row_index, self.model.fieldIndex("id")).data(Qt.EditRole), self.model.record(row_index).value("id"))
+            record = self.model.record(row_index)
+
+            project_id = record.value("project_id")
+            iid = record.value("iid")
+
+            project_iid_list.append((project_id, iid)) 
+
+
+        worker = Worker(project_iid_list=project_iid_list)
+        worker.signals.progress.connect(self.progress_callback)
+        worker.signals.finished.connect(self.thread_complete_callback)
+
+        # Execute
+        self.main_window.threadpool.start(worker)
+
+
+    def pull_updates_callback(self): # TODO: last update date may be wrong because of "push" and because of "pull_selected_issues" !!!
+        worker = Worker(update_after=True)
         worker.signals.progress.connect(self.progress_callback)
         worker.signals.finished.connect(self.thread_complete_callback)
 
