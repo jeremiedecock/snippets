@@ -1,9 +1,9 @@
 # Flask
 
-http://flask.pocoo.org/
+https://flask.palletsprojects.com/en/1.1.x/installation/#install-flask
 
-Install in Anaconda:
+Install with pip:
 
 ```
-conda install flask
+pip install Flask
 ```
