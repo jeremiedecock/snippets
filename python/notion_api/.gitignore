@@ -1,0 +1,5 @@
+NOTION_DB_ID*
+NOTION_SECRET_TOKEN*
+*.json
+*.sqlite
+misc/
