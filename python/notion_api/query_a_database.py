@@ -38,11 +38,13 @@ def parse_property(property_dict):
         for ms in property_dict["rollup"]["array"]:
             for ms2 in ms["multi_select"]:
                 value.add(ms2["name"])
+        value = list(value)
 
     elif property_dict["type"] == "multi_select":
         value = set()
         for ms in property_dict["multi_select"]:
             value.add(ms["name"])
+        value = list(value)
 
     elif property_dict["type"] == "select":
         value = None
@@ -61,6 +63,7 @@ def parse_property(property_dict):
         value = set()
         for ms in property_dict["people"]:
             value.add(ms["name"])
+        value = list(value)
     
     elif property_dict["type"] == "url":
         value =  property_dict["url"]
@@ -68,7 +71,16 @@ def parse_property(property_dict):
     elif property_dict["type"] == "relation":
         value = set()
         for ms in property_dict["relation"]:
-            value.add(ms["id"])    # TODO
+            page_id = ms["id"]
+            sub_resp = requests.get(f"https://api.notion.com/v1/pages/{page_id}", headers=HEADER_DICT)
+
+            for k, v in sub_resp.json()["properties"].items():
+                if v["type"] == "title":
+                    title = ""
+                    for line in v["title"]:
+                        title += line['plain_text']
+                    value.add(title)
+        value = list(value)
     
     elif property_dict["type"] == "title":
         value = ""
@@ -77,10 +89,16 @@ def parse_property(property_dict):
 
     return value
 
+
 resp = requests.post(REQUEST_URL, headers=HEADER_DICT, data=json.dumps(DATA_DICT))
 
 for row in resp.json()['results']:
-    print(parse_property(row["properties"]["Nom"]))
+    row_dict = {}
+    for property, property_dict in row["properties"].items():
+        row_dict[property] = parse_property(property_dict)
+
+    print(row_dict)
+
 
 #with open("db.json", "w") as fd:
 #    #json.dump(data, fd)                           # no pretty print
