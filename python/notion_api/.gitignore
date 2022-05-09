@@ -1,5 +1,8 @@
+env/
 NOTION_DB_ID*
 NOTION_SECRET_TOKEN*
+NOTION_PAGE_ID*
 *.json
 *.sqlite
 misc/
+accenta/
