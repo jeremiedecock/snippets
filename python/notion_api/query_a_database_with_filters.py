@@ -41,7 +41,10 @@ resp = requests.post(REQUEST_URL, headers=HEADER_DICT, data=json.dumps(DATA_DICT
 print(json.dumps(resp.json(), sort_keys=False, indent=4))
 
 for row in resp.json()['results']:
-    row_dict = {}
+    row_dict = {
+        "page_id": row["id"]
+    }
+
     for property, property_dict in row["properties"].items():
         row_dict[property] = notionapi.parse_property(property_dict)
 
