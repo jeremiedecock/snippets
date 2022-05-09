@@ -90,6 +90,8 @@ def parse_property(property_dict):
 
 resp = requests.post(REQUEST_URL, headers=HEADER_DICT, data=json.dumps(DATA_DICT))
 
+print(json.dumps(resp.json(), sort_keys=False, indent=4))
+
 for row in resp.json()['results']:
     row_dict = {}
     for property, property_dict in row["properties"].items():
