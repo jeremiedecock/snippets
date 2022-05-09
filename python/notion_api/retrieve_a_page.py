@@ -6,7 +6,7 @@
 # http://docs.python-requests.org/en/master/user/quickstart/
 #################################################################
 
-# Src: https://developers.notion.com/reference/retrieve-a-database
+# Src: https://developers.notion.com/reference/retrieve-a-page
 
 import requests
 import json
