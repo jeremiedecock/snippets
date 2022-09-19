@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  vuejs_snippets:
+    container_name: vuejs_snippets
+    image: node:lts
+    working_dir: /var/www/html/app/
+    entrypoint: /bin/bash
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./docker_volume/:/var/www/html/app
+    tty: true
