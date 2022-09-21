@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div id="foo"></div>
+
+        <script> // or  <script type="text/javascript">
+
+            // To execute Javascript code after the complete loading of the full documents (to avoid inconsistencies between HTML and JS)
+            // See: http://stackoverflow.com/questions/588040/window-onload-vs-document-onload -->
+
+            window.onload = function() {
+                // https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch
+                // https://gist.github.com/justsml/529d0b1ddc5249095ff4b890aad5e801#get-requests
+
+                fetch('http://127.0.0.1:5000/hello')
+                    .then(response => response.json())
+                    .then(data => {
+                        //console.log(data) // Prints result from `response.json()` in getRequest 
+                        console.log(data)
+                        document.getElementById("foo").innerHTML = data.message;
+                    })
+                    .catch(error => console.error(error))
+            }
+
+        </script>
+    </body>
+</html>
