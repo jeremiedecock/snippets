@@ -1,0 +1,11 @@
+version: "3.4"
+services:
+  vuejs_snippets:
+    container_name: vuejs_snippets
+    image: node:lts
+    working_dir: /var/www/html/app/
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./:/var/www/html/app
+    command: bash -c "npm install && npm run dev"    # c.f. https://stackoverflow.com/a/30064175
