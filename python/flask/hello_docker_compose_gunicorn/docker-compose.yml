@@ -1,0 +1,7 @@
+version: "3.4"
+services:
+  wsgi:
+    container_name: wsgi
+    build: ./wsgi
+    ports:
+      - "8000:8000"
