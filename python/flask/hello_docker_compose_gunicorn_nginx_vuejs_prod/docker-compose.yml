@@ -1,0 +1,16 @@
+version: "3.4"
+services:
+  flask:
+    container_name: flask
+    build: ./flask
+    # https://stackoverflow.com/questions/38346847/nginx-docker-container-502-bad-gateway-response
+    network_mode: host
+    #ports:
+    #  - "8000:8000"
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    # https://stackoverflow.com/questions/38346847/nginx-docker-container-502-bad-gateway-response
+    network_mode: host
+    #ports:
+    #  - "80:80"
