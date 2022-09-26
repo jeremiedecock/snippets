@@ -8,7 +8,7 @@ export default {
   methods: {
     printMessage() {
       if(window.fetch) {
-        fetch('http://127.0.0.1:8000/')
+        fetch('api/datetime')                       // Call http://localhost/api/datetime
           .then(response => response.json())
           .then(data => {
               this.message = data.message
