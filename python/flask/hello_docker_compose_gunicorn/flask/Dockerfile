@@ -1,5 +1,4 @@
-#FROM python as wsgi
-FROM python
+FROM python:alpine
 
 WORKDIR /app
 COPY . ./
