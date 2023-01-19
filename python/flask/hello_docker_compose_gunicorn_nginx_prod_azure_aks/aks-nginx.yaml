@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    application: flask-nginx
+    component: nginx
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    application: flask-nginx
+    component: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    application: flask-nginx
+    component: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: flask-nginx
+      component: nginx
+  template:
+    metadata:
+      labels:
+        application: flask-nginx
+        component: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
