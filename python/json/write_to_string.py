@@ -31,7 +31,7 @@ data = {"key1": "value1",
         "key4": True,
         "key5": (1, 2, 3, 4)}
 
-data_str = json.dumps(data)
-#data_str = json.dumps(data, sort_keys=True, indent=4)  # pretty print format
+#data_str = json.dumps(data)
+data_str = json.dumps(data, sort_keys=True, indent=4, default=str)  # pretty print format
 
 print(data_str)

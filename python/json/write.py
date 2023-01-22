@@ -35,4 +35,4 @@ print(data)
 
 with open("test.json", "w") as fd:
     #json.dump(data, fd)                           # no pretty print
-    json.dump(data, fd, sort_keys=True, indent=4)  # pretty print format
+    json.dump(data, fd, sort_keys=True, indent=4, default=str)  # pretty print format
