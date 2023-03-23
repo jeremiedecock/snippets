@@ -1,0 +1,4 @@
+- https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/What_are_WebExtensions
+- https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Working_with_the_Tabs_API
+- https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Work_with_the_Bookmarks_API
+- https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard

@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "Hello",
+    "version": "1.0",
+  
+    "description": "Ajoute une icône à la barre d'outil pour une action navigateur. Cliquez sur le bouton pour afficher un message.",
+    "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+  
+    "permissions": [
+      "activeTab",
+      "tabs"
+    ],
+  
+    "browser_action": {
+      "default_title": "Hello",
+      "default_popup": "popup/hello.html"
+    }
+}
+  

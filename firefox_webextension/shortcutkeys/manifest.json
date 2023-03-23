@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Hello shortcut key",
+  "version": "1.0",
+
+  "description": "Test de déclanchement d'actions via un raccourci clavier.",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/main/commands",
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "commands": {
+    "toggle-feature": {
+      "suggested_key": { "default": "Ctrl+Shift+U" },
+      "description": "Send a 'toggle-feature' event to the extension"
+    }
+  }
+}

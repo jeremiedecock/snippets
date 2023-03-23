@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Tabs utils v1.0",
+  "version": "1.0",
+
+  "description": "Copy tabs url to the clipboard.",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/tabs-tabs-tabs",
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "commands": {
+    "toggle-feature": {
+      "suggested_key": { "default": "Ctrl+Shift+U" },
+      "description": "Send a 'toggle-feature' event to the extension"
+    }
+  },
+
+  "permissions": [
+    "tabs",
+    "clipboardRead",
+    "clipboardWrite"
+  ]
+}

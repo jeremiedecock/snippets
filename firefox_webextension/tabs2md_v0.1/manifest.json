@@ -1,0 +1,22 @@
+{
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "58.0a1"
+    }
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_title": "Tabs utils 3",
+    "default_popup": "tabs.html"
+  },
+  "description": "A list of methods you can perform on a tab.",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/tabs-tabs-tabs",
+  "manifest_version": 2,
+  "name": "Tabs utils 3",
+  "permissions": [
+    "tabs",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "version": "1.0"
+}
