@@ -1,0 +1,7 @@
+deap
+jupyterlab
+matplotlib
+numpy
+pandas
+scoop
+seaborn
