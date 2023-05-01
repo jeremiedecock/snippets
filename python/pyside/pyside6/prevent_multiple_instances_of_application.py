@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Src: https://forum.qt.io/post/415480
+# See also: https://doc.qt.io/qt-6/qsharedmemory.html
 
 import sys
 from PySide6 import QtCore, QtWidgets
@@ -23,9 +24,14 @@ class MyWidget(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    shared = QSharedMemory("62d60669-bb94-4a94-88bb-b964890a7e04")
-    if not shared.create(512, QSharedMemory.ReadWrite):
+    shm = QSharedMemory("62d60669-bb94-4a94-88bb-b964890a7e04")
+    if not shm.create(512, QSharedMemory.ReadWrite):
         print("Can't start more than one instance of the application", file=sys.stderr)
+
+        # If SHM is locked by accident (e.g. if previous application instance crashed), it can be unlocked with the following calls:
+        # shm.attach()
+        # shm.detach()
+
         sys.exit(1)
 
     print("Application started successfully")
