@@ -4,20 +4,28 @@
 # Source: https://keras.io/examples/vision/mnist_convnet/
 
 from tensorflow import keras
-
-print(f"Keras version {keras.__version__}")
+import numpy as np
 
 
 # Prepare the data ############################################################
 
-# Model / data parameters
-num_classes = 10
-input_shape = (28, 28, 1)
-
 # Load the data and split it between train and test sets
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
-# convert class vectors to binary class matrices
+# Convert class vectors to binary class matrices
+num_classes = 10
+input_shape = (28, 28, 1)
+
+# Scale images to the [0, 1] range
+x_train = x_train.astype("float32") / 255
+x_test = x_test.astype("float32") / 255
+
+# Make sure images have shape (28, 28, 1)
+# Change x_train.shape from (60000, 28, 28) to (60000, 28, 28, 1)
+x_train = np.expand_dims(x_train, -1)
+x_test = np.expand_dims(x_test, -1)
+
+# Convert class vectors to binary class matrices (i.e. use the "one-hot encoding")
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -42,16 +50,28 @@ model.summary()
 
 # Train the model #############################################################
 
-batch_size = 128
-epochs = 15
-
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+print("\n# Fit", "#" * (80-5), "\n")
+model.fit(x_train, y_train, batch_size=128, epochs=5, validation_split=0.1)
 
 
 # Evaluate the trained model ##################################################
 
+print("\n# Evaluate", "#" * (80-12), "\n")
 score = model.evaluate(x_test, y_test, verbose=0)
-print("Test loss:", score[0])
-print("Test accuracy:", score[1])
+
+print(f"Test loss: {score[0]}")
+print(f"Test accuracy: {score[1]}\n")
+
+
+# Predict an example ##########################################################
+
+print("# Predict", "#" * (80-12), "\n")
+prediction = model.predict(x_test[0:1])
+
+print(f"\nPredicted raw output: {prediction}")
+print(f"Expected raw output: {y_test[0]}\n")
+
+print(f"Predicted class: {prediction.argmax()}")
+print(f"Actual class: {y_test[0].argmax()}\n")

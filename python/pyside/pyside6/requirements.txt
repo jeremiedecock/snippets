@@ -1,0 +1,2 @@
+# Use the following version; other versions (e.g. 6.0, 6.1 or even the latest version) have some issues (e.g. the web doesn't work, ...)!
+pyside6==6.2.2.1
