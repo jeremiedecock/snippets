@@ -4,7 +4,7 @@ Installation
 Posix (Linux, MacOSX, WSL, ...)
 -------------------------------
 
-From the Submit API source code::
+From the this directory::
 
     conda deactivate         # Only if you use Anaconda...
     python3 -m venv env
