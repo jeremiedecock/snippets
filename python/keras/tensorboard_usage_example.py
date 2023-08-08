@@ -41,7 +41,7 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 model = keras.Sequential(
     [
-        keras.Input(shape=input_shape),
+        keras.layers.Input(shape=input_shape),
         keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
         keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),

@@ -1,3 +1,5 @@
 env/
 logs/
 .aim/
+.ipynb_checkpoints/
+best_model.h5

@@ -1,2 +1,11 @@
 aim
+ipydatagrid
+ipython
+ipywidgets
+jupyterlab
+matplotlib
+pandas
+plotly
+seaborn
 tensorboard
+voila

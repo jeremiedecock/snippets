@@ -7,6 +7,12 @@ from tensorflow import keras
 import numpy as np
 
 
+# Save model callback #########################################################
+
+save_path = "./best_model.h5"
+savemodel_callback = keras.callbacks.ModelCheckpoint(filepath=save_path, verbose=0, save_best_only=True)
+
+
 # Prepare the data ############################################################
 
 # Load the data and split it between train and test sets
@@ -52,27 +58,11 @@ model.summary()
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-print("\n# Fit", "#" * (80-5), "\n")
-model.fit(x_train, y_train, batch_size=128, epochs=5, validation_split=0.1)
+model.fit(x_train, y_train, batch_size=128, epochs=5, validation_split=0.1, callbacks=[savemodel_callback])
 
 
 # Evaluate the trained model ##################################################
 
-print("\n# Evaluate", "#" * (80-12), "\n")
 score = model.evaluate(x_test, y_test, verbose=0)
-
-print(f"Test loss: {score[0]}")
-print(f"Test accuracy: {score[1]}\n")
-
-
-# Predict an example ##########################################################
-
-for i in range(5):
-    print("# Predict", "#" * (80-12), "\n")
-    prediction = model.predict(x_test[i:i+1])
-
-    print(f"\nPredicted raw output: {prediction}")
-    print(f"Expected raw output: {y_test[i]}\n")
-
-    print(f"Predicted class: {prediction.argmax()}")
-    print(f"Actual class: {y_test[i].argmax()}\n")
+print("\nTest loss:", score[0])
+print("Test accuracy:", score[1])
