@@ -1,0 +1,6 @@
+env/
+logs/
+.aim/
+.ipynb_checkpoints/
+data/
+*.pth
