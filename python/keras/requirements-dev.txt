@@ -1,8 +1,10 @@
+-r requirements.txt
 aim
 ipydatagrid
 ipython
 ipywidgets
 jupyterlab
+jupytext
 matplotlib
 pandas
 plotly
