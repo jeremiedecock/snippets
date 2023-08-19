@@ -1,0 +1,5 @@
+accelerate     # for GPU acceleration
+bitsandbytes   # for 8-bit quantization
+scipy          # required by bitsandbytes
+torch
+transformers

@@ -1,0 +1,9 @@
+-r requirements.txt
+ipython
+jupyterlab
+jupytext
+matplotlib
+pandas
+plotly
+seaborn
+voila
