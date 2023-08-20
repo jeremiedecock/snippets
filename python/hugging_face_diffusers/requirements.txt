@@ -1,0 +1,8 @@
+accelerate
+diffusers
+invisible_watermark
+safetensors
+torch
+torchaudio
+torchvision
+transformers
