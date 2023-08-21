@@ -24,6 +24,15 @@ def chat(message, history):
     return tokenizer.decode(outputs[0])
 
 
-demo = gr.ChatInterface(chat)
+examples = [
+    "Translate to English: Je t’aime.",
+    "Write a fairy tale about a troll saving a princess from a dangerous dragon. The fairy tale is a masterpiece that has achieved praise worldwide and its moral is \"Heroes Come in All Shapes and Sizes\". Story (in French):",
+    "Explain in a sentence in French what is backpropagation in neural networks."
+]
+
+demo = gr.ChatInterface(chat,
+                        examples=examples,
+                        title="BloomZ 560M",
+                        description="See: https://huggingface.co/bigscience/bloomz-560m")
 
 demo.launch()
