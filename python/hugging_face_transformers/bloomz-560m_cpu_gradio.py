@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-# Source: https://huggingface.co/bigscience/mt0-small#cpu
+# Source: https://huggingface.co/bigscience/bloomz-560m#cpu
 
-# To run this demo, type in a terminal: gradio bloomz-mt0-small_cpu_gradio.py
+# To run this demo, type in a terminal: gradio bloomz-560m_cpu_gradio.py
 
-# Model "bigscience/mt0-small" (300M parameters): multitask finetuned on xP3.
+# Model "bigscience/bloomz-560m" (560M parameters): multitask finetuned on xP3.
 # Recommended for prompting in English. 
-# See: https://huggingface.co/bigscience/mt0-small
+# See: https://huggingface.co/bigscience/bloomz-560m
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import gradio as gr
 
-checkpoint = "bigscience/mt0-small"
+checkpoint = "bigscience/bloomz-560m"
 
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
