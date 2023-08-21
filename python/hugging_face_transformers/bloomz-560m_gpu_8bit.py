@@ -6,12 +6,12 @@
 # Recommended for prompting in English. 
 # See: https://huggingface.co/bigscience/bloomz-560m
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 checkpoint = "bigscience/bloomz-560m"
 
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint, device_map="auto", load_in_8bit=True)
+model = AutoModelForCausalLM.from_pretrained(checkpoint, device_map="auto", load_in_8bit=True)
 
 inputs = tokenizer.encode("Translate to English: Je t’aime.", return_tensors="pt").to("cuda")
 outputs = model.generate(inputs)
