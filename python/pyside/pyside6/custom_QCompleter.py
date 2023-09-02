@@ -16,79 +16,81 @@ class TextEdit(QPlainTextEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.setPlainText("This TextEdit provides autocompletions for words that have more than"
-                          " 3 characters. You can trigger autocompletion using Ctrl+E")
-        self.c = None
+        self.setPlainText("This TextEdit provides autocompletions for words that have more than 3 characters. "
+                          "Try to type name of planets in our Solar System. "
+                          "You can trigger autocompletion using Ctrl+E.")
+        self._completer = None
+
 
     def setCompleter(self, completer: QCompleter):
-        if self.c:
-            self.c.disconnect(self)
+        if self._completer is not None:
+            self._completer.disconnect(self)
 
-        self.c = completer
+        self._completer = completer
+        self._completer.setWidget(self)
+        self._completer.setCompletionMode(QCompleter.PopupCompletion)
+        self._completer.setCaseSensitivity(Qt.CaseInsensitive)
+        self._completer.activated[str].connect(self.insertCompletion)
 
-        if not self.c:
-            return
-
-        self.c.setWidget(self)
-        self.c.setCompletionMode(QCompleter.PopupCompletion)
-        self.c.setCaseSensitivity(Qt.CaseInsensitive)
-        self.c.activated[str].connect(self.insertCompletion)
 
     @property
     def completer(self) -> QCompleter:
-        return self.c
+        return self._completer
+
 
     @Slot(str)
     def insertCompletion(self, completion: str):
-        if self.c.widget() != self:
+        if self._completer.widget() != self:
             return
         tc = self.textCursor()
-        extra = len(completion) - len(self.c.completionPrefix())
+        extra = len(completion) - len(self._completer.completionPrefix())
         tc.movePosition(QTextCursor.Left)
         tc.movePosition(QTextCursor.EndOfWord)
         tc.insertText(completion[-extra:])
         self.setTextCursor(tc)
+
 
     def textUnderCursor(self) -> str:
         tc = self.textCursor()
         tc.select(QTextCursor.WordUnderCursor)
         return tc.selectedText()
 
+
     def focusInEvent(self, e: QFocusEvent):
-        if self.c:
-            self.c.setWidget(self)
+        if self._completer is not None:
+            self._completer.setWidget(self)
         super(TextEdit, self).focusInEvent(e)
 
+
     def keyPressEvent(self, e: QKeyEvent):
-        if self.c and self.c.popup().isVisible():
+        if (self._completer is not None) and (self._completer.popup().isVisible()):
             if e.key() in [Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab]:
                 e.ignore()
                 return
 
         isShortcut = e.modifiers() & Qt.ControlModifier and e.key() == Qt.Key_E
-        if not self.c or not isShortcut:
+        if (self._completer is None) or (not isShortcut):
             super(TextEdit, self).keyPressEvent(e)
 
         ctrlOrShift = e.modifiers() & (Qt.ControlModifier | Qt.ShiftModifier)
-        if not self.c or (ctrlOrShift and not e.text()):
+        if (self._completer is None) or (ctrlOrShift and not e.text()):
             return
 
         eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="  # end of word
         hasModifier = e.modifiers() != Qt.NoModifier and not ctrlOrShift
         completionPrefix = self.textUnderCursor()
 
-        if (not isShortcut and (hasModifier or not e.text() or len(completionPrefix) < 3
-                                or e.text()[-1] in eow)):
-            self.c.popup().hide()
+        if (not isShortcut and (hasModifier or not e.text() or len(completionPrefix) < 3 or e.text()[-1] in eow)):
+            self._completer.popup().hide()
             return
 
-        if completionPrefix != self.c.completionPrefix():
-            self.c.setCompletionPrefix(completionPrefix)
-            self.c.popup().setCurrentIndex(self.c.completionModel().index(0, 0))
+        if completionPrefix != self._completer.completionPrefix():
+            self._completer.setCompletionPrefix(completionPrefix)
+            self._completer.popup().setCurrentIndex(self._completer.completionModel().index(0, 0))
 
         cr = self.cursorRect()
-        cr.setWidth(self.c.popup().sizeHintForColumn(0) + self.c.popup().verticalScrollBar().sizeHint().width())
-        self.c.complete(cr)
+        cr.setWidth(self._completer.popup().sizeHintForColumn(0) + self._completer.popup().verticalScrollBar().sizeHint().width())
+        self._completer.complete(cr)
 
 
 class Window(QWidget):
@@ -103,7 +105,7 @@ class Window(QWidget):
         self.completer = QCompleter(self)
 
         self.model = QStringListModel()
-        self.model.setStringList(["aaaaa", "bbbbbb", "cccccc", "dddddd"])
+        self.model.setStringList(sorted(["mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]))  # The list of words to be autocompleted have to be sorted otherwise it won't work!
 
         self.completer.setModel(self.model)
         self.completer.setModelSorting(QCompleter.CaseInsensitivelySortedModel)
