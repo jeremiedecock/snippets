@@ -19,7 +19,7 @@ model = AutoModelForCausalLM.from_pretrained(checkpoint)
 def chat(message, history):
     # TODO: use `history`
     inputs = tokenizer.encode(message, return_tensors="pt")
-    outputs = model.generate(inputs)
+    outputs = model.generate(inputs, do_sample=True, top_p=0.95, top_k=60, temperature=0.9, max_length=1000, num_return_sequences=1)
 
     return tokenizer.decode(outputs[0])
 
