@@ -25,4 +25,4 @@ def generate_image(prompt):
 
 demo = gr.Interface(generate_image, "text", "image")
 
-demo.launch()
+demo.launch(server_name="0.0.0.0")
