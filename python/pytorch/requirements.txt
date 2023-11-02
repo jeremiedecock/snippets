@@ -1,3 +1,5 @@
 torch
 torchaudio
 torchvision
+scikit-learn     # To load some datasets
+gymnasium[box2d] # For Reinforcement Learning examples
