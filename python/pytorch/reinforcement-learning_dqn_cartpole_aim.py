@@ -36,7 +36,7 @@ GAMMA = 0.99          # The discount factor
 EPSILON = 0.05        # the starting value of epsilon
 LR = 1e-4             # The learning rate of the ``AdamW`` optimizer
 
-NUM_EPISODES = 500   # The number of episodes to train for
+NUM_EPISODES = 500    # The number of episodes to train for
 
 
 # ACTION-VALUE FUNCTION ESTIMATION ############################################
@@ -52,16 +52,17 @@ class QNetwork(torch.nn.Module):
     def forward(self, x):
         x = torch.nn.functional.relu(self.layer1(x))
         x = torch.nn.functional.relu(self.layer2(x))
-        return self.layer3(x)
+        x = self.layer3(x)
+        return x
 
 
 # EPSILON-GREEDY ##############################################################
 
 class EpsilonGreedy:
-    def __init__(self, epsilon: float, env: gym.Env, policy_network):
+    def __init__(self, epsilon: float, env: gym.Env, q_network):
         self.epsilon = epsilon
         self.env = env
-        self.policy_network = policy_network
+        self.q_network = q_network
     
     def __call__(self, state):
         """Select action with epsilon-greedy policy"""
@@ -70,9 +71,10 @@ class EpsilonGreedy:
             action = self.env.action_space.sample()
         else:
             with torch.no_grad():
+                # Convert the state to a PyTorch tensor and add a batch dimension (unsqueeze)
                 state_tensor = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
 
-                q_values = self.policy_network(state_tensor)
+                q_values = self.q_network(state_tensor)
                 action = q_values.argmax().item()
         
         return action
@@ -124,6 +126,9 @@ def train():
         episode_reward = 0
 
         for t in itertools.count():
+
+            # GET ACTION, NEXT_STATE AND REWARD ###########
+
             action = epsilon_greedy(state)
 
             next_state, reward, terminated, truncated, info = env.step(action)
@@ -131,28 +136,33 @@ def train():
 
             episode_reward += reward
 
-            # Update the q_network weights
+            # UPDATE THE Q_NETWORK WEIGHTS ################
+
             with torch.no_grad():
+                # Convert the next_state to a PyTorch tensor and add a batch dimension (unsqueeze)
                 next_state_tensor = torch.tensor(next_state, dtype=torch.float32, device=device).unsqueeze(0)
                 target = reward + GAMMA * q_network(next_state_tensor).max()
 
+            # Convert the state to a PyTorch tensor and add a batch dimension (unsqueeze)
             state_tensor = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
             q_values = q_network(state_tensor)
-            q_value_of_action = q_values[0, action]
+            q_value_of_current_action = q_values[0, action]
 
-            loss = loss_fn(q_value_of_action, target)
+            loss = loss_fn(q_value_of_current_action, target)
 
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            # Log the episode reward
+            # LOG THE EPISODE REWARD ######################
+
             if done:
                 print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
                 aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train" })
                 break
 
-            # Update the state
+            # UPDATE THE STATE ############################
+
             state = next_state
 
 
@@ -180,6 +190,7 @@ def inference():
     while True:
         state, info = env.reset()
         done = False
+        episode_reward = 0
 
         while not done:
             action = epsilon_greedy(state)
@@ -187,7 +198,11 @@ def inference():
             next_state, reward, terminated, truncated, info = env.step(action)
             done = terminated or truncated
 
+            episode_reward += reward
+
             state = next_state
+
+        print(f"Episode reward: {episode_reward}")
 
     #env.close()
 
