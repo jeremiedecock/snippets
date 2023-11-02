@@ -13,6 +13,7 @@ import aim
 import aim.pytorch
 import gymnasium as gym
 import itertools
+import numpy as np
 import random
 import torch
 
@@ -35,11 +36,13 @@ AIM_TRACK_GRADIENTS = True
 
 # TRAINING PARAMETERS
 
-NN_L1 = 32            # The number of neurons in the first layer
-NN_L2 = 32            # The number of neurons in the second layer
+NN_L1 = 128            # The number of neurons in the first layer
+NN_L2 = 128            # The number of neurons in the second layer
 
 GAMMA = 0.99          # The discount factor
-EPSILON = 0.05        # the starting value of epsilon
+EPSILON_START = 1.0   # The starting value of epsilon
+EPSILON_MIN = 0.001   # The minimum value of epsilon
+EPSILON_DECAY = 0.999 # The decay rate of epsilon
 LR = 1e-4             # The learning rate of the optimizer
 
 NUM_EPISODES = 500    # The number of episodes to train for
@@ -65,12 +68,19 @@ class QNetwork(torch.nn.Module):
 # EPSILON-GREEDY ##############################################################
 
 class EpsilonGreedy:
-    def __init__(self, epsilon: float, env: gym.Env, q_network):
-        self.epsilon = epsilon
+    def __init__(self,
+                 epsilon_start: float,
+                 epsilon_min: float,
+                 epsilon_decay:float,
+                 env: gym.Env,
+                 q_network: torch.nn.Module):
+        self.epsilon = epsilon_start
+        self.epsilon_min = epsilon_min
+        self.epsilon_decay = epsilon_decay
         self.env = env
         self.q_network = q_network
     
-    def __call__(self, state):
+    def __call__(self, state: np.ndarray):
         """Select action with epsilon-greedy policy"""
 
         if random.random() < self.epsilon:
@@ -84,6 +94,10 @@ class EpsilonGreedy:
                 action = q_values.argmax().item()
         
         return action
+
+    def decay_epsilon(self):
+        """Decay epsilon"""
+        self.epsilon = max(self.epsilon_min, self.epsilon * self.epsilon_decay)
 
 
 # TRAINING ####################################################################
@@ -108,7 +122,9 @@ def train():
         "nn_l2": NN_L2,
         "gamma": GAMMA,
         "learning_rate": LR,
-        "epsilon": EPSILON,
+        "epsilon_start": EPSILON_START,
+        "epsilon_min": EPSILON_MIN,
+        "epsilon_decay": EPSILON_DECAY,
         "learning_rate": LR,
         "num_episodes": NUM_EPISODES,
         "state_dim": state_dim,
@@ -126,7 +142,7 @@ def train():
     optimizer = torch.optim.AdamW(q_network.parameters(), lr=LR, amsgrad=True)
     loss_fn = torch.nn.MSELoss()
 
-    epsilon_greedy = EpsilonGreedy(EPSILON, env, q_network)
+    epsilon_greedy = EpsilonGreedy(EPSILON_START, EPSILON_MIN, EPSILON_DECAY, env, q_network)
 
     # TRAINING LOOP
 
@@ -179,11 +195,14 @@ def train():
             if done:
                 print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
                 aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train", "type": "metric_type" })
+                aim_run.track(epsilon_greedy.epsilon, name='epsilon', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
                 break
 
             # UPDATE THE STATE ############################
 
             state = next_state
+
+        epsilon_greedy.decay_epsilon()
 
 
     # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###################################
@@ -203,7 +222,7 @@ def inference():
 
     env = gym.make(GYM_ENVIRONMENT_NAME, render_mode="human")
     q_network = torch.load(PTH_FILE_NAME).to(device)
-    epsilon_greedy = EpsilonGreedy(EPSILON, env, q_network)
+    epsilon_greedy = EpsilonGreedy(EPSILON_MIN, EPSILON_MIN, 1., env, q_network)
 
     # EPISODES LOOP
 
