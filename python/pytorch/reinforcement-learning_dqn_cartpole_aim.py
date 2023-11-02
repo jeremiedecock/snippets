@@ -10,6 +10,7 @@ Notes: this naive implementation does't use buffer replay and target network.
 """
 
 import aim
+import aim.pytorch
 import gymnasium as gym
 import itertools
 import random
@@ -26,6 +27,11 @@ DO_INFERENCE = True
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# AIM PARAMETERS
+
+AIM_EXPERIMENT_NAME = "reinforcement-learning_dqn_cartpole"
+AIM_TRACK_WEIGHTS = True
+AIM_TRACK_GRADIENTS = True
 
 # TRAINING PARAMETERS
 
@@ -34,7 +40,7 @@ NN_L2 = 32            # The number of neurons in the second layer
 
 GAMMA = 0.99          # The discount factor
 EPSILON = 0.05        # the starting value of epsilon
-LR = 1e-4             # The learning rate of the ``AdamW`` optimizer
+LR = 1e-4             # The learning rate of the optimizer
 
 NUM_EPISODES = 500    # The number of episodes to train for
 
@@ -83,9 +89,16 @@ class EpsilonGreedy:
 # TRAINING ####################################################################
 
 def train():
+
+    # SET UP THE ENVIRONMENT
+
+    env = gym.make(GYM_ENVIRONMENT_NAME)
+    state_dim = env.observation_space.shape[0]
+    action_dim = env.action_space.n.item()
+
     # INITIALIZE AIM
 
-    aim_run = aim.Run()
+    aim_run = aim.Run(experiment=AIM_EXPERIMENT_NAME)
 
     # LOG PARAMETERS WITH AIM
 
@@ -98,18 +111,14 @@ def train():
         "epsilon": EPSILON,
         "learning_rate": LR,
         "num_episodes": NUM_EPISODES,
+        "state_dim": state_dim,
+        "action_dim": action_dim,
     }
 
     print("\n\n" + "*"*80)
     print("Type this in another therminal: aim up")
     print("and open in your web browser the printed URL (e.g. http://127.0.0.1:43800/)")
     print("*"*80, "\n\n")
-
-    # SET UP THE ENVIRONMENT
-
-    env = gym.make(GYM_ENVIRONMENT_NAME)
-    state_dim = env.observation_space.shape[0]
-    action_dim = env.action_space.n
 
     # INSTANTIATE REQUIRED OBJECTS
 
@@ -120,6 +129,8 @@ def train():
     epsilon_greedy = EpsilonGreedy(EPSILON, env, q_network)
 
     # TRAINING LOOP
+
+    iteration = 0
 
     for episode_index in range(NUM_EPISODES):
         state, info = env.reset()
@@ -154,11 +165,20 @@ def train():
             loss.backward()
             optimizer.step()
 
-            # LOG THE EPISODE REWARD ######################
+            # LOGS ########################################
+
+            iteration += 1
+            aim_run.track(loss, name='loss', step=iteration, context={ "subset": "train", "type": "loss_type" })
+
+            if AIM_TRACK_WEIGHTS:
+                aim.pytorch.track_params_dists(q_network, aim_run)
+
+            if AIM_TRACK_GRADIENTS:
+                aim.pytorch.track_gradients_dists(q_network, aim_run)
 
             if done:
                 print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
-                aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train" })
+                aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train", "type": "metric_type" })
                 break
 
             # UPDATE THE STATE ############################
