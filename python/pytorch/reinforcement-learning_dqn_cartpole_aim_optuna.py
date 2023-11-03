@@ -34,7 +34,7 @@ AIM_TRACK_GRADIENTS = False
 
 # OPTUNA PARAMETERS
 
-OPTUNA_STUDY_NAME = AIM_EXPERIMENT_NAME
+OPTUNA_STUDY_NAME = AIM_EXPERIMENT_NAME + "_with_lr_decay"
 OPTUNA_FITNESS_NUM_TIMESTEPS_AGGREGATED = 10
 OPTUNA_NUM_TRAININGS_PER_TRIAL = 3
 OPTUNA_NUM_TRIALS = 1000
@@ -107,6 +107,7 @@ def train(trial):
     EPSILON_MIN = 0.001                                              # The minimum value of epsilon
     EPSILON_DECAY = trial.suggest_float('epsilon_decay', 0.1, 0.999) # The decay rate of epsilon
     LR = trial.suggest_float('lr', 1e-6, 1e-1)                       # The learning rate of the optimizer
+    LR_DECAY = trial.suggest_float('lr_decay', 0.1, 0.999)           # The decay rate of epsilon
 
     NUM_EPISODES = trial.suggest_int('num_episodes', 200, 2000)      # The number of episodes to train for
 
@@ -133,6 +134,7 @@ def train(trial):
         "epsilon_min": EPSILON_MIN,
         "epsilon_decay": EPSILON_DECAY,
         "learning_rate": LR,
+        "learning_rate_decay": LR_DECAY,
         "num_episodes": NUM_EPISODES,
         "state_dim": state_dim,
         "action_dim": action_dim,
@@ -142,6 +144,7 @@ def train(trial):
 
     q_network = QNetwork(state_dim, action_dim, NN_L1, NN_L2).to(device)
     optimizer = torch.optim.AdamW(q_network.parameters(), lr=LR, amsgrad=True)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=LR_DECAY)
     loss_fn = torch.nn.MSELoss()
 
     epsilon_greedy = EpsilonGreedy(EPSILON_START, EPSILON_MIN, EPSILON_DECAY, env, q_network)
@@ -199,6 +202,7 @@ def train(trial):
                 #print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
                 aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train", "type": "metric_type" })
                 aim_run.track(epsilon_greedy.epsilon, name='epsilon', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
+                aim_run.track(scheduler.get_last_lr()[0], name='learning_rate', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
                 break
 
             # UPDATE THE STATE ############################
@@ -207,7 +211,7 @@ def train(trial):
 
         episode_reward_list.append(episode_reward)
         epsilon_greedy.decay_epsilon()
-
+        scheduler.step()
 
     # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###############################
 
