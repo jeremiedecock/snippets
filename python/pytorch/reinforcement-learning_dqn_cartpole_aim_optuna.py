@@ -32,6 +32,14 @@ AIM_EXPERIMENT_NAME = "reinforcement-learning_dqn_cartpole_optuna"
 AIM_TRACK_WEIGHTS = False
 AIM_TRACK_GRADIENTS = False
 
+# OPTUNA PARAMETERS
+
+OPTUNA_STUDY_NAME = AIM_EXPERIMENT_NAME
+OPTUNA_FITNESS_NUM_TIMESTEPS_AGGREGATED = 10
+OPTUNA_NUM_TRAININGS_PER_TRIAL = 3
+OPTUNA_NUM_TRIALS = 1000
+OPTUNA_STORAGE = "sqlite:///optuna_db.sqlite3"
+
 
 # ACTION-VALUE FUNCTION ESTIMATION ############################################
 
@@ -91,16 +99,16 @@ def train(trial):
 
     # TRAINING PARAMETERS
 
-    NN_L1 = trial.suggest_int('nn_l1', 32, 1024)            # The number of neurons in the first layer
-    NN_L2 = trial.suggest_int('nn_l2', 32, 1024)            # The number of neurons in the second layer
+    NN_L1 = trial.suggest_int('nn_l1', 32, 1024)                     # The number of neurons in the first layer
+    NN_L2 = trial.suggest_int('nn_l2', 32, 1024)                     # The number of neurons in the second layer
 
-    GAMMA = trial.suggest_float('gamma', 0.5, 0.99)          # The discount factor
+    GAMMA = trial.suggest_float('gamma', 0.5, 0.99)                  # The discount factor
     EPSILON_START = trial.suggest_float('epsilon_start', 0.1, 0.9)
-    EPSILON_MIN = 0.001   # The minimum value of epsilon
+    EPSILON_MIN = 0.001                                              # The minimum value of epsilon
     EPSILON_DECAY = trial.suggest_float('epsilon_decay', 0.1, 0.999) # The decay rate of epsilon
-    LR = trial.suggest_float('lr', 1e-6, 1e-1)             # The learning rate of the optimizer
+    LR = trial.suggest_float('lr', 1e-6, 1e-1)                       # The learning rate of the optimizer
 
-    NUM_EPISODES = 1000    # The number of episodes to train for
+    NUM_EPISODES = trial.suggest_int('num_episodes', 200, 2000)      # The number of episodes to train for
 
 
     # SET UP THE ENVIRONMENT
@@ -129,11 +137,6 @@ def train(trial):
         "state_dim": state_dim,
         "action_dim": action_dim,
     }
-
-    print("\n\n" + "*"*80)
-    print("Type this in another therminal: aim up")
-    print("and open in your web browser the printed URL (e.g. http://127.0.0.1:43800/)")
-    print("*"*80, "\n\n")
 
     # INSTANTIATE REQUIRED OBJECTS
 
@@ -206,7 +209,7 @@ def train(trial):
         epsilon_greedy.decay_epsilon()
 
 
-    # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###################################
+    # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###############################
 
     torch.save(q_network, PTH_FILE_NAME)
 
@@ -214,18 +217,40 @@ def train(trial):
     env.close()
 
     # TODO: run N times the trained model and log the average reward
-    episode_reward_avg = np.mean(episode_reward_list[-10:])
+    episode_reward_avg = np.mean(episode_reward_list[-OPTUNA_FITNESS_NUM_TIMESTEPS_AGGREGATED:])
 
     return episode_reward_avg
+
+
+# HYPER PARAMETER OPTIMIZATION ################################################
+
+def optuna_objective_fn(trial):
+    episode_reward_avg_list = []
+
+    for training_index in range(OPTUNA_NUM_TRAININGS_PER_TRIAL):
+        episode_reward_avg = train(trial)
+        episode_reward_avg_list.append(episode_reward_avg)
+
+    return np.mean(episode_reward_avg_list)
+
 
 ###############################################################################
 
 def main():
+    # PRINT AIM INSTRUCTIONS ##############################
+
+    print("\n\n" + "*"*80)
+    print("Type this in another therminal: aim up")
+    print("and open in your web browser the printed URL (e.g. http://127.0.0.1:43800/)")
+    print("*"*80, "\n\n")
+
+    # OPTUNA HYPER PARAMETER OPTIMIZATION #################
+
     # study = optuna.create_study(direction='maximize')
     # study.optimize(train, n_trials=10)
 
-    study = optuna.create_study(direction='maximize', storage="sqlite:///db.sqlite3", study_name=AIM_EXPERIMENT_NAME, load_if_exists=True)
-    study.optimize(train, n_trials=1000)
+    study = optuna.create_study(direction='maximize', storage=OPTUNA_STORAGE, study_name=OPTUNA_STUDY_NAME, load_if_exists=True)
+    study.optimize(optuna_objective_fn, n_trials=OPTUNA_NUM_TRIALS)
 
     print(f"Best value: {study.best_value} (params: {study.best_params})")
 
