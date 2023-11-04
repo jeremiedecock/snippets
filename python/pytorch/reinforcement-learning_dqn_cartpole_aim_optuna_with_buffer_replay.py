@@ -2,11 +2,7 @@
 # coding: utf-8
 
 """
-Reinforcement Learning with Vanilla DQN (Deep Q-Network)
-
-Notes: this naive implementation does't use buffer replay and target network.
-       Thus, it has very little chance to actually solve the CartPole-v1 problem!
-       This is just a base used to build more advanced implementations.
+Reinforcement Learning with DQN (Deep Q-Network)
 """
 
 import aim
@@ -18,12 +14,15 @@ import numpy as np
 import optuna
 import random
 import torch
+from typing import Tuple
 
 
 # PARAMETERS ###################################################################
 
 GYM_ENVIRONMENT_NAME = "CartPole-v1"
 PTH_FILE_NAME = "dqn_cartpole.pth"
+
+VERBOSE = False
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -73,8 +72,8 @@ class EpsilonGreedy:
         self.epsilon_decay = epsilon_decay
         self.env = env
         self.q_network = q_network
-    
-    def __call__(self, state: np.ndarray):
+
+    def __call__(self, state: np.ndarray) -> np.int64:
         """Select action with epsilon-greedy policy"""
 
         if random.random() < self.epsilon:
@@ -86,7 +85,7 @@ class EpsilonGreedy:
 
                 q_values = self.q_network(state_tensor)
                 action = q_values.argmax().item()
-        
+
         return action
 
     def decay_epsilon(self):
@@ -98,12 +97,43 @@ class EpsilonGreedy:
 
 class ReplayBuffer:
     def __init__(self, capacity: int):
+        """Initializes a ReplayBuffer instance
+
+        Args:
+            capacity (int): the number of transitions to store in the buffer
+        """
         self.buffer = collections.deque(maxlen=capacity)
 
-    def add(self, state, action, reward, next_state, done):
+    def add(self, state: np.ndarray, action: np.int64, reward: float, next_state: np.ndarray, done: bool):
+        """Adds a transition to the buffer
+
+        Args:
+            state (np.ndarray): the state vector of the added transition
+            action (np.int64): the action of the added transition
+            reward (float): the reward of the added transition
+            next_state (np.ndarray): the next state vector of the added transition
+            done (bool): the final state of the added transition
+        """
         self.buffer.append((state, action, reward, next_state, done))
 
-    def sample(self, batch_size):
+    def sample(self, batch_size: int) -> Tuple[np.ndarray, float, float, np.ndarray, bool]:
+        """Returns a batch of transitions sampled from the buffer.
+
+        Args:
+            batch_size (int): the number of transitions to sample
+
+        Returns:
+            Tuple[np.ndarray, float, float, np.ndarray, bool]: a batch of `batch_size` transitions
+        """
+        # Here, `random.sample(self.buffer, batch_size)`
+        # returns a list of tuples `(state, action, reward, next_state, done)`
+        # where:
+        # - `state`  and `next_state` are numpy arrays
+        # - `action` and `reward` are floats
+        # - `done` is a boolean
+        #
+        # `states, actions, rewards, next_states, dones = zip(*random.sample(self.buffer, batch_size))`
+        # generates 5 tuples `state`, `action`, `reward`, `next_state` and `done`, each having `batch_size` elements.
         states, actions, rewards, next_states, dones = zip(*random.sample(self.buffer, batch_size))
         return np.array(states), actions, rewards, np.array(next_states), dones
 
@@ -113,25 +143,7 @@ class ReplayBuffer:
 
 # TRAINING ####################################################################
 
-def train(trial):
-
-    # TRAINING PARAMETERS
-
-    NN_L1 = trial.suggest_int('nn_l1', 32, 1024)                     # The number of neurons in the first layer
-    NN_L2 = trial.suggest_int('nn_l2', 32, 1024)                     # The number of neurons in the second layer
-
-    GAMMA = trial.suggest_float('gamma', 0.5, 0.99)                  # The discount factor
-    EPSILON_START = trial.suggest_float('epsilon_start', 0.1, 0.9)
-    EPSILON_MIN = 0.001                                              # The minimum value of epsilon
-    EPSILON_DECAY = trial.suggest_float('epsilon_decay', 0.1, 0.999) # The decay rate of epsilon
-    LR = trial.suggest_float('lr', 1e-6, 1e-1)                       # The learning rate of the optimizer
-    LR_DECAY = trial.suggest_float('lr_decay', 0.1, 0.999)           # The decay rate of epsilon
-
-    BATCH_SIZE = trial.suggest_int('batch_size', 32, 128)              # The batch size for training
-    BUFFER_CAPACITY = trial.suggest_int('buffer_capacity', 100, 2000)  # The capacity of the replay buffer
-
-    NUM_EPISODES = trial.suggest_int('num_episodes', 200, 2000)      # The number of episodes to train for
-
+def train(nn_l1, nn_l2, gamma, epsilon_start, epsilon_min, epsilon_decay, lr, lr_decay, batch_size, buffer_capacity, num_episodes):
 
     # SET UP THE ENVIRONMENT
 
@@ -147,37 +159,37 @@ def train(trial):
 
     aim_run["hparams"] = {
         "environment_name": GYM_ENVIRONMENT_NAME,
-        "nn_l1": NN_L1,
-        "nn_l2": NN_L2,
-        "gamma": GAMMA,
-        "learning_rate": LR,
-        "epsilon_start": EPSILON_START,
-        "epsilon_min": EPSILON_MIN,
-        "epsilon_decay": EPSILON_DECAY,
-        "learning_rate": LR,
-        "learning_rate_decay": LR_DECAY,
-        "num_episodes": NUM_EPISODES,
+        "nn_l1": nn_l1,
+        "nn_l2": nn_l2,
+        "gamma": gamma,
+        "learning_rate": lr,
+        "epsilon_start": epsilon_start,
+        "epsilon_min": epsilon_min,
+        "epsilon_decay": epsilon_decay,
+        "learning_rate": lr,
+        "learning_rate_decay": lr_decay,
+        "num_episodes": num_episodes,
         "state_dim": state_dim,
         "action_dim": action_dim,
     }
 
     # INSTANTIATE REQUIRED OBJECTS
 
-    q_network = QNetwork(state_dim, action_dim, NN_L1, NN_L2).to(device)
-    optimizer = torch.optim.AdamW(q_network.parameters(), lr=LR, amsgrad=True)
-    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=LR_DECAY)
+    q_network = QNetwork(state_dim, action_dim, nn_l1, nn_l2).to(device)
+    optimizer = torch.optim.AdamW(q_network.parameters(), lr=lr, amsgrad=True)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=lr_decay)
     loss_fn = torch.nn.MSELoss()
 
-    epsilon_greedy = EpsilonGreedy(EPSILON_START, EPSILON_MIN, EPSILON_DECAY, env, q_network)
+    epsilon_greedy = EpsilonGreedy(epsilon_start, epsilon_min, epsilon_decay, env, q_network)
 
-    replay_buffer = ReplayBuffer(BUFFER_CAPACITY)
+    replay_buffer = ReplayBuffer(buffer_capacity)
 
     # TRAINING LOOP
 
     iteration = 0
     episode_reward_list = []
 
-    for episode_index in range(NUM_EPISODES):
+    for episode_index in range(num_episodes):
         state, info = env.reset()
         episode_reward = 0
 
@@ -196,26 +208,70 @@ def train(trial):
 
             # UPDATE THE Q_NETWORK WEIGHTS WITH A BATCH OF EXPERIENCES FROM THE BUFFER
 
-            if len(replay_buffer) > BATCH_SIZE:
-                batch_states, batch_actions, batch_rewards, batch_next_states, batch_dones = replay_buffer.sample(BATCH_SIZE)
+            if len(replay_buffer) > batch_size:
+                batch_states, batch_actions, batch_rewards, batch_next_states, batch_dones = replay_buffer.sample(batch_size)
 
                 # Convert to PyTorch tensors
-                batch_states_t = torch.tensor(batch_states, dtype=torch.float32, device=device)
-                batch_actions_t = torch.tensor(batch_actions, dtype=torch.long, device=device)
-                batch_rewards_t = torch.tensor(batch_rewards, dtype=torch.float32, device=device)
-                batch_next_states_t = torch.tensor(batch_next_states, dtype=torch.float32, device=device)
-                batch_dones_t = torch.tensor(batch_dones, dtype=torch.float32, device=device)
+                batch_states_tensor = torch.tensor(batch_states, dtype=torch.float32, device=device)
+                batch_actions_tensor = torch.tensor(batch_actions, dtype=torch.long, device=device)
+                batch_rewards_tensor = torch.tensor(batch_rewards, dtype=torch.float32, device=device)
+                batch_next_states_tensor = torch.tensor(batch_next_states, dtype=torch.float32, device=device)
+                batch_dones_tensor = torch.tensor(batch_dones, dtype=torch.float32, device=device)
 
                 # Compute the target Q values for the batch
                 with torch.no_grad():
-                    target_q_values = q_network(batch_next_states_t).max(dim=1)[0]              # [0] en trop ?
-                    targets = batch_rewards_t + GAMMA * target_q_values * (1 - batch_dones_t)   # Why  * (1 - batch_dones_t)
+                    # Here's a breakdown of the next line of code:
+                    # - `q_network(batch_next_states_t)`:
+                    #   This is passing a batch of "next states" through the Q-network.
+                    #   This outputs the Q-value for each possible action, a tensor of shape (batch_size, action_dim).
+                    #
+                    #  - `.max(dim=1)`:
+                    #   This is finding the maximum Q-value for each state in the batch.
+                    #   The dim=1 argument specifies that the maximum should be taken over the action dimension.
+                    #
+                    # The max() function in PyTorch returns a tuple containing two tensors: the maximum values and the indices where these maximum values were found.
+                    # In the next lines of code, we will just use the first tensor (the maximum values) and ignoring the second tensor (the indices).
+                    next_state_q_values, best_action_index = q_network(batch_next_states_tensor).max(dim=1)
 
-                # Compute the current Q values for the batch
-                current_q_values = q_network(batch_states_t).gather(dim=1, index=batch_actions_t.unsqueeze(-1)).squeeze(-1)  # TODO: ?
+                    # The targets for the batch are the rewards plus the discounted maximum Q-values obtained from the next states.
+                    # The expression `(1 - batch_dones_tensor)` is used to handle the end of episodes.
+                    # The `batch_dones_tensor` indicates whether each state in the batch is a terminal state (i.e., the end of an episode).
+                    # If a state is a terminal state, the corresponding value in `batch_dones_tensor` is 1, otherwise it's 0.
+                    # The Q-value of a terminal state is defined to be 0. Therefore, when calculating the target Q-values,
+                    # we don't want to include the Q-value of the next state if the current state is a terminal state.
+                    # This is achieved by multiplying `next_state_q_values` by `(1 - batch_dones_tensor)`.
+                    # If the state is a terminal state, this expression becomes 0 and the Q-value of the next state is effectively ignored.
+                    # If the state is not a terminal state, this expression is 1 and the Q-value of the next state is included in the calculation.
+                    targets = batch_rewards_tensor + gamma * next_state_q_values * (1 - batch_dones_tensor)
+
+                # Compute the current Q values for the batch.
+                # 
+                # The expression `gather(dim=1, index=batch_actions_tensor.unsqueeze(-1)).squeeze(-1)` is used to select specific elements from the tensor of Q-values returned by the Q-network.
+                # 
+                # Here's a breakdown of the following line of code:
+                # - `q_network(batch_states_tensor)`:
+                #   This is passing a batch of states through the Q-network.
+                #   For each state, this outputs the Q-value for each possible action.
+                #   Thus, `q_network(batch_states_tensor)` returns a tensor of shape (batch_size, action_dim).
+                # 
+                # - `gather(dim=1, index=batch_actions_tensor.unsqueeze(-1))`:
+                #   This is selecting the Q-values corresponding to the actions that were actually taken.
+                #   The `gather` function is used to select elements from a tensor using an index.
+                #   In this case, the index is `batch_actions_tensor.unsqueeze(-1)`, which is a tensor of the actions that were taken.
+                #   The `unsqueeze(-1)` function is used to add an extra dimension to the tensor, which is necessary for the `gather` function.
+                # 
+                # - `squeeze(-1)`:
+                #   This is removing the extra dimension that was added by `unsqueeze(-1)`.
+                #   The `squeeze` function is used to remove dimensions of size 1 from a tensor.
+                #
+                # So, the entire expression is selecting the Q-values of the actions that were actually taken from the tensor of all Q-values,
+                # and returning a tensor of these selected Q-values.
+                current_q_values = q_network(batch_states_tensor).gather(dim=1, index=batch_actions_tensor.unsqueeze(-1)).squeeze(-1)
 
                 # Compute loss
                 loss = loss_fn(current_q_values, targets)
+
+                aim_run.track(loss, name='loss', step=iteration, context={ "subset": "train", "type": "loss_type" })
 
                 # Optimize the model
                 optimizer.zero_grad()
@@ -223,10 +279,10 @@ def train(trial):
                 optimizer.step()
                 scheduler.step()
 
+
             # LOGS ########################################
 
             iteration += 1
-            #aim_run.track(loss, name='loss', step=iteration, context={ "subset": "train", "type": "loss_type" })
 
             if AIM_TRACK_WEIGHTS:
                 aim.pytorch.track_params_dists(q_network, aim_run)
@@ -235,7 +291,8 @@ def train(trial):
                 aim.pytorch.track_gradients_dists(q_network, aim_run)
 
             if done:
-                #print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
+                if VERBOSE:
+                    print(f"Episode {episode_index+1}/{num_episodes}: duration={episode_reward}")
                 aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train", "type": "metric_type" })
                 aim_run.track(epsilon_greedy.epsilon, name='epsilon', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
                 aim_run.track(scheduler.get_last_lr()[0], name='learning_rate', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
@@ -256,19 +313,36 @@ def train(trial):
     del q_network   # Remove to demonstrate saving and loading
     env.close()
 
-    # TODO: run N times the trained model and log the average reward
-    episode_reward_avg = np.mean(episode_reward_list[-OPTUNA_FITNESS_NUM_TIMESTEPS_AGGREGATED:])
-
-    return episode_reward_avg
+    return episode_reward_list
 
 
 # HYPER PARAMETER OPTIMIZATION ################################################
 
 def optuna_objective_fn(trial):
+
+    # TRAINING PARAMETERS #################################
+
+    hyper_params = {
+        "nn_l1": trial.suggest_int('nn_l1', 32, 1024),                       # The number of neurons in the first layer
+        "nn_l2": trial.suggest_int('nn_l2', 32, 1024),                       # The number of neurons in the second layer
+        "gamma": trial.suggest_float('gamma', 0.5, 0.99),                    # The discount factor
+        "epsilon_start": trial.suggest_float('epsilon_start', 0.1, 0.9),
+        "epsilon_min": 0.001,                                                # The minimum value of epsilon
+        "epsilon_decay": trial.suggest_float('epsilon_decay', 0.1, 0.999),   # The decay rate of epsilon
+        "lr": trial.suggest_float('lr', 1e-6, 1e-1),                         # The learning rate of the optimizer
+        "lr_decay": trial.suggest_float('lr_decay', 0.1, 0.999),             # The decay rate of epsilon
+        "batch_size": trial.suggest_int('batch_size', 32, 128),              # The batch size for training
+        "buffer_capacity": trial.suggest_int('buffer_capacity', 100, 2000),  # The capacity of the replay buffer
+        "num_episodes": trial.suggest_int('num_episodes', 200, 2000),        # The number of episodes to train for
+    }
+
+    # HYPER PARAMETER OPTIMIZATION LOOP ###################
+
     episode_reward_avg_list = []
 
     for training_index in range(OPTUNA_NUM_TRAININGS_PER_TRIAL):
-        episode_reward_avg = train(trial)
+        episode_reward_list = train(**hyper_params)
+        episode_reward_avg = np.mean(episode_reward_list[-OPTUNA_FITNESS_NUM_TIMESTEPS_AGGREGATED:])
         episode_reward_avg_list.append(episode_reward_avg)
 
     return np.mean(episode_reward_avg_list)
@@ -277,6 +351,7 @@ def optuna_objective_fn(trial):
 ###############################################################################
 
 def main():
+
     # PRINT AIM INSTRUCTIONS ##############################
 
     print("\n\n" + "*"*80)

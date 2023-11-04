@@ -23,6 +23,7 @@ PTH_FILE_NAME = "dqn_cartpole.pth"
 
 DO_TRAINING = True
 DO_INFERENCE = True
+VERBOSE = False
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -42,6 +43,7 @@ EPSILON_START = 1.0   # The starting value of epsilon
 EPSILON_MIN = 0.001   # The minimum value of epsilon
 EPSILON_DECAY = 0.999 # The decay rate of epsilon
 LR = 1e-4             # The learning rate of the optimizer
+LR_DECAY = 0.999      # The decay rate of the learning rate
 
 BATCH_SIZE = 64           # The batch size for training
 BUFFER_CAPACITY = 10000   # The capacity of the replay buffer
@@ -175,20 +177,17 @@ def train():
         "epsilon_min": EPSILON_MIN,
         "epsilon_decay": EPSILON_DECAY,
         "learning_rate": LR,
+        "learning_rate_decay": LR_DECAY,
         "num_episodes": NUM_EPISODES,
         "state_dim": state_dim,
         "action_dim": action_dim,
     }
 
-    print("\n\n" + "*"*80)
-    print("Type this in another therminal: aim up")
-    print("and open in your web browser the printed URL (e.g. http://127.0.0.1:43800/)")
-    print("*"*80, "\n\n")
-
     # INSTANTIATE REQUIRED OBJECTS
 
     q_network = QNetwork(state_dim, action_dim).to(device)
     optimizer = torch.optim.AdamW(q_network.parameters(), lr=LR, amsgrad=True)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=LR_DECAY)
     loss_fn = torch.nn.MSELoss()
 
     epsilon_greedy = EpsilonGreedy(EPSILON_START, EPSILON_MIN, EPSILON_DECAY, env, q_network)
@@ -198,6 +197,7 @@ def train():
     # TRAINING LOOP
 
     iteration = 0
+    episode_reward_list = []
 
     for episode_index in range(NUM_EPISODES):
         state, info = env.reset()
@@ -288,6 +288,8 @@ def train():
                 loss.backward()
                 optimizer.step()
 
+                scheduler.step()
+
 
             # LOGS ########################################
 
@@ -300,24 +302,30 @@ def train():
                 aim.pytorch.track_gradients_dists(q_network, aim_run)
 
             if done:
-                print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
+                if VERBOSE:
+                    print(f"Episode {episode_index+1}/{NUM_EPISODES}: duration={episode_reward}")
                 aim_run.track(episode_reward, name='episode_reward', step=episode_index, context={ "subset": "train", "type": "metric_type" })
                 aim_run.track(epsilon_greedy.epsilon, name='epsilon', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
+                aim_run.track(scheduler.get_last_lr()[0], name='learning_rate', step=episode_index, context={ "subset": "train", "type": "meta_params_type" })
                 break
 
             # UPDATE THE STATE ############################
 
             state = next_state
 
+        episode_reward_list.append(episode_reward)
         epsilon_greedy.decay_epsilon()
 
 
-    # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###################################
+    # SAVE THE ACTION-VALUE ESTIMATION FUNCTION ###############################
 
     torch.save(q_network, PTH_FILE_NAME)
 
     del q_network   # Remove to demonstrate saving and loading
     env.close()
+
+    return episode_reward_list
+
 
 ###############################################################################
 ###############################################################################
@@ -356,6 +364,14 @@ def inference():
 ###############################################################################
 
 def main():
+
+    # PRINT AIM INSTRUCTIONS ##############################
+
+    print("\n\n" + "*"*80)
+    print("Type this in another therminal: aim up")
+    print("and open in your web browser the printed URL (e.g. http://127.0.0.1:43800/)")
+    print("*"*80, "\n\n")
+
     if DO_TRAINING:
         train()
 
