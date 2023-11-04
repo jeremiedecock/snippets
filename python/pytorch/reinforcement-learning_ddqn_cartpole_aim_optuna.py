@@ -143,7 +143,7 @@ class ReplayBuffer:
 
 # TRAINING ####################################################################
 
-def train(nn_l1, nn_l2, gamma, epsilon_start, epsilon_min, epsilon_decay, lr, lr_decay, batch_size, buffer_capacity, num_episodes, target_q_network_sync_period):
+def train(nn_l1, nn_l2, gamma, epsilon_start, epsilon_min, epsilon_decay, lr, lr_decay, batch_size, buffer_capacity, num_episodes, target_q_network_sync_period, clip_grad_value):
 
     # SET UP THE ENVIRONMENT
 
@@ -280,7 +280,9 @@ def train(nn_l1, nn_l2, gamma, epsilon_start, epsilon_min, epsilon_decay, lr, lr
                 # Optimize the model
                 optimizer.zero_grad()
                 loss.backward()
+                torch.nn.utils.clip_grad_value_(q_network.parameters(), clip_grad_value)  # In-place gradient clipping
                 optimizer.step()
+
                 scheduler.step()
 
             # UPDATE THE TARGET Q-NETWORK #################
@@ -342,6 +344,7 @@ def optuna_objective_fn(trial):
         "lr": trial.suggest_float('lr', 1e-6, 1e-1),                         # The learning rate of the optimizer
         "lr_decay": trial.suggest_float('lr_decay', 0.1, 0.999),             # The decay rate of epsilon
         "target_q_network_sync_period": trial.suggest_int('target_q_network_sync_period', 1, 100), # The number of training steps between each update of the target Q-network
+        "clip_grad_value": trial.suggest_float('clip_grad_value', 0.1, 100), # The maximum value of the gradient
         "batch_size": trial.suggest_int('batch_size', 32, 128),              # The batch size for training
         "buffer_capacity": trial.suggest_int('buffer_capacity', 100, 2000),  # The capacity of the replay buffer
         "num_episodes": trial.suggest_int('num_episodes', 200, 2000),        # The number of episodes to train for
