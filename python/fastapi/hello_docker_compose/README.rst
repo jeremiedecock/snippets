@@ -1,5 +1,5 @@
-FastAPI with Docker
-===================
+FastAPI with Docker Compose
+===========================
 
 Documentation: https://fastapi.tiangolo.com/deployment/docker/
 
