@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  fast-api:
+    container_name: fast-api-hello-official-docker-compose-container
+    build: .
+    ports:
+      - "80:80"
