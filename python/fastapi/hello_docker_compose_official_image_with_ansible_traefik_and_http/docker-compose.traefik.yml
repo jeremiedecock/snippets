@@ -1,0 +1,51 @@
+version: "3.9"
+
+# See https://www.youtube.com/watch?v=7N5O62FjGDc&list=WL&index=6
+# docker network create traefik-public
+# docker-compose up -d
+
+services:
+
+  # Reverse proxy #############################################################
+
+  traefik:
+    # The official v2 Traefik docker image
+    image: traefik:v2.10
+
+    # restart: always
+
+    ports:
+      # Listen on port 80 (HTTP), necessary to redirect to HTTPS
+      - "80:80"
+      # # The Web UI (enabled by --api.insecure=true)
+      # - "8080:8080"
+
+    volumes:
+      # So that Traefik can listen to the Docker events, read the labels or other services
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /var/run/docker.sock:/var/run/docker.sock
+
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      # Enable Docker in Traefik, so that it reads labels from Docker services
+      - --providers.docker
+      # Do not expose all Docker services (e.g. databases), only the ones explicitly exposed
+      - --providers.docker.exposedbydefault=false
+      # Create an entrypoint "http" listening on port 80
+      - --entrypoints.http.address=:80
+      # Enable the access log, with HTTP requests
+      - --accesslog
+      # Enable the Traefik log, for configurations and errors
+      - --log
+      #- --api.insecure=true
+
+    networks:
+      # Use the public network created to be shared between Traefik and
+      # any other service that needs to be publicly available with HTTPS
+      - traefik-public
+
+networks:
+  # Use the previously created public network "traefik-public", shared with other
+  # services that needs to be publicly available via this Traefik
+  traefik-public:
+    external: true

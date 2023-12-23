@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+
+  # Backend ###################################################################
+
+  backend:
+
+    build: .
+
+    # restart: always
+
+    # ports:
+    #   - "80:80"
+
+    labels:
+      # Enable Traefik for this specific "backend" service
+      - traefik.enable=true
+      # Define the port inside of the Docker service to use
+      - traefik.http.services.app.loadbalancer.server.port=80
+      # Make Traefik use this domain in HTTP
+      - traefik.http.routers.app-http.entrypoints=http
+      - traefik.http.routers.app-http.rule=Host(`vps-f8e7667b.vps.ovh.net`) # TODO: change to your domain
+      # - traefik.http.routers.app-http.rule=Host(`www.localhost`) # TODO: change to your domain
+      # Use the traefik-public network (declared below)
+      - traefik.docker.network=traefik-public
+
+    networks:
+      # Use the public network created to be shared between Traefik and
+      # any other service that needs to be publicly available with HTTPS
+      - traefik-public
+
+networks:
+  # Use the previously created public network "traefik-public", shared with other
+  # services that needs to be publicly available via this Traefik
+  traefik-public:
+    external: true
