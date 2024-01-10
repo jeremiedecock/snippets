@@ -36,12 +36,12 @@ services:
       - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.traefik-dashboard-http.entrypoints=http
-      - traefik.http.routers.traefik-dashboard-http.rule=Host(`traefik.accenta.ai`)
+      - traefik.http.routers.traefik-dashboard-http.rule=Host(`traefik.jd.accenta.ai`)
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public
       # traefik-https the actual router using HTTPS
       - traefik.http.routers.traefik-dashboard-https.entrypoints=https
-      - traefik.http.routers.traefik-dashboard-https.rule=Host(`traefik.accenta.ai`)
+      - traefik.http.routers.traefik-dashboard-https.rule=Host(`traefik.jd.accenta.ai`)
       - traefik.http.routers.traefik-dashboard-https.tls=true
       # Use the "le" (Let's Encrypt) resolver created below
       - traefik.http.routers.traefik-dashboard-https.tls.certresolver=le
@@ -53,8 +53,12 @@ services:
       # traefik-http set up only to use the middleware to redirect to https
       - traefik.http.routers.traefik-dashboard-http.middlewares=https-redirect
       # admin-auth middleware with HTTP Basic auth
-      # Using the environment variables USERNAME and HASHED_PASSWORD
-      - traefik.http.middlewares.admin-auth.basicauth.users=${USERNAME?Variable not set}:${HASHED_PASSWORD?Variable not set}
+      # format: "username:password_hash"
+      # c.f. https://doc.traefik.io/traefik/middlewares/http/basicauth/
+      # with password_hash generated with the following command: `openssl passwd -apr1 YOUR_PASSWORD`
+      # and with the '$' escaped with '$$' in the generated hash (otherwise docker-compose will try to interpret it as a variable).
+      # WARNING: here the hash password is hardcoded, this must be avoided for production apps!
+      - "traefik.http.middlewares.admin-auth.basicauth.users=admin:$$apr1$$InIbby.e$$P4ysvxmDgg77RcUInbQmD."
       # Enable HTTP Basic auth, using the middleware created above
       - traefik.http.routers.traefik-dashboard-https.middlewares=admin-auth
 
