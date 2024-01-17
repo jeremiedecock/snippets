@@ -3,6 +3,10 @@ FastAPI with Docker
 
 Documentation: https://fastapi.tiangolo.com/deployment/docker/
 
+See:
+- https://www.youtube.com/watch?v=7N5O62FjGDc&list=WL&index=6
+- https://dev.to/tiangolo/deploying-fastapi-and-other-apps-with-https-powered-by-traefik-5dik
+
 FastAPI official docker image: https://fastapi.tiangolo.com/de/deployment/server-workers/
 
 Usage

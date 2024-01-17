@@ -3,8 +3,17 @@ FastAPI with Docker Compose
 
 Documentation: https://fastapi.tiangolo.com/deployment/docker/
 
+See:
+- https://www.youtube.com/watch?v=7N5O62FjGDc&list=WL&index=6
+- https://dev.to/tiangolo/deploying-fastapi-and-other-apps-with-https-powered-by-traefik-5dik
+
+FastAPI official docker image: https://fastapi.tiangolo.com/de/deployment/server-workers/
+
 Usage
 =====
+
+Test on localhost
+-----------------
 
 Build and run the docker container::
 
@@ -27,3 +36,12 @@ Stop and removing the docker container::
 Or to just stop (but not remove) the docker container::
 
     docker-compose stop
+
+
+Remove the webapp
+-----------------
+
+From the host terminal (as root)::
+
+    docker-compose down
+    docker rmi fastapi_example_app

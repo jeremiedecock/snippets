@@ -3,8 +3,11 @@ FastAPI with Docker Compose and Ansible
 
 Documentation: https://fastapi.tiangolo.com/deployment/docker/
 
-See: https://www.youtube.com/watch?v=7N5O62FjGDc&list=WL&index=6
+See:
+- https://www.youtube.com/watch?v=7N5O62FjGDc&list=WL&index=6
+- https://dev.to/tiangolo/deploying-fastapi-and-other-apps-with-https-powered-by-traefik-5dik
 
+FastAPI official docker image: https://fastapi.tiangolo.com/de/deployment/server-workers/
 
 Usage
 =====
@@ -26,8 +29,6 @@ then connect to the remote server (as root) and type::
     docker-compose -f docker-compose.traefik.yml up -d
     docker-compose -f docker-compose.yml up -d
 
-Then open http://vps-f8e7667b.vps.ovh.net/ in a browser.
-
 
 Deploy on a server with Ansible
 -------------------------------
@@ -35,8 +36,6 @@ Deploy on a server with Ansible
 Add the destination host in the `hosts` file, then type::
 
     ./ansible_playbook.yml -i hosts
-
-Then open http://vps-f8e7667b.vps.ovh.net/ in a browser.
 
 
 Check logs

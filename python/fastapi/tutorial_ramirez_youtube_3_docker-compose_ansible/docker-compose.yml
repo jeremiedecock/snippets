@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+
+  # Backend ###################################################################
+
+  backend:
+
+    build: .
+
+    # restart: always
+
+    ports:
+      - "80:80"
+
+    container_name: fast-api-hello-official-docker-compose-container
