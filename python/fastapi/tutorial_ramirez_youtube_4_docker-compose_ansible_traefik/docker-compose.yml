@@ -20,7 +20,7 @@ services:
       - traefik.http.services.app.loadbalancer.server.port=80
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.app-http.entrypoints=http
-      - traefik.http.routers.app-http.rule=Host(`jd.accenta.ai`) # TODO: change to your domain
+      - traefik.http.routers.app-http.rule=Host(`hello.jdhp.org`) # TODO: change to your domain
       # - traefik.http.routers.app-http.rule=Host(`www.localhost`) # TODO: change to your domain
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public

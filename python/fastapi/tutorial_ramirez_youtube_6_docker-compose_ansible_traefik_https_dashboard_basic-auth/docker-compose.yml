@@ -20,13 +20,13 @@ services:
       - traefik.http.services.app.loadbalancer.server.port=80
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.app-http.entrypoints=http
-      - traefik.http.routers.app-http.rule=Host(`jd.accenta.ai`) # TODO: change to your domain
+      - traefik.http.routers.app-http.rule=Host(`hello.jdhp.org`) # TODO: change to your domain
       # - traefik.http.routers.app-http.rule=Host(`www.localhost`) # TODO: change to your domain
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public
       # Make Traefik use this domain in HTTPS
       - traefik.http.routers.app-https.entrypoints=https
-      - traefik.http.routers.app-https.rule=Host(`jd.accenta.ai`) # TODO: change to your domain
+      - traefik.http.routers.app-https.rule=Host(`hello.jdhp.org`) # TODO: change to your domain
       - traefik.http.routers.app-https.tls=true
       # Use the "le" (Let's Encrypt) resolver
       - traefik.http.routers.app-https.tls.certresolver=le
