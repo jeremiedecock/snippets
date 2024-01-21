@@ -37,7 +37,7 @@ Add the destination host in the `hosts` file, then type::
 
     ./ansible_playbook.yml -i hosts
 
-Open a web browser at https://hello.jdhp.org/ and https://traefik.hello.jdhp.org/.
+Open a web browser at https://hello.jdhp.org/ and https://traefik.hello.jdhp.org/ and https://panel.hello.jdhp.org/ and https://streamlit.hello.jdhp.org/ and https://gradio.hello.jdhp.org/ and https://nginx.hello.jdhp.org/.
 
 
 Check logs
