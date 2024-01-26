@@ -1,7 +1,9 @@
 FastAPI
 =======
 
-Documentation: https://fastapi.tiangolo.com/
+Documentation:
+- https://fastapi.tiangolo.com/
+- https://fastapi.tiangolo.com/advanced/custom-response/#html-response
 
 Usage
 =====
