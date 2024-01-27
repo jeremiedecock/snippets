@@ -1,0 +1,35 @@
+[project]
+authors = [
+    {name = "Jérémie DECOCK", email = "jd.jdhp@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries :: Application Framework",
+]
+description = "Fastapi minimal example"
+dynamic = ["dependencies"]
+name = "hello"
+readme = "README.rst"
+requires-python = ">=3.11"
+version = "0.1.0"
+
+# # See https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#optional-dependencies
+# [project.optional-dependencies]
+# numba = ["numba"]
+
+
+# See https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+[tool.setuptools]
+packages = [
+    "hello"
+]
+
+# Use requirements.txt to setup dependencies (c.f. https://stackoverflow.com/a/73600610)
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

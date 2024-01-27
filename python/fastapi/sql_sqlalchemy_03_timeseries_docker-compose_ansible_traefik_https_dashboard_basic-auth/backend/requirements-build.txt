@@ -1,0 +1,9 @@
+-r requirements.txt
+build
+coverage
+pytest
+setuptools
+Sphinx
+sphinx-gallery
+sphinx-rtd-theme
+twine

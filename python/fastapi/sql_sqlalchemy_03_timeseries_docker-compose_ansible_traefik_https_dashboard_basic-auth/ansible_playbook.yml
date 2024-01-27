@@ -1,0 +1,47 @@
+#!/usr/bin/env ansible-playbook
+
+# https://docs.docker.com/compose/gettingstarted/
+
+---
+- name: Install and configure a (production ready but HTTP only) FastAPI server using Docker Compose
+  hosts: webservers
+  become: True
+
+  vars:
+    src_application_path: ./
+    dst_application_path: /srv/fastapi_example_app
+
+  tasks:
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker.io
+          - python3-docker
+          - docker-compose
+        update_cache: yes
+
+    - name: Ensures the directory that will contain the app exists
+      file:
+        path: "{{ dst_application_path }}"
+        state: directory
+        recurse: yes
+
+    - name: Copy the App
+      copy:
+        src: "{{ src_application_path }}"
+        dest: "{{ dst_application_path }}"
+        owner: root
+        mode: '0644'
+
+    - name: Create the Docker traefik-public network
+      docker_network:
+        name: traefik-public
+
+    # Use files parameter to use multiple docker-compose.yml files
+    - name: Deploy the App with Docker Compose
+      docker_compose:
+        project_src: "{{ dst_application_path }}"
+        files:
+          - docker-compose.yml
+          - docker-compose.traefik.yml
