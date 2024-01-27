@@ -22,7 +22,7 @@ Run the server with::
 
     uvicorn sql_app.main:app --reload
 
-Then open your browser at http://127.0.0.1:8000 or http://127.0.0.1:8000/items/5?q=somequery to test it.
+Then open your browser at http://127.0.0.1:8000 to test it.
 
 To see the automatic interactive API documentation (provided by Swagger UI), open your browser at: http://127.0.0.1:8000/docs
 
