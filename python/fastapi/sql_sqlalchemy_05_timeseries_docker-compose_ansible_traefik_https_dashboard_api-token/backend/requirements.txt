@@ -1,0 +1,4 @@
+fastapi[all]==0.105.0      # 0.88.0
+gunicorn==20.1.0
+sqlalchemy==2.0.25
+uvicorn[standard]==0.25.0  # 0.20.0
