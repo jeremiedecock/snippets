@@ -5,6 +5,8 @@ services:
   # Backend ###################################################################
 
   backend:
+    container_name: fastapi-hello
+    image: fastapi_hello:latest
     build: .
     # restart: always
     # ports:

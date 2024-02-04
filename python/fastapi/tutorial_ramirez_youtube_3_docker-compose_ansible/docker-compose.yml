@@ -5,12 +5,9 @@ services:
   # Backend ###################################################################
 
   backend:
-
+    container_name: fastapi-hello
+    image: fastapi_hello:latest
     build: .
-
     # restart: always
-
     ports:
       - "80:80"
-
-    container_name: fast-api-hello-official-docker-compose-container

@@ -3,22 +3,23 @@
 # https://docs.docker.com/compose/gettingstarted/
 
 ---
-- name: Install and configure a (production ready but HTTP only) FastAPI server using Docker Compose
+- name: Install and configure a (production ready) FastAPI server using Docker Compose
   hosts: webservers
   become: True
 
   vars:
-    src_application_path: ./
-    dst_application_path: /srv/fastapi_example_app
+    src_application_path: "{{ playbook_dir }}/../"
+    dst_application_path: /srv/hello
 
   tasks:
 
-    - name: Install Docker
+    - name: Install Debian packages (Docker and rsync)
       apt:
         name:
           - docker.io
           - python3-docker
           - docker-compose
+          - rsync
         update_cache: yes
 
     - name: Ensures the directory that will contain the app exists
@@ -27,12 +28,24 @@
         state: directory
         recurse: yes
 
-    - name: Copy the App
-      copy:
+    - name: Sync the App
+      synchronize:
         src: "{{ src_application_path }}"
         dest: "{{ dst_application_path }}"
-        owner: root
-        mode: '0644'
+        delete: yes
+        mode: push
+        rsync_opts:
+          - "--exclude=.git/"
+          - "--exclude=env/"
+          - "--exclude=ansible_playbooks/"
+          - "--exclude=*.egg-info/"
+          - "--exclude=.vscode/"
+          - "--exclude=__pycache__/"
+          - "--exclude=*.pyc"
+          - "--exclude=*.pyo"
+          - "--exclude=*.pyd"
+          - "--exclude=.gitlab-ci.yml"
+          - "--exclude=.gitignore"
 
     - name: Create the Docker traefik-public network
       docker_network:
@@ -45,3 +58,5 @@
         files:
           - docker-compose.yml
           - docker-compose.traefik.yml
+        state: present
+        build: yes
