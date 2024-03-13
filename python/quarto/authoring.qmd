@@ -1,0 +1,46 @@
+---
+title: Quarto Basics
+author: Norah Jones
+date: 'May 22, 2021'
+toc: true
+number-sections: true
+---
+
+## Colors
+
+- Red
+- Green 
+- Blue
+
+## Shapes
+
+- Square
+- Circle
+- Triangle
+
+## Textures
+
+- Smooth
+- Bumpy
+- Fuzzy
+
+Einstein's theory of special relatively that expresses the equivalence of mass and energy:
+
+$E = mc^{2}$
+
+```{mermaid}
+flowchart LR
+  A[Hard edge] --> B(Round edge)
+  B --> C{Decision}
+  C --> D[Result one]
+  C --> E[Result two]
+```
+
+{{< video https://www.youtube.com/embed/wo9vZccmqwc >}}
+
+:::{.callout-note}
+Note that there are five types of callouts, including: 
+`note`, `tip`, `warning`, `caution`, and `important`.
+:::
+
+To print, press {{< kbd Shift-Ctrl-P >}}. To open an existing new project, press {{< kbd mac=Shift-Command-O win=Shift-Control-O linux=Shift-Ctrl-L >}}.

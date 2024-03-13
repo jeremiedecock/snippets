@@ -1,0 +1,5 @@
+env/
+*_files/
+*.html
+*.pdf
+.vdoc.py

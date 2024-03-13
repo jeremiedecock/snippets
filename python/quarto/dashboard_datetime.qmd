@@ -1,0 +1,61 @@
+--- 
+title: "Test"
+author: "Jérémie Decock"
+format:
+  dashboard:
+    include-in-header:
+      - text: |
+          <meta http-equiv="refresh" content="60">
+---
+
+```{python}
+import datetime
+```
+
+# Local
+
+## Row
+
+```{python}
+#| content: valuebox
+#| title: "Date"
+#| icon: calendar2
+#| color: primary
+dict(
+  value = datetime.datetime.now().date().isoformat()
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Time"
+#| icon: clock
+#| color: primary
+dict(
+  value = datetime.datetime.now().time().strftime('%H:%M')
+)
+```
+
+# UTC
+
+## Row
+
+```{python}
+#| content: valuebox
+#| title: "Date"
+#| icon: calendar2
+#| color: primary
+dict(
+  value = datetime.datetime.utcnow().date().isoformat()
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Time"
+#| icon: clock
+#| color: primary
+dict(
+  value = datetime.datetime.utcnow().time().strftime('%H:%M')
+)
+```
