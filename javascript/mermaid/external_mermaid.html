@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="mermaid-diagram" class="mermaid"></div>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+            // The startOnLoad option is set to false to prevents Mermaid from automatically rendering diagrams when the page loads.
+            mermaid.initialize({startOnLoad:false});
+            
+            // When the diagram definition is added to the page, Mermaid is manually triggered to render the diagrams using the mermaid.init function.
+            fetch('diagram.mmd')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('mermaid-diagram').innerHTML = data;
+                    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+                });
+        </script>
+    </body>
+</html>
