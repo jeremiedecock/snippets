@@ -15,6 +15,13 @@ but basemap is a "dead" project:
     
     (src: https://matplotlib.org/basemap/users/intro.html#cartopy-new-management-and-eol-announcement)
 
+## Install
+
+```
+apt install libgeos-dev
+pip install cartopy
+```
+
 ## Glossary (TODO)
 
 - GIS softwares
