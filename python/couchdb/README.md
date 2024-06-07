@@ -25,6 +25,14 @@ docker run --name couchdb-server --rm -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=
 
 ## Run a server with DockerCompose
 
+Set `COUCHDB_USER` and `COUCHDB_PASSWORD` environment variables (e.g. in `.bashrc`) then type:
+
+```
+docker-compose up
+```
+
+or if you want to "detach" the process:
+
 ```
 docker-compose up -d
 ```

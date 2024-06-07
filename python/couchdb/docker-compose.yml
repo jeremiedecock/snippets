@@ -8,8 +8,8 @@ services:
     #restart: unless-stopped
 
     environment:
-      COUCHDB_USER: admin
-      COUCHDB_PASSWORD: password
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
 
     ports:
       - "5984:5984"
