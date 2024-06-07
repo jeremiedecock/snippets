@@ -1,26 +1,30 @@
 # CouchDB
 
 
-C.f.
+## Documentation
 
 - https://couchdb.apache.org/
 - https://hub.docker.com/_/couchdb
 - https://github.com/apache/couchdb-docker
 
 
+## Run a server with Docker
 
-docker run --name my-couchdb -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -p 5984:5984 couchdb:3.3.3
+Set `COUCHDB_USER` and `COUCHDB_PASSWORD` environment variables (e.g. in `.bashrc`) then type:
 
-curl http://127.0.0.1:5984/
+```
+docker run --name couchdb-server --rm -e COUCHDB_USER=${COUCHDB_USER} -e COUCHDB_PASSWORD=${COUCHDB_PASSWORD} -p 5984:5984 couchdb:3.3.3
+```
 
-curl -X GET http://admin:password@127.0.0.1:5984/_all_dbs
+or provide credentials directly in the `docker run` command (not recommended):
 
-curl -X PUT http://admin:password@127.0.0.1:5984/test
+```
+docker run --name couchdb-server --rm -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -p 5984:5984 couchdb:3.3.3
+```
 
-curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/test -d '{ "in" : {"i1":1, "i2":2}, "out": {"o1":1, "o2":2} }'
 
-curl -X POST -H "Content-Type: application/json" http://admin:password@127.0.0.1:5984/test -d '{ "in" : {"i1":11, "i2":22}, "out": {"o1":11, "o2":22} }'
+## Run a server with DockerCompose
 
-curl -X PUT http://admin:password@127.0.0.1:5984/test/_design/myview -d '{"views":{"my_filter":{"map": "function(doc) { if(doc.in && doc.in.i1 && doc.out) { emit(doc.in.i1, doc.out); }}"}}}'
-
-curl -X GET http://admin:password@127.0.0.1:5984/test/_design/myview/_view/my_filter
+```
+docker-compose up -d
+```
