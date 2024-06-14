@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
 
 sns.set_context("paper")
 # Get the list of all ".csv.xz" files in the current directory
@@ -61,9 +62,12 @@ for filename in file_list:
         # Save to a csv file
         df_measurement.to_csv(f"boulogne_{year}-{month}_{measurement}.csv.xz", index=True, compression='xz')
 
-        # Save plot to a png file
-        df_measurement.plot(title=f"{year}-{month} {measurement}", legend=False, figsize=(16, 8))
-        #plt.savefig(f"boulogne_{year}-{month}_{measurement}.png")
-        plt.savefig(f"boulogne_{year}-{month}_{measurement}.pdf")
-        #plt.savefig(f"boulogne_{year}-{month}_{measurement}.svg")
-        plt.close()
+        try:
+            # Save plot to a png file
+            df_measurement.plot(title=f"{year}-{month} {measurement}", legend=False, figsize=(16, 8))
+            #plt.savefig(f"boulogne_{year}-{month}_{measurement}.png")
+            plt.savefig(f"boulogne_{year}-{month}_{measurement}.pdf")
+            #plt.savefig(f"boulogne_{year}-{month}_{measurement}.svg")
+            plt.close()
+        except Exception as e:
+            print(f"Error while plotting {year}-{month} {measurement}: {e}", file=sys.stderr)
