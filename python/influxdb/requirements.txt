@@ -1,1 +1,2 @@
 influxdb-client
+pandas
