@@ -36,3 +36,8 @@ or if you want to "detach" the process:
 ```
 docker-compose up -d
 ```
+
+
+### Use the Fauxton (CoudhDB's graphical interface)
+
+To load Fauxton in your browser, visit http://127.0.0.1:5984/_utils/
