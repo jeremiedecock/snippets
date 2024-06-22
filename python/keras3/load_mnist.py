@@ -1,4 +1,4 @@
-#!/usr/env/bin python3
+#!/usr/bin/env python3
 
 import keras
 import numpy as np
