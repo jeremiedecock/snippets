@@ -1,0 +1,17 @@
+-r requirements.txt
+
+aim~=3.22.0
+# ipydatagrid
+# ipython
+# ipywidgets
+jupyterlab~=4.2.2
+jupytext~=1.16.2
+matplotlib~=3.9.0
+pandas~=2.2.2
+plotly~=5.22.0
+scikit-learn
+scipy
+seaborn~=0.13.2
+tensorboard~=2.16.2
+tqdm
+# voila

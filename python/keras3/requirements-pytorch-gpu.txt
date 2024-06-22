@@ -1,0 +1,7 @@
+# Documentation: https://pytorch.org/get-started/locally/
+
+--index-url https://download.pytorch.org/whl/cu121
+
+torch~=2.3.1
+torchaudio~=2.3.1
+torchvision~=0.18.1

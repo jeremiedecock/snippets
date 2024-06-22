@@ -1,0 +1,4 @@
+keras~=3.3.3
+keras-cv~=0.9.0
+keras-nlp~=0.12.1
+keras-tuner~=1.4.7

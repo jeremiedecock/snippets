@@ -1,0 +1,4 @@
+# Documentation: https://www.tensorflow.org/install
+
+tensorflow~=2.16.1
+# tensorflow-cpu
