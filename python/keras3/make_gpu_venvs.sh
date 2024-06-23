@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Make a virtual environment for the TensorFlow backend
 
