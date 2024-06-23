@@ -1,5 +1,10 @@
 # Documentation: https://pytorch.org/get-started/locally/
 
+# C.f. also:
+# - https://github.com/keras-team/keras/blob/master/requirements-tensorflow-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-torch-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-jax-cuda.txt
+
 --index-url https://download.pytorch.org/whl/cu121
 
 torch~=2.3.1
