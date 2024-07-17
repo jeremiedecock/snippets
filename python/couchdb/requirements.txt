@@ -1,1 +1,3 @@
+jupyterlab
+jupytext
 requests

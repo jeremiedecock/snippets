@@ -8,8 +8,8 @@ services:
     #restart: unless-stopped
 
     environment:
-      COUCHDB_USER: ${COUCHDB_USER}
-      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+      COUCHDB_USER: ${COUCHDB_JDHP_SNIPPETS_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_JDHP_SNIPPETS_PASSWORD}
 
     ports:
       - "5984:5984"

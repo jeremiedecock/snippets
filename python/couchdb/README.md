@@ -6,6 +6,7 @@
 - https://couchdb.apache.org/
 - https://hub.docker.com/_/couchdb
 - https://github.com/apache/couchdb-docker
+- https://docs.couchdb.org/en/stable/api/ddoc/index.html
 
 
 ## Run a server with Docker
@@ -25,7 +26,7 @@ docker run --name couchdb-server --rm -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=
 
 ## Run a server with DockerCompose
 
-Set `COUCHDB_USER` and `COUCHDB_PASSWORD` environment variables (e.g. in `.bashrc`) then type:
+Set `COUCHDB_JDHP_SNIPPETS_USER` and `COUCHDB_JDHP_SNIPPETS_PASSWORD` environment variables (e.g. in `.bashrc`) then type:
 
 ```
 docker-compose up
