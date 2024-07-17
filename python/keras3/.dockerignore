@@ -1,0 +1,9 @@
+.git/
+env*/
+.ipynb_checkpoints/
+.vscode/
+*.gif
+*.pyc
+*.egg-info
+__pycache__
+*.ipynb

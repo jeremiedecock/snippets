@@ -1,0 +1,8 @@
+# Documentation: https://jax.readthedocs.io/en/latest/installation.html
+
+# C.f. also:
+# - https://github.com/keras-team/keras/blob/master/requirements-tensorflow-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-torch-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-jax-cuda.txt
+
+jax[cuda12]~=0.4.30

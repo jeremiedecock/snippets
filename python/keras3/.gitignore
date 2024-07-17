@@ -1,0 +1,14 @@
+# Pytthon venvs
+env*/
+
+# Tensorboard logs directory
+logs/
+
+# Aim directory
+.aim/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Keras (exported) models
+*.keras

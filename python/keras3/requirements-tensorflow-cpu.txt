@@ -1,0 +1,9 @@
+# Documentation: https://www.tensorflow.org/install
+
+# C.f. also:
+# - https://github.com/keras-team/keras/blob/master/requirements-tensorflow-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-torch-cuda.txt
+# - https://github.com/keras-team/keras/blob/master/requirements-jax-cuda.txt
+
+tensorflow~=2.16.1
+# tensorflow-cpu
