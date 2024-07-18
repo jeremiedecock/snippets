@@ -19,9 +19,10 @@ image: quay.io/jupyter/scipy-notebook
 pages:
   stage: deploy
   script:
-  - mkdir -p public/notebooks
+  - mkdir -p public/notebooks/pandas
   - mv index.html public/
-  - jupyter nbconvert --to html --template='jdhp_html_fr.tpl' --execute python/pandas/*.ipynb && mv python/pandas/*.html public/notebooks/
+  #- jupyter nbconvert --to html --template='jdhp_html_fr.tpl' --execute python/pandas/*.ipynb && mv python/pandas/*.html public/notebooks/pandas/
+  - jupyter nbconvert --to html --execute python/pandas/*.ipynb && mv python/pandas/*.html public/notebooks/pandas/
   #- sphinx-build -b html docs/ build/sphinx/html/
   #- mv build/sphinx/html/ public/
   #- coverage run -m pytest
