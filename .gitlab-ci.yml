@@ -1,0 +1,32 @@
+image: python:3.8-slim
+
+# variables:
+#   GIT_SUBMODULE_STRATEGY: recursive
+
+# before_script:
+# - apt update -q -y
+# - apt-get install -y build-essential unzip
+# - export PIP_CACHE_DIR="/opt/cache/pip"
+# - python3 -m pip install -r requirements-build.txt
+# - python3 -m pip install .
+
+# test:
+#   stage: test
+#   script:
+#   - pytest
+
+pages:
+  stage: deploy
+  script:
+  - mv index.html public/
+  #- sphinx-build -b html docs/ build/sphinx/html/
+  #- mv build/sphinx/html/ public/
+  #- coverage run -m pytest
+  #- coverage html
+  #- mv htmlcov public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+
