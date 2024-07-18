@@ -122,6 +122,10 @@ For more exhaustive information, see the following sections.
 - The [python/pickle](https://github.com/jeremiedecock/snippets/tree/master/python/pickle) directory contains some snippets on [Pickle](https://docs.python.org/2/library/pickle.html).
 - ...
 
+## Jupyter Notebooks (Python)
+
+- https://snippets-jdhp-dev-93490b2a398b2acfa315add96879302ca67926f2974cd.gitlab.io/
+
 ## License
 
 JDHP snippets are distributed under the [MIT License](http://opensource.org/licenses/MIT).
