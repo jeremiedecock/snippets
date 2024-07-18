@@ -18,6 +18,7 @@ image: python:3.8-slim
 pages:
   stage: deploy
   script:
+  - mkdir public
   - mv index.html public/
   #- sphinx-build -b html docs/ build/sphinx/html/
   #- mv build/sphinx/html/ public/
