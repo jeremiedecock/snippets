@@ -1,4 +1,5 @@
-image: python:3.8-slim
+image: quay.io/jupyter/minimal-notebook
+#image: python:3.8-slim
 
 # variables:
 #   GIT_SUBMODULE_STRATEGY: recursive
@@ -18,8 +19,9 @@ image: python:3.8-slim
 pages:
   stage: deploy
   script:
-  - mkdir public
+  - mkdir -p public/notebooks
   - mv index.html public/
+  - jupyter nbconvert --to html --template='jdhp_html_fr.tpl' --execute python/pandas/*.ipynb && mv python/pandas/*.html public/notebooks/
   #- sphinx-build -b html docs/ build/sphinx/html/
   #- mv build/sphinx/html/ public/
   #- coverage run -m pytest
