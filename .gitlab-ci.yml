@@ -1,4 +1,4 @@
-image: quay.io/jupyter/minimal-notebook
+image: quay.io/jupyter/scipy-notebook
 #image: python:3.8-slim
 
 # variables:
