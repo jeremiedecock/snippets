@@ -15,7 +15,7 @@ stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 
 # Create a formatter and set it for both handlers
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt=r'%Y-%m-%dT%H:%M:%S%z')
 file_handler.setFormatter(formatter)
 stream_handler.setFormatter(formatter)
 
