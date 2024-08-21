@@ -1,0 +1,3 @@
+- https://peps.python.org/pep-0492/
+- https://docs.python.org/3/library/asyncio.html
+- https://fastapi.tiangolo.com/async/
