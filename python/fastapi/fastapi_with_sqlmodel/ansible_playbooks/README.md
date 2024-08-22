@@ -4,5 +4,5 @@
 
 
 ```sh
-./ansible_playbooks/ansible_playbook.yml -i ansible_playbooks/hosts --ask-vault-password
+./ansible_playbooks/ansible_playbook.yml -i ansible_playbooks/hosts.ini --ask-vault-password
 ```

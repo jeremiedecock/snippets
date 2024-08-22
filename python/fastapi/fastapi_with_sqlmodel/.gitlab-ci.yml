@@ -1,0 +1,33 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+before_script:
+- python3 -m pip install -r requirements-build.txt
+- python3 -m pip install .
+
+test:
+  stage: test
+  tags:
+    - builder_python
+  script:
+  - pytest
+
+pages:
+  stage: deploy
+  tags:
+    - builder_python
+  script:
+  - sphinx-build -b html docs/ build/sphinx/html/
+  - mv build/sphinx/html/ public/
+  - coverage run -m pytest
+  - coverage html
+  - mv htmlcov public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - orbit
