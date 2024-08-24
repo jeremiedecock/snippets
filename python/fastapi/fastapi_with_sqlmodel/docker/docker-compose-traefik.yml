@@ -6,13 +6,16 @@ version: "3.9"
 
 services:
 
-  # Reverse proxy #############################################################
+
+  #############################################################################
+  # Reverse Proxy Traefik                                                     #
+  #############################################################################
 
   traefik:
     # The official v2 Traefik docker image
-    image: traefik:v2.10
+    image: traefik:v2.11.0
 
-    # restart: always
+    restart: unless-stopped
 
     ports:
       # Listen on port 80 (HTTP), necessary to redirect to HTTPS
@@ -32,13 +35,16 @@ services:
     labels:
       # Enable Traefik for this service, to make it available in the public network
       - traefik.enable=true
+
       # Define the port inside of the Docker service to use
       - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080
+
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.traefik-dashboard-http.entrypoints=http
       - traefik.http.routers.traefik-dashboard-http.rule=Host(`traefik.hello.jdhp.org`)
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public
+
       # traefik-https the actual router using HTTPS
       - traefik.http.routers.traefik-dashboard-https.entrypoints=https
       - traefik.http.routers.traefik-dashboard-https.rule=Host(`traefik.hello.jdhp.org`)
@@ -47,9 +53,11 @@ services:
       - traefik.http.routers.traefik-dashboard-https.tls.certresolver=le
       # Use the special Traefik service api@internal with the web UI/Dashboard
       - traefik.http.routers.traefik-dashboard-https.service=api@internal
+
       # https-redirect middleware to redirect HTTP to HTTPS
       - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+
       # traefik-http set up only to use the middleware to redirect to https
       - traefik.http.routers.traefik-dashboard-http.middlewares=https-redirect
       # admin-auth middleware with HTTP Basic auth
@@ -80,6 +88,7 @@ services:
       - --certificatesresolvers.le.acme.tlschallenge=true
       # Enable the access log, with HTTP requests
       - --accesslog
+      # - --log.level=debug
       # Enable the Traefik log, for configurations and errors
       - --log
       # Enable the Dashboard and API

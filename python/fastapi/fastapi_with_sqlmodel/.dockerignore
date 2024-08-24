@@ -1,6 +1,0 @@
-env
-__pycache__
-*.pyc
-.git
-.mypy_cache
-.vscode
