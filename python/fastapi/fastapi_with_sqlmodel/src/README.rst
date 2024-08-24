@@ -97,17 +97,17 @@ Build and run the Python Docker image
 
 .. warning::
 
-   The following commands have to be run from the root directory of this project (not from the ``src`` directory).
+   The following commands have to be run from the root directory of this project (**not** from the ``src`` directory).
 
-Build the docker image (from the project source code)::
+Build the docker image (from the root directory of this project)::
 
     docker build -t heroes_backend:latest -f ./docker/fastapi.dockerfile ./src
 
-Run an example from the docker container (from the project source code)::
+Run an example from the docker container (from the root directory of this project)::
 
     docker run --rm --name heroes_container -p 8000:80 heroes_backend
 
-Run an example from the docker container with a persistent volume (from the project source code)::
+Run an example from the docker container with a persistent volume (from the root directory of this project)::
 
     docker run --rm --name heroes_container -p 8000:80 -v heroes-database:/var/lib/heroes/ -e SQLITE_DATABASE_URL="sqlite:////var/lib/heroes/heroes.sqlite" heroes_backend
 

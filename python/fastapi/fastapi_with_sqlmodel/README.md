@@ -19,66 +19,38 @@ For detailed instructions on installing, configuring, and running this project l
 ### Deploying on a Server with Ansible
 
 Add the target host to the `hosts.ini` file.
+If needed, update ansible variables in `ansible_playbooks/ansible_playbook.yml` (FQDN, ...).
 Then, run the following command:
 
 ```sh
-./ansible_playbooks/ansible_playbook.yml -i ansible_playbooks/hosts
+./ansible_playbooks/ansible_playbook.yml -i ansible_playbooks/hosts.ini
 ```
 
-To test the deployment, open a web browser and navigate to:
-- https://hello.jdhp.org/
-- https://hello.jdhp.org/heroes/
+To test the deployment, open a web browser and navigate to https://api.heroes.jdhp.org/heroes/.
 
-To view the Traefik dashboard, visit: https://traefik.hello.jdhp.org/.
+To view the Traefik dashboard, visit: https://traefik.jdhp.org/.
 
-For the automatic interactive API documentation (provided by Swagger UI), visit: https://hello.jdhp.org/docs.
+For the automatic interactive API documentation (provided by Swagger UI), visit: https://api.heroes.jdhp.org/docs/.
 
-For the alternative automatic documentation (provided by ReDoc), visit: https://hello.jdhp.org/redoc.
+For the alternative automatic documentation (provided by ReDoc), visit: https://api.heroes.jdhp.org/redoc/.
 
-The frontedn can be accessed at: https://nginx.hello.jdhp.org/
+The frontend can be accessed at: https://heroes.jdhp.org/
 
 To check logs (from the remote host terminal as `root`), use:
 
 ```sh
-docker logs fastapi-hello -f
+docker logs docker_heroes-api_1 -f
+docker logs docker_heroes-frontend_1 -f
+docker logs traefik_traefik_1 -f
 ```
 
-
-### Deploy Manually on a Server (Without Ansible)
-
-Copy the project to the remote server.
-If using Ansible, you can disable the `docker_network` and `docker_compose` tasks in the playbook, then execute it as described below.
-
-Then Connect to the remote server (as `root`) and run the following commands:
+To eventually remove the application (from the remote host terminal as `root`):
 
 ```sh
-cd /srv/hello
-docker network create traefik-public
-docker-compose -f docker-compose.traefik.yml up -d
-docker-compose -f docker-compose.yml up -d
-```
-
-After deployment, open a web browser at https://hello.jdhp.org/ and https://traefik.hello.jdhp.org/.
-
-Check logs (from the remote host terminal as `root`):
-
-```sh
-docker logs hello_traefik_1 -f
-docker logs fastapi-hello -f
-docker logs hello_streamlit_1 -f
-docker logs hello_panel_1 -f
-docker logs hello_gradio_1 -f
-```
-
-To eventually remove the webapp (from the remote host terminal as `root`):
-
-```sh
-cd /srv/hello
-docker-compose -f docker-compose.traefik.yml down
-docker-compose -f docker-compose.yml down
-docker network rm traefik-public
+cd /srv/heroes
+docker-compose -f docker/docker-compose-app.yml down
 docker system prune
-docker rmi fastapi_hello hello_panel hello_streamlit hello_gradio hello_nginx traefik
+docker rmi docker_heroes-api
 cd /srv
-rm -rf /srv/hello
+rm -rf /srv/heroes
 ```

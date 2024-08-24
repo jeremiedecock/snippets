@@ -3,62 +3,165 @@
 # https://docs.docker.com/compose/gettingstarted/
 
 ---
-- name: Install and configure a (production ready) FastAPI server using Docker Compose
+- name: Install and configure a (production ready) web application using Docker Compose
   hosts: webservers
   become: True
 
   vars:
-    src_application_path: "{{ playbook_dir }}/../"
-    dst_application_path: /srv/hello
-    sqlite_directory_path: /srv/db
-    sqlite_file_name: database.sqlite
+    application_api_fqdn: api.heroes.jdhp.org                            # Fully qualified domain name
+    application_frontend_fqdn: heroes.jdhp.org                           # Fully qualified domain name
+    application_database_path: /var/lib/heroes
+    application_name: heroes
+    application_log_path: /var/log/heroes
+    src_application_config_path: "{{ playbook_dir }}/files/heroes-config/"
+    dst_application_config_path: /etc/heroes
+    src_application_root_path: "{{ playbook_dir }}/../"
+    dst_application_root_path: /srv/heroes
+    # src_application_frontend_path: "{{ playbook_dir }}/../nginx-static-html-directory/"
+    # dst_application_frontend_path: /srv/heroes/html-frontend
+
+  environment:
+    APPLICATION_API_FQDN: "{{ application_api_fqdn }}"                   # Fully qualified domain name (used in the `docker-compose-app.yml` file)
+    APPLICATION_DATABASE_PATH: "{{ application_database_path }}"
+    APPLICATION_FRONTEND_FQDN: "{{ application_frontend_fqdn }}"         # Fully qualified domain name (used in the `docker-compose-app.yml` file)
+    APPLICATION_NAME: "{{ application_name }}"                           # Used in the `docker-compose-app.yml` file
 
   tasks:
 
-    - name: Install Debian packages (Docker and rsync)
-      apt:
+    - name: Install Debian packages (Docker, rsync, ...)
+      ansible.builtin.apt:
         name:
           - docker.io
           - python3-docker
           - docker-compose
           - rsync
+          - sqlite3
         update_cache: yes
 
-    - name: Ensures the directory that will contain the app exists
-      file:
-        path: "{{ dst_application_path }}"
+
+    # Application's configuration files #######################################
+
+    - name: Ensures the directory that will contain the config files exists ({{ dst_application_config_path }})
+      ansible.builtin.file:
+        path: "{{ dst_application_config_path }}"
+        state: directory
+        # owner: "{{ system_user }}"
+        # group: "{{ system_group }}"
+        mode: '700'
+        recurse: yes
+
+    - name: Install config files (to {{ dst_application_config_path }})
+      ansible.builtin.copy:
+        src: "{{ src_application_config_path }}"
+        dest: "{{ dst_application_config_path }}"
+        # owner: "{{ system_user }}"
+        # group: "{{ system_group }}"
+        mode: '600'
+
+
+    # Application's database files ############################################
+
+    - name: Ensures the directory that will contain the SQLite database files exists ({{ application_database_path }})
+      ansible.builtin.file:
+        path: "{{ application_database_path }}"
+        state: directory
+        # owner: "{{ system_user }}"
+        # group: "{{ system_group }}"
+        mode: '700'
+        recurse: yes
+
+
+    # Application's log files #################################################
+
+    - name: Ensures the directory that will contain the log files exists ({{ application_log_path }})
+      ansible.builtin.file:
+        path: "{{ application_log_path }}"
+        state: directory
+        # owner: "{{ system_user }}"
+        # group: "{{ system_group }}"
+        mode: '700'
+        recurse: yes
+
+
+    # # Application's frontend files ############################################
+
+    # - name: Ensures the directory that will contain the application's HTML files exists ({{ dst_application_frontend_path }})
+    #   ansible.builtin.file:
+    #     path: "{{ dst_application_frontend_path }}"
+    #     state: directory
+    #     # owner: "{{ system_user }}"
+    #     # group: "{{ system_group }}"
+    #     mode: '755'
+    #     recurse: yes
+
+    # - name: Install webapps documentation files (to {{ dst_application_frontend_path }})
+    #   ansible.builtin.copy:
+    #     src: "{{ src_application_frontend_path }}"
+    #     dest: "{{ dst_application_frontend_path }}"
+    #     # owner: "{{ system_user }}"
+    #     # group: "{{ system_group }}"
+    #     mode: '644'
+
+
+    # Application source code files ###########################################
+
+    - name: Ensures the directory that will contain the source code of the webapp exists
+      ansible.builtin.file:
+        path: "{{ dst_application_root_path }}"
         state: directory
         recurse: yes
 
-    - name: Sync the App
-      synchronize:
-        src: "{{ src_application_path }}"
-        dest: "{{ dst_application_path }}"
+    - name: Sync the source code of the application to the remote machine (to {{ dst_application_root_path }})
+      ansible.posix.synchronize:
+        src: "{{ src_application_root_path }}"
+        dest: "{{ dst_application_root_path }}"
         delete: yes
         mode: push
         rsync_opts:
-          - "--exclude=.git/"
-          - "--exclude=env/"
-          - "--exclude=ansible_playbooks/"
           - "--exclude=*.egg-info/"
+          - "--exclude=*.pyc"
+          - "--exclude=*.pyd"
+          - "--exclude=*.pyo"
+          - "--exclude=.git/"
+          - "--exclude=.gitignore"
+          - "--exclude=.gitlab-ci.yml"
+          - "--exclude=.mypy_cache/"
           - "--exclude=.vscode/"
           - "--exclude=__pycache__/"
-          - "--exclude=*.pyc"
-          - "--exclude=*.pyo"
-          - "--exclude=*.pyd"
-          - "--exclude=.gitlab-ci.yml"
-          - "--exclude=.gitignore"
+          - "--exclude=ansible_playbooks/"
+          - "--exclude=docker/docker-compose-app.override.yml"
+          - "--exclude=src/env/"
 
-    - name: Create the Docker traefik-public network
+
+    # Docker networks #########################################################
+
+    - name: Create the Docker networks
       docker_network:
-        name: traefik-public
+        name: "{{ item }}"
+      with_items:
+        - traefik-public
+        # Put here other networks if needed...
 
-    # Use files parameter to use multiple docker-compose.yml files
+
+    # Docker Compose ##########################################################
+
+    # - name: Copy docker-compose-*.yml to the remote machine
+    #   ansible.builtin.copy:
+    #     src: "{{ src_application_docker_path }}/{{ item }}"
+    #     dest: "{{ dst_application_docker_path }}/{{ item }}"
+    #     owner: root
+    #     group: root
+    #     mode: '400'             # Permissions are set to 400 as some docker-compose-*.yml files may contain sensitive data...
+    #   with_items:
+    #     - docker-compose-traefik.yml
+    #     - docker-compose-app.yml
+
+    # Use files parameter to use multiple docker-compose files
     - name: Deploy the App with Docker Compose
       docker_compose:
-        project_src: "{{ dst_application_path }}"
+        project_src: "{{ dst_application_root_path }}/docker"
         files:
-          - docker-compose.yml
-          - docker-compose.traefik.yml
+          - docker-compose-app.yml
+          # - docker-compose-traefik.yml   # Uncomment this line to install or update Traefik on the production server
         state: present
         build: yes

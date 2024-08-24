@@ -1,0 +1,49 @@
+#!/usr/bin/env ansible-playbook
+
+# https://docs.docker.com/compose/gettingstarted/
+
+---
+- name: Install and configure Traefik
+  hosts: webservers
+  become: True
+
+  vars:
+
+    dst_docker_compose_path: "{{ traefik_docker_compose_path | default('/srv/traefik') }}"
+
+  tasks:
+
+    - name: Install Debian packages (Docker, rsync, ...)
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - python3-docker
+          - docker-compose
+          - rsync
+        update_cache: yes
+
+    - name: Ensures the directory that will contain the Docker Compose file exists
+      ansible.builtin.file:
+        path: "{{ dst_docker_compose_path }}"
+        state: directory
+        recurse: yes
+
+    - name: Copy docker-compose.yml to the remote machine
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../docker/docker-compose-traefik.yml.j2"
+        dest: "{{ dst_docker_compose_path }}/docker-compose-traefik.yml"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Create the Docker traefik-public network
+      docker_network:
+        name: traefik-public
+
+    - name: Deploy Traefik with Docker Compose
+      docker_compose:
+        project_src: "{{ dst_docker_compose_path }}"
+        files:
+          - docker-compose-traefik.yml
+        state: present
+        build: yes
