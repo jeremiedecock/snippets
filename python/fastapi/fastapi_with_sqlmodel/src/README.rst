@@ -146,14 +146,15 @@ To see the alternative automatic documentation (provided by ReDoc), open your br
 
 Check logs::
 
-    docker logs fast-api-hello -f
+    docker logs docker_backend_1 -f
+    docker logs docker_nginx_1 -f
 
 Stop::
 
-    docker-compose -f docker/docker-compose-app.yml down
+    APPLICATION_DATABASE_PATH=/tmp/heroes docker-compose -f docker/docker-compose-app.yml -f docker/docker-compose-app.override.yml down
     docker network rm traefik-public
     docker system prune
-    docker rmi fastapi_hello
+    docker rmi docker_backend
 
 
 Production environment
