@@ -5,7 +5,9 @@
 # To run this code, type: `uvicorn main:app`
 
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from fastapi import FastAPI
+import functools
 import logging
 import os
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -24,6 +26,7 @@ class Hero(SQLModel, table=True):
     name: str = Field(index=True)
     secret_name: str
     age: int | None = Field(default=None, index=True)
+    record_utc_datetime: datetime = Field(default_factory=functools.partial(datetime.now, timezone.utc), nullable=False)
 
 
 SQLITE_DATABASE_URL = os.getenv("SQLITE_DATABASE_URL", "sqlite:////tmp/heroes.sqlite")
