@@ -69,7 +69,7 @@ or equivalently::
 
     uvicorn heroes.main:app --reload
 
-Then open a web browser at http://127.0.0.1:8000/ or http://127.0.0.1:8000/heroes/ to test it.
+Then open a web browser at http://127.0.0.1:8000/api/ to test it.
 
 To see the automatic interactive API documentation (provided by Swagger UI), open your browser at: http://127.0.0.1:8000/docs.
 
@@ -115,7 +115,7 @@ or equivalently, if you want to specify the database directory on the host file 
 
     docker run --rm --name heroes_container -p 8000:80 -v /tmp/heroes:/var/lib/heroes/ -e SQLITE_DATABASE_URL="sqlite:////var/lib/heroes/heroes.sqlite" heroes_backend
 
-Then open a web browser at http://localhost:8000/ or http://localhost:8000/heroes/ to test it.
+Then open a web browser at http://localhost:8000/api/ to test it.
 
 To see the automatic interactive API documentation (provided by Swagger UI), open your browser at: http://127.0.0.1:8000/docs.
 
@@ -138,7 +138,7 @@ To build and run the Python Docker image with Docker Compose, run the following 
     docker network create traefik-public
     APPLICATION_DATABASE_PATH=/tmp/heroes docker-compose -f docker/docker-compose-app.yml -f docker/docker-compose-app.override.yml up
 
-Then open a web browser at http://localhost/ or http://localhost/heroes/ to test it.
+Then open a web browser at http://localhost/api/ to test it.
 
 To see the automatic interactive API documentation (provided by Swagger UI), open your browser at: http://localhost/docs.
 

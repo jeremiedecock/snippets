@@ -9,8 +9,11 @@ VERIFY_SSH_CERTIFICATE = True
 USERNAME = os.getenv('HEROES_API_USERNAME')
 PASSWORD = os.getenv('HEROES_API_PASSWORD')    # The unencrypted password
 
+HERO_ID = 2
+
 r = requests.get(
-    'https://heroes.jdhp.org/api/',
+    f'https://heroes.jdhp.org/api/{HERO_ID}',
+    params={'hero_id': HERO_ID},
     verify=VERIFY_SSH_CERTIFICATE,
     auth=HTTPBasicAuth(USERNAME, PASSWORD)     # See https://doc.traefik.io/traefik/middlewares/http/basicauth/
 )

@@ -19,20 +19,20 @@ For detailed instructions on installing, configuring, and running this project l
 ### Deploying on a Server with Ansible
 
 Add the target host to the `hosts.ini` file.
-If needed, update ansible variables in `ansible_playbooks/ansible_playbook.yml` (FQDN, ...).
+If needed, update ansible variables in `ansible_playbooks/ansible_playbook_app.yml` (FQDN, ...).
 Then, run the following command:
 
 ```sh
-./ansible_playbooks/ansible_playbook.yml -i ansible_playbooks/hosts.ini
+./ansible_playbooks/ansible_playbook_app.yml -i ansible_playbooks/hosts.ini
 ```
 
-To test the deployment, open a web browser and navigate to https://api.heroes.jdhp.org/heroes/.
+To test the deployment, open a web browser and navigate to https://heroes.jdhp.org/api/.
 
 To view the Traefik dashboard, visit: https://traefik.jdhp.org/.
 
-For the automatic interactive API documentation (provided by Swagger UI), visit: https://api.heroes.jdhp.org/docs/.
+For the automatic interactive API documentation (provided by Swagger UI), visit: https://heroes.jdhp.org/docs/.
 
-For the alternative automatic documentation (provided by ReDoc), visit: https://api.heroes.jdhp.org/redoc/.
+For the alternative automatic documentation (provided by ReDoc), visit: https://heroes.jdhp.org/redoc/.
 
 The frontend can be accessed at: https://heroes.jdhp.org/
 

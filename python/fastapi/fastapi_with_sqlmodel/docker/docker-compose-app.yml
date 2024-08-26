@@ -27,16 +27,17 @@ services:
 
       # Define the port inside of the Docker service to use
       - traefik.http.services.heroes-api.loadbalancer.server.port=80
+
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.heroes-api-http.entrypoints=http
-      - traefik.http.routers.heroes-api-http.rule=Host(`${APPLICATION_API_FQDN}`)
+      - traefik.http.routers.heroes-api-http.rule=Host(`${APPLICATION_API_FQDN}`) && (PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`))
 
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public
 
       # Make Traefik use this domain in HTTPS
       - traefik.http.routers.heroes-api-https.entrypoints=https
-      - traefik.http.routers.heroes-api-https.rule=Host(`${APPLICATION_API_FQDN}`)
+      - traefik.http.routers.heroes-api-https.rule=Host(`${APPLICATION_API_FQDN}`) && (PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`))
       - traefik.http.routers.heroes-api-https.tls=true
 
       # Use the "le" (Let's Encrypt) resolver
@@ -104,7 +105,7 @@ services:
       - traefik.http.routers.heroes-frontend-https.middlewares=admin-auth
 
     volumes:
-    - "../nginx-static-html-directory:/usr/share/nginx/html:ro"
+    - "../frontend:/usr/share/nginx/html:ro"
     # - "${APPLICATION_FRONTEND_PATH}:/usr/share/nginx/html:ro"
 
     # # Comment the following two lines should stay commented as ports are managed by Traefik... To test the service without Traefik, use the docker-compose-app.override.yml file !

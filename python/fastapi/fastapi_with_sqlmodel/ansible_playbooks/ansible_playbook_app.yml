@@ -8,7 +8,7 @@
   become: True
 
   vars:
-    application_api_fqdn: api.heroes.jdhp.org                            # Fully qualified domain name
+    application_api_fqdn: heroes.jdhp.org                                # Fully qualified domain name (an alternative could be api.heroes.jdhp.org)
     application_frontend_fqdn: heroes.jdhp.org                           # Fully qualified domain name
     application_database_path: /var/lib/heroes
     application_name: heroes
@@ -17,7 +17,7 @@
     dst_application_config_path: /etc/heroes
     src_application_root_path: "{{ playbook_dir }}/../"
     dst_application_root_path: /srv/heroes
-    # src_application_frontend_path: "{{ playbook_dir }}/../nginx-static-html-directory/"
+    # src_application_frontend_path: "{{ playbook_dir }}/../frontend/"
     # dst_application_frontend_path: /srv/heroes/html-frontend
 
   environment:
@@ -129,6 +129,7 @@
           - "--exclude=.vscode/"
           - "--exclude=__pycache__/"
           - "--exclude=ansible_playbooks/"
+          - "--exclude=client/"
           - "--exclude=docker/docker-compose-app.override.yml"
           - "--exclude=src/env/"
 

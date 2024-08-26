@@ -6,7 +6,7 @@
 
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import functools
 import logging
 import os
@@ -50,11 +50,11 @@ async def lifespan(app: FastAPI):
 
 
 # Create the FastAPI app
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, root_path="/api")
 
 
-# Create Heroes Path Operation
-@app.post("/heroes/")
+# Create a hero Path Operation
+@app.post("/")
 def create_hero(hero: Hero):
     with Session(engine) as session:
         session.add(hero)
@@ -63,9 +63,52 @@ def create_hero(hero: Hero):
         return hero
 
 
-# Read Heroes Path Operation
-@app.get("/heroes/")
+# Read all heroes Path Operation
+@app.get("/")
 def read_heroes():
     with Session(engine) as session:
         heroes = session.exec(select(Hero)).all()
         return heroes
+
+
+# Read a hero by ID Path Operation
+@app.get("/{id}")
+def read_hero(hero_id: int):
+    """
+    Get hero by ID.
+    """
+    with Session(engine) as session:
+        hero = session.get(Hero, hero_id)
+        # heroes = session.exec(select(Hero).where(Hero.id == hero_id)).all()
+        if hero is None:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        return hero
+        #return heroes[0]
+
+
+# Update a hero by ID Path Operation
+@app.put("/{id}")
+def update_hero(hero_id: int, hero: Hero):
+    with Session(engine) as session:
+        hero_db = session.get(Hero, hero_id)
+        if hero_db is None:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        hero_db.name = hero.name
+        hero_db.secret_name = hero.secret_name
+        hero_db.age = hero.age
+        session.add(hero_db)
+        session.commit()
+        session.refresh(hero_db)
+        return hero_db
+
+
+# Delete a hero by ID Path Operation
+@app.delete("/{id}")
+def delete_hero(hero_id: int):
+    with Session(engine) as session:
+        hero = session.get(Hero, hero_id)
+        if hero is None:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        session.delete(hero)
+        session.commit()
+        return {"message": "Hero deleted successfully"}
