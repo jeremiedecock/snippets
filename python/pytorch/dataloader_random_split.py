@@ -27,8 +27,6 @@ class ExampleDataset(torch.utils.data.Dataset):
 
 dataset = ExampleDataset()
 
-dataloader = torch.utils.data.DataLoader(dataset, batch_size=2, shuffle=True)
-
 train_size = int(0.6 * len(dataset))
 val_size = len(dataset) - train_size
 
