@@ -1,1 +1,5 @@
 clearml
+tensorboard
+torch
+torchaudio
+torchvision
