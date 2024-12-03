@@ -2,13 +2,14 @@
 # coding: utf-8
 
 # Usage example:
-# ./getting_started_time_series_forecasting_dense_layers_args.py --train-csv=getting_started_time_series_forecasting_dense_layers_args.csv --test-csv=getting_started_time_series_forecasting_dense_layers_args.csv --train-column=0 --test-column=1 --seq-len=48 --pred-len=24 --plot
+# ./getting_started_time_series_forecasting_dense_layers_args.py --train-csv=getting_started_time_series_forecasting_dense_layers_args.csv --test-csv=getting_started_time_series_forecasting_dense_layers_args.csv --train-column=0 --test-column=1 --train-skip=1 --test-skip=1 --seq-len=48 --pred-len=24 --plot
 
 import argparse
 from clearml import Task
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import random
 import torch
 from torch import Tensor
 from torch.utils.data import DataLoader
@@ -24,8 +25,8 @@ class TimeSeriesDataset(torch.utils.data.Dataset):
     def __init__(
         self,
         time_series: Tensor,
-        seq_len:int = 4,
-        pred_len:int = 1,
+        seq_len:int,
+        pred_len:int,
         device: str =DEVICE
     ) -> None:
         super().__init__()
@@ -162,11 +163,17 @@ def main() -> None:
     parser.add_argument("--train-column", "-i", type=int, default=0, metavar="INTEGER",
         help="the column index of the training time series in the CSV file (default: 0)")
 
+    parser.add_argument("--train-skip", "-r", type=int, default=0, metavar="INTEGER",
+        help="the number of rows to skip in the train CSV file (default: 0)")
+
     parser.add_argument("--test-csv", "-T", default="getting_started_time_series_forecasting_dense_layers_args.csv", metavar="STRING",
         help="the CSV file that contains the test time series")
 
     parser.add_argument("--test-column", "-I", type=int, default=1, metavar="INTEGER",
         help="the column index of the test time series in the CSV file (default: 0)")
+
+    parser.add_argument("--test-skip", "-R", type=int, default=0, metavar="INTEGER",
+        help="the number of rows to skip in the test CSV file (default: 0)")
 
     parser.add_argument("--seq-len", "-s", type=int, default=32, metavar="INTEGER",
         help="the sequence length used to predict the next values (default: 32)")
@@ -189,15 +196,25 @@ def main() -> None:
     parser.add_argument("--plot", "-p", action="store_true",
         help="plot the time series")
 
+    parser.add_argument("--randomize",  "-x", action="store_true",
+        help="don't use a fixed seed (for reproducibility)")
+
     args = parser.parse_args()
 
 
-    # INITIALIZING CLEARML TASK ###################################################
+    # SETTING THE RANDOM SEED #################################################
+
+    # See https://clear.ml/docs/latest/docs/clearml_sdk/task_sdk/#setting-random-seed
+    if not args.randomize:
+        Task.set_random_seed(None)
+
+
+    # INITIALIZING CLEARML TASK ###############################################
 
     task = Task.init(project_name="Snippets", task_name="Timeseries forecasting with Dense Layers")
 
 
-    # INITIALIZING TENSORBOARD SUMMARYWRITER ######################################
+    # INITIALIZING TENSORBOARD SUMMARYWRITER ##################################
 
     writer = SummaryWriter()
 
@@ -206,8 +223,8 @@ def main() -> None:
 
     # GENERATE THE DATA #######################################################
 
-    training_ts = pd.read_csv(args.train_csv, index_col=args.train_column).values.flatten()
-    test_ts = pd.read_csv(args.test_csv, index_col=args.test_column).values.flatten()
+    training_ts = pd.read_csv(args.train_csv, usecols=[args.train_column], skiprows=args.train_skip).values.flatten()
+    test_ts = pd.read_csv(args.test_csv, usecols=[args.test_column], skiprows=args.test_skip).values.flatten()
 
     if args.plot:
         plt.plot(training_ts, label='Training')
