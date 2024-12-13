@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import logging
 from multiprocessing import cpu_count
 import os
 import time
+import traceback
 
 NUM_CPU_CORES = cpu_count()
 
 
 def run_task(input_param: float):
     try:
-        print(f"Running task with input param {input_param} on process {os.getpid()}")
+        logging.info(f"Running task with input param {input_param} on process {os.getpid()}")
         time.sleep(5)
         raise Exception("This is an exception")
     except Exception as e:
-        print(f"Exception caught: {e}")
+        logging.error(f"Exception caught: {e}")
+        traceback.print_exc()  # Print the full stack trace
         raise e
 
 

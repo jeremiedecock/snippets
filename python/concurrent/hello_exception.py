@@ -4,6 +4,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from multiprocessing import cpu_count
 import os
 import time
+import traceback
 
 NUM_CPU_CORES = cpu_count()
 
@@ -25,6 +26,7 @@ def run_tasks() -> None:
                 future.result()  # Ensure any exceptions are raised
             except Exception as e:
                 print(f"Exception caught: {e}")
+                traceback.print_exc()  # Print the full stack trace
                 # executor.shutdown(wait=False)
                 break
 
