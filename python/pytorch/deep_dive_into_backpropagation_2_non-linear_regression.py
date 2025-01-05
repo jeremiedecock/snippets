@@ -325,10 +325,10 @@ def display_nn(
     plt.show()
 
 
-display_nn(
-    hidden_list=["w1", "y1", "s2", "y3"],
-    highlight_list=["w3", "s4"]
-)
+# display_nn(
+#     hidden_list=["w1", "y1", "s2", "y3"],
+#     highlight_list=["w3", "s4"]
+# )
 
 # %% [markdown]
 # ## Make the model in PyTorch
@@ -471,12 +471,16 @@ display_nn(
 # Using the chain rule:
 #
 # $$
-# \frac{\partial \errfunc}{\partial \color{red}{\weight_{10}}} =
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_{10}}}
+# =
 # \underbrace{
 #  \frac{\partial \errfunc}{\partial \color{orange}{\sigout_o}}
 #  \frac{\partial \color{orange}{\sigout_o}}{\partial \color{green}{\pot_o}} ~
 # }_{\errsig_o}
-# \frac{\partial \color{green}{\pot_o}}{\partial \color{red}{\weight_{10}}} ~
+# \frac{\partial \color{green}{\pot_o}}{\partial \color{red}{\weight_{10}}}
+# =
+# \errsig_o
+# \frac{\partial \color{green}{\pot_o}}{\partial \color{red}{\weight_{10}}}
 # $$
 #
 # knowing that:
@@ -512,7 +516,7 @@ grad_E_w10
 # Let's rewrite the forward computation in a less naive way (using linear algebra).
 
 # %% [markdown]
-# ...
+# TODO...
 
 # %%
 # f = torch.nn.functional.tanh
@@ -526,7 +530,7 @@ grad_E_w10
 # print(f"Output for time step 3:\nh3 = \n{ h3 }\n\n")
 
 # %% [markdown]
-# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_{9}}$
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_9}$
 
 # %%
 display_nn(
@@ -550,12 +554,16 @@ display_nn(
 # Using the chain rule:
 #
 # $$
-# \frac{\partial \errfunc}{\partial \weight_9} =
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_9}}
+# =
 # \underbrace{
 #  \frac{\partial \errfunc}{\partial \color{orange}{\sigout_o}}
 #  \frac{\partial \color{orange}{\sigout_o}}{\partial \color{green}{\pot_o}} ~
 # }_{\errsig_o}
-# \frac{\partial \color{green}{\pot_o}}{\partial \weight_9} ~
+# \frac{\partial \color{green}{\pot_o}}{\partial \color{red}{\weight_9}}
+# =
+# \errsig_o
+# \frac{\partial \color{green}{\pot_o}}{\partial \color{red}{\weight_9}}
 # $$
 #
 # knowing that:
@@ -591,7 +599,10 @@ grad_E_w9
 # Let's rewrite the forward computation in a less naive way (using linear algebra).
 
 # %% [markdown]
-# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_{8}}$
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_8}$
 
 # %%
 display_nn(
@@ -615,7 +626,8 @@ display_nn(
 # Using the chain rule:
 #
 # $$
-# \frac{\partial \errfunc}{\partial \weight_8} =
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_8}}
+# =
 # \underbrace{
 #  \underbrace{
 #   \frac{\partial \errfunc}{\partial \sigout_o}
@@ -624,7 +636,10 @@ display_nn(
 #  \frac{\partial \pot_o}{\partial \sigout_4} ~
 #  \frac{\partial \sigout_4}{\partial \pot_4} ~
 # }_{\errsig_4}
-# \frac{\partial \pot_4}{\partial \weight_8} ~
+# \frac{\partial \pot_4}{\partial \color{red}{\weight_8}}
+# =
+# \errsig_4
+# \frac{\partial \pot_4}{\partial \color{red}{\weight_8}}
 # $$
 
 # %% [markdown]
@@ -664,7 +679,664 @@ grad_E_w8
 # Let's rewrite the forward computation in a less naive way (using linear algebra).
 
 # %% [markdown]
-# ### Check backward computations result with PyTorch
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_7}$
+
+# %%
+display_nn(
+    hidden_list=["x1", "x2", "y1", "y4", "s1", "s2", "s4", "n1", "n4", "w1", "w2", "w3", "w4", "w5", "w6", "w8", "w10"],
+    highlight_list=["w7"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#  \weight_9 ~ \ythree
+#  +
+#  \weight_{10} ~ \yfour
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# Using the chain rule:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_7}}
+# =
+# \underbrace{
+#  \underbrace{
+#   \frac{\partial \errfunc}{\partial \sigout_o}
+#   \frac{\partial \sigout_o}{\partial \pot_o} ~
+#  }_{\errsig_o}
+#  \frac{\partial \pot_o}{\partial \sigout_3} ~
+#  \frac{\partial \sigout_3}{\partial \pot_3} ~
+# }_{\errsig_3}
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_7}}
+# =
+# \errsig_3
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_7}}
+# $$
+
+# %% [markdown]
+# knowing that:
+#
+# $$
+# \begin{align}
+# \frac{\partial \errfunc}{\partial \sigout_o} &= 2 (\sigout_o - \sigoutdes) \\
+# \frac{\partial \sigout_o}{\partial \pot_o}   &= f'(\pot_o) = 1 \\
+# \frac{\partial \pot_o}{\partial \sigout_3}   &= \weight_9 \\
+# \frac{\partial \sigout_3}{\partial \pot_3}   &= f'(\pot_3) \\
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_7}}   &= \sigout_2 \\
+# \end{align}
+# $$
+
+# %% [markdown]
+# we can write:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \weight_8}
+# =
+# 2(\sigout_o - \sigoutdes) \cdot
+# \weight_9 \cdot
+# f'(\pot_3) \cdot
+# \sigout_2
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w7 = 2 * (y_pred - y_true) * w9 * df(sigma3) * y2
+grad_E_w7
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_6}$
+
+# %%
+display_nn(
+    hidden_list=["x1", "x2", "y2", "y3", "s1", "s2", "s3", "n3", "n2", "w1", "w2", "w3", "w4", "w5", "w8", "w7", "w9"],
+    highlight_list=["w6"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#  \weight_9 ~ \ythree
+#  +
+#  \weight_{10} ~ \yfour
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# Using the chain rule:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_6}}
+# =
+# \underbrace{
+#  \underbrace{
+#   \frac{\partial \errfunc}{\partial \sigout_o}
+#   \frac{\partial \sigout_o}{\partial \pot_o} ~
+#  }_{\errsig_o}
+#  \frac{\partial \pot_o}{\partial \sigout_4} ~
+#  \frac{\partial \sigout_4}{\partial \pot_4} ~
+# }_{\errsig_4}
+# \frac{\partial \pot_4}{\partial \color{red}{\weight_6}}
+# =
+# \errsig_4
+# \frac{\partial \pot_4}{\partial \color{red}{\weight_6}}
+# $$
+
+# %% [markdown]
+# knowing that:
+#
+# $$
+# \begin{align}
+# \frac{\partial \errfunc}{\partial \sigout_o} &= 2 (\sigout_o - \sigoutdes) \\
+# \frac{\partial \sigout_o}{\partial \pot_o}   &= f'(\pot_o) = 1 \\
+# \frac{\partial \pot_o}{\partial \sigout_4}   &= \weight_{10} \\
+# \frac{\partial \sigout_4}{\partial \pot_4}   &= f'(\pot_4) \\
+# \frac{\partial \pot_4}{\partial \color{red}{\weight_6}}   &= \sigout_1 \\
+# \end{align}
+# $$
+
+# %% [markdown]
+# we can write:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \weight_8}
+# =
+# 2(\sigout_o - \sigoutdes) \cdot
+# \weight_{10} \cdot
+# f'(\pot_4) \cdot
+# \sigout_1
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w6 = 2 * (y_pred - y_true) * w10 * df(sigma4) * y1
+grad_E_w6
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_5}$
+
+# %%
+display_nn(
+    hidden_list=["x1", "x2", "y2", "y4", "s1", "s2", "s4", "n2", "n4", "w1", "w2", "w3", "w4", "w8", "w6", "w7", "w10"],
+    highlight_list=["w5"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#  \weight_9 ~ \ythree
+#  +
+#  \weight_{10} ~ \yfour
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# Using the chain rule:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_5}}
+# =
+# \underbrace{
+#  \underbrace{
+#   \frac{\partial \errfunc}{\partial \sigout_o}
+#   \frac{\partial \sigout_o}{\partial \pot_o} ~
+#  }_{\errsig_o}
+#  \frac{\partial \pot_o}{\partial \sigout_3} ~
+#  \frac{\partial \sigout_3}{\partial \pot_3} ~
+# }_{\errsig_3}
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_5}}
+# =
+# \errsig_3
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_5}}
+# $$
+
+# %% [markdown]
+# knowing that:
+#
+# $$
+# \begin{align}
+# \frac{\partial \errfunc}{\partial \sigout_o} &= 2 (\sigout_o - \sigoutdes) \\
+# \frac{\partial \sigout_o}{\partial \pot_o}   &= f'(\pot_o) = 1 \\
+# \frac{\partial \pot_o}{\partial \sigout_3}   &= \weight_9 \\
+# \frac{\partial \sigout_3}{\partial \pot_3}   &= f'(\pot_3) \\
+# \frac{\partial \pot_3}{\partial \color{red}{\weight_5}}   &= \sigout_1 \\
+# \end{align}
+# $$
+
+# %% [markdown]
+# we can write:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \weight_5}
+# =
+# 2(\sigout_o - \sigoutdes) \cdot
+# \weight_9 \cdot
+# f'(\pot_3) \cdot
+# \sigout_1
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w5 = 2 * (y_pred - y_true) * w9 * df(sigma3) * y1
+grad_E_w5
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_4}$
+
+# %%
+display_nn(
+    hidden_list=["x1", "y1", "s1", "n1", "w1", "w2", "w3", "w5", "w6"],
+    highlight_list=["w4"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#     \weight_9 ~
+#     \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_5 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_7 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + {\color{red}{\weight_4}} \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_3}
+#         \right)
+#     }_{\sigout_3}
+#     +
+#     \weight_{10} ~ \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_6 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_8 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + {\color{red}{\weight_4}} \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_4}
+#         \right)
+#     }_{\sigout_4}
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# Using the chain rule:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \color{red}{\weight_4}}
+# =
+# \underbrace{
+#     \left(
+#         \underbrace{
+#             \underbrace{
+#                 \frac{\partial \errfunc}{\partial \sigout_o}
+#                 \frac{\partial \sigout_o}{\partial \pot_o} ~
+#             }_{\errsig_o}
+#             \frac{\partial \pot_o}{\partial \sigout_4} ~
+#             \frac{\partial \sigout_4}{\partial \pot_4} ~
+#         }_{\errsig_4}
+#         \frac{\partial \pot_4}{\partial \sigout_2} ~
+#         +
+#         \underbrace{
+#             \underbrace{
+#                 \frac{\partial \errfunc}{\partial \sigout_o}
+#                 \frac{\partial \sigout_o}{\partial \pot_o} ~
+#             }_{\errsig_o}
+#             \frac{\partial \pot_o}{\partial \sigout_3} ~
+#             \frac{\partial \sigout_3}{\partial \pot_3} ~
+#         }_{\errsig_3}
+#         \frac{\partial \pot_3}{\partial \sigout_2} ~
+#     \right)
+#     \frac{\partial \sigout_2}{\partial \pot_2} ~
+# }_{\errsig_2}
+# \frac{\partial \pot_2}{\partial \color{red}{\weight_4}}
+# =
+# \errsig_2
+# \frac{\partial \pot_2}{\partial \color{red}{\weight_4}}
+# $$
+
+# %% [markdown]
+# knowing that:
+#
+# $$
+# \begin{align}
+# \frac{\partial \errfunc}{\partial \sigout_o} &= 2 (\sigout_o - \sigoutdes) \\
+# \frac{\partial \sigout_o}{\partial \pot_o}   &= f'(\pot_o) = 1 \\
+# \frac{\partial \pot_o}{\partial \sigout_4}   &= \weight_{10} \\
+# \frac{\partial \sigout_4}{\partial \pot_4}   &= f'(\pot_4) \\
+# \frac{\partial \pot_4}{\partial \sigout_2}   &= \weight_8 \\
+# \frac{\partial \pot_o}{\partial \sigout_3}   &= \weight_9 \\
+# \frac{\partial \sigout_3}{\partial \pot_3}   &= f'(\pot_3) \\
+# \frac{\partial \pot_3}{\partial \sigout_2}   &= \weight_7 \\
+# \frac{\partial \sigout_2}{\partial \pot_2}   &= f'(\pot_2) \\
+# \frac{\partial \pot_2}{\partial \color{red}{\weight_4}} &= \feature_2
+#  \\
+# \end{align}
+# $$
+
+# %% [markdown]
+# we can write:
+#
+# $$
+# \frac{\partial \errfunc}{\partial \weight_4}
+# =
+# 2(\sigout_o - \sigoutdes) \cdot
+# f'(\pot_2) \cdot
+# \weight_2
+# \left(
+#     \weight_{10} \cdot
+#     f'(\pot_4) \cdot
+#     \weight_8
+#     +
+#     \weight_9 \cdot
+#     f'(\pot_3) \cdot
+#     \weight_7
+# \right)
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w4 = 2 * (y_pred - y_true) * df(sigma2) * x2 * (w10 * df(sigma4) * w8 + w9 * df(sigma3) * w7)
+grad_E_w4
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_3}$
+
+# %%
+display_nn(
+    hidden_list=["x1", "y2", "s2", "n2", "w1", "w2", "w4", "w7", "w8"],
+    highlight_list=["w3"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#     \weight_9 ~
+#     \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_5 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + {\color{red}{\weight_3}} \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_7 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_3}
+#         \right)
+#     }_{\sigout_3}
+#     +
+#     \weight_{10} ~ \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_6 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + {\color{red}{\weight_3}} \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_8 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_4}
+#         \right)
+#     }_{\sigout_4}
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w3 = 0
+grad_E_w3
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_2}$
+
+# %%
+display_nn(
+    hidden_list=["x2", "y1", "s1", "n1", "w1", "w4", "w3", "w5", "w6"],
+    highlight_list=["w2"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#     \weight_9 ~
+#     \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_5 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_7 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             {\color{red}{\weight_2}} \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_3}
+#         \right)
+#     }_{\sigout_3}
+#     +
+#     \weight_{10} ~ \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_6 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_1 \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_8 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             {\color{red}{\weight_2}} \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_4}
+#         \right)
+#     }_{\sigout_4}
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w2 = 0
+grad_E_w2
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ### Backward computation of $\frac{\partial \errfunc}{\partial \weight_1}$
+
+# %%
+display_nn(
+    hidden_list=["x2", "y2", "s2", "n2", "w4", "w2", "w3", "w7", "w8"],
+    highlight_list=["w1"]
+)
+
+# %% [markdown]
+# $$
+# \sigout_o =
+# \activfunc \left(
+# \overbrace{
+#     \weight_9 ~
+#     \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_5 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             {\color{red}{\weight_1}} \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_7 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_3}
+#         \right)
+#     }_{\sigout_3}
+#     +
+#     \weight_{10} ~ \underbrace{
+#         \activfunc \left(
+#             \overbrace{
+#                 \weight_6 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             {\color{red}{\weight_1}} \feature_1 + \weight_3 \feature_2
+#                         }^{\pot_1}
+#                     \right)
+#                 }_{\sigout_1}
+#                 +
+#                 \weight_8 \underbrace{
+#                     \activfunc \left(
+#                         \overbrace{
+#                             \weight_2 \feature_1 + \weight_4 \feature_2
+#                         }^{\pot_2}
+#                     \right)
+#                 }_{\sigout_2}
+#             }^{\pot_4}
+#         \right)
+#     }_{\sigout_4}
+# }^{\pot_o}
+# \right)
+# $$
+
+# %% [markdown]
+# #### Naive detailed computation
+
+# %% [markdown]
+# Let's write the forward computation in a (naive) detailed way.
+
+# %%
+grad_E_w1 = 0
+grad_E_w1
+
+# %% [markdown]
+# #### Algebraic computation
+
+# %% [markdown]
+# Let's rewrite the forward computation in a less naive way (using linear algebra).
+
+# %% [markdown]
+# TODO...
+
+# %% [markdown]
+# ## Check backward computations result with PyTorch
 
 # %%
 error.backward()
@@ -673,4 +1345,24 @@ error.backward()
 # Get gradients
 for name, param in model.named_parameters():
     if param.requires_grad:
-        print(f"Gradient for {name}: {param.grad}")
+        print(f"Gradient for {name}:")
+        print(param.grad)
+        print()
+
+# %% [markdown]
+# Let's compare with what we have manually computed:
+
+# %%
+grad_layer_0 = torch.tensor([[grad_E_w1, grad_E_w3], [grad_E_w2, grad_E_w4]])
+print("Gradient for 0.weight:")
+print(grad_layer_0)
+print()
+
+grad_layer_2 = torch.tensor([[grad_E_w5, grad_E_w7], [grad_E_w6, grad_E_w8]])
+print("Gradient for 2.weight:")
+print(grad_layer_2)
+print()
+
+grad_layer_4 = torch.tensor([[grad_E_w9, grad_E_w10]])
+print("Gradient for 4.weight:")
+print(grad_layer_4)
