@@ -7,5 +7,5 @@ podman build -t langchain-hello-world .
 # Exécuter le conteneur
 
 ```
-podman run --rm langchain-hello-world
+podman run --rm -it -v $(pwd):/app langchain-dev
 ```
