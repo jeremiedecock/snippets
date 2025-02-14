@@ -1,0 +1,16 @@
+# This file lists all the dependencies that are required to run INF639 labs
+
+# To have more information about the format of this file, please refer to the
+# https://pip.pypa.io/en/stable/reference/requirements-file-format/
+
+
+# PyTorch #####################################################################
+
+# Depending on your system, you may need to install PyTorch with a specific version
+# and with the appropriate CUDA version. Please refer to the official PyTorch
+# installation guide for more information: https://pytorch.org/get-started/locally/
+
+torch
+# torch --index-url https://download.pytorch.org/whl/cu124    # Linux CUDA 12.4 version
+# torch --index-url https://download.pytorch.org/whl/cpu      # Linux CPU version
+
