@@ -1,0 +1,3 @@
+notionlib
+pandas
+requests
