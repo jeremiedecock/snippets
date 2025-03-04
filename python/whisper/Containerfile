@@ -1,7 +1,5 @@
 FROM python:3.12-slim
 
-# USER root
-
 RUN apt update --yes && \
     apt install --yes --no-install-recommends \
     ffmpeg && \
@@ -9,6 +7,6 @@ RUN apt update --yes && \
 
 WORKDIR /app
 
-COPY requirements.txt /app
+COPY requirements-minimal.txt /app
 RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements-minimal.txt

@@ -1,1 +1,3 @@
+numpy
 openai-whisper
+pyaudio         # Can be installed with `apt install python3-pyaudio`

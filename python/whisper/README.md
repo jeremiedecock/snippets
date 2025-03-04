@@ -2,6 +2,7 @@
 
 C.f.
 
+- https://huggingface.co/openai/whisper-large-v3
 - https://github.com/openai/whisper
 - https://openai.com/research/whisper
 - [Vidéo de Korben "Retranscrire de l'audio / vidéo facilement avec l'IA de Whisper"](https://www.youtube.com/watch?v=3AhOl2q-TW4)
@@ -15,7 +16,8 @@ base     74 M        base.en             base                ~1 GB           ~16
 small    244 M       small.en            small               ~2 GB           ~6x
 medium   769 M       medium.en           medium              ~5 GB           ~2x
 large    1550 M      N/A                 large               ~10 GB          1x
-large-v2 ?           ?                   ?                   ?               ?
+large-v2 1550 M      ?                   ?                   ?               ?
+large-v3 1550 M      ?                   ?                   ?               ?
 
 Rem: downloaded models are stored in `./.cache`
 
@@ -36,11 +38,20 @@ python3 -m pip install -r requirements.txt
 
 # Usage
 
+## Transript a file
+
 ```
 whisper "your_file.mp3" --model small
 ```
 
 The following audio files can be used to test Whisper: https://commons.wikimedia.org/wiki/Category:Audio_files
+
+## Live transcript (micro)
+
+```
+./whisper_live.py
+```
+
 
 # Podman
 
@@ -73,3 +84,4 @@ podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id loca
 The following audio files can be used to test Whisper: https://commons.wikimedia.org/wiki/Category:Audio_files
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
+
