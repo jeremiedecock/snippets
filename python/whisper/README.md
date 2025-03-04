@@ -40,6 +40,8 @@ python3 -m pip install -r requirements.txt
 whisper "your_file.mp3" --model small
 ```
 
+The following audio files can be used to test Whisper: https://commons.wikimedia.org/wiki/Category:Audio_files
+
 # Podman
 
 ## Build the Podman image
@@ -67,5 +69,7 @@ or
 ```
 podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-pytorch:latest whisper apollo11.ogg --model small
 ```
+
+The following audio files can be used to test Whisper: https://commons.wikimedia.org/wiki/Category:Audio_files
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
