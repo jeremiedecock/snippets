@@ -64,7 +64,7 @@ The following audio files can be used to test Whisper: https://commons.wikimedia
 or
 
 ```
-podman build -t snippets-pytorch:latest .
+podman build -t snippets-whisper:latest .
 ```
 
 ## Run a script using the Podman image
@@ -78,7 +78,7 @@ E.g. for `apollo11.ogg`:
 or 
 
 ```
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-pytorch:latest whisper apollo11.ogg --model small
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-whisper:latest whisper apollo11.ogg --model small
 ```
 
 The following audio files can be used to test Whisper: https://commons.wikimedia.org/wiki/Category:Audio_files
