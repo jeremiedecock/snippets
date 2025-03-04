@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements-minimal.txt /app
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir --upgrade -r /app/requirements-minimal.txt
+
+EXPOSE 7860
+ENV GRADIO_SERVER_NAME="0.0.0.0"
