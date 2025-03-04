@@ -1,1 +1,7 @@
 env/
+.cache/
+apollo11.json
+apollo11.srt
+apollo11.tsv
+apollo11.txt
+apollo11.vtt

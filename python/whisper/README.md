@@ -7,12 +7,6 @@ C.f.
 - [Vidéo de Korben "Retranscrire de l'audio / vidéo facilement avec l'IA de Whisper"](https://www.youtube.com/watch?v=3AhOl2q-TW4)
 
 
-```
-pip install -U openai-whisper
-sudo apt update && sudo apt install ffmpeg
-whisper "your_file.mp3" --model small
-```
-
 # Available models
 
 Size     Parameters  English-only model  Multilingual model  Required VRAM   Relative speed
@@ -22,3 +16,56 @@ small    244 M       small.en            small               ~2 GB           ~6x
 medium   769 M       medium.en           medium              ~5 GB           ~2x
 large    1550 M      N/A                 large               ~10 GB          1x
 large-v2 ?           ?                   ?                   ?               ?
+
+Rem: downloaded models are stored in `./.cache`
+
+
+# Installation
+
+## Posix (Linux, MacOSX, WSL, ...)
+
+From this directory:
+
+```
+sudo apt update && sudo apt install ffmpeg
+python3 -m venv env
+source env/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+```
+
+# Usage
+
+```
+whisper "your_file.mp3" --model small
+```
+
+# Podman
+
+## Build the Podman image
+
+```
+./build.sh
+```
+
+or
+
+```
+podman build -t snippets-pytorch:latest .
+```
+
+## Run a script using the Podman image
+
+E.g. for `apollo11.ogg`:
+
+```
+./run.sh whisper apollo11.ogg --model small
+```
+
+or 
+
+```
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-pytorch:latest whisper apollo11.ogg --model small
+```
+
+To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime

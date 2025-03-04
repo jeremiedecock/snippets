@@ -1,8 +1,6 @@
-Installation
-============
+# Installation
 
-Posix (Linux, MacOSX, WSL, ...)
--------------------------------
+## Posix (Linux, MacOSX, WSL, ...)
 
 From this directory:
 
@@ -13,17 +11,30 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
 
-Podman
-======
+# Podman
 
-Build the Podman image:
+## Build the Podman image
+
 ```
-podman build -t pytorch:latest .
+./build.sh
 ```
 
-Run a script using the Podman image:
+or
+
 ```
-podman run -it -v $(pwd):/app -u $(id -u):$(id -g) localhost/pytorch:latest python3 ./hello_cuda.py
+podman build -t snippets-pytorch:latest .
+```
+
+## Run a script using the Podman image
+
+```
+./run.sh ./hello_cuda.py
+```
+
+or 
+
+```
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-pytorch:latest python3 ./hello_cuda.py
 ```
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
