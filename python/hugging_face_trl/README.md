@@ -1,6 +1,8 @@
 # HuggingFace Transformers
 
-See: https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct#chat-in-trl
+See:
+- https://huggingface.co/docs/trl/main/en/index
+- https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct#chat-in-trl
 
 ## Installation
 
