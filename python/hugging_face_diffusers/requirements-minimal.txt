@@ -1,3 +1,4 @@
+accelerate   # optional
 diffusers
 safetensors  # optional
 torch
