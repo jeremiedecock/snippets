@@ -3,6 +3,7 @@
 See:
 - https://huggingface.co/docs/trl/main/en/index
 - https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct#chat-in-trl
+  - https://huggingface.co/docs/trl/main/en/clis#chat-interface
 
 ## Installation
 
