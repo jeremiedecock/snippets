@@ -1,4 +1,4 @@
-# HuggingFace Transformers
+# HuggingFace Diffusers
 
 See: https://github.com/huggingface/diffusers
 
@@ -8,9 +8,41 @@ See: https://github.com/huggingface/diffusers
 From this directory:
 
 ```
-conda deactivate         # Only if you use Anaconda...
 python3 -m venv env
 source env/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
+
+## Usage
+
+...
+
+## Podman
+
+### Build the Podman image
+
+```
+./build.sh
+```
+
+or
+
+```
+podman build -t snippets-hf-diffusers:latest .
+```
+
+### Run a script using the Podman image
+
+```
+./run.sh python3 sdxl-1.0-base_cpu.py
+```
+
+or 
+
+```
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-hf-diffusers:latest python3 sdxl-1.0-base_cpu.py
+```
+
+To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
+

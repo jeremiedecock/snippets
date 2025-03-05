@@ -1,0 +1,4 @@
+diffusers
+safetensors  # optional
+torch
+transformers
