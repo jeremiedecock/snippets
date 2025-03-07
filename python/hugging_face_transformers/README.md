@@ -46,3 +46,8 @@ podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id loca
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
 
+### Transformers Chat CLI
+
+```
+podman run --rm -it localhost/snippets-hf-transformers:latest transformers-cli chat --model_name_or_path HuggingFaceTB/SmolLM2-135M-Instruct
+```
