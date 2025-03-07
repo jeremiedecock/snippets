@@ -3,7 +3,7 @@
 # C.f. https://huggingface.co/stabilityai/sdxl-turbo
 
 from diffusers import AutoPipelineForText2Image
-import torch
+#import torch
 
 pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo")
 pipe.to("cpu")
