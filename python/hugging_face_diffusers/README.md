@@ -35,13 +35,14 @@ podman build -t snippets-hf-diffusers:latest .
 ### Run a script using the Podman image
 
 ```
+./run.sh python3 sdxl-turbo_cpu.py
 ./run.sh python3 sdxl-1.0-base_cpu.py
 ```
 
 or 
 
 ```
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-hf-diffusers:latest python3 sdxl-1.0-base_cpu.py
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-hf-diffusers:latest python3 sdxl-turbo_cpu.py
 ```
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime

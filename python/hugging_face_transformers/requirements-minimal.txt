@@ -1,2 +1,4 @@
+accelerate     # Required by transformers-cli
+rich           # Required by transformers-cli
 torch
 transformers
