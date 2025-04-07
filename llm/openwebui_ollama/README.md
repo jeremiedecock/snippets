@@ -92,9 +92,8 @@ Then:
 To stop and erase everything:
 
 ```
-podman stop ollama open-webui
-podman rm ollama open-webui
-podman volume rm ollama open-webui
+podman pod stop openwebui-ollama
 podman pod rm openwebui-ollama
+podman volume rm ollama open-webui
 ```
 
