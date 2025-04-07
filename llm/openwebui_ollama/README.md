@@ -61,14 +61,40 @@ podman network rm openwebui-ollama
 
 ### Using Podman pod
 
-```
-podman pod create --name ollamapod -p 11434:11434 -p 3000:8080
+First, create a pod:
 
-podman run -d --pod ollamapod -v ollama:/root/.ollama --name ollama docker.io/ollama/ollama
+```
+podman pod create --name openwebui-ollama -p 11434:11434 -p 3000:8080
+```
+
+Then, run ollama and open-webui:
+
+```
+podman run -d --pod openwebui-ollama --name ollama     -v ollama:/root/.ollama docker.io/ollama/ollama
+podman exec -it ollama ollama pull gemma3:1b
+podman exec -it ollama ollama pull phi4-mini
+podman exec -it ollama ollama pull mistral
+podman exec -it ollama ollama pull deepseek-r1
+podman exec -it ollama ollama pull llama3.2:1b
 podman exec -it ollama ollama list
-# Pull models if required...
-
-podman run -d --pod ollamapod -e WEBUI_AUTH=False -v open-webui:/app/backend/data --name open-webui ghcr.io/open-webui/open-webui:main
+podman run -d --pod openwebui-ollama --name open-webui -v open-webui:/app/backend/data -e WEBUI_AUTH=False ghcr.io/open-webui/open-webui:main
 ```
 
-Then go to http://localhost:3000/admin/settings and configure the ollama connexion as explained in https://docs.openwebui.com/getting-started/quick-start/starting-with-ollama/
+Then:
+1. Go to http://localhost:3000/ (to "authenticate", even if authentication is disabled).
+2. Go to http://localhost:3000/admin/settings and configure the Ollama connection (as explained in https://docs.openwebui.com/getting-started/quick-start/starting-with-ollama/):
+  - Navigate to "Connections > Manage Ollama API Connections" (click the wrench icon).
+  - Change the URL to: `http://ollama:11434`
+  - Click the "Verify Connection" button (the two circular arrows to the left of the "on/off" switch).
+  - Click the "Save" button.
+3. Go back to http://localhost:3000/ to start chatting.
+
+To stop and erase everything:
+
+```
+podman stop ollama open-webui
+podman rm ollama open-webui
+podman volume rm ollama open-webui
+podman pod rm openwebui-ollama
+```
+
