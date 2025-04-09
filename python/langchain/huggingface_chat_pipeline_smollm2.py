@@ -4,7 +4,7 @@
 # - https://huggingface.co/blog/langchain
 # - https://python.langchain.com/docs/integrations/providers/huggingface/
 
-from langchain_huggingface import HuggingFacePipeline
+from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 
 llm = HuggingFacePipeline.from_model_id(
     model_id="HuggingFaceTB/SmolLM2-135M-Instruct",
@@ -17,10 +17,12 @@ llm = HuggingFacePipeline.from_model_id(
     },
 )
 
+llm_engine_hf = ChatHuggingFace(llm=llm)
+
 # Test de génération de texte
 
 prompt = "HuggingFace is"
-output = llm.invoke(prompt)
+output = llm_engine_hf.invoke(prompt)
 
 print(f"Input: {prompt}\nOutput: {output}")
 
