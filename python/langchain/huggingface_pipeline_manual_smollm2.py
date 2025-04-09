@@ -9,8 +9,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 # Charger le modèle Hugging Face
 
-model_name = "HuggingFaceTB/SmolLM2-135M-Instruct"
-# model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
+# model_name = "HuggingFaceTB/SmolLM2-135M-Instruct"
+model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
 
 device = "cpu" # "cuda" for GPU usage
 
