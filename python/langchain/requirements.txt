@@ -1,0 +1,8 @@
+langchain
+langchain-community
+langchain-huggingface
+langchain-openai
+langchain-postgres
+langchain-text-splitters
+transformers
+torch

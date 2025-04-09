@@ -2,6 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY requirements-minimal.txt /app
+COPY requirements.txt /app
 RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r /app/requirements-minimal.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir langchain-openai langchain-community langchain-text-splitters langchain-postgres
