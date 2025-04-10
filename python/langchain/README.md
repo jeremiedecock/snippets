@@ -20,6 +20,11 @@ python3 -m pip install -r requirements.txt
 
 ...
 
+## OpenAI API Key
+
+Create an API key on https://platform.openai.com/
+and write it in the `OPENAI_API_KEY` environment variable.
+
 ## Podman
 
 ### Build the Podman image
@@ -37,7 +42,7 @@ podman build -t snippets-langchain:latest .
 ### Run a script using the Podman image
 
 ```
-./run.sh python3 hello.py
+./run.sh hello.py
 ```
 
 or 
