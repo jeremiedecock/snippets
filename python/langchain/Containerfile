@@ -5,4 +5,3 @@ WORKDIR /app
 COPY requirements.txt /app
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-RUN pip install --no-cache-dir langchain-openai langchain-community langchain-text-splitters langchain-postgres
