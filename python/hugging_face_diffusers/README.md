@@ -35,8 +35,9 @@ podman build -t snippets-hf-diffusers:latest .
 ### Run a script using the Podman image
 
 ```
-./run.sh python3 sdxl-turbo_cpu.py
-./run.sh python3 sdxl-1.0-base_cpu.py
+./run.sh sdxl-turbo_cpu.py
+./run.sh sdxl-1.0-base_cpu.py
+./run-gpu.sh sdxl-1.0-full_gpu.py
 ```
 
 or 

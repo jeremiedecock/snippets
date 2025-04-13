@@ -35,7 +35,7 @@ podman build -t snippets-hf-transformers:latest .
 ### Run a script using the Podman image
 
 ```
-./run.sh python3 smollm2-135m-instruct.py
+./run.sh smollm2-135m-instruct.py
 ```
 
 or 
