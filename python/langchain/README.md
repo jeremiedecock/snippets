@@ -55,6 +55,16 @@ podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id loca
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
 
+Install and configure Nvidia container toolkit for Podman:
+
+```
+apt install nvidia-container-toolkit
+nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+nvidia-ctk cdi list
+```
+
+Execute a snippet on GPU:
+
 ```
 ./run-gpu.sh hello.py
 ```
