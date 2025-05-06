@@ -39,7 +39,7 @@ or
 podman build -t snippets-langchain:latest .
 ```
 
-### Run a script using the Podman image
+### Run a script using the Podman image on CPU
 
 ```
 ./run.sh hello.py
@@ -51,5 +51,17 @@ or
 podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-langchain:latest python3 hello.py
 ```
 
+### Run a script using the Podman image on CPU
+
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
 
+```
+./run-gpu.sh hello.py
+```
+
+or 
+
+
+```
+podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id --device nvidia.com/gpu=all localhost/snippets-langchain:latest python3 hello_gpu.py
+```
