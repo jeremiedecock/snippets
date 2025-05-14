@@ -35,33 +35,33 @@ torchvision
 # REQUIRED DEPENDENCIES #######################################################
 
 # imageio           # required to visualize environments as GIF images within the notebook
-# ipywidgets          # required for tqdm
-# jupyterlab
-# matplotlib
-# networkx            # to display neural networks
-# nnfigs>=0.2.0       # to display neural networks
-# numpy
-# pandas
-# seaborn
+ipywidgets          # required for tqdm
+jupyterlab
+matplotlib
+networkx            # to display neural networks
+nnfigs>=0.2.0       # to display neural networks
+numpy
+pandas
+seaborn
 tqdm
 
 
 # OPTIONAL DEPENDENCIES #######################################################
 
-# aim
-# optuna
-# optuna-dashboard
+aim
+optuna
+optuna-dashboard
 tensorboard
 # wandb
 
 
 # USEFUL TOOLS ################################################################
 
-# cleanrl           # https://github.com/vwxyzjn/cleanrl
-# jupytext          # For Jupyter Notebook to Python script conversion
-# mypy              # For static type checking
-# ruff              # For code formatting and linting
-# scikit-learn      # To load some datasets
+cleanrl           # https://github.com/vwxyzjn/cleanrl
+jupytext          # For Jupyter Notebook to Python script conversion
+mypy              # For static type checking
+ruff              # For code formatting and linting
+scikit-learn      # To load some datasets
 
 
 # TODO ########################################################################
