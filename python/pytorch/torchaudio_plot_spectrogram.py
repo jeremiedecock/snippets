@@ -38,7 +38,7 @@ plt.imshow(spectrogram_db[0], origin="lower", aspect="auto", vmin=-100)  # Set v
 plt.title("Spectrogram")
 plt.colorbar(format='%+2.0f dB')
 plt.xlabel("Time")
-plt.ylabel("Frequency")
+plt.ylabel("Frequency (Hz)")
 plt.show()
 
 plt.savefig("torchaudio_plot_spectrogram.png", dpi=300, bbox_inches="tight")
