@@ -3,11 +3,25 @@
 
 # Source: https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html#
 
+from clearml import Task
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
+from torch.utils.tensorboard import SummaryWriter
+
+
+# INITIALIZING CLEARML TASK ###################################################
+
+task = Task.init(project_name="Snippets", task_name="MNIST Dense Layers")
+
+
+# INITIALIZING TENSORBOARD SUMMARYWRITER ######################################
+
+writer = SummaryWriter()
+
+print("Starting training...\nTo visualize the data from a local machine, run the following command in the terminal:\n\ntensorboard --logdir=runs\n\nthen open a web browser and go at the address mentioned in the terminal (usually http://localhost:6006/).")
 
 
 # DOWNLOAD THE MNIST DATASET ##################################################
@@ -84,6 +98,9 @@ def train(dataloader, model, loss_fn, optimizer):
 
             print(f"loss: {train_loss:>7f}  [{train_step:>5d}/{dataset_size:>5d}]")
 
+            # Log the loss values to TensorBoard
+            writer.add_scalar('Loss/train', train_loss, epoch)
+
 
 
 # DEFINE THE TESTING LOOP #####################################################
@@ -108,15 +125,22 @@ def test(dataloader, model, loss_fn):
 
     print(f"Test Error: \n Accuracy: {test_accuracy:>0.1f}%, Avg loss: {test_loss:>8f} \n")
 
+    # Log the loss values to TensorBoard
+    writer.add_scalar('Loss/test', test_loss, epoch)
+    writer.add_scalar('Accuracy', test_accuracy, epoch)
+
 
 # TRAIN THE MODEL #############################################################
 
-epochs = 5
+epochs = 15
 for epoch in range(epochs):
     print(f"Epoch {epoch+1}/{epochs}\n-------------------------------")
 
     train(train_dataloader, model, loss_fn, optimizer)
     test(test_dataloader, model, loss_fn)
+
+# Closing SummaryWriter
+writer.close()
 
 
 # SAVE THE MODEL ##############################################################
