@@ -52,6 +52,7 @@ tqdm
 clearml            # https://github.com/clearml/clearml
 optuna
 optuna-dashboard
+safetensors
 tensorboard
 # wandb
 
