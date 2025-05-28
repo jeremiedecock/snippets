@@ -1,9 +1,10 @@
+clearml.conf
 env/
 logs/
+.cache/
 .aim/
 .ipynb_checkpoints/
 data/
 *.pth
 runs/
 *.sqlite3
-.vscode/
