@@ -6,4 +6,4 @@
 #
 # More info: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html#procedure
 
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id  --device nvidia.com/gpu=all  localhost/snippets-pytorch:latest python3 "$@"
+podman run --rm -it -v .:/app -w /app -e CLEARML_CONFIG_FILE=/app/clearml.conf -u $(id -u):$(id -g) --userns=keep-id  --device nvidia.com/gpu=all  localhost/snippets-pytorch:latest python3 "$@"
