@@ -50,6 +50,7 @@ tqdm
 
 # aim
 clearml            # https://github.com/clearml/clearml
+clearml-agent      # https://github.com/clearml/clearml
 optuna
 optuna-dashboard
 safetensors
