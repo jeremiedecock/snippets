@@ -308,14 +308,14 @@ def train_model(args: argparse.Namespace) -> None:
             task_name="MNIST Dense Layers"
         )
         logger.info("ClearML task initialized successfully")
-        # Connect argparse arguments to ClearML
-        # This will log hyperparameters and allow modification from ClearML UI if run by an agent
-        task.connect(args, name='Hyperparameters')
-        # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
-        # To be certain about using potentially overridden args, you might re-fetch them:
-        # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
-        # args = argparse.Namespace(**effective_args_dict) # Or update existing args
-        logger.info(f"Hyperparameters connected to ClearML: {args}")
+        # # Connect argparse arguments to ClearML
+        # # This will log hyperparameters and allow modification from ClearML UI if run by an agent
+        # task.connect(args, name='Hyperparameters')
+        # # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
+        # # To be certain about using potentially overridden args, you might re-fetch them:
+        # # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
+        # # args = argparse.Namespace(**effective_args_dict) # Or update existing args
+        # logger.info(f"Hyperparameters connected to ClearML: {args}")
     except Exception as e:
         logger.warning(f"Failed to initialize ClearML task: {e}")
 
