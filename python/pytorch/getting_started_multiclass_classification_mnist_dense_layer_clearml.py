@@ -5,6 +5,7 @@
 
 import argparse
 from clearml import Task
+import json
 import logging
 import matplotlib.pyplot as plt
 import numpy as np
@@ -328,16 +329,21 @@ def train_model(args: argparse.Namespace) -> None:
 
     task: Optional[Task] = None
     try:
-        task = Task.init(project_name="Snippets", task_name="MNIST Dense Layers")
+        # Always initialize ClearML before anything else to let automatic hooks track as much as possible
+        task = Task.init(
+            project_name="Snippets",
+            task_name="MNIST Dense Layers",
+            output_uri=True  # setting this to True upload the model (otherwise only the local path of the model is saved in clearml)
+        )
         logger.info("ClearML task initialized successfully")
-        # # Connect argparse arguments to ClearML
-        # # This will log hyperparameters and allow modification from ClearML UI if run by an agent
-        # task.connect(args, name='Hyperparameters')
-        # # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
-        # # To be certain about using potentially overridden args, you might re-fetch them:
-        # # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
-        # # args = argparse.Namespace(**effective_args_dict) # Or update existing args
-        # logger.info(f"Hyperparameters connected to ClearML: {args}")
+        # Connect argparse arguments to ClearML
+        # This will log hyperparameters and allow modification from ClearML UI if run by an agent
+        task.connect(args, name='Hyperparameters')
+        # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
+        # To be certain about using potentially overridden args, you might re-fetch them:
+        # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
+        # args = argparse.Namespace(**effective_args_dict) # Or update existing args
+        logger.info(f"Hyperparameters connected to ClearML: {args}")
     except Exception as e:
         logger.warning(f"Failed to initialize ClearML task: {e}")
 
@@ -404,15 +410,21 @@ def train_model(args: argparse.Namespace) -> None:
             best_accuracy = test_acc
             patience_counter = 0
             # Save best model
-            torch.save({
+            safetensors.torch.save_model(model, checkpoints_dir / 'best_model.safetensors')
+            # Save metadata separately
+            metadata = {
                 'epoch': epoch,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer.state_dict(),
                 'best_accuracy': best_accuracy,
-            }, checkpoints_dir / 'best_model.pth')
+                'train_loss': train_loss,
+                'test_loss': test_loss,
+                'test_accuracy': test_acc,
+            }
+            with open(checkpoints_dir / 'best_model_metadata.json', 'w') as f:
+                json.dump(metadata, f, indent=2)
             logger.info(f"New best model saved with accuracy: {best_accuracy:.2f}%")
             if task:
-                task.upload_artifact(name='best_model', artifact_object=checkpoints_dir / 'best_model.pth')
+                task.upload_artifact(name='best_model', artifact_object=checkpoints_dir / 'best_model.safetensors')
+                task.upload_artifact(name='best_model_metadata', artifact_object=checkpoints_dir / 'best_model_metadata.json')
                 logger.info("Best model uploaded as ClearML artifact")
         else:
             patience_counter += 1
@@ -423,18 +435,22 @@ def train_model(args: argparse.Namespace) -> None:
 
         # Save checkpoint
         if (epoch + 1) % args.save_interval == 0:
-            torch.save({
+            safetensors.torch.save_model(model, checkpoints_dir / f'checkpoint_epoch_{epoch+1}.safetensors')
+            # Save metadata separately
+            metadata = {
                 'epoch': epoch,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer.state_dict(),
                 'train_loss': train_loss,
                 'test_loss': test_loss,
                 'test_accuracy': test_acc,
-            }, checkpoints_dir / f'checkpoint_epoch_{epoch+1}.pth')
+            }
+            with open(checkpoints_dir / f'checkpoint_epoch_{epoch+1}_metadata.json', 'w') as f:
+                json.dump(metadata, f, indent=2)
             logger.info(f"Checkpoint saved at epoch {epoch+1}")
             if task:
-                task.upload_artifact(name=f'checkpoint_epoch_{epoch+1}', artifact_object=checkpoints_dir / f'checkpoint_epoch_{epoch+1}.pth')
+                task.upload_artifact(name=f'checkpoint_epoch_{epoch+1}', artifact_object=checkpoints_dir / f'checkpoint_epoch_{epoch+1}.safetensors')
+                task.upload_artifact(name=f'checkpoint_epoch_{epoch+1}_metadata', artifact_object=checkpoints_dir / f'checkpoint_epoch_{epoch+1}_metadata.json')
                 logger.info(f"Checkpoint epoch {epoch+1} uploaded as ClearML artifact")
+
 
     # Closing SummaryWriter
     writer.close()
