@@ -228,17 +228,14 @@ def train_one_epoch(
 
 # DEFINE THE TESTING LOOP #####################################################
 
-def test_one_epoch(
-    dataloader: DataLoader, 
-    model: nn.Module, 
-    loss_fn: nn.Module, 
-    epoch: int, 
-    device: torch.device, 
-    writer: SummaryWriter,
-    task: Optional[Task] = None
-) -> tuple[float, float]:
+def evaluate(
+    dataloader: DataLoader,
+    model: nn.Module,
+    loss_fn: nn.Module,
+    device: torch.device,
+) -> tuple[float, float, list[int], list[int]]:
     """
-    Evaluate the model on the test dataset for one epoch.
+    Evaluate the model on the validation/test dataset.
 
     Parameters
     ----------
@@ -248,19 +245,13 @@ def test_one_epoch(
         The neural network model.
     loss_fn : nn.Module
         Loss function.
-    epoch : int
-        Current epoch number.
     device : torch.device
         Device to run computations on.
-    writer : SummaryWriter
-        TensorBoard SummaryWriter for logging.
-    task : Optional[Task], optional
-        ClearML Task for logging (default is None).
 
     Returns
     -------
-    tuple of float
-        Average loss and accuracy for the epoch.
+    tuple of float and list
+        Average loss and accuracy, along with lists of true labels and predicted labels.
     """
     dataset_size: int = len(dataloader.dataset)
     num_batches: int = len(dataloader)
@@ -289,25 +280,7 @@ def test_one_epoch(
 
     logger.info(f"Test Error: Accuracy: {test_accuracy:>0.1f}%, Avg loss: {test_loss:>8f}")
 
-    # Log the metrics to TensorBoard
-    writer.add_scalar('Loss/test', test_loss, epoch)
-    writer.add_scalar('Accuracy/test', test_accuracy, epoch)
-
-    # Log confusion matrix to ClearML
-    if task:
-        cm = confusion_matrix(all_labels, all_preds, labels=list(range(10))) # Assuming 10 classes for MNIST
-        task.get_logger().report_confusion_matrix(
-            title="Confusion Matrix",
-            series="Test Performance", # Grouping for ClearML plots
-            iteration=epoch,
-            matrix=cm,
-            xaxis="Predicted",
-            yaxis="Actual",
-            xlabels=[str(i) for i in range(10)],
-            ylabels=[str(i) for i in range(10)]
-        )
-
-    return test_loss, test_accuracy
+    return test_loss, test_accuracy, all_labels, all_preds
 
 
 # MAIN EXECUTION ###############################################################
@@ -332,18 +305,17 @@ def train_model(args: argparse.Namespace) -> None:
         # Always initialize ClearML before anything else to let automatic hooks track as much as possible
         task = Task.init(
             project_name="Snippets",
-            task_name="MNIST Dense Layers",
-            output_uri=True  # setting this to True upload the model (otherwise only the local path of the model is saved in clearml)
+            task_name="MNIST Dense Layers"
         )
         logger.info("ClearML task initialized successfully")
-        # Connect argparse arguments to ClearML
-        # This will log hyperparameters and allow modification from ClearML UI if run by an agent
-        task.connect(args, name='Hyperparameters')
-        # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
-        # To be certain about using potentially overridden args, you might re-fetch them:
-        # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
-        # args = argparse.Namespace(**effective_args_dict) # Or update existing args
-        logger.info(f"Hyperparameters connected to ClearML: {args}")
+        # # Connect argparse arguments to ClearML
+        # # This will log hyperparameters and allow modification from ClearML UI if run by an agent
+        # task.connect(args, name='Hyperparameters')
+        # # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
+        # # To be certain about using potentially overridden args, you might re-fetch them:
+        # # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
+        # # args = argparse.Namespace(**effective_args_dict) # Or update existing args
+        # logger.info(f"Hyperparameters connected to ClearML: {args}")
     except Exception as e:
         logger.warning(f"Failed to initialize ClearML task: {e}")
 
@@ -351,7 +323,7 @@ def train_model(args: argparse.Namespace) -> None:
 
     runs_dir = Path('runs')
     runs_dir.mkdir(parents=True, exist_ok=True)
-    writer: SummaryWriter = SummaryWriter(log_dir=runs_dir)
+    writer = SummaryWriter(log_dir=runs_dir)
     logger.info("TensorBoard SummaryWriter initialized")
     logger.info(f"To visualize: tensorboard --logdir={runs_dir} then open http://localhost:6006/")
 
@@ -359,8 +331,8 @@ def train_model(args: argparse.Namespace) -> None:
 
     data_dir = Path("data")
     try:
-        training_data: datasets.MNIST = datasets.MNIST(root=data_dir, train=True, download=True, transform=ToTensor())
-        test_data: datasets.MNIST = datasets.MNIST(root=data_dir, train=False, download=True, transform=ToTensor())
+        training_data = datasets.MNIST(root=data_dir, train=True, download=True, transform=ToTensor())
+        test_data = datasets.MNIST(root=data_dir, train=False, download=True, transform=ToTensor())
         logger.info("MNIST dataset loaded successfully")
     except Exception as e:
         logger.error(f"Failed to load MNIST dataset: {e}")
@@ -368,21 +340,21 @@ def train_model(args: argparse.Namespace) -> None:
 
     # INSTANTIATE DATALOADERS #################################################
 
-    train_dataloader: DataLoader = DataLoader(training_data, batch_size=args.batch_size, shuffle=True)
-    test_dataloader: DataLoader = DataLoader(test_data, batch_size=args.batch_size)
+    train_dataloader = DataLoader(training_data, batch_size=args.batch_size, shuffle=True)
+    test_dataloader = DataLoader(test_data, batch_size=args.batch_size)
 
     # CREATING MODELS #########################################################
 
     device: torch.device = get_device(args.device)
     logger.info(f"Using device: {device}")
 
-    model: NeuralNetwork = NeuralNetwork(dropout_rate=args.dropout_rate).to(device)
+    model = NeuralNetwork(dropout_rate=args.dropout_rate).to(device)
     logger.info(f"Model created with {sum(p.numel() for p in model.parameters())} parameters")
 
     # OPTIMIZE THE MODEL PARAMETERS ###########################################
 
-    loss_fn: nn.CrossEntropyLoss = nn.CrossEntropyLoss()
-    optimizer: torch.optim.Adam = torch.optim.Adam(model.parameters(), lr=args.lr)
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
     # TRAIN THE MODEL #########################################################
 
@@ -402,12 +374,30 @@ def train_model(args: argparse.Namespace) -> None:
         train_loss, train_acc = train_one_epoch(train_dataloader, model, loss_fn, optimizer, epoch, device, writer)
 
         test_loss: float
-        test_acc: float
-        test_loss, test_acc = test_one_epoch(test_dataloader, model, loss_fn, epoch, device, writer, task)
+        test_accuracy: float
+        test_loss, test_accuracy, all_labels, all_preds = evaluate(test_dataloader, model, loss_fn, device)
+
+        # Log the metrics to TensorBoard
+        writer.add_scalar('Loss/test', test_loss, epoch)
+        writer.add_scalar('Accuracy/test', test_accuracy, epoch)
+
+        # Log confusion matrix to ClearML
+        if task:
+            cm = confusion_matrix(all_labels, all_preds, labels=list(range(10))) # Assuming 10 classes for MNIST
+            task.get_logger().report_confusion_matrix(
+                title="Confusion Matrix",
+                series="Test Performance", # Grouping for ClearML plots
+                iteration=epoch,
+                matrix=cm,
+                xaxis="Predicted",
+                yaxis="Actual",
+                xlabels=[str(i) for i in range(10)],
+                ylabels=[str(i) for i in range(10)]
+            )
 
         # Early stopping
-        if test_acc > best_accuracy:
-            best_accuracy = test_acc
+        if test_accuracy > best_accuracy:
+            best_accuracy = test_accuracy
             patience_counter = 0
             # Save best model
             safetensors.torch.save_model(model, checkpoints_dir / 'best_model.safetensors')
@@ -417,7 +407,7 @@ def train_model(args: argparse.Namespace) -> None:
                 'best_accuracy': best_accuracy,
                 'train_loss': train_loss,
                 'test_loss': test_loss,
-                'test_accuracy': test_acc,
+                'test_accuracy': test_accuracy,
             }
             with open(checkpoints_dir / 'best_model_metadata.json', 'w') as f:
                 json.dump(metadata, f, indent=2)
@@ -441,7 +431,7 @@ def train_model(args: argparse.Namespace) -> None:
                 'epoch': epoch,
                 'train_loss': train_loss,
                 'test_loss': test_loss,
-                'test_accuracy': test_acc,
+                'test_accuracy': test_accuracy,
             }
             with open(checkpoints_dir / f'checkpoint_epoch_{epoch+1}_metadata.json', 'w') as f:
                 json.dump(metadata, f, indent=2)
