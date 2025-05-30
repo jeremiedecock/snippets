@@ -42,6 +42,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--patience', type=int, default=5, help='Early stopping patience')
     parser.add_argument('--dropout-rate', type=float, default=0.2, help='Dropout rate')
     parser.add_argument('--model-path', type=Path, default=Path('mnist_model_final.safetensors'), help='Path to save the final model')
+    parser.add_argument('--remote', action='store_true', help='Run the task remotely using ClearML')
     return parser.parse_args()
 
 
@@ -313,14 +314,14 @@ def train_model(args: argparse.Namespace) -> None:
         task.set_repo(repo='https://github.com/jeremiedecock/snippets.git')
 
         logger.info("ClearML task initialized successfully")
-        # # Connect argparse arguments to ClearML
-        # # This will log hyperparameters and allow modification from ClearML UI if run by an agent
-        # task.connect(args, name='Hyperparameters')
-        # # Note: If run by clearml-agent, 'args' might be updated in-place by task.connect
-        # # To be certain about using potentially overridden args, you might re-fetch them:
-        # # effective_args_dict = task.get_configuration_object(name='Hyperparameters')
-        # # args = argparse.Namespace(**effective_args_dict) # Or update existing args
-        # logger.info(f"Hyperparameters connected to ClearML: {args}")
+
+        if args.remote:
+            logger.info("Executing task remotely, exiting process")
+            task.execute_remotely(
+                queue_name='default',
+                clone=False,
+                exit_process=True
+            )
     except Exception as e:
         logger.warning(f"Failed to initialize ClearML task: {e}")
 
