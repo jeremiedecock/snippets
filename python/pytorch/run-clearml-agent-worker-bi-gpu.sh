@@ -6,4 +6,7 @@
 #
 # More info: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html#procedure
 
-podman run --rm -it -v .:/app -w /app -e CLEARML_CONFIG_FILE=/app/clearml.conf -u $(id -u):$(id -g) --userns=keep-id  --device nvidia.com/gpu=all  localhost/snippets-pytorch:latest clearml-agent daemon --queue "default" --foreground
+podman run --rm -it \
+           -v clearml-agent-cache-worker-bi-gpu:/root/.clearml/cache \
+           --device nvidia.com/gpu=all \
+           localhost/clearml-agent:latest clearml-agent daemon --queue "worker-bi-gpu" --foreground
