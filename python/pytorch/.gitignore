@@ -6,5 +6,12 @@ logs/
 .ipynb_checkpoints/
 data/
 *.pth
+*.safetensors
 runs/
 *.sqlite3
+*.mp4
+.bash_history
+.clearml/
+.python_history
+supports_fidle/
+temp_frames/
