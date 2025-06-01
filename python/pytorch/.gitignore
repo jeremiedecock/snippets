@@ -1,4 +1,5 @@
 clearml.conf
+checkpoints/
 env/
 logs/
 .cache/

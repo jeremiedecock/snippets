@@ -7,9 +7,9 @@
 # More info: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html#procedure
 
 podman run --rm -it \
-           --name="clearml-agent-worker-bi-gpu" \
-           --device nvidia.com/gpu=all \
+           --name="clearml-agent-worker-gpu0" \
+           --device nvidia.com/gpu=0 \
            -e CLEARML_AGENT_PACKAGE_PYTORCH_RESOLVE=none \
-           -e CLEARML_WORKER_ID="$(hostname):gpu-all" \
-           -v clearml-agent-cache-worker-bi-gpu:/root/.clearml \
-           localhost/clearml-agent:latest clearml-agent daemon --queue "worker-bi-gpu" --foreground
+           -e CLEARML_WORKER_ID="$(hostname):gpu0" \
+           -v clearml-agent-cache-worker-gpu0:/root/.clearml \
+           localhost/clearml-agent:latest clearml-agent daemon --queue "worker-single-gpu" --foreground
