@@ -1,0 +1,75 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.ContainerType/ollama: container
+    io.kubernetes.cri-o.ContainerType/open-webui: container
+    io.kubernetes.cri-o.SandboxID/ollama: ff9a1039c5d91822b9899748e83591504bea002f01360c934a2c89848c9a096
+    io.kubernetes.cri-o.SandboxID/open-webui: ff9a1039c5d91822b9899748e83591504bea002f01360c934a2c89848c9a096
+    io.kubernetes.cri-o.TTY/ollama: "false"
+    io.kubernetes.cri-o.TTY/open-webui: "false"
+    io.podman.annotations.autoremove/ollama: "FALSE"
+    io.podman.annotations.autoremove/open-webui: "FALSE"
+    io.podman.annotations.init/ollama: "FALSE"
+    io.podman.annotations.init/open-webui: "FALSE"
+    io.podman.annotations.privileged/ollama: "FALSE"
+    io.podman.annotations.privileged/open-webui: "FALSE"
+    io.podman.annotations.publish-all/ollama: "FALSE"
+    io.podman.annotations.publish-all/open-webui: "FALSE"
+  creationTimestamp: "2025-06-23T16:19:23Z"
+  labels:
+    app: openwebui-ollama
+  name: openwebui-ollama
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - serve
+    image: docker.io/ollama/ollama:latest
+    name: ollama
+    ports:
+    - containerPort: 8080
+      hostPort: 11435
+    - containerPort: 11434
+      hostPort: 11434
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+    volumeMounts:
+    - mountPath: /root/.ollama
+      name: ollama-pvc
+  - env:
+    - name: WEBUI_AUTH
+      value: "False"
+    image: ghcr.io/open-webui/open-webui:main
+    name: open-webui
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+    volumeMounts:
+    - mountPath: /app/backend/data
+      name: open-webui-pvc
+  enableServiceLinks: false
+  hostname: openwebui-ollama
+  restartPolicy: Never
+  volumes:
+  - name: ollama-pvc
+    persistentVolumeClaim:
+      claimName: ollama
+  - name: open-webui-pvc
+    persistentVolumeClaim:
+      claimName: open-webui
+status: {}
+
