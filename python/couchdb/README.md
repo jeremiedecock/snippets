@@ -14,13 +14,13 @@
 Set `COUCHDB_USER` and `COUCHDB_PASSWORD` environment variables (e.g. in `.bashrc`) then type:
 
 ```
-docker run --name couchdb-server --rm -e COUCHDB_USER=${COUCHDB_USER} -e COUCHDB_PASSWORD=${COUCHDB_PASSWORD} -p 5984:5984 couchdb:3.3.3
+docker run --name couchdb-server --rm -e COUCHDB_USER=${COUCHDB_USER} -e COUCHDB_PASSWORD=${COUCHDB_PASSWORD} -p 5984:5984 -v couchdb-data:/opt/couchdb/data couchdb:3.3.3
 ```
 
 or provide credentials directly in the `docker run` command (not recommended):
 
 ```
-docker run --name couchdb-server --rm -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -p 5984:5984 couchdb:3.3.3
+docker run --name couchdb-server --rm -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -p 5984:5984 -v couchdb-data:/opt/couchdb/data couchdb:3.3.3
 ```
 
 
