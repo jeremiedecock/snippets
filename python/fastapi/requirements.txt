@@ -1,4 +1,1 @@
-fastapi
-uvicorn[standard]
-requests    # https://requests.readthedocs.io/en/latest/
-sqlalchemy  # for sql apps
+fastapi[standard] ~= 0.112.0
