@@ -1,4 +1,4 @@
-# Run with: fastapi dev param_str.py --port 8000
+# Run with: fastapi dev param_float.py --port 8000
 # then open http://localhost:8000/docs
 
 import fastapi
