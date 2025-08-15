@@ -1,4 +1,4 @@
-# Run with: fastapi dev foo.py --port 8000
+# Run with: fastapi dev query_parameters_of_type_list.py --port 8000
 # then open http://localhost:8000/docs
 
 from typing import Annotated
