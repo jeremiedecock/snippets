@@ -13,6 +13,8 @@ https://hub.docker.com/_/redis
 podman run -it -p 6379:6379 docker.io/library/redis
 ```
 
+Alternatively, you can use the Alpine version:
+
 ```
 podman run -it -p 6379:6379 docker.io/library/redis:alpine
 ```
