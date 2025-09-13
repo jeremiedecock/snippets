@@ -1,2 +1,6 @@
 numpy
 pytest
+# pydantic ~= 2.9.2              # It won't work with 2.10.* ! TODO: update (to be able to use fastapi v0.116)
+# pydantic_core ~= 2.23.4        # TODO: update (to be able to use fastapi v0.116)
+# redis ~= 6.4.0                 # https://redis.io/docs/latest/develop/clients/redis-py/
+# sqlmodel ~= 0.0.21             # TODO: update (to be able to use fastapi v0.116)
