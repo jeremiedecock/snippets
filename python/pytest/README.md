@@ -1,6 +1,6 @@
 # PyTest
 
-Functions to be tested are defined in `foo.py` (these functions have no particular interest and they are just a support to test PyTest).
+Functions to be tested are defined in `hello.py` (these functions have no particular interest and they are just a support to test PyTest).
 
 Unit tests are defined in the `test_*.py` modules.
 Unit tests defined there highlight tips and tricks specific to the object to be tested: how to assert a float variable, how to assert a sequence, etc.
