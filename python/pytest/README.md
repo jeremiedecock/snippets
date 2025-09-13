@@ -2,8 +2,9 @@
 
 Functions to be tested are defined in `foo.py` (these functions have no particular interest and they are just a support to test PyTest).
 
-Unit tests are defined in the `tests/test_foo.py` module.
+Unit tests are defined in the `test_*.py` modules.
 Unit tests defined there highlight tips and tricks specific to the object to be tested: how to assert a float variable, how to assert a sequence, etc.
+
 
 ## Install PyTest
 
@@ -13,7 +14,6 @@ In a terminal:
 pip install pytest
 ```
 
-**Note**: PyTest is installed by default with Anaconda.
 
 ## Notes
 
@@ -30,6 +30,7 @@ PyTest automatically finds unit tests (based on the previously mentioned naming 
 executes them and and highlights those who have failed.
 
 A unit test "fails" when it raises an exception.
+
 
 ## See Also
 
