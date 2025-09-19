@@ -1,15 +1,19 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "snippets-pytorch",
+	"name": "snippets-pytorch-vscode-devcontainer",
 	"build": {
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		// Note: The specified directory is relative to the ".devcontainer/" directory.
 		"context": ".",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 		// Note: The specified directory is relative to the ".devcontainer/" directory.
-		"dockerfile": "./Dockerfile"
+		"dockerfile": "./Containerfile"
 	},
+
+	// Declare environment variables
+	// C.f. https://code.visualstudio.com/remote/advancedcontainers/environment-variables#_option-2-use-an-env-file
+	"runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -27,8 +31,6 @@
 			"settings": {},
 			"extensions": [
 				"charliermarsh.ruff",
-				"github.copilot",
-				"github.copilot-chat",
 				"ms-python.debugpy",
 				"ms-python.isort",
 				"ms-python.mypy-type-checker",
