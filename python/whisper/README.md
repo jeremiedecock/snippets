@@ -85,3 +85,27 @@ The following audio files can be used to test Whisper: https://commons.wikimedia
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
 
+
+## Run a script using the Podman image on a GPU
+
+With the "large-v3" model:
+
+```
+./run-gpu.sh whisper --model large-v3 apollo11.ogg
+```
+
+or With the default "turbo" model:
+
+```
+./run-gpu.sh whisper apollo11.ogg
+```
+
+## Tips
+
+Video files can be provided directly:
+
+```
+./run-gpu.sh whisper video.mp4
+```
+
+Caution: when using whisper with Podman, input files have to be in the current directory, otherwise they won't be in a mounted volume in the container.
