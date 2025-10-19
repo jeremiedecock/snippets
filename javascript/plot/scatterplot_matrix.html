@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-non-faceted-marks
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const penguins = await d3.json("penguins.json", d3.autoType);
+
+const plot = Plot.plot({
+  grid: true,
+  marginRight: 60,
+  facet: {label: null},
+  marks: [
+    Plot.frame(),
+    Plot.dot(penguins, {
+      x: "culmen_length_mm",
+      y: "culmen_depth_mm",
+      fill: "#aaa",
+      r: 1
+    }),
+    Plot.dot(penguins, {
+      x: "culmen_length_mm",
+      y: "culmen_depth_mm",
+      fx: "sex",
+      fy: "species"
+    })
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>
