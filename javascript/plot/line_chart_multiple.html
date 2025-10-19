@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-multiple-line-chart
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const bls = await d3.csv("bls.csv", d3.autoType);
+
+const plot = Plot.plot({
+  y: {
+    grid: true,
+    label: "Unemployment (%)"
+  },
+  marks: [
+    Plot.ruleY([0]),
+    Plot.lineY(bls, {x: "date", y: "unemployment", z: "division"})
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>
