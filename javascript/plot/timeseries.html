@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-simple-line-chart
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const ts = await d3.json("timeseries.json").then(data => 
+  data.map(d => ({...d, Date: new Date(d.Date)}))
+);
+
+const plot = Plot.lineY(ts, {x: "Date", y: "Close"}).plot({y: {grid: true}});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>
