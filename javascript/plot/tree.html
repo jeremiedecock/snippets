@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-custom-tree-layout
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const flare = await d3.csv("flare.csv", d3.autoType);
+
+function indent() {
+  return (root) => {
+    root.eachBefore((node, i) => {
+      node.y = node.depth;
+      node.x = i;
+    });
+  };
+}
+
+const plot = Plot.plot({
+  axis: null,
+  inset: 10,
+  insetRight: 120,
+  round: true,
+  width: 200,
+  height: 3600,
+  marks: Plot.tree(flare, {
+    path: "name",
+    delimiter: ".",
+    treeLayout: indent,
+    strokeWidth: 1,
+    curve: "step-before",
+    textStroke: "none"
+  })
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

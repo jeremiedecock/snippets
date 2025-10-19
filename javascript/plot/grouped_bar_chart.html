@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-olympians-grouped-bar-chart
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const olympians = await d3.json("olympians.json", d3.autoType);
+
+const plot = Plot.plot({
+  marginBottom: 100,
+  fx: {padding: 0, label: null, tickRotate: 90, tickSize: 6},
+  x: {axis: null, paddingOuter: 0.2},
+  y: {grid: true},
+  color: {legend: true},
+  marks: [
+    Plot.barY(olympians, Plot.groupX({y2: "count"}, {x: "sex", fx: "sport", fill: "sex"})),
+    Plot.ruleY([0])
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

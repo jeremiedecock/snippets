@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-symbol-channel
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const penguins = await d3.json("penguins.json", d3.autoType);
+
+const plot = Plot.plot({
+  grid: true,
+  x: {label: "Body mass (g)"},
+  y: {label: "Flipper length (mm)"},
+  symbol: {legend: true},
+  marks: [
+    Plot.dot(penguins, {x: "body_mass_g", y: "flipper_length_mm", stroke: "species", symbol: "species"})
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

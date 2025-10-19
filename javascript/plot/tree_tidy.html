@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-tree-tidy
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const flare = await d3.csv("flare.csv", d3.autoType);
+
+const plot = Plot.plot({
+  axis: null,
+  margin: 10,
+  marginLeft: 40,
+  marginRight: 160,
+  width: 928,
+  height: 1800,
+  marks: [
+    Plot.tree(flare, {path: "name", delimiter: "."})
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

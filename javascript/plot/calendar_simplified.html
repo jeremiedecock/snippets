@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-simplified-calendar
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const dji = await d3.csv("dji.csv", d3.autoType);
+
+const plot = Plot.plot({
+  padding: 0,
+  x: {axis: null},
+  y: {tickFormat: Plot.formatWeekday("en", "narrow"), tickSize: 0},
+  fy: {tickFormat: ""},
+  color: {scheme: "PiYG", legend: true, label: "Daily change", tickFormat: "+%", domain: [-0.06, 0.06]},
+  marks: [
+    Plot.cell(dji, {
+      x: (d) => d3.utcWeek.count(d3.utcYear(d.Date), d.Date),
+      y: (d) => d.Date.getUTCDay(),
+      fy: (d) => d.Date.getUTCFullYear(),
+      fill: (d, i) => i > 0 ? (d.Close - dji[i - 1].Close) / dji[i - 1].Close : NaN,
+      title: (d, i) => i > 0 ? ((d.Close - dji[i - 1].Close) / dji[i - 1].Close * 100).toFixed(1) : NaN,
+      inset: 0.5
+    })
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

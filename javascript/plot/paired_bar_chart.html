@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-tips-paired-channels
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const olympians = await d3.json("olympians.json", d3.autoType);
+
+const plot = Plot.rectY(olympians, Plot.binX({y: "sum"}, {x: "weight", y: (d) => d.sex === "male" ? 1 : -1, fill: "sex", tip: true})).plot({y: {label: "Frequency"}});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

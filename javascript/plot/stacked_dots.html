@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/plot-stacked-dots
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const congress = await d3.csv("us-congress-2023.csv", d3.autoType);
+
+const plot = Plot.plot({
+  aspectRatio: 1,
+  x: {label: "Age (years)"},
+  y: {
+    grid: true,
+    label: "← Women · Men →",
+    labelAnchor: "center",
+    tickFormat: Math.abs
+  },
+  marks: [
+    Plot.dot(
+      congress,
+      Plot.stackY2({
+        x: (d) => 2023 - d.birthday.getUTCFullYear(),
+        y: (d) => d.gender === "M" ? 1 : -1,
+        fill: "gender",
+        title: "full_name"
+      })
+    ),
+    Plot.ruleY([0])
+  ]
+});
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>

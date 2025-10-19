@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<!--
+Src: https://observablehq.com/@observablehq/color-scatterplot
+-->
+
+<div id="myplot"></div>
+<script type="module">
+
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const penguins = await d3.json("penguins.json", d3.autoType);
+
+const plot = Plot.dot(penguins, {x: "culmen_length_mm", y: "culmen_depth_mm", stroke: "species"}).plot();
+
+const div = document.querySelector("#myplot");
+div.append(plot);
+
+</script>
