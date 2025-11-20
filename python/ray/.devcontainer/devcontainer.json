@@ -1,0 +1,48 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
+{
+	"name": "snippets-ray-vscode-devcontainer",
+	"build": {
+		// Sets the run context to one level up instead of the .devcontainer folder.
+		// Note: The specified directory is relative to the ".devcontainer/" directory.
+		"context": ".",
+		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+		// Note: The specified directory is relative to the ".devcontainer/" directory.
+		"dockerfile": "./Containerfile"
+	},
+
+	// Declare environment variables
+	// C.f. https://code.visualstudio.com/remote/advancedcontainers/environment-variables#_option-2-use-an-env-file
+	"runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+	"postCreateCommand": "python3 -m pip install -r requirements.txt",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"charliermarsh.ruff",
+				"ms-python.debugpy",
+				"ms-python.isort",
+				"ms-python.mypy-type-checker",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-toolsai.jupyter",
+				"ms-vscode.vscode-speech",
+				"ms-vscode.vscode-speech-language-pack-fr-fr"
+			]
+		}
+	}
+
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
+}

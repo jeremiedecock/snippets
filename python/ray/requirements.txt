@@ -1,0 +1,10 @@
+# ray             # Core
+# ray[default]    # Core, Dashboard, Cluster Launcher
+# ray[data]       # Core, Data
+# ray[train]      # Core, Train
+# ray[tune]       # Core, Tune
+# ray[serve]      # Core, Dashboard, Cluster Launcher, Serve
+# ray[serve-grpc] # Core, Dashboard, Cluster Launcher, Serve with gRPC support
+# ray[rllib]      # Core, Tune, RLlib
+ray[all]        # Core, Dashboard, Cluster Launcher, Data, Train, Tune, Serve, RLlib. This option isn’t recommended. Specify the extras you need as shown below instead.
+# ray[data,train,tune,serve]
