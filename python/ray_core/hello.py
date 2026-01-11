@@ -15,3 +15,5 @@ future_res2 = f.remote(2)
 
 print(ray.get(future_res1))  # 1
 print(ray.get(future_res2))  # 4
+
+input("Press Enter to stop Ray...")
