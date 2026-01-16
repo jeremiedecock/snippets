@@ -1,0 +1,7 @@
+# This file lists all the dependencies that are required to run the project.
+
+# To have more information about the format of this file, please refer to the
+# https://pip.pypa.io/en/stable/reference/requirements-file-format/
+
+fastapi[standard] ~= 0.112.0
+# pydantic ~= 2.12.5
