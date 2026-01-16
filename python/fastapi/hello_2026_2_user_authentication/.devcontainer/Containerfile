@@ -1,0 +1,5 @@
+FROM python:3.13-slim
+
+# INSTALL GIT #################################################################
+
+RUN apt update -q -y && apt install -yq git curl && apt autoremove && apt clean
