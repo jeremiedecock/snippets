@@ -4,6 +4,7 @@
 # https://pip.pypa.io/en/stable/reference/requirements-file-format/
 
 fastapi[standard] ~= 0.112.0
-gymnasium
+gymnasium[classic_control]
+pillow  # For image rendering in /render endpoint
 pydantic
 requests   # https://requests.readthedocs.io/en/latest/ (to test the API with client.py)

@@ -14,11 +14,15 @@ a proper database or cache (Redis, etc.) for persistence and scalability.
 
 import anyio
 from contextlib import asynccontextmanager
+import io
+
 import fastapi
 from fastapi import Depends, HTTPException, status
+from fastapi.responses import Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import gymnasium as gym
 import logging
+from PIL import Image
 import pydantic
 from typing import Annotated, Any
 
@@ -159,8 +163,9 @@ class EnvironmentManager:
             # Double-check after acquiring lock
             if token not in self._environments:
                 # Create environment in a thread to avoid blocking
+                # Use render_mode='rgb_array' to enable rendering to images
                 env = await anyio.to_thread.run_sync(
-                    lambda: gym.make(self.env_id)
+                    lambda: gym.make(self.env_id, render_mode="rgb_array")
                 )
                 self._environments[token] = UserEnvironment(env)
             return self._environments[token]
@@ -334,3 +339,61 @@ async def step_environment(
         except Exception as e:
             logger.error(f"Error during step for token {token[:8]}...: {e}")
             raise HTTPException(status_code=500, detail=f"Step failed: {str(e)}")
+
+
+@app.get("/render")
+async def render_environment(
+    token: str = Depends(verify_token)
+) -> Response:
+    """
+    Render the current state of the environment as a PNG image.
+
+    Parameters
+    ----------
+    token : str
+        The authenticated user's token.
+
+    Returns
+    -------
+    Response
+        A PNG image of the current environment state.
+
+    Raises
+    ------
+    HTTPException
+        500 if an error occurs during rendering.
+    """
+    user_environment = await env_manager.get_or_create_env(token)
+
+    async with user_environment._lock:
+        try:
+            # Run render in a thread to avoid blocking the event loop
+            def do_render():
+                return user_environment.env.render()
+
+            frame = await anyio.to_thread.run_sync(do_render)
+
+            if frame is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Environment render mode does not support image output. "
+                           "Make sure the environment was created with render_mode='rgb_array'."
+                )
+
+            # Convert numpy array to PNG image
+            def encode_image(frame):
+                img = Image.fromarray(frame)
+                buffer = io.BytesIO()
+                img.save(buffer, format="PNG")
+                buffer.seek(0)
+                return buffer.getvalue()
+
+            image_bytes = await anyio.to_thread.run_sync(lambda: encode_image(frame))
+
+            return Response(content=image_bytes, media_type="image/png")
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Error during render for token {token[:8]}...: {e}")
+            raise HTTPException(status_code=500, detail=f"Render failed: {str(e)}")
