@@ -2,10 +2,10 @@
 """
 Demonstration of shared state in FastAPI without a database.
 
-This example shows how to maintain state in memory between HTTP requests
-using a CounterManager that provides one counter per authenticated user.
+This script maintains state in memory between HTTP requests
+using an EnvironmentManager that provides one UserEnvironment per authenticated user.
 
-Each user (identified by their Bearer token) has their own isolated counter.
+Each user (identified by their Bearer token) has their own isolated UserEnvironment.
 anyio locks are used to ensure thread-safety for concurrent requests.
 
 Note: This is for demonstration purposes only. In production, consider using
@@ -14,13 +14,12 @@ a proper database or cache (Redis, etc.) for persistence and scalability.
 
 import anyio
 from contextlib import asynccontextmanager
-import io
-
 import fastapi
 from fastapi import Depends, HTTPException, status
 from fastapi.responses import Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import gymnasium as gym
+import io
 import logging
 from PIL import Image
 import pydantic
@@ -36,10 +35,12 @@ logger = logging.getLogger(__name__)
 ###############################################################################
 
 # Default Gymnasium environment
-DEFAULT_ENV_ID = "MountainCar-v0"
+# DEFAULT_ENV_ID = "MountainCar-v0"
+DEFAULT_ENV_ID = "FrozenLake-v1"
 
-# Maximum steps per episode (to prevent infinite loops)
-MAX_STEPS_PER_EPISODE = 1000
+DISCRETE_ACTION_SPACE_START = 0
+# DISCRETE_ACTION_SPACE_SIZE = 3  # MountainCar-v0 has 3 discrete actions: 0 (push left), 1 (no push), 2 (push right) https://gymnasium.farama.org/environments/classic_control/mountain_car/#action-space
+DISCRETE_ACTION_SPACE_SIZE = 4  # FrozenLake-v1 has 4 discrete actions https://gymnasium.farama.org/environments/toy_text/frozen_lake/
 
 
 ###############################################################################
@@ -94,7 +95,7 @@ def verify_token(
 
 
 ###############################################################################
-# STATE MANAGER ###############################################################
+# RL ENVIRONMENTS MANAGER #####################################################
 ###############################################################################
 
 class UserEnvironment:
@@ -109,18 +110,13 @@ class UserEnvironment:
     ----------
     env : gym.Env
         The Gymnasium environment instance.
-    step_count : int
-        Number of steps taken in the current episode.
-    last_access : float
-        Timestamp of last access (for TTL management).
     lock : anyio.Lock
         Per-user lock for serializing step/reset calls.
     """
 
     def __init__(self, env: gym.Env):
         self.env = env
-        self.step_count = 0
-        self._lock = anyio.Lock()
+        self.lock = anyio.Lock()
 
 
 class EnvironmentManager:
@@ -131,7 +127,7 @@ class EnvironmentManager:
     - One environment per token
     - Thread-safe access via per-token locks
 
-    Note: Counters persist in memory until explicitly removed or server restart.
+    Note: user environments persist in memory until explicitly removed or server restart.
     """
 
     def __init__(self, env_id: str):
@@ -153,7 +149,7 @@ class EnvironmentManager:
         UserEnvironment
             The environment state for this token.
         """
-        # Fast path: counter already exists, no lock needed
+        # Fast path: user environment already exists, no lock needed
         if token in self._environments:
             return self._environments[token]
 
@@ -220,7 +216,6 @@ class StepResponse(pydantic.BaseModel):
     terminated: bool
     truncated: bool
     info: dict[str, Any]
-    step_count: int
 
 
 ###############################################################################
@@ -251,16 +246,13 @@ async def reset_environment(
     """
     user_environment = await env_manager.get_or_create_env(token)
 
-    async with user_environment._lock:
+    async with user_environment.lock:
         try:
             # Run reset in a thread to avoid blocking the event loop
             def do_reset():
                 return user_environment.env.reset()
 
             observation, info = await anyio.to_thread.run_sync(do_reset)
-
-            # Reset step counter
-            user_environment.step_count = 0
 
             # Convert numpy arrays to lists for JSON serialization
             if hasattr(observation, "tolist"):
@@ -275,7 +267,7 @@ async def reset_environment(
 
 @app.post("/step")
 async def step_environment(
-    action: Annotated[int, pydantic.Field(ge=0, le=2)],   # https://gymnasium.farama.org/environments/classic_control/mountain_car/#action-space
+    action: Annotated[int, pydantic.Field(ge=DISCRETE_ACTION_SPACE_START, lt=DISCRETE_ACTION_SPACE_SIZE)],
     token: str = Depends(verify_token)
 ) -> StepResponse:
     """
@@ -303,23 +295,13 @@ async def step_environment(
     """
     user_environment = await env_manager.get_or_create_env(token)
 
-    async with user_environment._lock:
-        # Check if we've exceeded max steps
-        if user_environment.step_count >= MAX_STEPS_PER_EPISODE:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Maximum steps per episode ({MAX_STEPS_PER_EPISODE}) reached. Please reset."
-            )
-
+    async with user_environment.lock:
         try:
             # Run step in a thread to avoid blocking the event loop
             def do_step():
                 return user_environment.env.step(action)
 
             observation, reward, terminated, truncated, info = await anyio.to_thread.run_sync(do_step)
-
-            # Increment step counter
-            user_environment.step_count += 1
 
             # Convert numpy arrays to lists for JSON serialization
             if hasattr(observation, "tolist"):
@@ -333,7 +315,6 @@ async def step_environment(
                 terminated=bool(terminated),
                 truncated=bool(truncated),
                 info=info,
-                step_count=user_environment.step_count
             )
 
         except Exception as e:
@@ -365,7 +346,7 @@ async def render_environment(
     """
     user_environment = await env_manager.get_or_create_env(token)
 
-    async with user_environment._lock:
+    async with user_environment.lock:
         try:
             # Run render in a thread to avoid blocking the event loop
             def do_render():
