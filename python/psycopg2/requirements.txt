@@ -1,2 +1,4 @@
-psycopg2-binary
+jupyterlab
+matplotlib
 pandas
+psycopg2-binary
