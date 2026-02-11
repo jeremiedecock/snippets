@@ -1,0 +1,53 @@
+# This file lists all the dependencies that are required to run Gymnasium snippets
+
+# To have more information about the format of this file, please refer to the
+# https://pip.pypa.io/en/stable/reference/requirements-file-format/
+
+
+# PyTorch #####################################################################
+
+# Depending on your system, you may need to install PyTorch with a specific version
+# and with the appropriate CUDA version. Please refer to the official PyTorch
+# installation guide for more information: https://pytorch.org/get-started/locally/
+
+# torch
+# torch --index-url https://download.pytorch.org/whl/cu124    # Linux CUDA 12.4 version
+# torch --index-url https://download.pytorch.org/whl/cpu      # Linux CPU version
+
+
+# GYMNASIUM ###################################################################
+
+# C.f. https://github.com/Farama-Foundation/Gymnasium/blob/main/pyproject.toml
+
+gymnasium[toy-text,classic-control]~=1.2.3  # "Toy text" environments only (e.g. "FrozenLake-v1")
+                                            # "Classic Control" environments only (e.g. "CartPole-v1")
+moviepy~=2.2.1                              # Required by "gym.wrappers.RecordVideo"
+
+
+# REQUIRED DEPENDENCIES #######################################################
+
+ipywidgets~=8.1.8            # Required for tqdm
+jupyterlab~=4.5.2
+matplotlib~=3.10.8
+numpy~=2.4.1
+pandas~=2.3.3
+seaborn~=0.13.2
+tqdm~=4.67.1
+
+
+# OPTIONAL DEPENDENCIES #######################################################
+
+# aim
+# optuna
+# optuna-dashboard
+# tensorboard
+
+
+# USEFUL TOOLS ################################################################
+
+jupytext          # To convert Jupyter Notebooks to Python scripts
+mypy              # For static type checking
+pandas-stubs      # Public type stubs for pandas. C.f. https://pandas.pydata.org/docs/whatsnew/v1.5.0.html#enhancements and https://github.com/pandas-dev/pandas-stubs
+ruff              # For code formatting and linting
+# types-seaborn     # Type hints for seaborn
+# types-tqdm        # Type hints for tqdm
