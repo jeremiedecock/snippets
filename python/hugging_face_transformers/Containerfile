@@ -1,7 +1,12 @@
 FROM python:3.12-slim
 
 WORKDIR /app
-
 COPY requirements-minimal.txt /app
+
+RUN addgroup snippets --gid=1000
+RUN adduser snippets --uid=1000 --gid=1000
+USER snippets
+
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /app/requirements-minimal.txt
+
