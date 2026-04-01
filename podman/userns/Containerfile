@@ -1,7 +1,12 @@
 FROM debian:stable-slim
 
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
+
+RUN groupadd --gid ${CONTAINER_GID} user \
+ && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --create-home user
+USER user
+
 WORKDIR /workspace
 
-RUN groupadd --gid 1000 user \
- && useradd --uid 1000 --gid 1000 --no-log-init --create-home user
-USER user
+CMD ["bash"]
