@@ -1,5 +1,7 @@
 #!/bin/sh
 
+podman volume exists claude-code-home || { echo "Volume 'claude-code-home' not found. Run ./init.sh first."; exit 1; }
+
 CONTAINER_UID=1000
 CONTAINER_GID=1000
 
