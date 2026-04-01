@@ -11,9 +11,9 @@ RUN groupadd --gid ${CONTAINER_GID} user \
  && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --create-home user
 USER user
 
-# C.f. https://code.claude.com/docs/en/overview
-RUN curl -fsSL https://claude.ai/install.sh | bash
+# Make `claude` available in all processes (CMD uses exec form, so ~/.bashrc is never sourced)
+ENV PATH="/home/user/.local/bin:${PATH}"
 
 WORKDIR /workspace
 
-CMD ["bash"]
+CMD ["claude"]
