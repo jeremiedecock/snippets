@@ -1,27 +1,19 @@
-FROM node:25-slim
+FROM debian:stable-slim
 
-# FROM node:alpine
-# RUN apk update && apk add --no-cache git curl
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
 
-# WORKDIR /app
-# COPY requirements-minimal.txt /app
-
-# RUN addgroup snippets --gid=1000
-# RUN adduser snippets --uid=1000 --gid=1000
-# USER snippets
-
-# Dépendances utiles pour Claude Code
-RUN apt update && apt install -y \
-    git curl wget \
-    # git curl ripgrep python3 \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl git ripgrep ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# # Installer Claude Code globalement
-# RUN npm install -g @anthropic-ai/claude-code
+RUN groupadd --gid ${CONTAINER_GID} user \
+ && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --create-home user
+USER user
 
-# # Créer un utilisateur non-root
-# RUN useradd -m -s /bin/bash claude
-# USER claude
+# C.f. https://code.claude.com/docs/en/overview
+RUN curl -fsSL https://claude.ai/install.sh | bash
+
 WORKDIR /workspace
 
-# CMD ["bash"]
+CMD ["bash"]
