@@ -1,0 +1,27 @@
+FROM node:25-slim
+
+# FROM node:alpine
+# RUN apk update && apk add --no-cache git curl
+
+# WORKDIR /app
+# COPY requirements-minimal.txt /app
+
+# RUN addgroup snippets --gid=1000
+# RUN adduser snippets --uid=1000 --gid=1000
+# USER snippets
+
+# Dépendances utiles pour Claude Code
+RUN apt update && apt install -y \
+    git curl wget \
+    # git curl ripgrep python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# # Installer Claude Code globalement
+# RUN npm install -g @anthropic-ai/claude-code
+
+# # Créer un utilisateur non-root
+# RUN useradd -m -s /bin/bash claude
+# USER claude
+WORKDIR /workspace
+
+# CMD ["bash"]

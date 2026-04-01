@@ -1,0 +1,7 @@
+FROM debian:stable-slim
+
+WORKDIR /workspace
+
+RUN groupadd --gid 1000 user \
+ && useradd --uid 1000 --gid 1000 --no-log-init --create-home user
+USER user
