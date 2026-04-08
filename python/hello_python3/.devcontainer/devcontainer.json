@@ -3,7 +3,7 @@
 {
 	"name": "snippets-hello-python3-vscode-devcontainer",
 	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
+		// Sets the run context to the .devcontainer folder.
 		// Note: The specified directory is relative to the ".devcontainer/" directory.
 		"context": ".",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
@@ -25,7 +25,6 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
 	// "postCreateCommand": "python3 -m pip install --user -r requirements.txt",
 
 	// Configure tool-specific properties.

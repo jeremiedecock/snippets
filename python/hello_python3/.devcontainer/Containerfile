@@ -12,4 +12,4 @@ RUN groupadd --gid ${CONTAINER_GID} user \
 USER user
 
 # Make Python commands available in all processes (CMD uses exec form, so ~/.bashrc is never sourced)
-ENV PATH="/home/user/.local/bin:${PATH}"
+ENV PATH="${HOME}/.local/bin:${PATH}"
