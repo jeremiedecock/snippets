@@ -14,7 +14,6 @@
 	// Declare environment variables
 	// C.f. https://code.visualstudio.com/remote/advancedcontainers/environment-variables#_option-2-use-an-env-file
 	// "runArgs": [
-	// 	// "--network=postgresql-network",  // ⚠️
 	// 	"--env-file",
 	// 	".devcontainer/devcontainer.env",
 	// ],
