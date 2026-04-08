@@ -31,7 +31,8 @@ See also http://stackoverflow.com/questions/2557110/what-to-put-in-a-python-modu
 See also PEP 8 (http://legacy.python.org/dev/peps/pep-0008/) for Python's good practices.
 """
 
-import sys, os
+import os
+import sys
 
 def main():
     """
@@ -53,6 +54,9 @@ def main():
     print("¡Buenos días!")
     print("Bonjour!")
     print("你好！")
+
+    with open("hello.txt", "w") as f:
+        f.write("Hello")
 
 if __name__ == '__main__':
     main()

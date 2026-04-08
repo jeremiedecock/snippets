@@ -1,0 +1,15 @@
+FROM python:3.14-slim
+
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd --gid ${CONTAINER_GID} user \
+ && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --shell /bin/bash --create-home user
+USER user
+
+# Make Python commands available in all processes (CMD uses exec form, so ~/.bashrc is never sourced)
+ENV PATH="/home/user/.local/bin:${PATH}"
