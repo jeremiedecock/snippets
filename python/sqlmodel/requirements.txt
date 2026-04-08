@@ -1,1 +1,1 @@
-sqlmodel ~= 0.0.21
+sqlmodel ~= 0.0.27

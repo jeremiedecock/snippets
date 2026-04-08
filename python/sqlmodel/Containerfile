@@ -17,5 +17,11 @@ RUN groupadd --gid ${CONTAINER_GID} user \
 # this ensures the container runs as non-root in all contexts (e.g. direct docker run, CI/CD pipelines).
 USER user
 
+WORKDIR /workdir
+
 # Make Python commands available in all processes (CMD uses exec form, so ~/.bashrc is never sourced).
-ENV PATH="${HOME}/.local/bin:${PATH}"
+ENV PATH="/home/user/.local/bin:${PATH}"
+
+COPY requirements.txt /workdir
+RUN pip install --user --no-cache-dir --upgrade pip
+RUN pip install --user --no-cache-dir --upgrade -r /workdir/requirements.txt
