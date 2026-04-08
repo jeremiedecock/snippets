@@ -35,9 +35,18 @@ with Session(engine) as session:
     session.commit()
 
 
+# Read all rows
+
+with Session(engine) as session:
+    statement = select(Hero)
+    results = session.exec(statement)
+    for hero in results:
+        print(hero)
+
+
 # Select from the Database
 
 with Session(engine) as session:
-    statement = select(Hero).where(Hero.name == "Spider-Boy")
+    statement = select(Hero).where(Hero.name == "Rusty-Man").where(Hero.age == 48)
     hero = session.exec(statement).first()
-    print(hero)
+    print("SELECT ... WHERE ...:", hero)

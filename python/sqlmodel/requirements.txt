@@ -1,1 +1,2 @@
 sqlmodel ~= 0.0.27
+psycopg2-binary
