@@ -40,9 +40,7 @@
 				"ms-python.mypy-type-checker",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"ms-toolsai.jupyter",
-				"ms-vscode.vscode-speech",
-				"ms-vscode.vscode-speech-language-pack-fr-fr"
+				"ms-toolsai.jupyter"
 			]
 		}
 	}
