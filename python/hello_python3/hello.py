@@ -55,8 +55,5 @@ def main():
     print("Bonjour!")
     print("你好！")
 
-    with open("hello.txt", "w") as f:
-        f.write("Hello")
-
 if __name__ == '__main__':
     main()
