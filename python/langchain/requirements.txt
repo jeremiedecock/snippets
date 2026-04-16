@@ -27,8 +27,8 @@ langchain-huggingface
 langchain-openai
 langchain-postgres
 langchain-text-splitters
+sentence-transformers
 transformers
-torch
 
 
 # USEFUL TOOLS ################################################################
