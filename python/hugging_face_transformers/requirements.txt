@@ -1,5 +1,36 @@
-accelerate     # for GPU acceleration
-bitsandbytes   # for 8-bit quantization
-scipy          # required by bitsandbytes
-torch
-transformers
+# To have more information about the format of this file, please refer to the
+# https://pip.pypa.io/en/stable/reference/requirements-file-format/
+
+# PyTorch #####################################################################
+
+# Depending on your system, you may need to install PyTorch with a specific version
+# and with the appropriate CUDA version. Please refer to the official PyTorch
+# installation guide for more information: https://pytorch.org/get-started/locally/
+
+# torch
+
+# As of April 2026, the NVIDIA driver version installed on Debian 13 is v550.163.01 with CUDA v12.4
+# (see https://wiki.debian.org/NvidiaGraphicsDrivers), but PyTorch 2.11.0 requires CUDA >= 12.6.
+# Therefore, an older version of PyTorch must be installed to remain compatible with CUDA v12.4.
+torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+# torch --index-url https://download.pytorch.org/whl/cu126    # Linux CUDA 12.6 version
+# torch --index-url https://download.pytorch.org/whl/cpu      # Linux CPU version
+
+
+# HuggingFace Transformers ####################################################
+
+accelerate~=1.13.0     # Required by transformers cli (for GPU acceleration)
+bitsandbytes~=0.49.2   # Required by transformers cli (for 8-bit quantization)
+requests~=2.33.1       # Required by transformers chat CLI
+rich~=15.0.0           # Required by transformers cli
+scipy~=1.17.1          # Required by bitsandbytes
+transformers[serving]~=5.5.4      # The serving extra is required for the transformers chat CLI. C.f. https://huggingface.co/docs/transformers/conversations
+
+
+# USEFUL TOOLS ################################################################
+
+# jupytext          # For Jupyter Notebook to Python script conversion
+# mypy              # For static type checking
+# ruff              # For code formatting and linting

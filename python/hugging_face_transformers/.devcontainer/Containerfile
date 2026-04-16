@@ -1,5 +1,21 @@
-FROM python:3.13-slim
+FROM python:3.12-slim
 
-# INSTALL GIT #################################################################
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
 
-RUN apt update -q -y && apt install -yq git && apt autoremove && apt clean
+# Install git and clean up apt cache to reduce image size.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user.
+RUN groupadd --gid ${CONTAINER_GID} user \
+ && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --shell /bin/bash --create-home user
+
+# Switch to the non-root user.
+# Sets the default container user (containerUser). Even when remoteUser is defined in devcontainer.json,
+# this ensures the container runs as non-root in all contexts (e.g. direct docker run, CI/CD pipelines).
+USER user
+
+# Make Python commands available in all processes (CMD uses exec form, so ~/.bashrc is never sourced).
+ENV PATH="${HOME}/.local/bin:${PATH}"

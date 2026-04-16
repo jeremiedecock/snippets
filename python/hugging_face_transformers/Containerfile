@@ -1,12 +1,27 @@
 FROM python:3.12-slim
 
-WORKDIR /app
-COPY requirements-minimal.txt /app
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
 
-RUN addgroup snippets --gid=1000
-RUN adduser snippets --uid=1000 --gid=1000
-USER snippets
+# # Install git and clean up apt cache to reduce image size.
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#    git \
+#    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r /app/requirements-minimal.txt
+# Create a non-root user.
+RUN groupadd --gid ${CONTAINER_GID} user \
+ && useradd --uid ${CONTAINER_UID} --gid ${CONTAINER_GID} --no-log-init --shell /bin/bash --create-home user
 
+# Switch to the non-root user.
+# Sets the default container user (containerUser). Even when remoteUser is defined in devcontainer.json,
+# this ensures the container runs as non-root in all contexts (e.g. direct docker run, CI/CD pipelines).
+USER user
+
+WORKDIR /workdir
+
+# Make Python commands available in all processes (CMD uses exec form, so ~/.bashrc is never sourced).
+ENV PATH="/home/user/.local/bin:${PATH}"
+
+COPY requirements.txt /workdir
+RUN pip install --user --no-cache-dir --upgrade pip
+RUN pip install --user --no-cache-dir --upgrade -r /workdir/requirements.txt

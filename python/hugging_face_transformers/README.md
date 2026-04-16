@@ -14,10 +14,6 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
 
-## Usage
-
-...
-
 ## Podman
 
 ### Build the Podman image
@@ -34,20 +30,36 @@ podman build -t snippets-hf-transformers:latest .
 
 ### Run a script using the Podman image
 
-```
-./run.sh smollm2-135m-instruct.py
-```
-
-or 
+On CPU:
 
 ```
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-hf-transformers:latest python3 smollm2-135m-instruct.py
+./run-cpu.sh smollm2-135m-instruct-cpu.py
+```
+
+On GPU:
+
+```
+./run-gpu.sh smollm2-135m-instruct-gpu.py
 ```
 
 To use Nvidia GPUs with Podman, check https://docs.nvidia.com/ai-enterprise/deployment/rhel-with-kvm/latest/podman.html#testing-podman-and-nvidia-container-runtime
 
 ### Transformers Chat CLI
 
+On CPU:
+
 ```
-podman run --rm -it localhost/snippets-hf-transformers:latest transformers-cli chat --model_name_or_path HuggingFaceTB/SmolLM2-135M-Instruct
+./run-serve-cpu.sh
+./run-chat-cli.sh  HuggingFaceTB/SmolLM2-135M-Instruct
+podman stop hf-transformers-serve
 ```
+
+On GPU:
+
+```
+./run-serve-gpu.sh
+./run-chat-cli.sh  HuggingFaceTB/SmolLM2-135M-Instruct
+podman stop hf-transformers-serve
+```
+
+You can replace `HuggingFaceTB/SmolLM2-135M-Instruct` with any other model, e.g. `HuggingFaceTB/SmolLM3-3B`.
