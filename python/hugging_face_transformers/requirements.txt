@@ -23,6 +23,7 @@ torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
 
 accelerate~=1.13.0     # Required by transformers cli (for GPU acceleration)
 bitsandbytes~=0.49.2   # Required by transformers cli (for 8-bit quantization)
+mistral-common[opencv] # Required by Mistral models
 requests~=2.33.1       # Required by transformers chat CLI
 rich~=15.0.0           # Required by transformers cli
 scipy~=1.17.1          # Required by bitsandbytes
