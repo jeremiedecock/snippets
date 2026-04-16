@@ -3,7 +3,7 @@
 {
 	"name": "snippets-langchain-vscode-devcontainer",
 	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
+		// Sets the run context to the .devcontainer folder.
 		// Note: The specified directory is relative to the ".devcontainer/" directory.
 		"context": ".",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
@@ -13,7 +13,10 @@
 
 	// Declare environment variables
 	// C.f. https://code.visualstudio.com/remote/advancedcontainers/environment-variables#_option-2-use-an-env-file
-	"runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
+	// "runArgs": [
+	// 	"--env-file",
+	// 	".devcontainer/devcontainer.env",
+	// ],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -22,8 +25,7 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
-	"postCreateCommand": "python3 -m pip install -r requirements.txt",
+	"postCreateCommand": "python3 -m pip install --user -r requirements.txt",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -36,13 +38,21 @@
 				"ms-python.mypy-type-checker",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"ms-toolsai.jupyter",
-				"ms-vscode.vscode-speech",
-				"ms-vscode.vscode-speech-language-pack-fr-fr"
+				"ms-toolsai.jupyter"
 			]
 		}
-	}
+	},
+
+	// // Mount a named volume to persist the Hugging Face model cache across rebuilds.
+	// "mounts": [
+	// 	"source=devcontainer-huggingface-cache,target=/home/user/.cache/huggingface,type=volume"
+	// ],
+
+	// Ensure ~/.local/bin is on the PATH (matches Containerfile ENV).
+	"remoteEnv": {
+		"PATH": "/home/user/.local/bin:${containerEnv:PATH}"
+	},
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
+	"remoteUser": "user"
 }
