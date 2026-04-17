@@ -1,6 +1,8 @@
 #!/bin/bash
 
 podman run \
+    --rm \
+    --name=vllm \
     --device nvidia.com/gpu=all \
     -v hf-cache:/root/.cache/huggingface \
     --ipc=host \
