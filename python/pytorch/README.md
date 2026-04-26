@@ -11,15 +11,6 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
 
-## Usage
-
-...
-
-## OpenAI API Key
-
-Create an API key on https://platform.openai.com/
-and write it in the `OPENAI_API_KEY` environment variable.
-
 ## Podman
 
 ### Build the Podman image
@@ -34,21 +25,21 @@ or
 podman build -t snippets-pytorch:latest .
 ```
 
-### Run a script using the Podman image on CPU
+### Run a script using the Podman image
+
+On CPU:
 
 ```
-./run.sh hello.py
+./run-cpu.sh hello.py
 ```
 
-or 
+On GPU:
 
 ```
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-pytorch:latest python3 hello.py
+./run-gpu.sh hello.py
 ```
 
-### Run a script using the Podman image on Nvidia GPUs
-
-#### Prerequisites
+#### Podman GPU prerequisites
 
 To enable GPU support in Podman, ensure NVIDIA Drivers are properly installed on the host.
 
@@ -81,24 +72,6 @@ nvidia.com/gpu:1
 ```
 
 These names will be used in the `--device` option when running containers.
-
-#### Run a script using the Podman image on Nvidia GPUs
-
-Execute a snippet on GPU:
-
-```
-./run-gpu.sh hello.py
-```
-
-or 
-
-```
-podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id --device nvidia.com/gpu=all localhost/snippets-pytorch:latest python3 hello_gpu.py
-```
-
-Note:
-- Replace `--device nvidia.com/gpu=all` with specific GPU IDs (e.g., `nvidia.com/gpu=0`) if needed.
-- Use the names listed in `nvidia-ctk cdi list` to ensure compatibility with your setup.
 
 
 #### Reference documentation

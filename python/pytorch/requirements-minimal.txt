@@ -1,8 +1,5 @@
-# This file lists all the dependencies that are required to run INF639 labs
-
 # To have more information about the format of this file, please refer to the
 # https://pip.pypa.io/en/stable/reference/requirements-file-format/
-
 
 # PyTorch #####################################################################
 
@@ -10,7 +7,14 @@
 # and with the appropriate CUDA version. Please refer to the official PyTorch
 # installation guide for more information: https://pytorch.org/get-started/locally/
 
-torch
-# torch --index-url https://download.pytorch.org/whl/cu124    # Linux CUDA 12.4 version
+# torch
+
+# As of April 2026, the NVIDIA driver version installed on Debian 13 is v550.163.01 with CUDA v12.4
+# (see https://wiki.debian.org/NvidiaGraphicsDrivers), but PyTorch 2.11.0 requires CUDA >= 12.6.
+# Therefore, an older version of PyTorch must be installed to remain compatible with CUDA v12.4.
+torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+# torch --index-url https://download.pytorch.org/whl/cu126    # Linux CUDA 12.6 version
 # torch --index-url https://download.pytorch.org/whl/cpu      # Linux CPU version
 

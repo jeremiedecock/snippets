@@ -6,4 +6,12 @@
 #
 # More info: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html#procedure
 
-podman run --rm -it -v hf-cache:/home/user/.cache/huggingface -v .:/workdir --userns=keep-id:uid=1000,gid=1000  --device nvidia.com/gpu=all  localhost/snippets-hf-transformers:latest python3 "$@"
+podman run \
+    --rm \
+    -it \
+    -v hf-cache:/home/user/.cache/huggingface \
+    -v .:/workdir \
+    --userns=keep-id:uid=1000,gid=1000 \
+    --device nvidia.com/gpu=all \
+    localhost/snippets-hf-transformers:latest python3 "$@"
+

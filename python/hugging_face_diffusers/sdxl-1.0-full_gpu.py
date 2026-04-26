@@ -7,19 +7,23 @@ import datetime
 import torch
 
 # load both base & refiner
-base = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-xl-base-1.0",
-                                         torch_dtype=torch.float16,
-                                         variant="fp16",
-                                         use_safetensors=True)
-base.to("cuda")
+base = DiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-xl-base-1.0",
+    torch_dtype=torch.float16,
+    variant="fp16",
+    use_safetensors=True
+)
+base.to("cuda:1")
 
-refiner = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-xl-refiner-1.0",
-                                            text_encoder_2=base.text_encoder_2,
-                                            vae=base.vae,
-                                            torch_dtype=torch.float16,
-                                            use_safetensors=True,
-                                            variant="fp16")
-refiner.to("cuda")
+refiner = DiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-xl-refiner-1.0",
+    text_encoder_2=base.text_encoder_2,
+    vae=base.vae,
+    torch_dtype=torch.float16,
+    use_safetensors=True,
+    variant="fp16"
+)
+refiner.to("cuda:1")
 
 # Define how many steps and what % of steps to be run on each experts (80/20) here
 n_steps = 40
