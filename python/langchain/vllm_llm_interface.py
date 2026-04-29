@@ -13,5 +13,5 @@ model = OpenAI(
     # max_tokens=128,
 )
 
-response = model.invoke("The sky is")
+response = model.invoke("The capital of France is")
 print(response)
