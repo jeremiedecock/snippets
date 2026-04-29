@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 
 model = ChatOpenAI()

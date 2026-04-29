@@ -6,6 +6,7 @@ ARG CONTAINER_GID=1000
 # Install git and clean up apt cache to reduce image size.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user.

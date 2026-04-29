@@ -45,10 +45,10 @@
 		}
 	},
 
-	// // Mount a named volume to persist the Hugging Face model cache across rebuilds.
-	// "mounts": [
-	// 	"source=devcontainer-huggingface-cache,target=/home/user/.cache/huggingface,type=volume"
-	// ],
+	// Mount a named volume to persist the Hugging Face model cache across rebuilds.
+	"mounts": [
+		"source=devcontainer-huggingface-cache,target=/home/user/.cache/huggingface,type=volume"
+	],
 
 	// Ensure ~/.local/bin is on the PATH (matches Containerfile ENV).
 	"remoteEnv": {

@@ -21,18 +21,21 @@ torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
 
 # Langchain ###################################################################
 
-langchain
-langchain-community
-langchain-huggingface
-langchain-openai
-langchain-postgres
-langchain-text-splitters
-sentence-transformers
-transformers
+langchain~=1.2.15
+langchain-community~=0.4.1
+langchain-huggingface~=1.2.2
+langchain-openai~=1.2.1
+langchain-postgres~=0.0.17
+langchain-text-splitters~=1.1.2
+sentence-transformers~=5.4.1
+transformers~=5.5.4
 
 
 # USEFUL TOOLS ################################################################
 
-# jupytext          # For Jupyter Notebook to Python script conversion
-# mypy              # For static type checking
-# ruff              # For code formatting and linting
+jupytext~=1.19.1          # For Jupyter Notebook to Python script conversion
+mypy~=1.20.2              # For static type checking
+# pandas-stubs      # Public type stubs for pandas. C.f. https://pandas.pydata.org/docs/whatsnew/v1.5.0.html#enhancements and https://github.com/pandas-dev/pandas-stubs
+ruff~=0.15.12             # For code formatting and linting
+# types-seaborn     # Type hints for seaborn
+# types-tqdm        # Type hints for tqdm
