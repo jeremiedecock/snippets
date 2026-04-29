@@ -22,8 +22,11 @@ torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
 # Langchain ###################################################################
 
 langchain~=1.2.15
+langchain-anthropic             # https://docs.langchain.com/oss/python/integrations/providers/anthropic
 langchain-community~=0.4.1
+langchain-google-genai          # https://docs.langchain.com/oss/python/integrations/providers/google#google-generative-ai-gemini-api-and-vertex-ai
 langchain-huggingface~=1.2.2
+langchain-mistralai~=1.1.2      # https://docs.langchain.com/oss/python/integrations/providers/mistralai
 langchain-openai~=1.2.1
 langchain-postgres~=0.0.17
 langchain-text-splitters~=1.1.2

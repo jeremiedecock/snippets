@@ -9,4 +9,3 @@ prompt = [HumanMessage("What is the capital of France?")]
 output = model.invoke(prompt)
 
 print(f"Input: {prompt}\nOutput: {output}")
-
