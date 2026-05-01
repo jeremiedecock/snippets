@@ -7,6 +7,15 @@
 
 ## Installation
 
+### PyTorch configuration
+
+Before installing the dependencies, edit `requirements.txt` to select the appropriate PyTorch variant:
+
+- **CPU only**: uncomment the `torch --index-url https://download.pytorch.org/whl/cpu` line and comment out the GPU lines.
+- **GPU (CUDA)**: uncomment the line matching your installed CUDA version (e.g. `cu124` for CUDA 12.4, `cu126` for CUDA 12.6). If you need a specific PyTorch version, pin it explicitly (e.g. `torch==2.6.0`). You can check which CUDA version is available on your system by running `nvidia-smi` or `nvcc --version`. Refer to the [official PyTorch installation guide](https://pytorch.org/get-started/locally/) for the full list of supported CUDA versions.
+
+### Install dependencies
+
 From this directory:
 
 ```
@@ -16,16 +25,59 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 ```
 
+
 ## Usage
 
 ...
 
-## OpenAI API Key
+## API Keys
+
+### OpenAI
 
 Create an API key on https://platform.openai.com/
-and write it in the `OPENAI_API_KEY` environment variable.
+and write it in the `OPENAI_API_KEY` environment variable (or in the `.devcontainer/.env` file if using the Dev Container).
 
-## Podman
+### Anthropic Claude
+
+Create an API key on https://platform.claude.com/ and write it in the `ANTHROPIC_API_KEY` environment variable (or in the `.devcontainer/.env` file if using the Dev Container).
+
+### Google Gemini
+
+Create an API key on https://ai.google.dev/api and write it in the `GOOGLE_API_KEY` environment variable (or in the `.devcontainer/.env` file if using the Dev Container).
+
+### Mistral
+
+Create an API key on https://console.mistral.ai/ (c.f. https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request) and write it in the `MISTRAL_API_KEY` environment variable (or in the `.devcontainer/.env` file if using the Dev Container).
+
+
+## VS Code Dev Container
+
+### Enable or disable GPU support
+
+To control whether the Dev Container can access Nvidia GPUs, edit `.devcontainer/devcontainer.json` and comment or uncomment the two lines below inside the `"runArgs"` array:
+
+```jsonc
+"--device",
+"nvidia.com/gpu=all"
+```
+
+- **Enable GPU**: leave those two lines uncommented.
+- **Disable GPU** (CPU-only): comment them out so the container starts without any GPU device.
+
+After changing this setting, rebuild the container (VS Code command: **Dev Containers: Rebuild Container**) for it to take effect.
+
+> **Warning — Podman required as the container engine**
+>
+> The `--device nvidia.com/gpu=all` syntax relies on CDI (Container Device Interface), which is a Podman feature. It will **not** work with Docker.
+>
+> To configure VS Code to use Podman instead of Docker, open the VS Code settings (File › Preferences › Settings, or `Ctrl+,`), search for **"docker path"**, and set **Dev › Containers: Docker Path** (`dev.containers.dockerPath`) to `podman`.
+>
+> If you are using Docker as the container engine, you must replace the `--device` option with the Docker/NVIDIA equivalent (e.g. `--gpus all` via the NVIDIA Container Toolkit for Docker).
+
+See the [Run a script using the Podman image on Nvidia GPUs](#run-a-script-using-the-podman-image-on-nvidia-gpus) section below for details on how to set up GPU support in Podman via the CDI (Container Device Interface).
+
+
+## Podman (Linux only)
 
 ### Build the Podman image
 
