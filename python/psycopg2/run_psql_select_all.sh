@@ -8,5 +8,5 @@ fi
 
 podman exec \
     -it \
-    postgres \
+    postgres-psycopg2-snippets \
     psql -U user -d snippetsdb -c "SELECT * FROM $1;"

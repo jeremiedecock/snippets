@@ -7,11 +7,11 @@ fi
 
 podman cp \
     "$1" \
-    postgres:/tmp/snippetsdb.dump
+    postgres-psycopg2-snippets:/tmp/snippetsdb.dump
 
 podman exec \
     -t \
-    postgres \
+    postgres-psycopg2-snippets \
     pg_restore -U user -d snippetsdb --clean --if-exists -F c /tmp/snippetsdb.dump
 
 echo "Database restored from: $1"

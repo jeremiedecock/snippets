@@ -18,11 +18,11 @@
 podman run \
     -it \
     --rm \
-    --name postgres \
+    --name postgres-psycopg2-snippets \
     -e POSTGRES_USER=user \
     -e POSTGRES_PASSWORD=pass \
     -e POSTGRES_DB=snippetsdb \
     -e TZ=Europe/Paris \
     -p 5432:5432 \
-    -v postgres_data:/var/lib/postgresql \
+    -v postgres_psycopg2_snippets_data:/var/lib/postgresql \
     docker.io/library/postgres:18.3-trixie
