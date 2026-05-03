@@ -10,7 +10,7 @@ Comparison of drivers: https://wiki.postgresql.org/wiki/Python
 2. Run the following command in a terminal to start a PostgreSQL container:
 
 ```
-./run_postgres.sh
+./run_psql_server.sh
 ```
 
 or
