@@ -3,7 +3,7 @@
 from typing import Optional
 
 import datetime
-from sqlalchemy import Column, DateTime, func
+from sqlalchemy import Column, DateTime
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from uuid import UUID, uuid4
 
@@ -21,7 +21,7 @@ class Hero(SQLModel, table=True):
         primary_key=True
     )
     # See https://github.com/fastapi/sqlmodel/issues/594#issuecomment-1575344153 and https://stackoverflow.com/a/71336392
-    created_at_utc: datetime.datetime = Field(
+    created_at: datetime.datetime = Field(
         default_factory=lambda: datetime.datetime.now(datetime.timezone.utc),    # Create a timezone-aware datetime object
         sa_column=Column(DateTime(timezone=True), nullable=False)                # Force SQLAlchemy to use a timezone-aware column type
     )
