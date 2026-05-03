@@ -2,7 +2,10 @@
 
 from typing import Optional
 
+import datetime
+from sqlalchemy import Column, DateTime, func
 from sqlmodel import Field, Session, SQLModel, create_engine, select
+from uuid import UUID, uuid4
 
 import secret
 
@@ -13,17 +16,24 @@ import secret
 # Create a SQLModel Model
 
 class Hero(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    uuid: UUID = Field(
+        default_factory=uuid4,
+        primary_key=True
+    )
+    # See https://github.com/fastapi/sqlmodel/issues/594#issuecomment-1575344153 and https://stackoverflow.com/a/71336392
+    created_at_utc: datetime.datetime = Field(
+        default_factory=lambda: datetime.datetime.now(datetime.timezone.utc),    # Create a timezone-aware datetime object
+        sa_column=Column(DateTime(timezone=True), nullable=False)                # Force SQLAlchemy to use a timezone-aware column type
+    )
     name: str
-    secret_name: str
     age: Optional[int] = None
 
 
 # Create Rows
 
-hero_1 = Hero(name="Deadpond", secret_name="Dive Wilson")
-hero_2 = Hero(name="Spider-Boy", secret_name="Pedro Parqueador")
-hero_3 = Hero(name="Rusty-Man", secret_name="Tommy Sharp", age=48)
+hero_1 = Hero(name="Deadpond")
+hero_2 = Hero(name="Spider-Boy")
+hero_3 = Hero(name="Rusty-Man", age=48)
 
 
 # Write to the Database
