@@ -16,7 +16,7 @@ Comparison of drivers: https://wiki.postgresql.org/wiki/Python
 or
 
 ```
-podman run -it --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=testdb -p 5432:5432 docker.io/library/postgres
+podman run -it --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=snippetsdb -p 5432:5432 docker.io/library/postgres
 ```
 
 See [Official Docker images on Docker Hub](https://hub.docker.com/_/postgres/).
