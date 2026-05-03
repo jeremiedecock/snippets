@@ -13,13 +13,7 @@ Comparison of drivers: https://wiki.postgresql.org/wiki/Python
 ./run_psql_server.sh
 ```
 
-or
-
-```
-podman run -it --rm --name postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=snippetsdb -p 5432:5432 docker.io/library/postgres
-```
-
-See [Official Docker images on Docker Hub](https://hub.docker.com/_/postgres/).
+See [Official Docker images on Docker Hub](https://hub.docker.com/_/postgres/) and [its documentation](https://github.com/docker-library/docs/blob/master/postgres/README.md).
 
 ## Run the snippets within a VSCode Dev Container
 
@@ -32,4 +26,4 @@ See [Official Docker images on Docker Hub](https://hub.docker.com/_/postgres/).
 
 1. Ensure you have [Podman](https://podman.io/getting-started/installation) installed on your machine.
 2. Build the Podman image using the provided `Containerfile`. Run the following command in a terminal: `./build.sh` or `podman build -t snippets-psycopg:latest .`
-3. Run FastAPI in a Podman container. Run the following command in a terminal: `./run.sh hello.py` or `podman run --rm -it -v .:/app -w /app -u $(id -u):$(id -g) --userns=keep-id localhost/snippets-psycopg:latest python3 hello.py`
+3. Run FastAPI in a Podman container. Run the following command in a terminal: `./run.sh hello.py`
