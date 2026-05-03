@@ -2,4 +2,5 @@
 
 podman exec \
     -it \
-    postgres psql -U user -d snippetsdb
+    postgres \
+    psql -U user -d snippetsdb

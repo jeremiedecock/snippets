@@ -9,4 +9,4 @@ fi
 podman exec \
     -it \
     postgres \
-    psql -U user -d snippetsdb -c "SELECT * FROM $1;"
+    psql -U user -d snippetsdb -c "\d $1;"
