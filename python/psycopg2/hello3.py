@@ -30,15 +30,15 @@ cur = conn.cursor()
 
 
 # EXECUTE A COMMAND: THIS CREATES A NEW TABLE
-# - id         : randomly generated UUID (gen_random_uuid(), native PostgreSQL 13+)
+# - id         : randomly generated UUID (uuidv4(), native PostgreSQL 13+)
 # - created_at : timezone-aware timestamp (TIMESTAMPTZ)
 
 try:
     cur.execute(
         sql.SQL(
             "CREATE TABLE {} ("
-            "  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), "
-            "  created_at timestamptz NOT NULL DEFAULT NOW()"
+            "  id uuid PRIMARY KEY DEFAULT uuidv4(), "
+            "  created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP"
             ");"
         ).format(sql.Identifier(TABLE_NAME))
     )
