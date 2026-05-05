@@ -1,0 +1,11 @@
+FROM docker.io/library/debian:stable-slim
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends unbound \
+ && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 53/udp
+EXPOSE 53/tcp
+
+ENTRYPOINT ["unbound"]
+CMD ["-d", "-c", "/etc/unbound/unbound.conf"]

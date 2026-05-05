@@ -1,0 +1,14 @@
+$TTL 60
+@   IN  SOA ns.jdhp.org. admin.jdhp.org. (
+            2024010101 ; Serial
+            3600       ; Refresh
+            900        ; Retry
+            604800     ; Expire
+            60 )       ; Minimum TTL
+
+@   IN  NS  ns.jdhp.org.
+
+ns  IN  A   127.0.0.1
+
+foo IN  A   192.168.0.1
+bar IN  A   192.168.0.2

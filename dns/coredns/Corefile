@@ -1,0 +1,8 @@
+. {
+  hosts {
+    192.168.0.1 foo.jdhp.org
+    192.168.0.2 bar.jdhp.org
+  }
+  log
+  errors
+}
