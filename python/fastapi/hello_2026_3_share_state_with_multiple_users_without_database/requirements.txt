@@ -3,6 +3,6 @@
 # To have more information about the format of this file, please refer to the
 # https://pip.pypa.io/en/stable/reference/requirements-file-format/
 
-fastapi[standard] ~= 0.112.0
-# pydantic ~= 2.12.5
+fastapi[standard] ~= 0.136.3
+# pydantic ~= 2.13.4
 requests   # https://requests.readthedocs.io/en/latest/ (to test the API with client.py)

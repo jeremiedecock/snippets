@@ -28,4 +28,4 @@ RUN pip install --user --no-cache-dir --upgrade -r /workdir/requirements.txt
 
 EXPOSE 8000
 
-CMD ["fastapi", "dev", "main.py", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+CMD ["fastapi", "dev", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
