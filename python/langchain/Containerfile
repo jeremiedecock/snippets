@@ -3,10 +3,12 @@ FROM python:3.12-slim
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
 
-# # Install git and clean up apt cache to reduce image size.
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#    git \
-#    && rm -rf /var/lib/apt/lists/*
+# Install git and clean up apt cache to reduce image size.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    libxcb1 \
+   && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user.
 RUN groupadd --gid ${CONTAINER_GID} user \

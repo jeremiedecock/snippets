@@ -24,7 +24,7 @@ class Movie(BaseModel):
 
 model = ChatOpenAI(
     base_url=API_URL,
-    api_key="",         # vLLM does not require an API key, but the OpenAI class requires this parameter, so we can just pass an empty string
+    api_key="no-key-required",  # vLLM does not require an API key, but the OpenAI class requires a non-empty value
     model="Qwen/Qwen3-0.6B",
 )
 model_with_structure = model.with_structured_output(Movie, include_raw=True)

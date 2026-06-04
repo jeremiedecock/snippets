@@ -7,6 +7,9 @@ ARG CONTAINER_GID=1000
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
+    libgl1 \
+    libglib2.0-0 \
+    libxcb1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user.

@@ -23,17 +23,20 @@ torchvision --index-url https://download.pytorch.org/whl/cpu      # Linux CPU ve
 
 # Langchain ###################################################################
 
-langchain~=1.2.15
-langchain-anthropic~=1.4.2      # https://docs.langchain.com/oss/python/integrations/providers/anthropic
-langchain-community~=0.4.1
-langchain-google-genai~=4.2.2   # https://docs.langchain.com/oss/python/integrations/providers/google#google-generative-ai-gemini-api-and-vertex-ai
+beautifulsoup4~=4.14.3          # For HTML parsing, used by some document loaders and text splitters
+langchain~=1.3.2
+langchain-anthropic~=1.4.4      # https://docs.langchain.com/oss/python/integrations/providers/anthropic
+langchain-community~=0.4.2
+langchain-docling~=2.0.0
+langchain-google-genai~=4.2.4   # https://docs.langchain.com/oss/python/integrations/providers/google#google-generative-ai-gemini-api-and-vertex-ai
 langchain-huggingface~=1.2.2
-langchain-mistralai~=1.1.2      # https://docs.langchain.com/oss/python/integrations/providers/mistralai
-langchain-openai~=1.2.1
+langchain-mistralai~=1.1.4      # https://docs.langchain.com/oss/python/integrations/providers/mistralai
+langchain-openai~=1.2.2
 langchain-postgres~=0.0.17
 langchain-text-splitters~=1.1.2
-sentence-transformers~=5.4.1
-transformers~=5.5.4
+pypdf~=6.12.2                   # For PDF parsing, used by some document loaders
+sentence-transformers~=5.5.1
+transformers~=5.9.0
 
 
 # USEFUL TOOLS ################################################################

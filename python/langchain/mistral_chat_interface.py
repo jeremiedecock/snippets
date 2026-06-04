@@ -14,8 +14,8 @@ if "MISTRAL_API_KEY" not in os.environ:
 # Models overview: https://docs.mistral.ai/models/overview
 model = ChatMistralAI(
     # model="mistral-large-latest",
-    # model="ministral-8b-2512",
-    model="mistral-small-2603",
+    model="ministral-8b-2512",
+    # model="mistral-small-2603",
 )
 
 prompt = [
