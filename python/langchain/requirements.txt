@@ -34,6 +34,7 @@ langchain-mistralai~=1.1.4      # https://docs.langchain.com/oss/python/integrat
 langchain-openai~=1.2.2
 langchain-postgres~=0.0.17
 langchain-text-splitters~=1.1.2
+psycopg2-binary
 pypdf~=6.12.2                   # For PDF parsing, used by some document loaders
 sentence-transformers~=5.5.1
 transformers~=5.9.0
