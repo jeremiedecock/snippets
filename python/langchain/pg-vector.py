@@ -22,18 +22,11 @@ from secret import DBHOST, DBNAME, DBUSER, DBPASSWORD, DBPORT
 
 
 # See docker command above to launch a postgres instance with pgvector enabled.
-# connection = f"postgresql+psycopg://langchain:langchain@localhost:{DBPORT}/langchain"
-
-connection = psycopg2.connect(
-    host=DBHOST,
-    database=DBNAME,
-    user=DBUSER,
-    password=DBPASSWORD,
-)
+connection = f"postgresql+psycopg://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
 
 # Load the document, split it into chunks
 raw_documents = TextLoader('./test.txt', encoding="utf-8").load()
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
 documents = text_splitter.split_documents(raw_documents)
 
 # Create embeddings for the documents
