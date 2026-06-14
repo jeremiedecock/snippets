@@ -4,7 +4,14 @@ ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl git ripgrep ca-certificates \
+    ca-certificates \
+    chromium \
+    curl \
+    gh \
+    git \
+    neovim \
+    npm \
+    ripgrep \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid ${CONTAINER_GID} user \

@@ -10,4 +10,4 @@ podman run --rm -it \
     -v claude-code-home:/home/user \
     --userns=keep-id:uid=${CONTAINER_UID},gid=${CONTAINER_GID} \
     localhost/claude-code-cli:latest \
-    claude
+    claude $@
