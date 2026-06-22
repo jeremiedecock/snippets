@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     neovim \
     npm \
+    pipx \
+    python3-pip \
     ripgrep \
     && rm -rf /var/lib/apt/lists/*
 
