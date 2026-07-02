@@ -7,7 +7,7 @@
 
 from langchain_community.document_loaders import TextLoader
 from langchain_mistralai import MistralAIEmbeddings
-from langchain_postgres.vectorstores import PGVector
+from langchain_postgres import PGVector
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from secret import DBHOST, DBNAME, DBUSER, DBPASSWORD, DBPORT

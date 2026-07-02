@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 
 # - https://github.com/langchain-ai/langchain-postgres/
-# - [PGVector integration - Docs by LangChain](https://docs.langchain.com/oss/python/integrations/vectorstores/pgvector)
-# - [PGVector | langchain_postgres | LangChain Reference](https://reference.langchain.com/python/langchain-postgres/vectorstores/PGVector)
+# - https://docs.langchain.com/oss/python/integrations/vectorstores/pgvectorstore
+#
+# Note: `langchain_postgres.PGVector` is deprecated since `langchain-postgres` v0.0.14.
+# This script uses its replacement, `langchain_postgres.PGVectorStore`.
 
 from langchain_core.documents import Document
 from langchain_mistralai import MistralAIEmbeddings
-from langchain_postgres import PGVector
+from langchain_postgres import PGEngine, PGVectorStore
 
 from secret import DBHOST, DBNAME, DBUSER, DBPASSWORD, DBPORT
 
@@ -24,19 +26,27 @@ documents = [
 # Instantiate the embeddings model ############################################
 
 embeddings_model = MistralAIEmbeddings(model="mistral-embed")
+VECTOR_SIZE = 1024  # Dimension of the "mistral-embed" embeddings
 
 
-# Store embeddings in PGVector ################################################
+# Store embeddings in PGVectorStore ###########################################
 
 # See docker command above to launch a postgres instance with pgvector enabled.
 connection = f"postgresql+psycopg://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
-collection_name = "my_documents_collection"  # You can choose a name for your collection
+table_name = "my_documents_collection"  # You can choose a name for your table
 
-store = PGVector(
-    embeddings=embeddings_model,
-    collection_name=collection_name,
-    connection=connection,
-    use_jsonb=True,
+engine = PGEngine.from_connection_string(url=connection)
+
+# Create the table if it doesn't already exist. This only needs to be done once.
+engine.init_vectorstore_table(
+    table_name=table_name,
+    vector_size=VECTOR_SIZE,
+)
+
+store = PGVectorStore.create_sync(
+    engine=engine,
+    table_name=table_name,
+    embedding_service=embeddings_model,
 )
 
 store.add_documents(documents)
