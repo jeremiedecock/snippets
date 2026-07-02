@@ -7,3 +7,4 @@ TEXT = """Hello, this is a sample text that will be converted into a Document ob
 doc = Document(TEXT)
 
 print(doc)
+print(doc.page_content)

@@ -2,7 +2,9 @@
 
 # Src: https://github.com/langchain-ai/learning-langchain/tree/master/ch2/py
 
-# C.f.: https://docs.langchain.com/oss/python/integrations/embeddings/mistralai
+# C.f.:
+# - https://reference.langchain.com/python/langchain-core/embeddings/embeddings/Embeddings
+# - https://docs.langchain.com/oss/python/integrations/embeddings/mistralai
 
 from langchain_mistralai import MistralAIEmbeddings
 
