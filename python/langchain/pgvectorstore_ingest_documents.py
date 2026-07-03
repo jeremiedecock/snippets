@@ -55,16 +55,16 @@ store.add_documents(documents)
 # Query the vector store ######################################################
 
 query = "I'd like a fruit."
-docs = store.similarity_search(
+retrieved_documents = store.similarity_search(
     query,
-    k=1    # Number of results to return. Defaults to 4.
+    k=1    # Number of similar documents to return. Defaults to 4.
 )
-print(docs)
+print(retrieved_documents)
 
 
 query = "I'd like a bike."
-docs = store.similarity_search(
+retrieved_documents = store.similarity_search(
     query,
-    k=1    # Number of results to return. Defaults to 4.
+    k=1    # Number of similar documents to return. Defaults to 4.
 )
-print(docs)
+print(retrieved_documents)
