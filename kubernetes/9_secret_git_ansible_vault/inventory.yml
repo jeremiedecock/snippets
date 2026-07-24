@@ -1,0 +1,8 @@
+---
+# Nothing is deployed *over SSH* here: the playbook runs locally and talks to
+# the Kubernetes API, using the same kubeconfig as kubectl.
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"

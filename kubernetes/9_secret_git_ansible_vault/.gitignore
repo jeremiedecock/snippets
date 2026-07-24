@@ -1,0 +1,2 @@
+# The vault password must never be committed — it decrypts every secret.
+.vault_pass

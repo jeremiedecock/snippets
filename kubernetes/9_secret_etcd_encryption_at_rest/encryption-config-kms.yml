@@ -1,0 +1,25 @@
+# NOT a manifest: same as encryption-config.yml, this is a kube-apiserver
+# configuration file passed with --encryption-provider-config=...
+#
+# The production option: envelope encryption. The API server generates data
+# encryption keys locally, but they are themselves encrypted by a key that
+# never leaves the external KMS — so no usable key material sits on the
+# control-plane disk.
+#
+# It requires a KMS plugin running next to the API server (as a static Pod or a
+# host process), exposing a gRPC socket. Cloud providers ship their own; for
+# HashiCorp Vault see https://falcosuessgott.github.io/vault-kubernetes-kms/
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+  - resources:
+      - secrets
+    providers:
+      - kms:
+          # KMS v2: GA since Kubernetes 1.29. v1 is deprecated (1.28) and
+          # disabled by default (1.29) — do not start a new setup on it.
+          apiVersion: v2
+          name: myKmsProvider
+          endpoint: unix:///var/run/kmsplugin/socket.sock
+          timeout: 3s
+      - identity: {}

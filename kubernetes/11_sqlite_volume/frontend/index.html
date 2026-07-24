@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hello fullstack</title>
+</head>
+<body>
+  <h1>Hello fullstack</h1>
+  <input id="message" placeholder="Type a message">
+  <button id="save">Save</button>
+  <button id="read">Read</button>
+  <p id="result"></p>
+  <script>
+    const result = document.getElementById("result");
+
+    document.getElementById("save").addEventListener("click", async () => {
+      const message = document.getElementById("message").value;
+      const response = await fetch("/api/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message}),
+      });
+      const data = await response.json();
+      result.textContent = `saved "${data.saved}" (handled by ${data.served_by})`;
+    });
+
+    document.getElementById("read").addEventListener("click", async () => {
+      const response = await fetch("/api/");
+      const data = await response.json();
+      result.textContent = `"${data.message}" (served by ${data.served_by})`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hello fullstack</title>
+</head>
+<body>
+  <h1>Hello fullstack</h1>
+  <button id="ask">Ask the backend</button>
+  <p id="result"></p>
+  <script>
+    document.getElementById("ask").addEventListener("click", async () => {
+      const response = await fetch("/api/");
+      const data = await response.json();
+      document.getElementById("result").textContent = data.message;
+    });
+  </script>
+</body>
+</html>

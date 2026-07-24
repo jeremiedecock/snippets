@@ -1,0 +1,11 @@
+# SOPS reads this file automatically and applies the first matching rule.
+# It contains only a *public* key: safe to commit, and anyone can use it to
+# encrypt without being able to decrypt.
+creation_rules:
+  - path_regex: secret\.enc\.yml$
+    # `encrypted_regex` is the key setting for Kubernetes manifests: encrypt
+    # only the values under `data`/`stringData`, and leave apiVersion, kind,
+    # metadata... in the clear, so the file stays a readable, reviewable,
+    # kubectl-parseable manifest.
+    encrypted_regex: ^(data|stringData)$
+    age: age169mnf2y4tuj63ggmq6y60h9mkgw7cuml9kwxazeqwcv0hygfzu2qgs4zcx

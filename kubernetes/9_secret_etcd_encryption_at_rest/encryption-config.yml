@@ -1,0 +1,33 @@
+# NOT a manifest: do not `kubectl apply` this file.
+#
+# This is a kube-apiserver configuration file. It must be placed on the
+# control-plane machines (e.g. /etc/kubernetes/enc/encryption-config.yml) and
+# passed to the API server with:
+#
+#     --encryption-provider-config=/etc/kubernetes/enc/encryption-config.yml
+#
+# This variant uses a *local* provider: the key lives in this file, on the
+# control-plane disk. It protects stolen etcd backups, not a compromised
+# control-plane node. See encryption-config-kms.yml for the production option.
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+  - resources:
+      - secrets
+      # Worth adding: ConfigMaps often end up holding sensitive values too, and
+      # `*.` / `*.*` encrypt every resource type.
+    providers:
+      # First provider = the one used to *write*. secretbox is authenticated
+      # encryption (XSalsa20-Poly1305); aescbc is unauthenticated CBC and
+      # belongs to a weaker class, though it remains the default in k3s/RKE2
+      # and the option to pick when FIPS 140-2 compliance is required.
+      - secretbox:
+          keys:
+            - name: key1
+              # 32 random bytes, base64-encoded — generate with:
+              #     head -c 32 /dev/urandom | base64
+              secret: REPLACE_ME_WITH_A_RANDOM_32_BYTE_KEY
+      # Fallback for reading: without it, Secrets written before encryption was
+      # enabled become unreadable. Keeping `identity` *first* would instead mean
+      # "write everything in plaintext".
+      - identity: {}

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hello
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      # Vault identifies the workload by its ServiceAccount token, so the role
+      # created in Vault is bound to this exact name (and namespace).
+      serviceAccountName: hello
+      containers:
+        - image: docker.io/your-username/hello-fastapi:3.1
+          name: hello
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: hello
+                  key: message
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
+      volumes:
+        - name: secrets
+          csi:
+            # Note the driver name (`csi.k8s.io`) differs from the API group of
+            # the SecretProviderClass (`csi.x-k8s.io`) — a classic typo trap.
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: hello

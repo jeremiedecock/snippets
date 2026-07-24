@@ -1,0 +1,34 @@
+---
+- name: Deploy the hello app
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars/secrets.yml
+
+  tasks:
+    - name: Apply the non-sensitive manifests
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ item }}"
+      loop:
+        - manifests/configmap.yml
+        - manifests/service.yml
+        - manifests/deployment.yml
+
+    - name: Apply the Secret rendered from the vault-encrypted value
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('template', 'manifests/secret.yml.j2') | from_yaml }}"
+      # Without no_log, the decrypted token would appear in the output of any
+      # verbose or failed run — and in the CI logs.
+      no_log: true
+
+    - name: Wait for the rollout to complete
+      kubernetes.core.k8s_info:
+        kind: Deployment
+        name: hello
+        namespace: default
+        wait: true
+        wait_condition:
+          type: Available
+          status: "True"
