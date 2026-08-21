@@ -6,8 +6,3 @@ spec:
   containers:
     - image: docker.io/library/nginx:stable-alpine-slim
       name: hello
-      imagePullPolicy: Always
-      ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
