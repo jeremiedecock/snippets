@@ -5,4 +5,4 @@ podman run \
     -it \
     -v .:/workdir \
     --userns=keep-id:uid=1000,gid=1000 \
-    localhost/snippets-copier:latest "$@"
+    localhost/snippets-copier:latest copier "$@"

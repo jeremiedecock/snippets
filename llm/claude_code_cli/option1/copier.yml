@@ -1,0 +1,60 @@
+# Copier template configuration — containerized Claude Code, OPTION 1:
+# shared authentication directory (host bind-mount).
+#
+# See README.md for usage, and https://copier.readthedocs.io/ for Copier.
+
+_min_copier_version: "9.0.0"
+
+# Only the content of template/ is rendered into the destination project;
+# this file and README.md are not copied.
+_subdirectory: template
+
+_message_after_copy: |
+
+  Containerized Claude Code environment generated (option 1: shared auth directory).
+
+  Next steps:
+    1. cd into the project and run:  ./claude.sh
+       (the first run builds the image — a few minutes)
+    2. Authentication is asked only if the shared directory
+       ({{ claude_host_dir }}) holds no token yet — once, for ALL projects.
+
+project_name:
+  type: str
+  help: >-
+    Project name — used for the container image name, the container hostname
+    and the unique workspace mount path (lowercase letters, digits, '-', '_', '.')
+  placeholder: my-project
+  validator: >-
+    {% if not (project_name | regex_search('^[a-z0-9][a-z0-9_.-]*$')) %}
+    Must start with a lowercase letter or digit and contain only lowercase
+    letters, digits, '-', '_' and '.' (e.g. my-project)
+    {% endif %}
+
+image_name:
+  type: str
+  help: >-
+    Container image name. Each project builds its own image by default; point
+    several projects at the same name to share one image.
+  default: "localhost/{{ project_name }}:latest"
+
+container_workspace:
+  type: str
+  help: >-
+    Mount path of the project inside the container. MUST be unique per project:
+    Claude Code keys its per-project state (history, --continue/--resume,
+    folder trust, permissions) on this path, and the config directory is
+    shared by all projects.
+  default: "/workspace/{{ project_name }}"
+  validator: >-
+    {% if not container_workspace.startswith('/') %}
+    Must be an absolute path (e.g. /workspace/my-project)
+    {% endif %}
+
+claude_host_dir:
+  type: str
+  help: >-
+    Host directory holding the shared Claude Code authentication/state (a shell
+    expression, evaluated when claude.sh runs). MUST be the same for all
+    projects — that is what makes the login shared.
+  default: "${XDG_CONFIG_HOME:-${HOME}/.config}/claude-containers"
