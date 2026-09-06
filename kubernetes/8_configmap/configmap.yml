@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hello
-data:
-  message: Hello from the ConfigMap!

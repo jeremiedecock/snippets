@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello
+spec:
+  containers:
+    - image: docker.io/library/nginx:stable-alpine-slim
+      name: hello
+      env:
+        - name: HELLO
+          valueFrom:
+            configMapKeyRef:
+              name: hello
+              key: message1

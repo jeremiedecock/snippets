@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      containers:
+        - image: docker.io/library/nginx:stable-alpine-slim
+          name: hello
+          env:
+            - name: HELLO
+              valueFrom:
+                configMapKeyRef:
+                  name: hello
+                  key: message1
