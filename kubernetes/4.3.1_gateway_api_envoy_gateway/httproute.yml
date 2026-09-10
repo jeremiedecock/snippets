@@ -6,10 +6,10 @@ spec:
   parentRefs:
     - name: hello
   rules:
-    - matches:
+    - backendRefs:
+        - name: hello
+          port: 80
+      matches:
         - path:
             type: PathPrefix
             value: /
-      backendRefs:
-        - name: hello
-          port: 80

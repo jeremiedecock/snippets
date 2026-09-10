@@ -1,5 +1,5 @@
 1. Créer un PAT (https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic)
-    - Scope: `read:packages`, `write:packages`, `delete:packages`
+    - Scope: `read:packages`, `write:packages`, `delete:packages`, `repo`
     - Copier le token dans `.bashrc`: `export GHCR_TOKEN=ghp_...`
     - `echo $GHCR_TOKEN | podman login ghcr.io -u USERNAME --password-stdin`
 2. Build and push the image to GitHub Container Registry (https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#pushing-container-images)

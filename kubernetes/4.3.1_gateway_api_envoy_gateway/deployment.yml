@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: hello
@@ -15,7 +15,6 @@ spec:
       containers:
         - image: docker.io/library/nginx:stable-alpine-slim
           name: hello
-          imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: http
