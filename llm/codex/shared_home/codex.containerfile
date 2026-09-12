@@ -34,11 +34,14 @@ USER user
 ENV HOME=/home/user \
     NPM_CONFIG_PREFIX=/home/user/.local \
     PATH="/home/user/.local/bin:${PATH}" \
-    LANG=C.UTF-8
+    LANG=C.UTF-8 \
+    EDITOR=nvim
+
+# Pre-create the mount point so that it belongs to 'user'
+RUN mkdir -p "${HOME}/.local" "${HOME}/.codex"
 
 # Install Codex
-RUN mkdir -p "${HOME}/.local" "${HOME}/.codex" \
- && npm install --global @openai/codex \
+RUN npm install --global @openai/codex \
  && codex --version
 
 WORKDIR /workspace

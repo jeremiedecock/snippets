@@ -12,4 +12,4 @@ podman run --rm -it \
     -v .:/workspace \
     -v codex-home:/home/user/.codex \
     localhost/codex-cli:latest \
-    codex -c 'cli_auth_credentials_store="file"'
+    codex -c 'cli_auth_credentials_store="file"' "$@"
