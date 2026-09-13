@@ -34,9 +34,10 @@ USER user
 # - PATH: make `claude` available in all processes (CMD uses exec form, so ~/.bashrc is never sourced)
 # - EDITOR: use Neovim for editing long prompts from terminal agents such as Codex CLI
 # - CLAUDE_CONFIG_DIR: keep ALL Claude Code state (OAuth token in .credentials.json,
-#   .claude.json, settings, history...) in a single directory, bind-mounted from the host.
+#   .claude.json, settings, history...) in a single directory, backed by a named Podman
+#   volume (`claude-home` by default, see `run.sh`) so it survives the `--rm` container.
 #   C.f. https://code.claude.com/docs/en/devcontainer.md#persist-authentication-and-settings-across-rebuilds
-# - DISABLE_AUTOUPDATER: the CLI version is managed by the image (run `./claude.sh --build`
+# - DISABLE_AUTOUPDATER: the CLI version is managed by the image (run `./build.sh --update`
 #   to update); auto-updates would be lost when the container exits anyway
 ENV HOME=/home/user \
     PATH="/home/user/.local/bin:${PATH}" \
@@ -50,7 +51,7 @@ ENV HOME=/home/user \
 RUN mkdir -p "${HOME}/.local" "${HOME}/.claude"
 
 # Install Claude Code CLI into the image (~/.local/bin/claude).
-# CACHEBUST is set to the current date by `./claude.sh --build` to force this
+# CACHEBUST is set to the current timestamp by `./build.sh --update` to force this
 # layer to re-run (i.e. update Claude Code) without rebuilding the layers above.
 ARG CACHEBUST=0
 RUN echo "cachebust=${CACHEBUST}" \
