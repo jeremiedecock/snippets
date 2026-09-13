@@ -54,6 +54,43 @@ name to the Envoy Gateway controller:
 kubectl apply -f gateway-class.yml
 ```
 
+This installs no software (no Pod, no Deployment): it only creates a single
+`GatewayClass` object named `eg`, whose `controllerName` points to the Envoy
+Gateway controller installed by Helm above. `Gateway` objects reference it
+through `spec.gatewayClassName: eg` to tell Kubernetes which controller must
+provision their proxy. Because `GatewayClass` is a cluster-wide (non-namespaced)
+resource, the manifest has no `metadata.namespace` and any `-n` flag would be
+ignored by `kubectl`.
+
+Check that the class exists and has been accepted by the controller (the
+`ACCEPTED` column should show `True`; `False` or `Unknown` usually means the
+controller is not installed or not running):
+
+```shell
+kubectl get gatewayclass
+```
+
+Show its status conditions and events:
+
+```shell
+kubectl describe gatewayclass eg
+```
+
+Show the full object as stored in the cluster, i.e. `gateway-class.yml` plus
+the fields added by Kubernetes (`uid`, `creationTimestamp`, the
+`last-applied-configuration` annotation added by `apply`) and the `status`
+block filled in by the controller:
+
+```shell
+kubectl get gatewayclass eg -o yaml
+```
+
+To confirm the resource is cluster-wide, check the `NAMESPACED` column:
+
+```shell
+kubectl api-resources | grep gatewayclass
+```
+
 See the [Envoy Gateway documentation](https://gateway.envoyproxy.io/docs/install/install-helm/)
 for more installation options.
 
@@ -72,7 +109,7 @@ kubectl apply \
   -f deployment.yml \
   -f service.yml \
   -f gateway.yml \
-  -f httproute.yml \
+  -f http-route.yml \
   -n snippet-gatewayapi-demo
 ```
 
@@ -109,7 +146,7 @@ Delete every resource created by the manifests:
 
 ```shell
 kubectl delete \
-  -f httproute.yml \
+  -f http-route.yml \
   -f gateway.yml \
   -f service.yml \
   -f deployment.yml \
