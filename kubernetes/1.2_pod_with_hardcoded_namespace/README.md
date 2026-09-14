@@ -7,16 +7,16 @@ Here the Pod contains a single container running the
 
 Deploy the Pod: `kubectl apply -f namespace.yml -f pod.yml`
 
-Check that it is running: `kubectl get pods -n hello` (wait for `STATUS: Running`),
-and see the full details (node, IP, events...): `kubectl describe pod hello -n hello`
+Check that it is running: `kubectl get pods -n my-namespace` (wait for `STATUS: Running`),
+and see the full details (node, IP, events...): `kubectl describe pod my-pod -n my-namespace`
 
 Use it: the Pod IP is only reachable from inside the cluster, so forward its
-port to your machine with `kubectl port-forward -n hello hello 8080:80`, then open
+port to your machine with `kubectl port-forward -n my-namespace my-pod 8080:80`, then open
 `http://localhost:8080` in a web browser.
 
-Display its logs: `kubectl logs -f hello -n hello` (each page load adds a line)
+Display its logs: `kubectl logs -f my-pod -n my-namespace` (each page load adds a line)
 
-Open a shell inside the container: `kubectl exec -it hello -n hello -- sh`
+Open a shell inside the container: `kubectl exec -it my-pod -n my-namespace -- sh`
 
 Delete the Pod: `kubectl delete -f pod.yml -f namespace.yml`
 

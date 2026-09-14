@@ -1,6 +1,6 @@
 # PersistentVolume / PersistentVolumeClaim
 
-Same app and same images as `11_sqlite_volume` (backend `4.0`, frontend
+Same app and same images as `7.1_sqlite_volume` (backend `4.0`, frontend
 `2.0` — nothing to rebuild: **only the YAML changes**), but the `hostPath`
 volume is replaced by proper, node-independent storage.
 
@@ -39,29 +39,33 @@ example restores both properties the standard way: a real database server.
 
 ## Deploy
 
+Create the namespace for the demo: `kubectl create namespace snippet-pvc-demo`
+
 Edit `your-username`, then:
-`kubectl apply -f pvc.yml -f backend.yml -f frontend.yml`
+`kubectl apply -f pvc.yml -f backend.yml -f frontend.yml -n snippet-pvc-demo`
 
 See the claim and the automatically provisioned volume behind it:
-`kubectl get pvc,pv`
+`kubectl get pvc,pv -n snippet-pvc-demo`
 
-Use it: `kubectl port-forward service/frontend 8080:80`, open
-`http://localhost:8080`, Save a message, Read it — always the same answer
-now, whatever the node.
+Use it: `kubectl port-forward service/frontend 8080:80 -n snippet-pvc-demo`,
+open `http://localhost:8080`, Save a message, Read it — always the same
+answer now, whatever the node.
 
 ## Check that the data really survives
 
 The PVC has its own lifecycle, independent of the Pods:
 
 ```
-kubectl delete pod -l app=backend        # the Deployment recreates the Pod...
-kubectl delete -f backend.yml            # ...or even delete the whole Deployment,
-kubectl apply -f backend.yml             # then recreate it
+kubectl delete pod -l app=backend -n snippet-pvc-demo        # the Deployment recreates the Pod...
+kubectl delete -f backend.yml -n snippet-pvc-demo             # ...or even delete the whole Deployment,
+kubectl apply -f backend.yml -n snippet-pvc-demo              # then recreate it
 ```
 
 then Read again: the message is still there.
 
 Delete everything:
-`kubectl delete -f pvc.yml -f backend.yml -f frontend.yml` — deleting the PVC
-deletes the underlying PV and its data (with the usual default StorageClass
-setting, `reclaimPolicy: Delete`).
+`kubectl delete -f pvc.yml -f backend.yml -f frontend.yml -n snippet-pvc-demo`
+— deleting the PVC deletes the underlying PV and its data (with the usual
+default StorageClass setting, `reclaimPolicy: Delete`).
+
+Delete the namespace: `kubectl delete namespace snippet-pvc-demo`

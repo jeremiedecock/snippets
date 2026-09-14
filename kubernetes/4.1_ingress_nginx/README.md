@@ -2,7 +2,7 @@
 
 > **Warning**: ingress-nginx was officially retired on March 24, 2026. The
 > project is read-only: no more bug fixes and **no more security patches**. Do
-> not use it for anything new — see `4_gateway_api` for its replacement. This
+> not use it for anything new — see `4.3.1_gateway_api_envoy_gateway` for its replacement. This
 > example is kept for reference because many existing clusters still run it.
 
 An Ingress exposes HTTP Services to the outside world through an *Ingress
@@ -23,10 +23,12 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 ## Deploy
 
-Deploy everything: `kubectl apply -f deployment.yml -f service.yml -f ingress.yml`
+Create the namespace for the demo: `kubectl create namespace snippet-ingress-demo`
+
+Deploy everything: `kubectl apply -f deployment.yml -f service.yml -f ingress.yml -n snippet-ingress-demo`
 
 Find the public address (the `ADDRESS` column, may take a minute to appear):
-`kubectl get ingress hello`
+`kubectl get ingress my-ingress -n snippet-ingress-demo`
 
 Then open `http://<ADDRESS>/` in a web browser.
 
@@ -36,4 +38,6 @@ the controller gets a public LoadBalancer IP. On a local cluster (minikube,
 kind, k3s on your laptop) the address is only reachable from your machine or
 your LAN, unless you configure port forwarding on your router.
 
-Delete everything: `kubectl delete -f deployment.yml -f service.yml -f ingress.yml`
+Delete everything: `kubectl delete -f deployment.yml -f service.yml -f ingress.yml -n snippet-ingress-demo`
+
+Delete the namespace: `kubectl delete namespace snippet-ingress-demo`

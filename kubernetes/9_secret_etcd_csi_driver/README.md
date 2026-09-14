@@ -28,7 +28,7 @@ step forward in the series).
 The app reads the file **at every request**, which buys something an
 environment variable cannot offer: when the secret rotates, the driver
 rewrites the file in place and the new value is picked up with no restart.
-Compare with `8_configmap`, where changing the value required
+Compare with `3.4_deployment_with_config_map`, where changing the value required
 `kubectl rollout restart`.
 
 ## Prerequisites
@@ -65,41 +65,46 @@ helm install vault hashicorp/vault \
 on restart), starts unsealed, and uses a root token. A real deployment means
 persistent storage, a proper unseal strategy and TLS.
 
-### 3. Configure Vault
+### 3. Create the namespace for the demo
+
+`kubectl create namespace snippet-secret-demo`
+
+### 4. Configure Vault
 
 Store the secret, then let Vault trust the cluster's ServiceAccount tokens:
 
 ```
 kubectl exec -it vault-0 -- sh
 
-vault kv put secret/hello token=s3cr3t-t0k3n
+vault kv put secret/my-app token=s3cr3t-t0k3n
 
 vault auth enable kubernetes
 vault write auth/kubernetes/config \
     kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
 
-vault policy write hello - <<EOF
-path "secret/data/hello" {
+vault policy write my-policy - <<EOF
+path "secret/data/my-app" {
   capabilities = ["read"]
 }
 EOF
 
-vault write auth/kubernetes/role/hello \
-    bound_service_account_names=hello \
-    bound_service_account_namespaces=default \
-    policies=hello \
+vault write auth/kubernetes/role/my-role \
+    bound_service_account_names=my-service-account \
+    bound_service_account_namespaces=snippet-secret-demo \
+    policies=my-policy \
     ttl=20m
 
 exit
 ```
 
 Note what identifies the app: not a password, but **its ServiceAccount** —
-`bound_service_account_names=hello` matches the `serviceAccountName: hello` in
-`deployment.yml`. Any other workload gets refused, even in the same namespace.
+`bound_service_account_names=my-service-account` matches the
+`serviceAccountName: my-service-account` in `deployment.yml`. Any other
+workload gets refused, even in the same namespace.
 
-### 4. Build and push the image
+### 5. Build and push the image
 
-Version `3.1` reads the token from a file (details in `7_custom_image`):
+Version `3.1` reads the token from a file (details in `6.1_private_docker_registry`):
 
 ```
 podman build -t docker.io/your-username/hello-fastapi:3.1 .
@@ -110,28 +115,28 @@ podman push docker.io/your-username/hello-fastapi:3.1
 
 Edit `your-username` in `deployment.yml`, then:
 
-`kubectl apply -f configmap.yml -f secretproviderclass.yml -f deployment.yml -f service.yml`
+`kubectl apply -f configmap.yml -f secretproviderclass.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
 
-Use it: `kubectl port-forward service/hello 8080:80`, then
-`curl http://localhost:8080/` → the token appears, as in `9_secret_base64`.
+Use it: `kubectl port-forward service/my-service 8080:80 -n snippet-secret-demo`,
+then `curl http://localhost:8080/` → the token appears, as in `9_secret_base64`.
 
 ## Check that nothing landed in etcd
 
 This is the whole point of the example:
 
 ```
-kubectl get secret hello
+kubectl get secret my-secret -n snippet-secret-demo
 ```
 
-→ `Error from server (NotFound): secrets "hello" not found`. There is no
+→ `Error from server (NotFound): secrets "my-secret" not found`. There is no
 Secret object, so nothing to encrypt at rest, nothing to leak in a `kubectl
 get secrets` listing, and nothing in an etcd backup.
 
 The value does exist, as a file inside each Pod:
 
 ```
-kubectl exec deployment/hello -- cat /mnt/secrets/token
-kubectl exec deployment/hello -- mount | grep /mnt/secrets   # tmpfs, in memory
+kubectl exec deployment/my-deployment -n snippet-secret-demo -- cat /mnt/secrets/token
+kubectl exec deployment/my-deployment -n snippet-secret-demo -- mount | grep /mnt/secrets   # tmpfs, in memory
 ```
 
 Rotation, if `enableSecretRotation=true` was set — change the value in Vault
@@ -139,11 +144,13 @@ and watch it reach the app without any restart (the default poll interval is
 two minutes):
 
 ```
-kubectl exec -it vault-0 -- vault kv put secret/hello token=rotated-t0k3n
+kubectl exec -it vault-0 -- vault kv put secret/my-app token=rotated-t0k3n
 curl http://localhost:8080/
 ```
 
-Delete everything: `kubectl delete -f configmap.yml -f secretproviderclass.yml -f deployment.yml -f service.yml`
+Delete everything: `kubectl delete -f configmap.yml -f secretproviderclass.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
+
+Delete the namespace: `kubectl delete namespace snippet-secret-demo`
 
 ## Trade-offs
 

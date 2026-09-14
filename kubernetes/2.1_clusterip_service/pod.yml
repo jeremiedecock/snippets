@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello
+  name: my-pod
   labels:
-    app: hello
+    app: my-app
 spec:
   containers:
     - image: docker.io/library/nginx:stable-alpine-slim
-      name: hello
+      name: my-container

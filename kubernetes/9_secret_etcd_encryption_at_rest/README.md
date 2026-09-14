@@ -90,7 +90,7 @@ The same command is what re-encrypts everything after a key rotation.
 Read the raw value straight from etcd, bypassing the API server:
 
 ```
-etcdctl get /registry/secrets/default/hello
+etcdctl get /registry/secrets/default/my-secret
 ```
 
 Before, the token is plainly visible in the output. After, the value starts

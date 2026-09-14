@@ -19,7 +19,7 @@ OVHcloud Secret Manager  →  ESO (in the cluster)  →  a normal Secret  →  t
 
 **The secret value is never in git — not even encrypted.** Sealed Secrets,
 SOPS and Ansible Vault all commit a ciphertext; here the repo contains only a
-*pointer* (`remoteRef: key: hello`). Nothing to seal, re-encrypt or rekey.
+*pointer* (`remoteRef: key: my-app`). Nothing to seal, re-encrypt or rekey.
 Rotating the secret means changing it in Secret Manager: ESO picks it up
 within `refreshInterval`, with no commit and no redeploy.
 
@@ -48,7 +48,7 @@ ovhcloud okms list
 You get an `id` (a UUID) and a `region` such as `eu-west-par` or
 `eu-west-rbx`. Both go into the ClusterSecretStore.
 
-**2. Store the secret.** Create a secret named `hello` with a `token` field
+**2. Store the secret.** Create a secret named `my-app` with a `token` field
 holding `s3cr3t-t0k3n` (console: *Secret Manager → Create a secret*).
 
 **3. Create an IAM identity and a Personal Access Token.** Grant only what
@@ -107,6 +107,8 @@ kubectl apply -f clustersecretstore.yml
 kubectl get clustersecretstore ovh-secret-manager   # STATUS should be Valid
 ```
 
+**7. Create the namespace for the demo:** `kubectl create namespace snippet-secret-demo`
+
 Two variants are provided; apply **one**:
 
 - `clustersecretstore.yml` — ESO's purpose-built `ovh` provider, which also
@@ -118,28 +120,30 @@ Two variants are provided; apply **one**:
 
 ## Deploy
 
-`kubectl apply -f configmap.yml -f externalsecret.yml -f deployment.yml -f service.yml`
+`kubectl apply -f configmap.yml -f externalsecret.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
 
 Watch ESO do its work — the `Secret` appears without ever having been written
 by you:
 
 ```
-kubectl get externalsecret hello    # STATUS: SecretSynced
-kubectl get secret hello            # created by ESO, owned by the ExternalSecret
+kubectl get externalsecret my-external-secret -n snippet-secret-demo    # STATUS: SecretSynced
+kubectl get secret my-secret -n snippet-secret-demo                     # created by ESO, owned by the ExternalSecret
 ```
 
-Use it: `kubectl port-forward service/hello 8080:80`, then
-`curl http://localhost:8080/` → the token appears, exactly as in
+Use it: `kubectl port-forward service/my-service 8080:80 -n snippet-secret-demo`,
+then `curl http://localhost:8080/` → the token appears, exactly as in
 `9_secret_base64`.
 
 Now rotate it in Secret Manager and wait for `refreshInterval` (or force it
-with `kubectl annotate externalsecret hello force-sync=$(date +%s) --overwrite`):
+with `kubectl annotate externalsecret my-external-secret force-sync=$(date +%s) --overwrite -n snippet-secret-demo`):
 the value changes in the cluster with no commit, no `kubectl apply`, no
 rebuild. That is the property none of the git-based approaches can offer.
 
-Delete everything: `kubectl delete -f configmap.yml -f externalsecret.yml -f deployment.yml -f service.yml`
+Delete everything: `kubectl delete -f configmap.yml -f externalsecret.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
 (deleting the ExternalSecret deletes the Secret it owns, per
 `creationPolicy: Owner`).
+
+Delete the namespace: `kubectl delete namespace snippet-secret-demo`
 
 ## When to choose this
 

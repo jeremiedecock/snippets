@@ -28,7 +28,7 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: hello-data
+            claimName: my-pvc
 ---
 apiVersion: v1
 kind: Service

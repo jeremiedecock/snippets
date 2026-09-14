@@ -8,8 +8,8 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: hello
-  namespace: hello
+  name: my-gateway
+  namespace: my-namespace
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
@@ -21,8 +21,8 @@ spec:
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: hello.example.com
+      hostname: my-app.example.com
       tls:
         mode: Terminate
         certificateRefs:
-          - name: hello-tls
+          - name: my-tls

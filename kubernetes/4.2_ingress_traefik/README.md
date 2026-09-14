@@ -1,6 +1,6 @@
 # Traefik Ingress
 
-Same example as `4_ingress_nginx`, but with [Traefik](https://doc.traefik.io/traefik/)
+Same example as `4.1_ingress_nginx`, but with [Traefik](https://doc.traefik.io/traefik/)
 as the Ingress controller instead of ingress-nginx.
 
 Compare the two `ingress.yml` files: the only difference is
@@ -11,8 +11,8 @@ Service (ClusterIP) → Pods.
 
 Unlike ingress-nginx, Traefik is still actively maintained, so it remains a
 reasonable choice for existing Ingress manifests. But the Ingress API itself
-is feature-frozen: for new work, prefer the Gateway API (`4_gateway_api` —
-Traefik implements it too).
+is feature-frozen: for new work, prefer the Gateway API
+(`4.3.1_gateway_api_envoy_gateway` — Traefik implements it too).
 
 ## Prerequisite: the Traefik controller
 
@@ -33,10 +33,12 @@ from the previous example is still installed, remove it first to avoid confusion
 
 ## Deploy
 
-Deploy everything: `kubectl apply -f deployment.yml -f service.yml -f ingress.yml`
+Create the namespace for the demo: `kubectl create namespace snippet-ingress-demo`
+
+Deploy everything: `kubectl apply -f deployment.yml -f service.yml -f ingress.yml -n snippet-ingress-demo`
 
 Find the public address (the `ADDRESS` column, may take a minute to appear):
-`kubectl get ingress hello`
+`kubectl get ingress my-ingress -n snippet-ingress-demo`
 
 Then open `http://<ADDRESS>/` in a web browser.
 
@@ -47,6 +49,7 @@ it is only reachable from your machine or your LAN.
 Delete everything:
 
 ```
-kubectl delete -f deployment.yml -f service.yml -f ingress.yml
+kubectl delete -f deployment.yml -f service.yml -f ingress.yml -n snippet-ingress-demo
+kubectl delete namespace snippet-ingress-demo
 helm uninstall traefik
 ```

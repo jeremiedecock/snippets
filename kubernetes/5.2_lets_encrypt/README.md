@@ -1,6 +1,6 @@
 # Let's Encrypt TLS certificates (with cert-manager)
 
-Same example as `5_namespace`, but the Gateway now also serves **HTTPS**, with
+Same example as `4.3.1_gateway_api_envoy_gateway`, but the Gateway now also serves **HTTPS**, with
 a free [Let's Encrypt](https://letsencrypt.org/) certificate that is obtained
 — and renewed every ~60 days — automatically by
 [cert-manager](https://cert-manager.io/).
@@ -15,12 +15,12 @@ Secret named by `certificateRefs`, and renews it before it expires.
 
 ## Prerequisites
 
-- Envoy Gateway (see `4_gateway_api/README.md`).
+- Envoy Gateway (see `4.3.1_gateway_api_envoy_gateway/README.md`).
 - A cluster whose Gateway gets a **public** IP (Let's Encrypt must be able to
   reach it from the internet — this example cannot work on a purely local
   cluster).
 - A **domain name you own**, with a DNS `A` record pointing to the Gateway
-  address (`kubectl get gateway hello -n hello`).
+  address (`kubectl get gateway my-gateway -n my-namespace`).
 - cert-manager, installed with [Helm](https://helm.sh/), with its Gateway API
   support enabled:
 
@@ -37,7 +37,7 @@ helm install cert-manager oci://quay.io/jetstack/charts/cert-manager \
 
 ## Deploy
 
-1. Replace `hello.example.com` with your domain in `gateway.yml` and
+1. Replace `my-app.example.com` with your domain in `gateway.yml` and
    `httproute.yml`, and `you@example.com` with your email in
    `clusterissuer.yml` (Let's Encrypt uses it for expiry warnings).
 
@@ -47,10 +47,10 @@ helm install cert-manager oci://quay.io/jetstack/charts/cert-manager \
 3. Watch cert-manager obtain the certificate (takes a minute or two):
 
 ```
-kubectl get certificate -n hello -w
+kubectl get certificate -n my-namespace -w
 ```
 
-When `READY` becomes `True`, the certificate is in the `hello-tls` Secret and
+When `READY` becomes `True`, the certificate is in the `my-tls` Secret and
 `https://<your-domain>/` works... with a browser warning: the Gateway is
 annotated with the `letsencrypt-staging` issuer, which delivers untrusted test
 certificates. Always start with staging: the real server has strict
@@ -63,16 +63,16 @@ hour), easy to hit while debugging a DNS or firewall problem.
 
 ```
 kubectl apply -f gateway.yml
-kubectl get certificate -n hello -w
+kubectl get certificate -n my-namespace -w
 ```
 
 `https://<your-domain>/` now shows a valid padlock. Nothing else to do, ever:
 cert-manager renews the certificate automatically ~30 days before expiry.
 
 If the certificate stays not-ready, follow the trail of intermediate
-resources: `kubectl describe certificaterequest,order,challenge -n hello`.
+resources: `kubectl describe certificaterequest,order,challenge -n my-namespace`.
 
-Delete everything: `kubectl delete namespace hello` and
+Delete everything: `kubectl delete namespace my-namespace` and
 `kubectl delete clusterissuer letsencrypt-staging letsencrypt` (plus
 `kubectl delete gatewayclass eg` if wanted — ClusterIssuers and GatewayClasses
 are cluster-scoped, so they survive the namespace deletion).

@@ -63,8 +63,11 @@ password per environment.
 ansible-playbook deploy.yml --vault-password-file .vault_pass
 ```
 
-Use it: `kubectl port-forward service/hello 8080:80`, then
-`curl http://localhost:8080/` → the token appears, exactly as in
+The playbook creates a dedicated `snippet-secret-demo` namespace (see
+`k8s_namespace` in `deploy.yml`) and deploys everything into it.
+
+Use it: `kubectl port-forward service/my-service 8080:80 -n snippet-secret-demo`,
+then `curl http://localhost:8080/` → the token appears, exactly as in
 `9_secret_base64`.
 
 Read the encrypted value (this is what "the password decrypts everything"
@@ -84,7 +87,7 @@ ansible-vault edit vars/secrets.yml --vault-password-file .vault_pass
 To encrypt a *new* value:
 
 ```
-ansible-vault encrypt_string --vault-password-file .vault_pass 'my-new-token' --name 'hello_token'
+ansible-vault encrypt_string --vault-password-file .vault_pass 'my-new-token' --name 'secret_token'
 ```
 
 To rotate the vault password itself, `ansible-vault rekey vars/secrets.yml` —
@@ -96,7 +99,7 @@ Note the `no_log: true` on the Secret task in `deploy.yml`. Without it, the
 decrypted token is printed by any `-v` run or failed task, and lands in the CI
 logs — the classic way to leak a secret with this approach.
 
-Remove everything: `ansible-playbook undeploy.yml`
+Remove everything (including the namespace): `ansible-playbook undeploy.yml`
 
 ## Is this a good idea?
 

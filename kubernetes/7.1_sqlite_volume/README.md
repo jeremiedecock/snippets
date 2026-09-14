@@ -1,6 +1,6 @@
 # Volumes: naive persistence with SQLite (and why it is broken)
 
-The fullstack app from `10_fullstack` becomes stateful: the backend now
+The fullstack app from `6.4_stateless_fullstack_app` becomes stateful: the backend now
 **saves** the message in a [SQLite](https://sqlite.org/) database
 (`/data/messages.db`) and **reads** it back. The frontend gets an input field
 and two buttons (Save / Read), and both responses show which backend Pod
@@ -20,7 +20,7 @@ uses the naive kind on purpose, to expose its limits:
 ## Build and push the new images
 
 Backend `4.0` (SQLite read/write) and frontend `2.0` (Save/Read buttons) —
-details in `7_custom_image`:
+details in `6.1_private_docker_registry`:
 
 ```
 cd backend
@@ -33,18 +33,20 @@ podman push docker.io/your-username/hello-frontend:2.0
 
 ## Deploy
 
-Compared to `10_fullstack`, `backend.yml` adds the `volumes` (Pod level) and
+Create the namespace for the demo: `kubectl create namespace snippet-sqlite-demo`
+
+Compared to `6.4_stateless_fullstack_app`, `backend.yml` adds the `volumes` (Pod level) and
 `volumeMounts` (container level) blocks. Edit `your-username`, then:
 
-`kubectl apply -f backend.yml -f frontend.yml`
+`kubectl apply -f backend.yml -f frontend.yml -n snippet-sqlite-demo`
 
-Use it: `kubectl port-forward service/frontend 8080:80`, open
-`http://localhost:8080`, type a message, **Save**, then click **Read**.
+Use it: `kubectl port-forward service/frontend 8080:80 -n snippet-sqlite-demo`,
+open `http://localhost:8080`, type a message, **Save**, then click **Read**.
 
 ## See the problem
 
-Check where the backend replicas run: `kubectl get pods -o wide` (the `NODE`
-column).
+Check where the backend replicas run: `kubectl get pods -o wide -n snippet-sqlite-demo`
+(the `NODE` column).
 
 Click **Read** repeatedly. The Service load-balances across the three backend
 Pods, and each Pod opens the database of *its own node*:
@@ -65,6 +67,8 @@ letting Pods write to a node's filesystem is a security hole (which is why
 many managed clusters simply forbid `hostPath`). The next example fixes this
 with real, node-independent storage: PersistentVolumes.
 
-Delete everything: `kubectl delete -f backend.yml -f frontend.yml` (the
-`/var/lib/hello-data` directories remain on the nodes — Kubernetes does not
-manage a `hostPath`'s lifecycle, one more reason to avoid it).
+Delete everything: `kubectl delete -f backend.yml -f frontend.yml -n snippet-sqlite-demo`
+(the `/var/lib/hello-data` directories remain on the nodes — Kubernetes does
+not manage a `hostPath`'s lifecycle, one more reason to avoid it).
+
+Delete the namespace: `kubectl delete namespace snippet-sqlite-demo`

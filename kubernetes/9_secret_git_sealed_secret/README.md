@@ -65,15 +65,19 @@ tar -xzf "kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz" kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 ```
 
-## 2. Seal the secret
+## 2. Create the namespace, then seal the secret
+
+Create the namespace for the demo: `kubectl create namespace snippet-secret-demo`
 
 Note that this repo contains **no `secret.yml`** — that is the whole point.
 Build the Secret on the fly and pipe it straight into `kubeseal`, so the
-plaintext never touches the disk:
+plaintext never touches the disk. A `SealedSecret` is bound to its target
+**namespace**, so seal it for `snippet-secret-demo`:
 
 ```
-kubectl create secret generic hello \
+kubectl create secret generic my-secret \
   --from-literal=token=s3cr3t-t0k3n \
+  --namespace snippet-secret-demo \
   --dry-run=client -o yaml \
   | kubeseal --format yaml > sealedsecret.yml
 ```
@@ -88,24 +92,24 @@ unreadable ciphertext. This file replaces `secret.yml` in git.
 
 ## 3. Deploy
 
-`kubectl apply -f configmap.yml -f sealedsecret.yml -f deployment.yml -f service.yml`
+`kubectl apply -f configmap.yml -f sealedsecret.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
 
 The controller decrypts the SealedSecret and creates a normal Secret named
-`hello`, which is why `deployment.yml` is **byte-for-byte identical** to the
-one in `9_secret_base64`: the app knows nothing about any of this.
+`my-secret`, which is why `deployment.yml` is **byte-for-byte identical** to
+the one in `9_secret_base64`: the app knows nothing about any of this.
 
 ```
-kubectl get sealedsecret,secret hello
+kubectl get sealedsecret,secret my-secret -n snippet-secret-demo
 ```
 
-Use it: `kubectl port-forward service/hello 8080:80`, then
-`curl http://localhost:8080/` → the token appears, exactly as in
+Use it: `kubectl port-forward service/my-service 8080:80 -n snippet-secret-demo`,
+then `curl http://localhost:8080/` → the token appears, exactly as in
 `9_secret_base64`.
 
 ## What this does *not* fix
 
 ```
-kubectl get secret hello -o jsonpath='{.data.token}' | base64 -d
+kubectl get secret my-secret -o jsonpath='{.data.token}' -n snippet-secret-demo | base64 -d
 ```
 
 ... still prints the token. The Secret that ends up in the cluster is an
@@ -123,5 +127,7 @@ values themselves, since sealing does not expire them.
 kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > main.key   # keep offline!
 ```
 
-Delete everything: `kubectl delete -f configmap.yml -f sealedsecret.yml -f deployment.yml -f service.yml`
+Delete everything: `kubectl delete -f configmap.yml -f sealedsecret.yml -f deployment.yml -f service.yml -n snippet-secret-demo`
 (deleting the SealedSecret also deletes the Secret it generated).
+
+Delete the namespace: `kubectl delete namespace snippet-secret-demo`

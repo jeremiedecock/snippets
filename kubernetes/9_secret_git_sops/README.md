@@ -65,15 +65,17 @@ losing every encrypted value.
 
 ## Deploy
 
+Create the namespace for the demo: `kubectl create namespace snippet-secret-demo`
+
 SOPS has no cluster-side component: you decrypt and pipe into `kubectl`.
 
 ```
-kubectl apply -f configmap.yml -f service.yml -f deployment.yml
-sops decrypt secret.enc.yml | kubectl apply -f -
+kubectl apply -f configmap.yml -f service.yml -f deployment.yml -n snippet-secret-demo
+sops decrypt secret.enc.yml | kubectl apply -n snippet-secret-demo -f -
 ```
 
-Use it: `kubectl port-forward service/hello 8080:80`, then
-`curl http://localhost:8080/` → the token appears, as in `9_secret_base64`.
+Use it: `kubectl port-forward service/my-service 8080:80 -n snippet-secret-demo`,
+then `curl http://localhost:8080/` → the token appears, as in `9_secret_base64`.
 
 ## Daily operations
 
@@ -122,8 +124,10 @@ workflow nor Ansible Vault's push model gives you in the same way.
 [helm-secrets](https://github.com/jkroepke/helm-secrets) does the equivalent
 for Helm values.
 
-Delete everything: `kubectl delete -f configmap.yml -f service.yml -f deployment.yml`
-and `kubectl delete secret hello`
+Delete everything: `kubectl delete -f configmap.yml -f service.yml -f deployment.yml -n snippet-secret-demo`
+and `kubectl delete secret my-secret -n snippet-secret-demo`
+
+Delete the namespace: `kubectl delete namespace snippet-secret-demo`
 
 ## Choosing between the three
 

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello
-  namespace: hello
+  name: my-deployment
+  namespace: my-namespace
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello
+      app: my-app
   template:
     metadata:
       labels:
-        app: hello
+        app: my-app
     spec:
       containers:
         - image: docker.io/library/nginx:stable-alpine-slim
-          name: hello
+          name: my-container
           imagePullPolicy: Always
           ports:
             - containerPort: 80

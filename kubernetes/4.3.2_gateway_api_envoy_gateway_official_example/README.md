@@ -53,9 +53,7 @@ Deploy everything: `kubectl apply -f deployment.yml -f service.yml -f gateway.ym
 
 Find the public address (the `ADDRESS` column, may take a minute to appear —
 Envoy Gateway creates a LoadBalancer Service and an Envoy proxy for each
-Gateway): `kubectl get gateway hello`
-
-Then retrieve the public address () using: `kubectl get gateway hello -n snippet-gatewayapi-demo`
+Gateway): `kubectl get gateway eg -n gateway-infra`
 
 And make a request to it: `curl -v -H "Host: demo.example.com" http://YOUR_PUBLIC_ADDRESS/get`
 

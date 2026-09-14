@@ -1,8 +1,8 @@
 # PostgreSQL: the standard way to share state
 
 The two previous examples showed the dilemma of a file-based database:
-unsynchronized copies (`11_sqlite_volume`) or a single replica
-(`12_pv_pvc`). The standard solution is to move the state into a **database
+unsynchronized copies (`7.1_sqlite_volume`) or a single replica
+(`7.2_pv_pvc`). The standard solution is to move the state into a **database
 server**: [PostgreSQL](https://www.postgresql.org/) is designed for many
 clients writing concurrently over the network, so the backend Pods become
 *stateless* again — replicated, load-balanced, disposable — and the state
@@ -16,9 +16,9 @@ browser → frontend (nginx ×2) → backend (FastAPI ×3, stateless) → db (Po
 
 Note how the lessons of the previous examples combine: the `db` component is
 a Deployment with `replicas: 1` + `Recreate` + a PVC (exactly the
-`12_pv_pvc` pattern — fine here, because PostgreSQL is *made* to be the
+`7.2_pv_pvc` pattern — fine here, because PostgreSQL is *made* to be the
 single writer on its files), a ClusterIP Service gives it the stable DNS name
-`db` (`10_fullstack`), and its credentials live in a Secret (`9_secret_base64`),
+`db` (`6.4_stateless_fullstack_app`), and its credentials live in a Secret (`9_secret_base64`),
 injected both into PostgreSQL (`POSTGRES_PASSWORD`) and into the backend
 (`DATABASE_URL` — the password appears in two keys of `secret.yml`, kept
 simple on purpose; and as always, this file is only committed because the
@@ -38,31 +38,35 @@ podman push docker.io/your-username/hello-fastapi:5.0
 
 ## Deploy
 
+Create the namespace for the demo: `kubectl create namespace snippet-postgresql-demo`
+
 Edit `your-username` in `backend.yml`, then:
 
-`kubectl apply -f secret.yml -f db.yml -f backend.yml -f frontend.yml`
+`kubectl apply -f secret.yml -f db.yml -f backend.yml -f frontend.yml -n snippet-postgresql-demo`
 
-Wait for everything to be ready (`kubectl get pods` — the backend may restart
-once or twice if it comes up before PostgreSQL: it reconnects at every
-request, so the order does not matter).
+Wait for everything to be ready (`kubectl get pods -n snippet-postgresql-demo`
+— the backend may restart once or twice if it comes up before PostgreSQL: it
+reconnects at every request, so the order does not matter).
 
-Use it: `kubectl port-forward service/frontend 8080:80`, open
-`http://localhost:8080`, Save, then click Read repeatedly: `served_by` cycles
-through the backend Pods, but the message is now **always the same** — and it
-survives Pod deletions, node reschedulings, and even a full redeploy, since
-it lives in PostgreSQL's PVC.
+Use it: `kubectl port-forward service/frontend 8080:80 -n snippet-postgresql-demo`,
+open `http://localhost:8080`, Save, then click Read repeatedly: `served_by`
+cycles through the backend Pods, but the message is now **always the same**
+— and it survives Pod deletions, node reschedulings, and even a full
+redeploy, since it lives in PostgreSQL's PVC.
 
-The backend can scale freely again: `kubectl scale deployment backend --replicas=5`
+The backend can scale freely again: `kubectl scale deployment backend --replicas=5 -n snippet-postgresql-demo`
 
 Look inside the database directly:
 
 ```
-kubectl exec -it deployment/db -- psql -U hello -d hello -c "SELECT * FROM messages;"
+kubectl exec -it deployment/db -n snippet-postgresql-demo -- psql -U hello -d hello -c "SELECT * FROM messages;"
 ```
 
 Delete everything:
-`kubectl delete -f secret.yml -f db.yml -f backend.yml -f frontend.yml`
+`kubectl delete -f secret.yml -f db.yml -f backend.yml -f frontend.yml -n snippet-postgresql-demo`
 (deleting the PVC deletes the data).
+
+Delete the namespace: `kubectl delete namespace snippet-postgresql-demo`
 
 ## In real life
 

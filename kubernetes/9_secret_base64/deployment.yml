@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello
+  name: my-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello
+      app: my-app
   template:
     metadata:
       labels:
-        app: hello
+        app: my-app
     spec:
       containers:
         - image: docker.io/your-username/hello-fastapi:3.0
-          name: hello
+          name: my-container
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
@@ -24,10 +24,10 @@ spec:
             - name: MESSAGE
               valueFrom:
                 configMapKeyRef:
-                  name: hello
+                  name: my-config-map
                   key: message
             - name: SECRET_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: hello
+                  name: my-secret
                   key: token

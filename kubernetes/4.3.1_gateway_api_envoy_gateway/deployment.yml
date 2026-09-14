@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello
+      app: my-app
   template:
     metadata:
       labels:
-        app: hello
+        app: my-app
     spec:
       containers:
         - image: docker.io/library/nginx:stable-alpine-slim
