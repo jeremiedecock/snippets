@@ -9,7 +9,7 @@ spec:
     - backendRefs:
         - name: my-service
           port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+      # matches:
+      #   - path:
+      #       type: PathPrefix
+      #       value: /

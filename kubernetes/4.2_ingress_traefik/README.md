@@ -16,8 +16,6 @@ is feature-frozen: for new work, prefer the Gateway API
 
 ## Prerequisite: the Traefik controller
 
-If you use **k3s**, Traefik is already installed — skip this step.
-
 Otherwise, install it with [Helm](https://helm.sh/):
 
 ```
@@ -27,6 +25,12 @@ helm install traefik traefik/traefik
 ```
 
 Check that its IngressClass exists: `kubectl get ingressclass`
+
+That class is named after the Helm release, not after the chart: the command
+above creates a release called `traefik`, hence the `ingressClassName: traefik`
+in `ingress.yml`. If you install under another release name, adjust
+`ingressClassName` to match — otherwise no controller picks the Ingress up and
+it silently stays unrouted.
 
 Note: only run one Ingress controller at a time while learning. If ingress-nginx
 from the previous example is still installed, remove it first to avoid confusion.
@@ -51,5 +55,10 @@ Delete everything:
 ```
 kubectl delete -f deployment.yml -f service.yml -f ingress.yml -n snippet-ingress-demo
 kubectl delete namespace snippet-ingress-demo
+```
+
+This does not uninstall the Traefik controller. To remove it as well:
+
+```
 helm uninstall traefik
 ```
