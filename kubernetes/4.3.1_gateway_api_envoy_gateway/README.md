@@ -28,8 +28,40 @@ popular standalone implementation, built on the
 (Cilium, Istio, Traefik, Kong, NGINX Gateway Fabric...) and the manifests below
 would work with them too, except for the `controllerName` in the GatewayClass.
 
+### Is it already installed?
+
+Both the Gateway API CRDs and their controller are cluster-wide resources,
+shared by every application on the cluster. Somebody else — another team, or
+the cluster administrator — may have installed them already, so check before
+installing anything.
+
+Are the Gateway API CRDs (`Gateway`, `HTTPRoute`, etc., which are not shipped
+with Kubernetes) present? An empty output, or a `NotFound` error, means they
+are not:
+
+```shell
+kubectl api-resources --api-group=gateway.networking.k8s.io
+```
+
+Is a controller already running? Envoy Gateway installs itself into the
+`envoy-gateway-system` namespace (a `NotFound` error means it is absent), and
+`helm list` shows any other chart-installed implementation:
+
+```shell
+kubectl get deployments -n envoy-gateway-system
+helm list --all-namespaces
+```
+
+If both the CRDs and an Envoy Gateway controller are already there, skip the
+`helm install` below and go to the GatewayClass step. If the controller in
+place is another implementation (Cilium, Istio, Traefik, Kong, NGINX Gateway
+Fabric...), you can use it instead: the manifests of this example stay the
+same, only the `controllerName` in the GatewayClass has to match it.
+
+### Installing it
+
 Install it with [Helm](https://helm.sh/). This also installs the Gateway API
-CRDs (`Gateway`, `HTTPRoute`, etc.), which are not shipped with Kubernetes:
+CRDs:
 
 ```shell
 helm install eg oci://docker.io/envoyproxy/gateway-helm --version v1.9.1 -n envoy-gateway-system --create-namespace
@@ -47,8 +79,23 @@ Check that its pod is running:
 kubectl get pods -n envoy-gateway-system
 ```
 
-Deploy the GatewayClass, a cluster-wide resource that binds the `eg` class
-name to the Envoy Gateway controller:
+### The GatewayClass
+
+The GatewayClass is a cluster-wide resource too, shared by every Gateway on
+the cluster, so here as well, check whether a suitable one already exists
+before creating another:
+
+```shell
+kubectl get gatewayclass
+```
+
+If that list already has an entry whose `CONTROLLER` column reads
+`gateway.envoyproxy.io/gatewayclass-controller`, reuse it rather than adding a
+second one: note its name, set `spec.gatewayClassName` in `gateway.yml`
+accordingly (the manifests here assume `eg`), and skip the `apply` below.
+
+Otherwise, deploy the GatewayClass, which binds the `eg` class name to the
+Envoy Gateway controller:
 
 ```shell
 kubectl apply -f gateway-class.yml
@@ -159,13 +206,31 @@ Delete the namespace:
 kubectl delete namespace snippet-gatewayapi-demo
 ```
 
-Delete the GatewayClass (cluster-wide resource):
+### Shared resources: stop and check first
+
+The GatewayClass and the Envoy Gateway controller are cluster-wide and shared.
+**Do not delete them if you did not install them, or if anything else on the
+cluster still uses them** — in particular if you skipped their installation
+above because they were already present.
+
+List every Gateway on the cluster, with the class each one uses. If any Gateway
+other than this demo's shows up, stop here and leave both resources in place:
+
+```shell
+kubectl get gateway --all-namespaces \
+  -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.spec.gatewayClassName'
+```
+
+If nothing else uses it, delete the GatewayClass:
 
 ```shell
 kubectl delete -f gateway-class.yml
 ```
 
-This does not uninstall the Envoy Gateway controller. To remove it as well:
+This does not uninstall the Envoy Gateway controller, which serves every
+Gateway on the cluster. Remove it only if you installed it for this example
+and the command above listed no other Gateway — any Gateway left behind would
+stop being reconciled and lose its Envoy proxy:
 
 ```shell
 helm uninstall eg --namespace envoy-gateway-system
