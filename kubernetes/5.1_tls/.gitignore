@@ -1,0 +1,4 @@
+# The certificate and its private key are generated locally by the README,
+# and must never be committed.
+tls.crt
+tls.key

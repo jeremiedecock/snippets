@@ -1,0 +1,39 @@
+# SecurityPolicy is NOT part of the Gateway API. It is an Envoy Gateway
+# extension (note the `gateway.envoyproxy.io` group), which is why every other
+# manifest of this demo would work unchanged on another implementation and
+# this one would not. Traefik expresses the same thing with a Middleware,
+# ingress-nginx with an annotation.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: my-basic-auth
+spec:
+  # What the policy protects. Targeting the HTTPRoute — rather than the
+  # Gateway — is deliberate:
+  #
+  #   * the 301 redirect on port 80 (http-redirect-route.yml) stays open, so
+  #     browsers are redirected to HTTPS *before* being asked for a password,
+  #     and credentials are never typed into a plaintext connection;
+  #   * the temporary HTTPRoute that cert-manager creates for the ACME
+  #     challenge stays open too. A policy attached to the Gateway would cover
+  #     it as well, Let's Encrypt would get a 401 instead of the token, and
+  #     certificate *renewal* would fail silently two months later.
+  #
+  # Attach it to the Gateway only if you want everything behind that Gateway
+  # protected, and then use DNS-01 instead of HTTP-01.
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: my-route
+
+  basicAuth:
+    users:
+      # An Opaque Secret whose `.htpasswd` key holds the password file, in the
+      # Gateway's namespace. Created imperatively in the README: committing it
+      # would publish the hashes.
+      name: basic-auth-users
+
+    # Optional: pass the authenticated username to the backend in a header, so
+    # the application can know who it is serving without handling credentials
+    # itself. Left off here — the nginx welcome page has nothing to do with it.
+    # forwardUsernameHeader: X-Authenticated-User

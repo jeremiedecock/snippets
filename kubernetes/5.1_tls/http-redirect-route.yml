@@ -1,0 +1,20 @@
+# Optional, but this is what a site served over HTTPS normally does: answer
+# every plain HTTP request with a 301 redirect to the HTTPS one, instead of
+# serving the page in clear text.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-redirect-route
+spec:
+  parentRefs:
+    - name: my-gateway
+      sectionName: http
+  hostnames:
+    - my-app.example.com
+  rules:
+    # No backendRefs: the Gateway answers by itself, nothing reaches the app.
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

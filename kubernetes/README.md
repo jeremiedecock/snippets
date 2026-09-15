@@ -2,7 +2,7 @@
 
 A progression of minimal examples, each adding one concept on top of the
 previous one. The app is a stock nginx web server up through the HTTPS
-example (5.2), then your own FastAPI app (plus a small nginx frontend from
+examples (5.x), then your own FastAPI app (plus a small nginx frontend from
 6.4 on), starting with the custom image and private registry example (6.1).
 
 1. **Pod** — the smallest deployable unit
@@ -45,8 +45,13 @@ example (5.2), then your own FastAPI app (plus a small nginx frontend from
        out into its own manifest)
      - [`4.3.3_gateway_api_envoy_gateway_official_example_multi_apps`](4.3.3_gateway_api_envoy_gateway_official_example_multi_apps/)
        — two apps sharing a single Gateway
-5. [`5.2_lets_encrypt`](5.2_lets_encrypt/) — **HTTPS** with automatic Let's
-   Encrypt certificates (cert-manager)
+5. **HTTPS**, and a first access control
+   - [`5.1_tls`](5.1_tls/) — a **self-signed certificate**, created with
+     `openssl` and served by the Gateway
+   - [`5.2_lets_encrypt`](5.2_lets_encrypt/) — automatic, publicly trusted
+     Let's Encrypt certificates (cert-manager)
+   - [`5.3_basic_auth`](5.3_basic_auth/) — protect the app with a password,
+     from an **htpasswd** file checked by the Gateway
 6. Your own image, and multiple services communicating
    - [`6.1_private_docker_registry`](6.1_private_docker_registry/) — build
      and push **your own image** (a minimal FastAPI app) to a private

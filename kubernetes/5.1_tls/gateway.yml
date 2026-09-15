@@ -1,0 +1,30 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  gatewayClassName: eg
+  listeners:
+    # Plain HTTP, kept only to redirect every request to HTTPS
+    # (see http-redirect-route.yml).
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: my-app.example.com
+
+    # HTTPS, terminated by the Gateway: the Envoy proxy decrypts the traffic
+    # and forwards it to the Service in plain HTTP inside the cluster.
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: my-app.example.com
+      tls:
+        # "Terminate" (the default) decrypts here; "Passthrough" would forward
+        # the encrypted stream untouched to the backend, which would then need
+        # the certificate itself.
+        mode: Terminate
+        certificateRefs:
+          # A kubernetes.io/tls Secret, holding the tls.crt and tls.key
+          # created in the README. It must live in this very namespace,
+          # otherwise a ReferenceGrant would be required.
+          - name: my-tls
