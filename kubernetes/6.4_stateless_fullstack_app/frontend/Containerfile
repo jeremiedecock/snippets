@@ -1,0 +1,13 @@
+FROM docker.io/library/nginx:stable-alpine-slim
+
+# The whole frontend: one static file, served by the image's own default
+# server block on port 80.
+#
+# Note what is *not* here: no `default.conf`, no `proxy_pass`, no mention of
+# the backend at all. The image contains static files and nothing else --
+# every routing decision lives in `http-route.yml`, i.e. in Kubernetes rather
+# than in the image. Rebuilding the frontend to move the API elsewhere would
+# be a design smell.
+COPY index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80

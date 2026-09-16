@@ -73,8 +73,11 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
    - [`6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt`](6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt/)
      — 6.2.2 and 5.2 combined: the same app served over **HTTPS**, with a
      Let's Encrypt certificate (cert-manager)
-   - [`6.4_stateless_fullstack_app`](6.4_stateless_fullstack_app/) — **two
-     services communicating** (nginx frontend + FastAPI backend)
+   - [`6.4_stateless_fullstack_app`](6.4_stateless_fullstack_app/) — a
+     **fullstack app**: that backend plus an nginx **frontend** that calls
+     it, both behind **one hostname** over HTTPS, split by **path** in a
+     single HTTPRoute (`/api` and `/`) — which is what makes CORS a
+     non-issue
 7. Persistence
    - [`7.1_sqlite_volume`](7.1_sqlite_volume/) — naive persistence in a
      **hostPath volume**, and why it is broken

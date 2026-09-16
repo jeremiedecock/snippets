@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello fullstack</title>
+  <style>
+    body   { font-family: system-ui, sans-serif; max-width: 34rem;
+             margin: 3rem auto; padding: 0 1rem; line-height: 1.5;
+             color: #1a1a1a; }
+    h1     { font-size: 1.6rem; }
+    p.hint { color: #555; font-size: .9rem; }
+    code   { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; }
+    #message { font-size: 1.5rem; font-weight: 600; padding: 1rem;
+               border-radius: 6px; background: #f0f0f0; }
+    #message.ok      { background: #e7f5e7; }
+    #message.error   { background: #fdeaea; font-size: 1rem; font-weight: 400; }
+    button { font: inherit; padding: .4rem .8rem; cursor: pointer; }
+    pre    { background: #f0f0f0; padding: .6rem; border-radius: 6px;
+             overflow-x: auto; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <h1>Hello fullstack</h1>
+
+  <p class="hint">
+    This page is static, served by <strong>nginx</strong> under
+    <code>/</code>. The message below is not in it: the browser fetches it
+    from the <strong>FastAPI</strong> backend, under <code>/api/</code>, on
+    this same host.
+  </p>
+
+  <p id="message">loading…</p>
+
+  <p>
+    <button id="refresh">Call /api/ again</button>
+  </p>
+
+  <p class="hint">What the backend answered, verbatim:</p>
+  <pre id="raw">—</pre>
+
+  <script>
+    const messageEl = document.getElementById("message");
+    const rawEl = document.getElementById("raw");
+
+    async function load() {
+      messageEl.className = "";
+      messageEl.textContent = "loading…";
+      rawEl.textContent = "—";
+
+      try {
+        // A *relative* URL. The browser resolves it against this page's own
+        // origin -- same scheme, same host, same port -- so this is a
+        // same-origin request: no `Origin` header, no preflight, no
+        // `Access-Control-Allow-Origin` needed on the backend, nothing to
+        // configure anywhere. That single slash is the whole reason the
+        // frontend and the backend share one hostname.
+        //
+        // Written "https://api.example.com/" instead, the very same line
+        // would be a cross-origin request, and the backend would have to opt
+        // in explicitly (FastAPI's CORSMiddleware, or a CORS filter on the
+        // Gateway) before the browser let this page read the answer.
+        //
+        // `no-store` only keeps the Refresh button honest while you scale
+        // the Deployment up and down.
+        const response = await fetch("/api/", { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status + " " + response.statusText);
+        }
+
+        const data = await response.json();
+        messageEl.className = "ok";
+        messageEl.textContent = data.message;
+        rawEl.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        // A 404 here means the `/api` rule did not match, a 503 that it
+        // matched but the backend has no ready Pod. See the README.
+        messageEl.className = "error";
+        messageEl.textContent = "the backend did not answer: " + error.message;
+      }
+    }
+
+    document.getElementById("refresh").addEventListener("click", load);
+    load();
+  </script>
+</body>
+</html>

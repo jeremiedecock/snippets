@@ -1,0 +1,18 @@
+# Identical to the backend's Service but for the two names: same `port: 80`,
+# same named `targetPort`. The Service is the stable address the HTTPRoute
+# forwards to; which Pods sit behind it is the selector's business.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    # 80 -> the container's `http` port, which for nginx is also 80. The
+    # numbers coincide here and differ for the backend (80 -> 8000): naming
+    # the target port is what makes both Services look the same.
+    - port: 80
+      targetPort: http
+      protocol: TCP

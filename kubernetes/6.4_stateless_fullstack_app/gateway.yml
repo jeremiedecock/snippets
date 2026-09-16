@@ -1,0 +1,57 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+  annotations:
+    # This single line is what replaces the whole "create a certificate by
+    # hand" chapter of 5.1_tls. cert-manager's gateway-shim watches annotated
+    # Gateways, and for every HTTPS listener that is eligible (non-empty
+    # hostname, mode Terminate, a certificateRefs name) it creates a
+    # Certificate object asking this issuer for that hostname.
+    #
+    # Switch this to `letsencrypt` once the staging run works.
+    # Use `cert-manager.io/issuer` instead for a namespaced Issuer.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: eg
+  listeners:
+    # Plain HTTP. Unlike in 6.2.2, where it was the only listener and served
+    # the app, this one is not optional and serves nothing of the app: the
+    # ACME HTTP-01 challenge is carried over it, through the temporary
+    # HTTPRoute that cert-manager creates. Once the certificate is issued, it
+    # only redirects to HTTPS (see http-redirect-route.yml).
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: my-app.example.com
+
+    # HTTPS, terminated by the Gateway: Envoy decrypts the traffic and
+    # forwards plain HTTP to the Service, on port 80. The FastAPI Pod is
+    # unaware that anything was encrypted -- neither Deployment changes
+    # compared to 6.3, and nothing in this file does either.
+    - name: https
+      protocol: HTTPS
+      port: 443
+      # Required by cert-manager: it becomes the dnsNames of the Certificate,
+      # i.e. the name Let's Encrypt is asked to certify. A listener with no
+      # hostname is silently skipped -- which is why 6.2.2's hostname-less
+      # listener could not have worked here.
+      hostname: my-app.example.com
+      tls:
+        # Required too: cert-manager skips "Passthrough" listeners, which by
+        # definition terminate TLS somewhere else.
+        mode: Terminate
+        certificateRefs:
+          # This Secret does not exist yet when the Gateway is applied -- it is
+          # the *output* of the process, not an input. The listener stays
+          # unresolved for a minute or two, then cert-manager writes the
+          # Secret and Envoy Gateway picks it up.
+          #
+          # The name is also the name of the Certificate object created by
+          # cert-manager. Cross-namespace refs are not supported by the
+          # gateway-shim.
+          #
+          # Not to be confused with `ghcr-secret`, the *pull* Secret named
+          # by both Deployments: this demo ends up with two Secrets of two
+          # different types, one written by you, one written by cert-manager.
+          - name: my-tls

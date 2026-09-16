@@ -1,0 +1,86 @@
+# The backend half of the app: 6.3's Deployment, with two differences and
+# nothing else.
+#
+#   1. it is called `backend` rather than `my-deployment`, because the
+#      namespace now holds two Deployments and "my-" stops being a name;
+#   2. it is told the public path prefix it is served under (`--root-path`,
+#      see below).
+#
+# The *image* is 6.3's, untouched: same repository, same `1.0` tag, same
+# three-line `main.py` answering `{"message": "hello"}` on `/`. Turning a
+# backend into half of a fullstack app required rebuilding nothing.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - image: ghcr.io/jeremiedecock/hello-fastapi:1.0
+          name: backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+
+          # The HTTPRoute strips `/api` before forwarding (see
+          # `http-route.yml`), so the application receives `/` and answers
+          # it, exactly as in 6.3 -- it has no idea a prefix was involved.
+          #
+          # That is fine until the app has to *generate* a URL, and FastAPI
+          # generates several: the Swagger UI at `/docs` fetches the schema
+          # from `openapi.json`, whose path it computes itself. Without the
+          # line below it computes `/openapi.json`, the browser asks the
+          # Gateway for `https://<host>/openapi.json`, that path does not
+          # start with `/api`, and the *frontend* answers with its index page
+          # -- so `/api/docs` loads and then fails to display anything.
+          #
+          # `--root-path` is how an ASGI app is told "you are published under
+          # this prefix": routing is unchanged (the app still serves `/`),
+          # but every URL it builds is prefixed. It belongs in the manifest
+          # rather than in the image precisely because the prefix is a
+          # deployment choice, not an application one -- the same image is
+          # served at `/` in 6.1, 6.2.1, 6.2.2 and 6.3.
+          #
+          # This flag is the counterpart of the `URLRewrite` filter in
+          # `http-route.yml` and is useless without it: uvicorn *prepends*
+          # the value to the incoming path, so it takes for granted that the
+          # proxy already removed it. Remove the filter and leave this in
+          # place and every request becomes `/api/api/...`, i.e. a 404.
+          # (`FastAPI(root_path="/api")` in the code is the setting that
+          # behaves the other way round -- see the README.)
+          #
+          # The image declares no ENTRYPOINT, only a CMD, so `command` here
+          # replaces that CMD in full -- hence the repetition of the
+          # Containerfile's arguments.
+          command:
+            - fastapi
+            - run
+            - main.py
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8000"
+            - --root-path
+            - /api
+
+          # Unchanged from 6.3: the kubelet queries `/` on the Pod's own IP,
+          # in plain HTTP, without going through the Gateway -- so it sees
+          # neither the certificate nor the `/api` prefix.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+
+      imagePullSecrets:
+        - name: ghcr-secret

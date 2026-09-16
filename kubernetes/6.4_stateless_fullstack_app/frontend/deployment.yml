@@ -1,0 +1,45 @@
+# The frontend half: the same shape as the backend's Deployment, with a
+# different image and a different port. Nothing about it is specific to being
+# a "frontend" -- to Kubernetes it is one more HTTP server behind one more
+# Service.
+#
+# Like the backend image, this one is pushed to GHCR and private, so the same
+# `ghcr-secret` pull Secret is named here. A single Secret serves both: it
+# holds credentials for the *registry*, not for an image.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        # Distinct from the backend's `app: backend`, and the two Services
+        # select on it. Give both Deployments the same label and each Service
+        # would load-balance across all four Pods, sending API calls to nginx
+        # and page loads to FastAPI, at random.
+        app: frontend
+    spec:
+      containers:
+        - image: ghcr.io/jeremiedecock/hello-frontend:1.0
+          name: frontend
+          imagePullPolicy: Always
+          ports:
+            # nginx listens on 80 where FastAPI listened on 8000; both are
+            # named `http`, which is what lets the two Services be identical.
+            - containerPort: 80
+              name: http
+              protocol: TCP
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+
+      imagePullSecrets:
+        - name: ghcr-secret

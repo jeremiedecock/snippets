@@ -1,0 +1,97 @@
+# The one file that makes this a fullstack app rather than two unrelated
+# demos: a single hostname, split by path across two Services.
+#
+# 6.3's route had one rule and no `matches:` at all, which meant "everything
+# on this hostname goes to the app". Here there are two backends to choose
+# between, so the choice has to be spelled out.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+spec:
+  parentRefs:
+    - name: my-gateway
+      # Attach to the HTTPS listener only: the HTTP one carries the ACME
+      # challenge and the redirect (http-redirect-route.yml).
+      sectionName: https
+  hostnames:
+    # One hostname for both halves. This is the whole point: the page served
+    # by the frontend and the JSON served by the backend have the same
+    # origin, so the browser treats the `fetch("/api/")` in `index.html` as a
+    # same-origin request and CORS never enters the picture.
+    - my-app.example.com
+  rules:
+    # --- rule 1: the API ---------------------------------------------------
+    - matches:
+        - path:
+            # `PathPrefix` matches whole path *segments*, not characters:
+            # this matches `/api`, `/api/` and `/api/docs`, and does not
+            # match `/apiary`. (`type: Exact` would match `/api` alone;
+            # `RegularExpression` exists too but is implementation-specific.)
+            type: PathPrefix
+            value: /api
+
+      filters:
+        # Strip the prefix before forwarding, because the backend does not
+        # know about it: its only route is `/`, and `GET /api/` would be a
+        # 404 from FastAPI.
+        #
+        # `ReplacePrefixMatch` replaces exactly the part that `matches`
+        # above matched -- `/api` -- with the value below, so:
+        #
+        #     /api      -> /
+        #     /api/     -> /
+        #     /api/docs -> /docs
+        #
+        # The alternative is to not strip anything and let the application
+        # own the prefix -- an `APIRouter(prefix="/api")`, or
+        # `FastAPI(root_path="/api")` in the code, which makes Starlette
+        # remove the prefix itself on the way in. Both work; both make the
+        # image hardcode its public path, and this one is shared with 6.1,
+        # 6.2.1, 6.2.2 and 6.3, where it is served at `/`. See "The
+        # alternative: let the application own the prefix" in the README.
+        #
+        # Careful, though: `--root-path` in `backend/deployment.yml` is NOT
+        # that alternative and cannot replace this filter. Uvicorn *prepends*
+        # it to the incoming path, so it assumes the stripping already
+        # happened here; drop this filter and keep the flag and every call
+        # becomes `/api/api/...` -- a flat 404. The two are a matched pair.
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+
+      backendRefs:
+        # The *Service* named in backend/service.yml, on the *Service* port
+        # (80), not the container's 8000.
+        - name: backend
+          port: 80
+
+    # --- rule 2: everything else ------------------------------------------
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: frontend
+          port: 80
+
+# Why this is not ambiguous, and why the order of the rules above does not
+# matter: `/api/` matches both rules, and the Gateway API specifies how ties
+# are broken. The first criterion is the *length of the matched path*, so the
+# `/api` prefix (4 characters) always wins over `/` (1). Only after that do
+# method, header and query-parameter matches come into play, and only then --
+# for rules that are still tied -- does order.
+#
+# The same ranking applies *across* HTTPRoutes, not just within one, so
+# splitting this file in two (one route per component, each owned by its
+# team, possibly in its own namespace, as 4.3.2 lays out) routes traffic
+# identically. One file is shorter here, and puts the two halves of the
+# decision side by side.
+#
+# A frontend route matching `/` is a catch-all and therefore the natural
+# place for the single-page-application fallback: with a client-side router,
+# a reload on `/settings` must return `index.html` rather than a 404, which
+# is nginx's `try_files $uri /index.html;` -- a frontend concern, handled
+# inside that image, not here.

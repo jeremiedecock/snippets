@@ -1,0 +1,19 @@
+# 6.3's Service, renamed. The name matters twice over now: it is what
+# `http-route.yml` forwards the `/api` rule to, and it is the DNS name
+# (`backend.snippet-fullstack-demo.svc.cluster.local`) any other Pod in the
+# cluster would use to call the API directly -- see "Who talks to whom" in
+# the README.
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    # `port` is the Service's own port and `targetPort` the container's named
+    # port, so the two numbers are free to differ -- and do, on purpose
+    - port: 80
+      targetPort: http
+      protocol: TCP
