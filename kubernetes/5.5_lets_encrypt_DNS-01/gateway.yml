@@ -1,0 +1,43 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: snippet-letsencrypt-dns01-demo
+  annotations:
+    # Exactly the same trigger as in 5.2_lets_encrypt: cert-manager's
+    # gateway-shim watches annotated Gateways and writes one Certificate per
+    # eligible HTTPS listener. Nothing here says how ownership is proven —
+    # that is the issuer's business, and the only thing this example changes.
+    #
+    # Switch this to `letsencrypt` once the staging run works.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: eg
+  listeners:
+    # Plain HTTP. In 5.2 this listener was mandatory, because the HTTP-01
+    # challenge was served through it. With DNS-01 it carries nothing but the
+    # 301 redirect, and could be removed entirely: a certificate can now be
+    # issued for a Gateway that has no port 80 open at all, or no public
+    # address whatsoever.
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: my-app.example.com
+
+    # HTTPS, terminated by the Gateway, byte for byte as in 5.1 and 5.2.
+    - name: https
+      protocol: HTTPS
+      port: 443
+      # Becomes the `dnsNames` of the Certificate the gateway-shim writes.
+      #
+      # This is the line to change for a wildcard: `*.example.com` is a legal
+      # Gateway API listener hostname, and DNS-01 is the only challenge type
+      # Let's Encrypt accepts for wildcard names. See the README.
+      hostname: my-app.example.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          # The output of the process, not an input: this Secret does not
+          # exist when the Gateway is applied, and the listener stays
+          # unresolved until cert-manager writes it.
+          - name: my-tls

@@ -1,0 +1,35 @@
+# The DNS side, and the only part of acme-dns that faces the internet: this is
+# what Let's Encrypt queries when it resolves
+# `_acme-challenge.my-app.example.com`, following the CNAME into the
+# `auth.example.com` zone this server is authoritative for.
+#
+# It needs a *stable public IP*: the `A` record created at your registrar
+# points at it, and changing it later means editing that record.
+apiVersion: v1
+kind: Service
+metadata:
+  name: acme-dns
+  namespace: snippet-acme-dns   # Use "acme-dns" in production
+spec:
+  type: LoadBalancer
+  selector:
+    app: acme-dns
+  ports:
+    # DNS is UDP first, with a TCP fallback for answers that do not fit (and
+    # required of every authoritative server by the DNS specification). The
+    # two entries share port 53 and differ only by protocol, which is legal
+    # as long as their `name` values differ.
+    #
+    # A single Service carrying both protocols needs a load balancer that
+    # supports mixed protocols. This is standard Kubernetes since 1.26, but
+    # some cloud load balancers still refuse it — see the README if this
+    # Service never gets an address: splitting it in two (one UDP, one TCP)
+    # is the usual workaround, at the price of two public IPs.
+    - name: dns-udp
+      port: 53
+      targetPort: dns-udp
+      protocol: UDP
+    - name: dns-tcp
+      port: 53
+      targetPort: dns-tcp
+      protocol: TCP

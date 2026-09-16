@@ -1,0 +1,100 @@
+# The one file that really differs from 5.2_lets_encrypt.
+#
+# An Issuer says *where* certificates come from and *how* ownership is proven.
+# The "where" is unchanged (the same two Let's Encrypt environments, staging
+# first); the "how" moves from http01 to dns01, and with it the whole set of
+# prerequisites: no public IP for the application, no open port 80, no
+# temporary solver Pod — but a TXT record to write, and therefore credentials
+# to write it with.
+#
+# Those credentials are an acme-dns account: a random subdomain of
+# `auth.example.com` and a password that can update the TXT record of that
+# subdomain, and of nothing else.
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - dns01:
+          # Required whenever the challenge record is a CNAME pointing
+          # somewhere else — which is the entire principle of this example.
+          #
+          # Before writing anything, and again before telling Let's Encrypt to
+          # look, cert-manager checks the record itself. With the default
+          # strategy ("None") it asks the authoritative servers of
+          # `example.com` for a TXT record at `_acme-challenge.my-app`, and
+          # those servers answer with the CNAME and stop there, since an
+          # authoritative server does not chase a delegation on your behalf:
+          # the self-check never sees the token and the Challenge stays
+          # pending until it times out.
+          #
+          # "Follow" makes cert-manager resolve the CNAME chain first and
+          # check the TXT record where it actually lives, in the acme-dns
+          # zone. Let's Encrypt itself always follows the CNAME; this setting
+          # only concerns cert-manager's own verification.
+          cnameStrategy: Follow
+
+          acmeDNS:
+            # The acme-dns REST API, as seen from inside the cluster. Plain
+            # HTTP on a ClusterIP Service: this call never leaves the cluster,
+            # and the API is not published on the internet.
+            #
+            # cert-manager only ever calls POST /update with the credentials
+            # below. Registration (POST /register) is a one-off manual step,
+            # done by hand in the README.
+            host: http://acme-dns-api.snippet-acme-dns.svc.cluster.local
+
+            # The account file, as handed out by /register, wrapped in a JSON
+            # object keyed by the domain being validated:
+            #
+            #   {
+            #     "my-app.example.com": {
+            #       "username": "...", "password": "...",
+            #       "fulldomain": "<uuid>.auth.example.com",
+            #       "subdomain": "<uuid>", "allowfrom": []
+            #     }
+            #   }
+            #
+            # Two traps, both of which produce the same error — "account
+            # credentials not found for domain ...":
+            #
+            #   - the key must match the challenged name *exactly*: no
+            #     wildcard, no parent zone, no trailing dot. cert-manager
+            #     looks it up by exact match and does not walk up the tree.
+            #     For a wildcard certificate the challenged name is the base
+            #     domain, so the key is `example.com`, never `*.example.com`.
+            #   - this Secret is read in the namespace where cert-manager runs
+            #     (`cert-manager`), not in the namespace of the Gateway or of
+            #     the Certificate, because a ClusterIssuer has no namespace of
+            #     its own. A namespaced Issuer would read it in its own.
+            accountSecretRef:
+              name: acme-dns-credentials
+              key: acmedns.json
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    # The real Let's Encrypt. Same solver: the account, the CNAME and the
+    # acme-dns server are shared by both issuers, so switching costs nothing.
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - dns01:
+          cnameStrategy: Follow
+          acmeDNS:
+            host: http://acme-dns-api.snippet-acme-dns.svc.cluster.local
+            accountSecretRef:
+              name: acme-dns-credentials
+              key: acmedns.json

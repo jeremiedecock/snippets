@@ -149,7 +149,9 @@ The alternative, **DNS-01**, proves ownership by writing a TXT record through
 your DNS provider's API. It needs no public IP and no open port 80, and it is
 the only way to get **wildcard** certificates — at the price of credentials
 for your DNS zone. If this demo cannot reach your cluster from the internet,
-DNS-01 is the way out.
+DNS-01 is the way out, and
+[`5.5_lets_encrypt_DNS-01`](../5.5_lets_encrypt_DNS-01/) is this same example
+done that way, without handing anyone the keys to your zone.
 
 ### Renewal
 
@@ -484,7 +486,11 @@ cert-manager notices the `issuerRef` of the Certificate no longer matches and
 re-issues it, through the same challenge:
 
 ```shell
-kubectl get certificate,order,challenge -n snippet-letsencrypt-demo --watch
+kubectl get certificate,order,challenge -n snippet-letsencrypt-demo
+```
+
+```shell
+kubectl get certificate -n snippet-letsencrypt-demo --watch
 ```
 
 The issuer is now one of Let's Encrypt's production intermediates:

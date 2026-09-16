@@ -1,0 +1,69 @@
+# acme-dns itself: one small Go binary that is, at the same time,
+#   - an authoritative DNS server for the `auth.example.com` zone, answering
+#     TXT queries (and nothing else of interest), and
+#   - a REST API with exactly three endpoints: /register, /update, /health.
+#
+# A single replica, on purpose. The SQLite database is a ReadWriteOnce volume,
+# so two Pods could not mount it at once, and the rolling update strategy is
+# replaced by `Recreate` for the same reason: the new Pod must not try to
+# attach the volume before the old one has released it.
+#
+# A minute of downtime here is harmless: it delays a challenge, it never
+# breaks a certificate that is already issued.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acme-dns
+  namespace: snippet-acme-dns   # Use "acme-dns" in production
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: acme-dns
+  template:
+    metadata:
+      labels:
+        app: acme-dns
+    spec:
+      containers:
+        - image: docker.io/joohoi/acme-dns:v2.0.2
+          name: acme-dns
+          ports:
+            # The names are what the two Services target, so that the port
+            # numbers live in one place only.
+            - containerPort: 5053
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 5053
+              name: dns-tcp
+              protocol: TCP
+            - containerPort: 8080
+              name: api
+              protocol: TCP
+          # /health is the endpoint acme-dns provides for exactly this. It
+          # only proves the API is up, which is enough: the DNS server and the
+          # API are the same process.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: api
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: api
+            initialDelaySeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /etc/acme-dns
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/acme-dns
+      volumes:
+        - name: config
+          configMap:
+            name: acme-dns-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: acme-dns-data

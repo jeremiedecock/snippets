@@ -1,0 +1,51 @@
+# Identical to 5.2_lets_encrypt, except for the namespace of the Gateway named
+# by the solver. One pair of issuers serves *both* applications: an issuer
+# describes an ACME account and how ownership is proven, not a domain, so
+# nothing in it is per-application.
+#
+# These two objects are cluster-scoped. They live in this directory because
+# their solver names this demo's Gateway, but, like the GatewayClass, they are
+# not deleted along with the namespace (see "Remove the demo").
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: my-gateway
+                namespace: snippet-letsencrypt-multi-demo-gateway   # Use "gateway-infra" in production
+                # Deliberately no `sectionName` here, unlike the application
+                # routes. cert-manager reuses this single parentRef for every
+                # challenge, so pinning one listener would send the app2
+                # challenge to a listener whose hostname is app1's — no
+                # hostname intersection, no attachment, failed challenge.
+                # Left unset, each solver HTTPRoute attaches to whichever
+                # listeners match its own hostname.
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: my-gateway
+                namespace: snippet-letsencrypt-multi-demo-gateway   # Use "gateway-infra" in production

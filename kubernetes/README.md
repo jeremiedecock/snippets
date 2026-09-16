@@ -53,6 +53,13 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
    - [`5.3.2_basic_auth_in_nginx`](5.3.2_basic_auth_in_nginx/) — the same
      password, checked by **nginx itself** instead: portable across Gateway
      API implementations, and free of Envoy's SHA-1 limitation
+   - [`5.4_lets_encrypt_multi_apps`](5.4_lets_encrypt_multi_apps/) — 4.3.2
+     and 5.2 combined: **two apps, two domain names, two certificates**,
+     behind a single public IP
+   - [`5.5_lets_encrypt_DNS-01`](5.5_lets_encrypt_DNS-01/) — the same
+     certificates proven by the **DNS-01 challenge** instead: no open port 80,
+     **wildcard** certificates, and **any registrar** (cert-manager +
+     **acme-dns**, delegated with one static CNAME)
 6. Your own image, and multiple services communicating
    - [`6.1_private_docker_registry`](6.1_private_docker_registry/) — build
      and push **your own image** (a minimal FastAPI app) to a private

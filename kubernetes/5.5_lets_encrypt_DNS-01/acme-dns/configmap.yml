@@ -1,0 +1,76 @@
+# The whole configuration of acme-dns, as the TOML file the binary reads from
+# /etc/acme-dns/config.cfg.
+#
+# Two values have to be replaced before applying this file: `auth.example.com`
+# (the zone this server is authoritative for) and the public IP address in
+# `records`, which is only known once the LoadBalancer Service has one — see
+# the README, which applies this ConfigMap twice for that reason.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acme-dns-config
+  namespace: snippet-acme-dns   # Use "acme-dns" in production
+data:
+  config.cfg: |
+    [general]
+    # The DNS server binds 5053 rather than the usual 53: inside a container,
+    # 53 is a privileged port, and avoiding it is what lets this Pod run
+    # without extra capabilities. The Service publishes it on 53, which is the
+    # only port number the outside world ever sees.
+    listen = "0.0.0.0:5053"
+    # Serve both UDP and TCP, as an authoritative server must.
+    protocol = "both"
+
+    # The zone served by this server. Every registration hands out one random
+    # subdomain of it, and nothing else is ever stored in it.
+    domain = "auth.example.com"
+    # The name published in the zone's SOA and NS records.
+    nsname = "auth.example.com"
+    # The zone administrator's e-mail, with "@" written as a dot, as the DNS
+    # specification requires in a SOA record: you@example.com is written
+    # "you.example.com".
+    nsadmin = "you.example.com"
+
+    # Records this server answers on its own, in addition to the TXT records
+    # it is there for. They mirror what you create at your registrar, so that
+    # the delegation is consistent whichever side is asked:
+    #   - the A record must carry the *public* address of the LoadBalancer;
+    #   - the NS record states that this server is the authority for the zone.
+    records = [
+        "auth.example.com. A 203.0.113.1",
+        "auth.example.com. NS auth.example.com.",
+    ]
+    debug = false
+
+    [database]
+    # "sqlite", not "sqlite3": acme-dns v2.0 renamed the engine, and every
+    # tutorial written before February 2026 still uses the old spelling, which
+    # is now rejected at startup. PostgreSQL is the other option, and the one
+    # to pick if this server ever needs more than one replica.
+    engine = "sqlite"
+    # On the PersistentVolumeClaim: this file is the only copy of every
+    # registration.
+    connection = "/var/lib/acme-dns/acme-dns.db"
+
+    [api]
+    ip = "0.0.0.0"
+    port = "8080"
+    # The API is only reachable from inside the cluster (its Service is a
+    # ClusterIP), so it serves plain HTTP. Setting "letsencrypt" here would
+    # make acme-dns obtain a certificate for its own API — useful when the API
+    # is published on the internet, pointless and circular here.
+    tls = "none"
+    # Leave registration open while setting the demo up, then see the README:
+    # switching this to true once your account exists closes the only endpoint
+    # that does not require credentials.
+    disable_registration = false
+    corsorigins = [
+        "*"
+    ]
+    use_header = false
+    header_name = "X-Forwarded-For"
+
+    [logconfig]
+    loglevel = "info"
+    logtype = "stdout"
+    logformat = "text"

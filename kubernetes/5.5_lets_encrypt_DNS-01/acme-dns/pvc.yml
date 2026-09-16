@@ -1,0 +1,20 @@
+# acme-dns keeps its registrations (one random subdomain, a username and a
+# password per registration) in a small SQLite database. That database is the
+# *only* copy of those credentials: lose it and every `_acme-challenge` CNAME
+# created at a registrar points at a subdomain nobody can update any more, so
+# every certificate stops renewing until the CNAMEs are recreated.
+#
+# Hence a PersistentVolumeClaim rather than an emptyDir, even for a demo.
+# PVCs are the subject of 7.2_pv_pvc; the three lines below are all this
+# example needs from them.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: acme-dns-data
+  namespace: snippet-acme-dns   # Use "acme-dns" in production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

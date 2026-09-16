@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: snippet-letsencrypt-multi-demo-app2

@@ -1,0 +1,26 @@
+# Answer every plain HTTP request with a 301 to the HTTPS one, as any site
+# served over HTTPS does.
+#
+# Unlike in 5.2_lets_encrypt, this route has nothing to share the listener
+# with: the DNS-01 challenge is answered by a TXT record in the DNS, not by an
+# HTTP request, so cert-manager creates no temporary solver HTTPRoute here and
+# this redirect really does catch *everything* on port 80, from the first
+# second. Deleting the `http` listener and this route altogether would work
+# just as well — the certificate would still be issued and renewed.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-redirect-route
+  namespace: snippet-letsencrypt-dns01-demo
+spec:
+  parentRefs:
+    - name: my-gateway
+      sectionName: http
+  hostnames:
+    - my-app.example.com
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

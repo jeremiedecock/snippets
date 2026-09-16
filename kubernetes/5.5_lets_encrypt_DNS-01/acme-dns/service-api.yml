@@ -1,0 +1,23 @@
+# The REST API of acme-dns (/register, /update, /health), reachable *from
+# inside the cluster only*: this is a ClusterIP Service, never a LoadBalancer.
+#
+# That is a deliberate and important choice. Only the DNS port has to be
+# public (a CA must be able to query it); the API is called by cert-manager,
+# which runs in this cluster. Keeping it internal means the registration
+# endpoint is not exposed to the internet at all, and that the API can speak
+# plain HTTP without needing a certificate of its own — which would be a
+# chicken-and-egg problem in an example about obtaining certificates.
+apiVersion: v1
+kind: Service
+metadata:
+  name: acme-dns-api
+  namespace: snippet-acme-dns   # Use "acme-dns" in production
+spec:
+  type: ClusterIP
+  selector:
+    app: acme-dns
+  ports:
+    - name: http
+      port: 80
+      targetPort: api
+      protocol: TCP

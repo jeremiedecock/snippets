@@ -1,0 +1,65 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: snippet-letsencrypt-multi-demo-gateway   # Use "gateway-infra" in production
+  annotations:
+    # One annotation for the whole Gateway, as in 5.2_lets_encrypt — but it
+    # now produces *two* Certificates, one per eligible HTTPS listener, named
+    # after the Secret each listener asks for.
+    #
+    # Switch this to `letsencrypt` once the staging run works.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: eg
+  # Four listeners: one HTTP and one HTTPS per hostname. Several listeners may
+  # share a port as long as their `hostname` values differ and their `name`
+  # values are unique; Envoy then selects the certificate by SNI on 443 and
+  # the route by the Host header on 80.
+  listeners:
+    # --- app1 ----------------------------------------------------------------
+    - name: http-app1
+      protocol: HTTP
+      port: 80
+      hostname: app1.example.com
+      allowedRoutes:
+        # Also what lets cert-manager's temporary solver HTTPRoute attach.
+        # That one is created in this namespace (next to the Certificate), so
+        # even `Same` would do; `All` is what the two application namespaces
+        # need. In production, prefer an opt-in selector, as in 4.3.2.
+        namespaces:
+          from: All
+    - name: https-app1
+      protocol: HTTPS
+      port: 443
+      hostname: app1.example.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          # Written by cert-manager, in *this* namespace: the gateway-shim
+          # does not support cross-namespace certificateRefs, so certificates
+          # stay with the Gateway even though the apps live elsewhere.
+          - name: app1-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    # --- app2 ----------------------------------------------------------------
+    - name: http-app2
+      protocol: HTTP
+      port: 80
+      hostname: app2.example.com
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-app2
+      protocol: HTTPS
+      port: 443
+      hostname: app2.example.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: app2-tls
+      allowedRoutes:
+        namespaces:
+          from: All

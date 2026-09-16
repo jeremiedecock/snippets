@@ -1,0 +1,25 @@
+# Copied verbatim from 5.2_lets_encrypt (and from 4.3.1 before it): a stock
+# nginx server speaking plain HTTP, unaware that anything is encrypted, and
+# unaware that a challenge ever took place.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  namespace: snippet-letsencrypt-dns01-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - image: docker.io/library/nginx:stable-alpine-slim
+          name: my-container
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP

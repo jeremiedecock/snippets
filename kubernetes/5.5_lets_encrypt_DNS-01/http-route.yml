@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+  namespace: snippet-letsencrypt-dns01-demo
+spec:
+  parentRefs:
+    - name: my-gateway
+      sectionName: https
+  hostnames:
+    - my-app.example.com
+  rules:
+    - backendRefs:
+        - name: my-service
+          port: 80
