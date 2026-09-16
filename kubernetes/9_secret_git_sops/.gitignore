@@ -1,3 +1,0 @@
-# The age *private* key must never be committed — it decrypts everything.
-*.key
-key.txt

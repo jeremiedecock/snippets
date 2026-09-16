@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - image: ghcr.io/jeremiedecock/hello-fastapi:1.0
+          name: my-container
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+
+          # Without a readiness probe, the Service starts sending traffic as
+          # soon as the container process exists -- before uvicorn is
+          # listening -- which shows up as a handful of 503s at every
+          # rollout. `/` is cheap here and needs no credentials.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+
+      # `imagePullSecrets` belongs to the *Pod* spec, i.e. here inside
+      # `template`, next to `containers` -- not next to `replicas`
+      imagePullSecrets:
+        - name: ghcr-secret
