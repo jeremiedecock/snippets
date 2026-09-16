@@ -18,11 +18,11 @@ Note how the lessons of the previous examples combine: the `db` component is
 a Deployment with `replicas: 1` + `Recreate` + a PVC (exactly the
 `7.2_pv_pvc` pattern — fine here, because PostgreSQL is *made* to be the
 single writer on its files), a ClusterIP Service gives it the stable DNS name
-`db` (`6.4_stateless_fullstack_app`), and its credentials live in a Secret (`9_secret_base64`),
-injected both into PostgreSQL (`POSTGRES_PASSWORD`) and into the backend
-(`DATABASE_URL` — the password appears in two keys of `secret.yml`, kept
-simple on purpose; and as always, this file is only committed because the
-values are fake).
+`db` (`6.4_stateless_fullstack_app`), and its credentials live in a Secret
+(`1.4.1_secret`), injected both into PostgreSQL (`POSTGRES_PASSWORD`) and into
+the backend (`DATABASE_URL` — the password appears in two keys of
+`secret.yml`, kept simple on purpose; and as always, this file is only
+committed because the values are fake).
 
 ## Build and push the backend image
 

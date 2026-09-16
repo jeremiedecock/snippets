@@ -496,8 +496,6 @@ manifests have to survive a change of ingress controller. This is also the
 one that keeps working when the app moves off Kubernetes entirely: the same
 two nginx directives run in a `docker compose` stack or on a plain VM.
 
-**In application code**
-([`6.3.1_stateless_backend_and_basic_auth_in_fastapi`](../6.3.1_stateless_backend_and_basic_auth_in_fastapi/))
-when the answer depends on *who* is asking — per-user data, roles, an audit
-trail. That is a different problem, and htpasswd stops being the right shape
-for it well before you get there.
+**In application code** when the answer depends on *who* is asking — per-user
+data, roles, an audit trail. That is a different problem, and htpasswd stops
+being the right shape for it well before you get there.

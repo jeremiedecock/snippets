@@ -115,10 +115,9 @@ readinessProbe:
 `/` is enough for this app: it is cheap, and it needs no credentials. That
 last point matters more than it looks — the kubelet queries the probe from the
 Pod's own IP and cannot be taught to authenticate, so an app that requires a
-password on every path (as in
-[`6.3.2`](../6.3.2_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt_and_basic_auth_in_fastapi/))
-needs a dedicated unauthenticated health path instead. `5.3.2` makes the same
-point from the other side, with `auth_basic off` on `/healthz`.
+password on every path needs a dedicated unauthenticated health path instead.
+`5.3.2` makes the same point from the other side, with `auth_basic off` on
+`/healthz`.
 
 ## Prerequisites
 
@@ -370,7 +369,7 @@ curl -k https://$ADDR/docs
 
 Encrypted, trusted by nobody — the situation of [`5.1_tls`](../5.1_tls/). Real
 certificates are [`5.2_lets_encrypt`](../5.2_lets_encrypt/)'s job, and
-[`6.3.2`](../6.3.2_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt_and_basic_auth_in_fastapi/)
+[`6.3`](../6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt/)
 is where this app gets one.
 
 ## What the Deployment buys you
@@ -486,7 +485,7 @@ helm uninstall traefik
 **Keep the image.** `hello-fastapi:1.0` is this app — `{"message": "hello"}`,
 documentation enabled — and 6.2.2 and 6.4 expect exactly that content behind
 the tag. The later examples add their own tags rather than overwriting it
-(`1.1` for the password-protected variant in 6.3.2, `4.0` and `5.0` for the
+(`1.0.1` for the rolling update in this example, `4.0` and `5.0` for the
 persistence chapters), so nothing in the series will change what `1.0` means
 under you.
 

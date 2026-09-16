@@ -64,8 +64,15 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
    - [`6.1_private_docker_registry`](6.1_private_docker_registry/) — build
      and push **your own image** (a minimal FastAPI app) to a private
      registry (GHCR)
-   - [`6.3.1_stateless_backend_and_basic_auth_in_fastapi`](6.3.1_stateless_backend_and_basic_auth_in_fastapi/)
-     — the same app behind an Ingress, with **basic auth** handled in FastAPI
+   - [`6.2.1_stateless_backend_ingress_traefik`](6.2.1_stateless_backend_ingress_traefik/)
+     — that image exposed to the internet, with a Deployment, a Service and a
+     Traefik **Ingress**
+   - [`6.2.2_stateless_backend_gateway_api_envoy_gateway`](6.2.2_stateless_backend_gateway_api_envoy_gateway/)
+     — the same, with the **Gateway API** (Envoy Gateway) in place of the
+     Ingress: the version to use for new work
+   - [`6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt`](6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt/)
+     — 6.2.2 and 5.2 combined: the same app served over **HTTPS**, with a
+     Let's Encrypt certificate (cert-manager)
    - [`6.4_stateless_fullstack_app`](6.4_stateless_fullstack_app/) — **two
      services communicating** (nginx frontend + FastAPI backend)
 7. Persistence
@@ -75,36 +82,6 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
      **PersistentVolumeClaim**... at the price of a single replica
    - [`7.3_postgresql`](7.3_postgresql/) — state in a **PostgreSQL** server:
      persistent *and* scalable
-
-Step `9_secret_base64` leaves the secret exposed in two independent places,
-and the follow-up examples are prefixed by the one they fix.
-
-**`9_secret_git_*` — the secret in the repository.** Four interchangeable
-answers, so pick one:
-
-- [`9_secret_git_sealed_secret`](9_secret_git_sealed_secret/) — **Sealed
-  Secrets**: an in-cluster controller holds the private key
-- [`9_secret_git_sops`](9_secret_git_sops/) — **SOPS + age**: the best default
-  for a new project (readable diffs, native GitOps support)
-- [`9_secret_git_ansible_vault`](9_secret_git_ansible_vault/) — **Ansible
-  Vault**: if Ansible is already your deployment tool
-- [`9_secret_git_external_secrets_ovh`](9_secret_git_external_secrets_ovh/) —
-  **External Secrets Operator** + OVHcloud Secret Manager: the most widely
-  used approach, and the only one of the four storing no secret material in
-  git at all (needs a managed secret store)
-
-**`9_secret_etcd_*` — the plaintext copy the API server writes to etcd**,
-which none of the four above removes:
-
-- [`9_secret_etcd_encryption_at_rest`](9_secret_etcd_encryption_at_rest/) —
-  encrypt what etcd receives (`EncryptionConfiguration`, KMS); a
-  cluster-administrator setting, with nothing to change application-side
-- [`9_secret_etcd_csi_driver`](9_secret_etcd_csi_driver/) — **Secrets Store
-  CSI Driver**: never create a Secret at all, mount it from Vault into the
-  Pod (which, as a bonus, also keeps it out of git)
-
-The two families are complementary, not competing: encryption at rest pairs
-with any of the four above it.
 
 Prerequisites: a Kubernetes cluster (minikube, kind, k3s, or a cloud one —
 step 5 requires a cloud one with a public IP), `kubectl`,

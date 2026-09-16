@@ -129,9 +129,8 @@ internet --HTTPS--> Gateway (Envoy: TLS + password check) --HTTP--> Service --> 
 The nginx Pod is still the unmodified image from 4.3.1, still the one 5.2
 started, and knows nothing about any of it — it is not even restarted. The
 contrast is with [`5.3.2_basic_auth_in_nginx`](../5.3.2_basic_auth_in_nginx/),
-which moves the check into that same Pod, and with
-[`6.3.1_stateless_backend_and_basic_auth_in_fastapi`](../6.3.1_stateless_backend_and_basic_auth_in_fastapi/),
-which does it in application *code*.
+which moves the check into that same Pod, and with a third option, doing it
+in application *code*.
 
 None of the three is wrong. At the Gateway: nothing to code, one place to
 change the password, and the application stays reusable — but it is
@@ -307,8 +306,8 @@ kubectl get secret basic-auth-users -n snippet-letsencrypt-demo \
 
 As with the TLS Secret of 5.1, this is created imperatively on purpose. The
 declarative equivalent exists, but a Secret's content is only base64-encoded,
-so committing it would publish the hashes — see the `9_secret_git_*` examples
-for the ways to actually keep a secret in git.
+so committing it would publish the hashes — actually keeping a secret in git
+needs a dedicated tool: SOPS, Sealed Secrets, or an external secret store.
 
 ## Apply the policy
 

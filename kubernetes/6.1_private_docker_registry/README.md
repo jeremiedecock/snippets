@@ -26,7 +26,7 @@ put behind an Ingress and a Gateway, and what the frontend of
 | File | What it is |
 | --- | --- |
 | `main.py` | the whole application: a FastAPI app with one route, `GET /`, returning `{"message": "hello"}` |
-| `Containerfile` | how to build it: `python:3.14-slim`, `pip install "fastapi[standard]"`, run `fastapi run` on port 8000 |
+| `Containerfile` | how to build it: `python:3.14-slim`, `pip install "fastapi[standard]==0.141.1"` (pinned, so that two builds of the same tag cannot differ), run `fastapi run` on port 8000 |
 | `pod.yml` | a bare Pod (as in [`1.1_pod_only`](../1.1_pod_only/)) running that image, with `imagePullSecrets` |
 | `secret.yml` | the pull Secret written as a manifest — shown for reference, **not** the one you should apply (see below) |
 
@@ -222,8 +222,9 @@ Which is the reminder from [`1.4.1_secret`](../1.4.1_secret/), in its most
 concrete form: the token is sitting there in plain text, base64 being an
 encoding and not encryption. `auth` is just `base64(username:password)`.
 Anyone able to read Secrets in this namespace can push to your registry with
-that token — hence the read-only second token suggested above, and the
-`9_secret_*` examples for the real answers.
+that token — hence the read-only second token suggested above, and, for the
+real answers, a dedicated secret-management tool (SOPS, Sealed Secrets, an
+external secret store) plus encryption at rest on the cluster side.
 
 ### About `secret.yml`
 
@@ -244,7 +245,7 @@ walkthrough: filling this file in means **writing your token into a file that
 sits next to your manifests**, one `git add` away from being published
 forever. If you do want the manifest form — for GitOps, where nothing is
 applied by hand — generate it instead of editing it, and then encrypt it
-(`9_secret_git_sops`, `9_secret_git_sealed_secret`):
+(with SOPS, or Sealed Secrets):
 
 ```shell
 kubectl create secret docker-registry ghcr-secret \
@@ -378,9 +379,12 @@ not the objects.
 **Keep the image.** `ghcr.io/jeremiedecock/hello-fastapi:1.0` is the backend
 of [`6.2.1`](../6.2.1_stateless_backend_ingress_traefik/),
 [`6.2.2`](../6.2.2_stateless_backend_gateway_api_envoy_gateway/) and
-[`6.4`](../6.4_stateless_fullstack_app/), and the later examples build
-`2.0`, `3.0`... on top of it. Only clean up the registry side if you are
-stopping here — from the package's settings page on GitHub, or with
+[`6.4`](../6.4_stateless_fullstack_app/), and those three expect *this*
+`main.py` behind the tag. The later examples, which run a modified app, give
+it a tag of its own rather than overwriting this one — `4.0` and `5.0` for
+the persistence chapters — which is the whole reason the
+`Containerfile` pins its dependency and the tag is never reused. Only clean up
+the registry side if you are stopping here — from the package's settings page on GitHub, or with
 `podman logout ghcr.io` for the cached credentials on your machine.
 
 Do revoke the PAT when you are done with it, from *Settings → Developer

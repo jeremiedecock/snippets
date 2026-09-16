@@ -139,8 +139,8 @@ This Secret is created imperatively on purpose. The declarative equivalent
 exists — `kubectl create secret tls ... --dry-run=client -o yaml > secret.yml`
 — but its content is merely base64-encoded, not encrypted, so committing it
 would publish the private key in clear text (see
-[`1.4.1_secret`](../1.4.1_secret/), and the `9_secret_git_*` examples for the
-ways to actually store a secret in git).
+[`1.4.1_secret`](../1.4.1_secret/)) — actually storing a secret in git needs
+a dedicated tool: SOPS, Sealed Secrets, or an external secret store.
 
 ## Deploy the demo
 

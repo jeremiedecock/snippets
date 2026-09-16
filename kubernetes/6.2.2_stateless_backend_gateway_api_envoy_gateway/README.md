@@ -113,9 +113,8 @@ nested in the Deployment's `template`, next to `containers:` — not next to
 soon as its container process exists, so the Service starts routing to it
 before uvicorn is listening — a handful of `503`s at every rollout, for no
 visible reason. The kubelet queries the probe from the Pod's own IP and cannot
-authenticate, so an app that demands a password everywhere (as in
-[`6.3.2`](../6.3.2_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt_and_basic_auth_in_fastapi/))
-needs a dedicated unauthenticated health path instead.
+authenticate, so an app that demands a password everywhere needs a dedicated
+unauthenticated health path instead.
 
 ## Prerequisites
 
@@ -375,7 +374,7 @@ on 443 with a default self-signed certificate — this Gateway declares a single
 connect. Adding a listener is [`5.1_tls`](../5.1_tls/) (by hand) and
 [`5.2_lets_encrypt`](../5.2_lets_encrypt/) (automatically); this app gets a
 real certificate in
-[`6.3.2`](../6.3.2_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt_and_basic_auth_in_fastapi/).
+[`6.3`](../6.3_stateless_backend_gateway_api_envoy_gateway_with_lets_encrypt/).
 
 ## Scaling and updating
 
@@ -480,8 +479,8 @@ helm uninstall eg --namespace envoy-gateway-system
 
 **Keep the image.** `hello-fastapi:1.0` is this app — `{"message": "hello"}`,
 documentation enabled — and 6.4 expects exactly that content behind the tag.
-The later examples add their own tags rather than overwriting it (`1.1` for
-the password-protected variant in 6.3.2, `4.0` and `5.0` for the persistence
+The later examples add their own tags rather than overwriting it (`1.0.1` for
+the rolling update in this example, `4.0` and `5.0` for the persistence
 chapters).
 
 When you are done with the series, revoke the PAT from *Settings → Developer

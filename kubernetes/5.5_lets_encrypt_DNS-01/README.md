@@ -373,8 +373,8 @@ Secret they reference is read from cert-manager's namespace (the
 next to the Gateway is the classic mistake, and it fails with a plain
 `secret "acme-dns-credentials" not found`.
 
-The local copies contain a password. Store them the way
-[chapter 9](../9_secret_git_sops/) describes, or delete them once the Secret
+The local copies contain a password. Store them with a dedicated tool (SOPS,
+Sealed Secrets, an external secret store), or delete them once the Secret
 exists:
 
 ```shell

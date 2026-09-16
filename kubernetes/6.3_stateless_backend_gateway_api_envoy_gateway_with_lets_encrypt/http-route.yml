@@ -1,0 +1,21 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+spec:
+  parentRefs:
+    - name: my-gateway
+      # Attach to the HTTPS listener only: the HTTP one carries the ACME
+      # challenge and the redirect.
+      sectionName: https
+  hostnames:
+    - my-app.example.com
+  rules:
+    - backendRefs:
+        # The *Service* port (80), not the container's (8000)
+        - name: my-service
+          port: 80
+      # matches:
+      #   - path:
+      #       type: PathPrefix
+      #       value: /
