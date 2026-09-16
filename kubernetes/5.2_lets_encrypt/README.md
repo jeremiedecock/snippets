@@ -11,9 +11,13 @@ certificate created by hand. The Gateway configuration is nearly identical;
 what changes is who fills the Secret. Reading 5.1 first is recommended but not
 required: everything needed is repeated below.
 
-Once the site is served over HTTPS, [`5.3_basic_auth`](../5.3_basic_auth/)
-puts a password in front of it — which only becomes safe to do once this
-example is in place.
+Once the site is served over HTTPS,
+[`5.3.1_basic_auth_in_envoy`](../5.3.1_basic_auth_in_envoy/) and
+[`5.3.2_basic_auth_in_nginx`](../5.3.2_basic_auth_in_nginx/) put a password in
+front of it — which only becomes safe to do once this example is in place.
+Both *continue* this one rather than repeating it, on the same namespace and
+the same domain, so if you intend to go there next, run this example to the
+end and stop before *Remove the demo*.
 
 ## What changes compared to `4.3.1_gateway_api_envoy_gateway`
 
@@ -366,7 +370,7 @@ itself, from its own servers:
 
 ```shell
 dig +short my-app.example.com
-curl http://my-app.example.com/
+curl -i http://my-app.example.com/
 ```
 
 The `curl` should answer `301` towards `https://`, proving the `http`
@@ -563,6 +567,11 @@ The usual suspects, in decreasing order of frequency:
   `certificateRefs` must be the same, in the Gateway's namespace.
 
 ## Remove the demo
+
+Skip this section for now if you are going on to
+[`5.3.1_basic_auth_in_envoy`](../5.3.1_basic_auth_in_envoy/) or
+[`5.3.2_basic_auth_in_nginx`](../5.3.2_basic_auth_in_nginx/): both add a
+password to the demo deployed here, and need it running.
 
 ```shell
 kubectl delete \

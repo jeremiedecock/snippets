@@ -40,18 +40,19 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
    - **Gateway API** (the official successor to Ingress), with Envoy Gateway:
      - [`4.3.1_gateway_api_envoy_gateway`](4.3.1_gateway_api_envoy_gateway/) —
        the basic example
-     - [`4.3.2_gateway_api_envoy_gateway_official_example`](4.3.2_gateway_api_envoy_gateway_official_example/)
-       — the same, structured like the official examples (Gateway factored
-       out into its own manifest)
-     - [`4.3.3_gateway_api_envoy_gateway_official_example_multi_apps`](4.3.3_gateway_api_envoy_gateway_official_example_multi_apps/)
-       — two apps sharing a single Gateway
+     - [`4.3.2_gateway_api_envoy_gateway_multi_apps`](4.3.2_gateway_api_envoy_gateway_multi_apps/)
+       — two apps, each in its own namespace, sharing a single Gateway and
+       routed by hostname
 5. **HTTPS**, and a first access control
    - [`5.1_tls`](5.1_tls/) — a **self-signed certificate**, created with
      `openssl` and served by the Gateway
    - [`5.2_lets_encrypt`](5.2_lets_encrypt/) — automatic, publicly trusted
      Let's Encrypt certificates (cert-manager)
-   - [`5.3_basic_auth`](5.3_basic_auth/) — protect the app with a password,
-     from an **htpasswd** file checked by the Gateway
+   - [`5.3.1_basic_auth_in_envoy`](5.3.1_basic_auth_in_envoy/) — protect the
+     app with a password, from an **htpasswd** file checked by the **Gateway**
+   - [`5.3.2_basic_auth_in_nginx`](5.3.2_basic_auth_in_nginx/) — the same
+     password, checked by **nginx itself** instead: portable across Gateway
+     API implementations, and free of Envoy's SHA-1 limitation
 6. Your own image, and multiple services communicating
    - [`6.1_private_docker_registry`](6.1_private_docker_registry/) — build
      and push **your own image** (a minimal FastAPI app) to a private

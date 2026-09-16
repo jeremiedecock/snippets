@@ -1,0 +1,73 @@
+# The nginx server block that does the password check, shipped as a ConfigMap
+# and mounted over the image's own `/etc/nginx/conf.d`.
+#
+# This is the whole difference with 5.3.1_basic_auth_in_envoy: there, the
+# check lived in a SecurityPolicy and the nginx image was left untouched;
+# here, nginx does it itself and the Gateway knows nothing about it.
+#
+# Note what is *not* in this file: no `gateway.envoyproxy.io`, no
+# `traefik.io`, no annotation from any controller. A ConfigMap and a
+# Deployment are as standard as Kubernetes objects get, which is why this
+# example survives a change of Gateway API implementation and 5.3.1 does not.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-auth-conf
+data:
+  # The key becomes the file name inside the mounted directory. It must end
+  # in `.conf`: the image's main nginx.conf ends with
+  # `include /etc/nginx/conf.d/*.conf;`, and anything else is ignored in
+  # silence — the app would then answer with nginx's built-in default page,
+  # without a password.
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        # The realm, shown by the browser in its password dialog. Envoy
+        # builds it from the request URI and gives no say in it; here it is
+        # just a string, and naming the environment in it ("Staging",
+        # "Internal dashboard") is what stops people from typing their
+        # production password into the wrong box.
+        #
+        # Declared at the `server` level, so every location inherits it —
+        # including the ones that do not exist yet. The alternative, putting
+        # `auth_basic` in each `location`, leaves whatever you forget wide
+        # open.
+        auth_basic           "Restricted area";
+
+        # The htpasswd file, from the `basic-auth-users` Secret mounted by
+        # deployment.yml. nginx re-reads it on every request, which is why
+        # changing the password needs no restart (and why this is not free on
+        # a very busy server — `open_file_cache` exists for that).
+        auth_basic_user_file /etc/nginx/secrets/.htpasswd;
+
+        # The app itself: the same static welcome page the stock image
+        # serves, now behind the password.
+        location / {
+            root  /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+
+        # The exception that proves the point of doing this in the web
+        # server: one path opted out of authentication. The kubelet's probe
+        # (see deployment.yml) talks to the Pod directly, with no credentials
+        # to offer — without this block it gets a 401, the Pod never becomes
+        # Ready, and the Deployment never rolls out.
+        #
+        # The same trick applies to /metrics for Prometheus, to a webhook
+        # endpoint, or to a health check from a load balancer. A
+        # SecurityPolicy has no equivalent at this granularity: it covers a
+        # whole HTTPRoute, so carving out one path means splitting the route
+        # in two.
+        #
+        # Note that an exempted path is exempt for everyone, the internet
+        # included — pair it with `allow`/`deny` on the cluster's ranges as
+        # soon as what it returns is worth reading.
+        location = /healthz {
+            auth_basic   off;
+            access_log   off;
+            default_type text/plain;
+            return 200 "ok";
+        }
+    }

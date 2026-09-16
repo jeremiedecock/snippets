@@ -1,0 +1,79 @@
+# 5.2's Deployment (../5.2_lets_encrypt/deployment.yml), with two volumes and
+# a probe added. Same name, same labels, same image — applying this one
+# rolls the existing Pod rather than creating a second Deployment, and
+# re-applying 5.2's puts everything back.
+#
+# That the app has to be redeployed at all is the price of this approach.
+# 5.3.1 changed nothing here: its Pod was not even restarted.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - image: docker.io/library/nginx:stable-alpine-slim
+          name: my-container
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+
+          # Proof that the `auth_basic off` block of nginx-conf.yml is not
+          # decoration. The kubelet requests this path from the Pod's own IP,
+          # sends no credentials and cannot be taught to: a 401 here means
+          # `READY 0/1` forever, and a rollout that never finishes.
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+
+          volumeMounts:
+            # Mounting the *directory* replaces the image's own
+            # `/etc/nginx/conf.d/default.conf` — the only file in there.
+            #
+            # `subPath` would overlay just that one file and leave the rest
+            # of the directory alone, but a subPath mount is copied once at
+            # startup and never updated afterwards. Since a config change
+            # needs a restart anyway (nginx does not reload by itself), the
+            # difference does not bite here; it does for the Secret below,
+            # which is why that one is a directory mount too.
+            - name: conf
+              mountPath: /etc/nginx/conf.d
+
+            - name: htpasswd
+              mountPath: /etc/nginx/secrets
+              readOnly: true
+
+      volumes:
+        - name: conf
+          configMap:
+            name: nginx-auth-conf
+
+        - name: htpasswd
+          secret:
+            # The same Secret 5.3.1 used, in the same namespace and with the
+            # same `.htpasswd` key — it is the file format that is shared,
+            # not the implementation reading it.
+            secretName: basic-auth-users
+
+            # 0444, not 0400. The file is opened by the nginx *worker*
+            # processes, which drop to the unprivileged `nginx` user, while
+            # the master starts as root; files from a Secret volume belong to
+            # root:root. With 0400 every request fails with a 500 and
+            # `open() "/etc/nginx/secrets/.htpasswd" failed (13: Permission
+            # denied)` in the Pod log.
+            #
+            # For a mode that is not world-readable, set
+            # `securityContext.fsGroup: 101` on the Pod (the `nginx` group in
+            # the Alpine images) and use 0440 here.
+            defaultMode: 0444
