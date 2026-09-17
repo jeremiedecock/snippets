@@ -20,7 +20,7 @@ uses the naive kind on purpose, to expose its limits:
 ## Build and push the new images
 
 Backend `4.0` (SQLite read/write) and frontend `2.0` (Save/Read buttons) —
-details in `6.1_private_docker_registry`:
+details in `6.1_private_docker_registry_ghcr`:
 
 ```
 cd backend

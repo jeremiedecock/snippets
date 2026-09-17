@@ -1,7 +1,7 @@
 # Your own image, exposed to the internet (Traefik Ingress)
 
-[`6.1_private_docker_registry`](../6.1_private_docker_registry/) got your own
-image running in the cluster, but only reachable through
+[`6.1_private_docker_registry_ghcr`](../6.1_private_docker_registry_ghcr/)
+got your own image running in the cluster, but only reachable through
 `kubectl port-forward` — a debugging tool, not a way to publish a service.
 Here the same FastAPI image is **exposed to the internet**, by putting back
 the three layers the earlier chapters introduced one at a time:
@@ -199,9 +199,9 @@ kubectl create namespace snippet-backend-ingress-demo
 Add `-n snippet-backend-ingress-demo` to every `kubectl` command below.
 
 The Secret is detailed in
-[6.1](../6.1_private_docker_registry/#4-create-the-pull-secret); in short, it
-wraps the token in the `dockerconfigjson` format the kubelet expects, and
-`deployment.yml` names it in `imagePullSecrets`:
+[6.1](../6.1_private_docker_registry_ghcr/#4-create-the-pull-secret); in
+short, it wraps the token in the `dockerconfigjson` format the kubelet
+expects, and `deployment.yml` names it in `imagePullSecrets`:
 
 ```shell
 kubectl create secret docker-registry ghcr-secret \

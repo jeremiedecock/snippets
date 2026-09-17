@@ -16,8 +16,9 @@ publicly trusted certificate** — the first example of the series that looks
 like something you would actually put online.
 
 Nothing conceptual is new: the private registry and the pull Secret are
-explained in [`6.1`](../6.1_private_docker_registry/) and 6.2.2, the Gateway
-API in [`4.3.1`](../4.3.1_gateway_api_envoy_gateway/), and cert-manager, the
+explained in [`6.1`](../6.1_private_docker_registry_ghcr/) and 6.2.2, the
+Gateway API in [`4.3.1`](../4.3.1_gateway_api_envoy_gateway/), and
+cert-manager, the
 ACME HTTP-01 challenge and the gateway-shim in 5.2. This README does not
 repeat them; it gives the full walkthrough, but explains only what changes
 when the two examples are combined.
@@ -208,9 +209,9 @@ kubectl create namespace snippet-backend-letsencrypt-demo
 Add `-n snippet-backend-letsencrypt-demo` to every `kubectl` command below.
 
 The Secret is detailed in
-[6.1](../6.1_private_docker_registry/#4-create-the-pull-secret); in short, it
-wraps the token in the `dockerconfigjson` format the kubelet expects, and
-`deployment.yml` names it in `imagePullSecrets`:
+[6.1](../6.1_private_docker_registry_ghcr/#4-create-the-pull-secret); in
+short, it wraps the token in the `dockerconfigjson` format the kubelet
+expects, and `deployment.yml` names it in `imagePullSecrets`:
 
 ```shell
 kubectl create secret docker-registry ghcr-secret \

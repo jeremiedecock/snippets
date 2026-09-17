@@ -14,6 +14,11 @@ So this example is really about one Kubernetes object — a
 `kubernetes.io/dockerconfigjson` **Secret**, referenced from the Pod through
 `imagePullSecrets` — plus the GitHub-side token it carries.
 
+[`6.1_private_docker_registry_ovh`](../6.1_private_docker_registry_ovh/) is
+this same example against the **OVHcloud Managed Private Registry** (a
+managed Harbor) instead: same app, same Secret, different registry — and
+robot accounts in place of the personal access token.
+
 Everything after this directory reuses the image built here, so it is worth
 getting to the end of it: the same `hello-fastapi:1.0` image is what
 [`6.2.1_stateless_backend_ingress_traefik`](../6.2.1_stateless_backend_ingress_traefik/)

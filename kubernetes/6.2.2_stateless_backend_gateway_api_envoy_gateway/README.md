@@ -2,8 +2,8 @@
 
 This is [`6.2.1_stateless_backend_ingress_traefik`](../6.2.1_stateless_backend_ingress_traefik/)
 with the **Ingress replaced by the Gateway API**: the same FastAPI image from
-[`6.1_private_docker_registry`](../6.1_private_docker_registry/), the same
-Deployment, the same ClusterIP Service — and a **Gateway** plus an
+[`6.1_private_docker_registry_ghcr`](../6.1_private_docker_registry_ghcr/),
+the same Deployment, the same ClusterIP Service — and a **Gateway** plus an
 **HTTPRoute** in front of it instead of a single Ingress object.
 
 The Ingress API is feature-frozen, and its most popular controller,
@@ -194,9 +194,9 @@ kubectl create namespace snippet-backend-gatewayapi-demo
 Add `-n snippet-backend-gatewayapi-demo` to every `kubectl` command below.
 
 The Secret is detailed in
-[6.1](../6.1_private_docker_registry/#4-create-the-pull-secret); in short, it
-wraps the token in the `dockerconfigjson` format the kubelet expects, and
-`deployment.yml` names it in `imagePullSecrets`:
+[6.1](../6.1_private_docker_registry_ghcr/#4-create-the-pull-secret); in
+short, it wraps the token in the `dockerconfigjson` format the kubelet
+expects, and `deployment.yml` names it in `imagePullSecrets`:
 
 ```shell
 kubectl create secret docker-registry ghcr-secret \

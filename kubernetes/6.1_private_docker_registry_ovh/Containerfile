@@ -1,0 +1,10 @@
+FROM docker.io/library/python:3.14-slim
+
+WORKDIR /app
+# Pinned on purpose: an unpinned install makes two builds of the same image
+# tag differ, which defeats the point of tagging them
+RUN pip install --no-cache-dir "fastapi[standard]==0.141.1"
+COPY main.py .
+
+EXPOSE 8000
+CMD ["fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8000"]

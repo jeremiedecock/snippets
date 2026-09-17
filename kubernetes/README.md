@@ -61,9 +61,13 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
      **wildcard** certificates, and **any registrar** (cert-manager +
      **acme-dns**, delegated with one static CNAME)
 6. Your own image, and multiple services communicating
-   - [`6.1_private_docker_registry`](6.1_private_docker_registry/) — build
-     and push **your own image** (a minimal FastAPI app) to a private
-     registry (GHCR)
+   - [`6.1_private_docker_registry_ghcr`](6.1_private_docker_registry_ghcr/)
+     — build and push **your own image** (a minimal FastAPI app) to a
+     private registry: **GHCR**, the GitHub Container Registry
+   - [`6.1_private_docker_registry_ovh`](6.1_private_docker_registry_ovh/)
+     — the same image on the **OVHcloud Managed Private Registry**, a
+     managed **Harbor**: projects, **robot accounts**, and the pull Secret
+     they feed
    - [`6.2.1_stateless_backend_ingress_traefik`](6.2.1_stateless_backend_ingress_traefik/)
      — that image exposed to the internet, with a Deployment, a Service and a
      Traefik **Ingress**
@@ -88,5 +92,6 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
 
 Prerequisites: a Kubernetes cluster (minikube, kind, k3s, or a cloud one —
 step 5 requires a cloud one with a public IP), `kubectl`,
-[Helm](https://helm.sh/) from step 4 on, and Podman or Docker plus a Docker
-Hub (or GHCR) account from step 6 on.
+[Helm](https://helm.sh/) from step 4 on, and Podman or Docker plus an
+account on a container registry (Docker Hub, GHCR, or an OVHcloud Managed
+Private Registry) from step 6 on.

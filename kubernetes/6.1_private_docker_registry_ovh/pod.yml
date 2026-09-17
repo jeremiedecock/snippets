@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - image: <YOUR_REGISTRY_SUB_DOMAIN>.container-registry.ovh.net/build/hello:1.0
+      name: my-container
+      imagePullPolicy: Always
+  imagePullSecrets:
+    - name: ovh-mpr-secret
