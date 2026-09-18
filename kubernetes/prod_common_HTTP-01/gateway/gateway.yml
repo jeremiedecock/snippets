@@ -1,0 +1,66 @@
+# The single public entry point of the cluster: one Gateway, one public IP,
+# ONE CERTIFICATE PER APPLICATION.
+#
+# With the HTTP-01 challenge there is no wildcard, so every application needs
+# its own HTTPS listener and its own certificate. **Adding an application
+# modifies this file**: append one listener block (`just listener <app>
+# <hostname>` prints it), then re-apply.
+#
+# Port 80 must be reachable from the internet: the ACME challenge is served
+# over the `http` listener below.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway-infra
+  namespace: gateway-infra
+  annotations:
+    # cert-manager's gateway-shim writes one Certificate per eligible HTTPS
+    # listener, named after the Secret that listener asks for. One line,
+    # however many listeners.
+    #
+    # Start on `letsencrypt-staging`, switch with `just use-production`.
+    # Beware: switching re-issues EVERY certificate at once.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: envoy
+  listeners:
+    # A single, hostname-less HTTP listener serves every application at once:
+    # the ACME challenges (temporary solver routes created by cert-manager in
+    # this namespace) and the 301 in `http-redirect-route.yml`. No hostname
+    # means "every hostname", so this listener never has to change.
+    #
+    # The alternative -- one `http-<app>` listener per application, as in
+    # 5.4/6.5 -- is more symmetric and twice as much to maintain.
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        # The redirect route and the solver routes both live in this
+        # namespace. Applications never attach here.
+        namespaces:
+          from: Same
+
+    # --- one HTTPS listener per application --------------------------------
+    #
+    # Copy this block per application (`just listener invoices
+    # invoices.example.com`). The Secret is written by cert-manager in this
+    # namespace -- the gateway-shim does not support cross-namespace
+    # certificateRefs -- and its name is also the name of the Certificate.
+    #
+    # Each application's HTTPRoute must then name this listener in
+    # `sectionName` (so `https-invoices`, not `https`).
+    #
+    # - name: https-invoices
+    #   protocol: HTTPS
+    #   port: 443
+    #   hostname: invoices.example.com
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - name: invoices-tls
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Selector
+    #       selector:
+    #         matchLabels:
+    #           gateway-access: "true"

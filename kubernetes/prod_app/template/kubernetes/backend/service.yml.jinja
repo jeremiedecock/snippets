@@ -1,0 +1,19 @@
+# Stable address of the backend. Named in the HTTPRoute's `[[ api_prefix ]]`
+# rule, and reachable in-cluster as
+# `backend.[[ namespace ]].svc.cluster.local`.
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: [[ namespace ]]
+  labels:
+    app.kubernetes.io/name: [[ app_slug ]]
+    app.kubernetes.io/component: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP

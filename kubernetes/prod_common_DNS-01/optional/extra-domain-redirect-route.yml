@@ -1,0 +1,18 @@
+# The 301 for an extra hostname. The shared `gateway/http-redirect-route.yml`
+# is attached to the `http` listener only, so a dedicated listener needs its
+# own redirect.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: https-redirect-extra
+  namespace: gateway-infra
+spec:
+  parentRefs:
+    - name: gateway-infra
+      sectionName: http-extra
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

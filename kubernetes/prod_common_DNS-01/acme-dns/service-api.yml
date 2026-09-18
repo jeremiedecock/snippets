@@ -1,0 +1,16 @@
+# /register, /update, /health -- reachable from inside the cluster only.
+# cert-manager calls it; nobody else should be able to.
+apiVersion: v1
+kind: Service
+metadata:
+  name: acme-dns-api
+  namespace: acme-dns
+spec:
+  type: ClusterIP
+  selector:
+    app: acme-dns
+  ports:
+    - name: http
+      port: 80
+      targetPort: api
+      protocol: TCP

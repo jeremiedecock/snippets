@@ -1,0 +1,78 @@
+# The single shared entry point: one Gateway, one public IP, four listeners.
+#
+# Compared to 6.4 the Gateway gained a second hostname and nothing else; the
+# fact that *each* hostname now fronts two Services instead of one is
+# invisible here. Listeners know about hostnames, ports and certificates --
+# never about Deployments. That split is why the same Gateway file serves
+# 5.4's two static sites and this demo's two fullstack applications.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: snippet-fullstack-multi-demo-gateway   # Use "gateway-infra" in production
+  annotations:
+    # One annotation for the whole Gateway, as in 6.4 -- but it now produces
+    # *two* Certificates, one per eligible HTTPS listener, each named after
+    # the Secret its listener asks for.
+    #
+    # Switch this to `letsencrypt` once the staging run works.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: eg
+  # Four listeners: one HTTP and one HTTPS per hostname. Several listeners may
+  # share a port as long as their `hostname` values differ and their `name`
+  # values are unique; Envoy then selects the certificate by SNI on 443 and
+  # the route by the Host header on 80.
+  listeners:
+    # --- app1 ----------------------------------------------------------------
+    - name: http-app1
+      protocol: HTTP
+      port: 80
+      hostname: app1.example.com
+      allowedRoutes:
+        # The application routes live in another namespace now -- this is what
+        # lets them attach. It also covers cert-manager's temporary solver
+        # HTTPRoute, but that one is created here, next to the Certificate, so
+        # even `Same` would do for it. In production, prefer an opt-in
+        # selector, as in 4.3.2.
+        namespaces:
+          from: All
+    - name: https-app1
+      protocol: HTTPS
+      port: 443
+      hostname: app1.example.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          # Written by cert-manager, in *this* namespace: the gateway-shim
+          # does not support cross-namespace certificateRefs, so the
+          # certificates stay with the Gateway even though the applications
+          # live elsewhere.
+          #
+          # Not to be confused with `ghcr-secret`, the *pull* Secret of each
+          # application namespace: this demo ends up with four Secrets of two
+          # different types, two written by you, two written by cert-manager.
+          - name: app1-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    # --- app2 ----------------------------------------------------------------
+    - name: http-app2
+      protocol: HTTP
+      port: 80
+      hostname: app2.example.com
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-app2
+      protocol: HTTPS
+      port: 443
+      hostname: app2.example.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: app2-tls
+      allowedRoutes:
+        namespaces:
+          from: All

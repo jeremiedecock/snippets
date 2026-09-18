@@ -1,0 +1,53 @@
+# The single public entry point of the cluster: one Gateway, one public IP,
+# one wildcard certificate.
+#
+# Adding an application does NOT modify this file. A new app needs an `A`
+# record and its own HTTPRoute; the listeners below already cover every
+# subdomain of the zone. See "Adding a domain outside the wildcard" in the
+# README for the exception.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway-infra
+  namespace: gateway-infra
+  annotations:
+    # cert-manager's gateway-shim writes one Certificate per eligible HTTPS
+    # listener, named after the Secret that listener asks for.
+    #
+    # Start on `letsencrypt-staging`, switch with `just use-production`.
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+spec:
+  gatewayClassName: envoy
+  listeners:
+    # Plain HTTP. With DNS-01 it carries no ACME challenge: its only job is
+    # the 301 in `http-redirect-route.yml`, for every hostname at once.
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.example.com"
+      allowedRoutes:
+        # Only the redirect route, which lives in this namespace.
+        namespaces:
+          from: Same
+
+    # HTTPS, terminated here. One wildcard certificate for every application.
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.example.com"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          # Written by cert-manager in this namespace. The gateway-shim does
+          # not support cross-namespace certificateRefs, so the private key
+          # never leaves the infrastructure namespace.
+          - name: wildcard-tls
+      allowedRoutes:
+        # Opt-in: an application namespace must carry the label
+        # `gateway-access: "true"` for its HTTPRoute to attach. The cluster
+        # operator grants access by labelling the namespace, not the app team.
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: "true"

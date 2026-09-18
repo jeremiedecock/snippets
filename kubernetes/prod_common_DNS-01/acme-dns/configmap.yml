@@ -1,0 +1,51 @@
+# Replace `auth.example.com` (the delegated zone), `you.example.com` (the
+# admin address, with "@" written as a dot) and the IP in `records` (the
+# public address of the acme-dns LoadBalancer, known only after step 2).
+#
+# `just configure` rewrites the first two; `just acme-dns-set-ip` the third.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acme-dns-config
+  namespace: acme-dns
+data:
+  config.cfg: |
+    [general]
+    # 5053 rather than 53: an unprivileged port, so the Pod needs no extra
+    # capability. The Service publishes it on 53.
+    listen = "0.0.0.0:5053"
+    protocol = "both"
+
+    domain = "auth.example.com"
+    nsname = "auth.example.com"
+    nsadmin = "you.example.com"
+
+    # Must mirror the delegation created at the registrar.
+    records = [
+        "auth.example.com. A 203.0.113.1",
+        "auth.example.com. NS auth.example.com.",
+    ]
+    debug = false
+
+    [database]
+    # "sqlite", not "sqlite3" (renamed in acme-dns v2.0).
+    engine = "sqlite"
+    connection = "/var/lib/acme-dns/acme-dns.db"
+
+    [api]
+    ip = "0.0.0.0"
+    port = "8080"
+    # The API is a ClusterIP Service, never published: plain HTTP is fine.
+    tls = "none"
+    # Set to true once every account you need is registered (see README).
+    disable_registration = false
+    corsorigins = [
+        "*"
+    ]
+    use_header = false
+    header_name = "X-Forwarded-For"
+
+    [logconfig]
+    loglevel = "info"
+    logtype = "stdout"
+    logformat = "text"

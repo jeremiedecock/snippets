@@ -1,0 +1,55 @@
+# The only object this application publishes on the shared Gateway.
+# On https://[[ hostname ]] :
+#
+#   [[ api_prefix ]]/  -> backend   (prefix stripped before forwarding)
+#   /      -> frontend
+#
+# No redirect route: the shared `https-redirect` already answers plain
+# HTTP for every hostname. No certificate either: the Gateway's wildcard
+# covers this subdomain.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: [[ app_slug ]]
+  namespace: [[ namespace ]]
+  labels:
+    app.kubernetes.io/name: [[ app_slug ]]
+spec:
+  hostnames:
+    - "[[ hostname ]]"
+  parentRefs:
+    - name: [[ gateway_name ]]
+      namespace: [[ gateway_namespace ]]
+      # Mandatory: the Gateway has several listeners, and this route must
+      # land on the HTTPS one.
+      sectionName: [[ gateway_listener ]]
+  rules:
+    # --- the API ----------------------------------------------------------
+    - matches:
+        - path:
+            # Matches whole path segments, so `[[ api_prefix ]]` and
+            # `[[ api_prefix ]]/docs` match but `[[ api_prefix ]]ary` does not.
+            type: PathPrefix
+            value: [[ api_prefix ]]
+      filters:
+        # Strip the prefix: the backend only serves `/`.
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: backend
+          port: 80
+
+    # --- everything else --------------------------------------------------
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: frontend
+          port: 80
+
+# Not ambiguous: the Gateway API ranks matches by the length of the matched
+# path first, so `[[ api_prefix ]]` always beats `/`, whatever the order.

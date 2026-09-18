@@ -1,0 +1,54 @@
+# Let's Encrypt, proven by the HTTP-01 challenge: cert-manager creates a
+# temporary Pod, Service and HTTPRoute, lets the ACME server fetch a token
+# over port 80, then deletes all three.
+#
+# No DNS credentials, no extra server to run -- but port 80 must be open from
+# the internet, and wildcards are impossible (that is DNS-01 only, see
+# ../prod_common_DNS-01).
+#
+# Staging first (loose rate limits, untrusted chain), production once it
+# works. The Secrets these issuers reference are read in cert-manager's own
+# namespace: a ClusterIssuer has no namespace of its own.
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: gateway-infra
+                namespace: gateway-infra
+                # Safe to pin here, because the `http` listener has no
+                # hostname and therefore accepts every challenge. With one
+                # HTTP listener per hostname (the 5.4/6.5 shape) this line
+                # MUST be removed: a single parentRef is reused for every
+                # challenge, so it would send each one to the wrong listener.
+                sectionName: http
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: gateway-infra
+                namespace: gateway-infra
+                sectionName: http

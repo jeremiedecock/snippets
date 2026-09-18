@@ -1,0 +1,104 @@
+# [[ app_title ]]
+
+[[ app_description ]]. A FastAPI backend and an nginx frontend behind one
+hostname, on the shared Gateway of the cluster.
+
+```
+https://[[ hostname ]]/         -> frontend (nginx)
+https://[[ hostname ]][[ api_prefix ]]/  -> backend  (FastAPI)
+```
+
+Both halves share one origin, so the page calls the API with a relative URL
+and no CORS configuration exists anywhere.
+
+| | |
+| --- | --- |
+| Namespace | `[[ namespace ]]` |
+| Hostname | `[[ hostname ]]` |
+| Images | `[[ registry ]]/[[ registry_owner ]]/[[ app_slug ]]-backend`, `…-frontend` |
+| Gateway | `[[ gateway_name ]]` in `[[ gateway_namespace ]]`, listener `[[ gateway_listener ]]` |
+
+```
+backend/src/       main.py, requirements.txt
+frontend/src/      index.html
+containers/        backend.Containerfile, frontend.Containerfile
+kubernetes/        namespace, http-route, pod-disruption-budgets
+kubernetes/backend/    deployment, service
+kubernetes/frontend/   deployment, service
+justfile
+```
+
+## Prerequisites
+
+- the shared infrastructure installed on the cluster — `prod_common_DNS-01`
+  or `prod_common_HTTP-01` — providing the Gateway `[[ gateway_name ]]`, its
+  certificate and the shared http→https redirect;
+- `[[ hostname ]]` resolving to the Gateway IP — covered already if the zone
+  has a wildcard `A` record, otherwise create one:
+  `kubectl get gateway [[ gateway_name ]] -n [[ gateway_namespace ]] -o jsonpath='{.status.addresses[0].value}'`;
+- `$REGISTRY_TOKEN` exported, with `write:packages` locally and
+  `read:packages` for the cluster;
+- `just`, `podman` (or `CONTAINER_ENGINE=docker`), `kubectl`.
+
+## First deploy
+
+```shell
+export REGISTRY_TOKEN=ghp_...
+just login
+just release          # build + push both images at [[ version ]]
+just bootstrap        # namespace + pull Secret
+just deploy
+just smoke
+```
+
+`just bootstrap` prints a reminder to check that the namespace carries
+`gateway-access=true`; without it the HTTPRoute is rejected by the Gateway.
+The cluster operator grants it with `just grant [[ namespace ]]` from the
+shared infrastructure directory. On an HTTP-01 cluster that directory must
+also have a listener named `[[ gateway_listener ]]` for this hostname.
+
+## Ship a new version
+
+```shell
+just bump 0.2.0       # rewrites the tag here and in both Deployments
+just release
+just deploy
+just smoke
+```
+
+Never overwrite a tag that has been pushed. `just undo backend` rolls one
+component back.
+
+## Day to day
+
+```shell
+just status
+just logs-backend
+just route            # Accepted / ResolvedRefs conditions
+just events
+just scale backend 4
+```
+
+| Symptom | Cause |
+| --- | --- |
+| `404` with nginx HTML on `[[ api_prefix ]]/` | the API rule did not match — check `value: [[ api_prefix ]]` in `kubernetes/http-route.yml` |
+| `404` with `{"detail":"Not Found"}` | the `URLRewrite` filter is missing; the backend only serves `/` |
+| `503` | no ready backend endpoint — `just endpoints`, `just logs-backend` |
+| `404` from Envoy for everything | no DNS record, or the route is not `Accepted` — `just route` |
+| Route `Accepted=False` | the namespace lacks `gateway-access=true`, or a wrong `sectionName` |
+| `ImagePullBackOff` | `just create-pull-secret` (it is namespaced), or the tag was never pushed |
+| Pods `Running` but `0/1 READY` | readiness probe — `kubectl describe pod -n [[ namespace ]]` |
+| frontend crashes at startup, read-only filesystem error | a `docker-entrypoint.d` script wants a path not backed by an `emptyDir`; add the mount, or set `readOnlyRootFilesystem: false` for that container |
+
+## Notes
+
+- **`--root-path [[ api_prefix ]]`** in `kubernetes/backend/deployment.yml` is
+  the counterpart of the `URLRewrite` filter in the route: the Gateway strips
+  the prefix, uvicorn puts it back into generated URLs so `/docs` works.
+  Removing one without the other returns a flat `404`.
+- Both containers run **non-root with a read-only root filesystem**; anything
+  written at runtime goes to an `emptyDir`.
+- Local run: `just run-backend`, `just run-frontend` (8000 and 8080).
+
+This directory was generated from the `prod_app` template. Pull template
+changes with `copier update`.

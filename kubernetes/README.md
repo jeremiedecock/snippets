@@ -82,6 +82,9 @@ examples (5.x), then your own FastAPI app (plus a small nginx frontend from
      it, both behind **one hostname** over HTTPS, split by **path** in a
      single HTTPRoute (`/api` and `/`) — which is what makes CORS a
      non-issue
+   - [`6.5_stateless_fullstack_multi_apps`](6.5_stateless_fullstack_multi_apps/)
+     — 6.4 and 5.4 combined: **two fullstack apps, two domain names, two
+     certificates**, each in its own namespace, behind a single public IP
 7. Persistence
    - [`7.1_sqlite_volume`](7.1_sqlite_volume/) — naive persistence in a
      **hostPath volume**, and why it is broken
@@ -95,3 +98,32 @@ step 5 requires a cloud one with a public IP), `kubectl`,
 [Helm](https://helm.sh/) from step 4 on, and Podman or Docker plus an
 account on a container registry (Docker Hub, GHCR, or an OVHcloud Managed
 Private Registry) from step 6 on.
+
+---
+
+## From examples to production
+
+The numbered directories above are teaching snippets: one concept each,
+heavily commented, disposable namespaces. Two directories are not — they are
+the starting point for real deployments, with terse instructions instead of
+explanations:
+
+- the **shared cluster infrastructure**, installed once: Envoy Gateway,
+  cert-manager, the `gateway-infra` Gateway and a single http→https redirect
+  for every hostname. Two mutually exclusive flavours, differing only in how
+  Let's Encrypt proves the domain:
+  - [`prod_common_HTTP-01`](prod_common_HTTP-01/) — **nothing extra to run**,
+    but port 80 must stay open and each application gets its own certificate
+    and its own Gateway listener;
+  - [`prod_common_DNS-01`](prod_common_DNS-01/) — a self-hosted **acme-dns**
+    server and a one-off DNS delegation buy a **wildcard certificate**, so
+    adding an application never modifies the Gateway.
+- [`prod_app`](prod_app/) — a **[Copier](https://copier.readthedocs.io/)
+  template** for one application (FastAPI backend + nginx frontend, one
+  namespace, one subdomain, one HTTPRoute), with a `justfile` driving the
+  image builds and the deployment. It targets either flavour.
+
+```shell
+cd prod_common_HTTP-01 && just configure example.com ops@example.com && just install && just deploy
+copier copy prod_app ../my-app
+```

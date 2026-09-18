@@ -1,0 +1,25 @@
+# One redirect for every application: 301 http -> https on every hostname.
+# The `http` listener has no hostname and this route declares none, so the
+# pair covers whatever is deployed today and tomorrow.
+#
+# It shares that listener with cert-manager's temporary solver routes and
+# does not hide them: a solver matches `/.well-known/acme-challenge/<token>`
+# with an Exact match, which outranks this catch-all across routes.
+#
+# Because this exists, an application deploys a single HTTPRoute of its own.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: https-redirect
+  namespace: gateway-infra
+spec:
+  parentRefs:
+    - name: gateway-infra
+      sectionName: http
+  rules:
+    # No backendRefs: the Gateway answers by itself.
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

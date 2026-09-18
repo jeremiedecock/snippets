@@ -1,0 +1,151 @@
+# [[ app_title ]] -- build, publish and deploy.
+# Run `just` to list the recipes.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+app         := "[[ app_slug ]]"
+namespace   := "[[ namespace ]]"
+hostname    := "[[ hostname ]]"
+registry    := "[[ registry ]]"
+owner       := "[[ registry_owner ]]"
+pull_secret := "[[ pull_secret ]]"
+
+# The tag that `just build` / `just push` act on. `just bump X.Y.Z` moves it
+# here AND in the two Deployments, which stay the source of truth for what is
+# actually running.
+version := "[[ version ]]"
+
+backend_image  := registry + "/" + owner + "/" + app + "-backend"
+frontend_image := registry + "/" + owner + "/" + app + "-frontend"
+
+engine := env("CONTAINER_ENGINE", "podman")
+
+default:
+    @just --list
+
+# --- images ------------------------------------------------------------------
+
+# Log in to the registry. Expects $REGISTRY_TOKEN (a GHCR PAT with write:packages).
+login:
+    echo "$REGISTRY_TOKEN" | {{engine}} login {{registry}} -u {{owner}} --password-stdin
+
+build-backend:
+    {{engine}} build -f containers/backend.Containerfile -t {{backend_image}}:{{version}} .
+
+build-frontend:
+    {{engine}} build -f containers/frontend.Containerfile -t {{frontend_image}}:{{version}} .
+
+build: build-backend build-frontend
+
+push-backend:
+    {{engine}} push {{backend_image}}:{{version}}
+
+push-frontend:
+    {{engine}} push {{frontend_image}}:{{version}}
+
+push: push-backend push-frontend
+
+# Build and publish both images at the current version.
+release: build push
+    @echo "Published {{backend_image}}:{{version}} and {{frontend_image}}:{{version}}"
+
+# Never overwrite a tag that has been pushed: other clusters may be pulling it.
+# Move to a new version, here and in both Deployments.
+bump new:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    sed -i -E 's|^version := ".*"|version := "{{new}}"|' justfile
+    sed -i -E 's|(image: [^:]+):.*|\1:{{new}}|' \
+      kubernetes/backend/deployment.yml kubernetes/frontend/deployment.yml
+    grep -n "image:" kubernetes/backend/deployment.yml kubernetes/frontend/deployment.yml
+
+# --- cluster bootstrap (once per environment) --------------------------------
+
+create-namespace:
+    kubectl apply -f kubernetes/namespace.yml
+
+# Expects $REGISTRY_TOKEN (read:packages is enough for the cluster).
+# Pull Secret, in THIS namespace: the kubelet looks for it nowhere else.
+create-pull-secret:
+    kubectl create secret docker-registry {{pull_secret}} \
+      --docker-server={{registry}} \
+      --docker-username={{owner}} \
+      --docker-password="$REGISTRY_TOKEN" \
+      -n {{namespace}} \
+      --dry-run=client -o yaml | kubectl apply -f -
+
+bootstrap: create-namespace create-pull-secret
+    @echo "Namespace {{namespace}} ready. Check the shared Gateway grants it access:"
+    @echo "  kubectl get namespace {{namespace}} --show-labels | grep gateway-access"
+
+# --- deployment --------------------------------------------------------------
+
+deploy:
+    kubectl apply -f kubernetes/namespace.yml
+    kubectl apply \
+      -f kubernetes/backend/deployment.yml \
+      -f kubernetes/backend/service.yml \
+      -f kubernetes/frontend/deployment.yml \
+      -f kubernetes/frontend/service.yml \
+      -f kubernetes/pod-disruption-budgets.yml \
+      -f kubernetes/http-route.yml
+    @just rollout
+
+rollout:
+    kubectl rollout status deployment/backend  -n {{namespace}}
+    kubectl rollout status deployment/frontend -n {{namespace}}
+
+restart:
+    kubectl rollout restart deployment/backend deployment/frontend -n {{namespace}}
+    @just rollout
+
+undo component:
+    kubectl rollout undo deployment/{{component}} -n {{namespace}}
+    kubectl rollout status deployment/{{component}} -n {{namespace}}
+
+undeploy:
+    kubectl delete -f kubernetes/http-route.yml \
+      -f kubernetes/pod-disruption-budgets.yml \
+      -f kubernetes/frontend/service.yml -f kubernetes/frontend/deployment.yml \
+      -f kubernetes/backend/service.yml -f kubernetes/backend/deployment.yml
+
+# Removes the namespace, and with it the pull Secret.
+destroy:
+    kubectl delete namespace {{namespace}}
+
+# --- day to day --------------------------------------------------------------
+
+status:
+    kubectl get deploy,pod,svc,httproute,pdb -n {{namespace}}
+
+route:
+    kubectl describe httproute {{app}} -n {{namespace}}
+
+endpoints:
+    kubectl get endpointslices -n {{namespace}}
+
+logs-backend:
+    kubectl logs -l app=backend --prefix --tail=100 -f -n {{namespace}}
+
+logs-frontend:
+    kubectl logs -l app=frontend --prefix --tail=100 -f -n {{namespace}}
+
+events:
+    kubectl get events -n {{namespace}} --sort-by=.lastTimestamp | tail -30
+
+scale component replicas:
+    kubectl scale deployment/{{component}} --replicas={{replicas}} -n {{namespace}}
+
+# End-to-end check against the public hostname.
+smoke:
+    @curl -fsS -o /dev/null -w 'frontend  %{http_code}\n' https://{{hostname}}/
+    @curl -fsS -w '\n' https://{{hostname}}[[ api_prefix ]]/
+    @curl -sSI http://{{hostname}}/ | head -2
+
+# --- local ------------------------------------------------------------------
+
+run-backend:
+    {{engine}} run --rm -p 8000:8000 {{backend_image}}:{{version}}
+
+run-frontend:
+    {{engine}} run --rm -p 8080:8080 {{frontend_image}}:{{version}}

@@ -1,0 +1,48 @@
+# Let's Encrypt, proven by DNS-01 through a self-hosted acme-dns server.
+#
+# Staging first (loose rate limits, untrusted chain), production once it
+# works. Both share the same acme-dns account file, so switching costs
+# nothing.
+#
+# The Secret they reference is read in **cert-manager's own namespace**, not
+# here: a ClusterIssuer has no namespace of its own.
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - dns01:
+          # Mandatory with acme-dns: the challenge record is a CNAME into the
+          # delegated zone, and cert-manager's own self-check must follow it.
+          cnameStrategy: Follow
+          acmeDNS:
+            host: http://acme-dns-api.acme-dns.svc.cluster.local
+            accountSecretRef:
+              name: acme-dns-credentials
+              key: acmedns.json
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: you@example.com
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - dns01:
+          cnameStrategy: Follow
+          acmeDNS:
+            host: http://acme-dns-api.acme-dns.svc.cluster.local
+            accountSecretRef:
+              name: acme-dns-credentials
+              key: acmedns.json

@@ -1,0 +1,18 @@
+# Port 80 on the Service, 8080 in the container: the HTTPRoute always talks
+# to 80, whichever port the image happens to bind.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: [[ namespace ]]
+  labels:
+    app.kubernetes.io/name: [[ app_slug ]]
+    app.kubernetes.io/component: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP

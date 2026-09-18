@@ -1,0 +1,25 @@
+# The stable address of this application's backend. The name matters twice
+# over: it is what `../http-route.yml` forwards the `/api` rule to, and it is
+# the DNS name any other Pod in the cluster would use to call this API
+# directly.
+#
+# That DNS name is fully qualified by the namespace --
+# `backend.snippet-fullstack-multi-demo-app2.svc.cluster.local` here,
+# `...-app1...` for the other application -- so two Services of the same name
+# coexist without ambiguity. From inside this namespace, plain `backend`
+# resolves to this one.
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: snippet-fullstack-multi-demo-app2
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    # `port` is the Service's own port and `targetPort` the container's named
+    # port, so the two numbers are free to differ -- and do, on purpose
+    - port: 80
+      targetPort: http
+      protocol: TCP

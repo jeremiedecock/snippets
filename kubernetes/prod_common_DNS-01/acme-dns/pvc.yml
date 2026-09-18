@@ -1,0 +1,14 @@
+# The SQLite database is the ONLY copy of every registration. Lose it and
+# every `_acme-challenge` CNAME points at a subdomain nobody can update, so
+# every certificate stops renewing. Back it up.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: acme-dns-data
+  namespace: acme-dns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

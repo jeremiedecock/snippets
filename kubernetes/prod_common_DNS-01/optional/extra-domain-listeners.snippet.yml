@@ -1,0 +1,34 @@
+# NOT APPLIED DIRECTLY -- a snippet to paste into `gateway/gateway.yml`,
+# under `spec.listeners`, for a hostname that the wildcard does not cover
+# (a client's domain, an apex domain, a second zone).
+#
+# Replace `app.client-domain.com` and the `extra` suffix throughout. The
+# hostname must also get its own `A` record pointing at the Gateway's IP.
+#
+# The default path stays DNS-01: register one more acme-dns account keyed by
+# that exact hostname and create one static CNAME in that zone (see the
+# README). Nothing else changes -- the Gateway annotation keeps working and
+# cert-manager writes this listener's certificate like any other.
+
+    - name: http-extra
+      protocol: HTTP
+      port: 80
+      hostname: app.client-domain.com
+      allowedRoutes:
+        namespaces:
+          from: Same
+
+    - name: https-extra
+      protocol: HTTPS
+      port: 443
+      hostname: app.client-domain.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: extra-tls
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: "true"

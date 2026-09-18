@@ -1,0 +1,47 @@
+# The frontend half: the same shape as the backend's Deployment, with a
+# different image and a different port. Nothing about it is specific to being
+# a "frontend" -- to Kubernetes it is one more HTTP server behind one more
+# Service.
+#
+# Like the backend, it runs the image built in 6.4, and app1 runs that very
+# same image. The page it serves is static and identical on both hostnames;
+# what tells the two applications apart is the URL in the address bar, and
+# the namespace the logs come from.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: snippet-fullstack-multi-demo-app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        # Distinct from the backend's `app: backend`, and the two Services of
+        # this namespace select on it. Give both Deployments the same label
+        # and each Service would load-balance across all four Pods, sending
+        # API calls to nginx and page loads to FastAPI, at random.
+        app: frontend
+    spec:
+      containers:
+        - image: ghcr.io/jeremiedecock/hello-frontend:1.0
+          name: frontend
+          imagePullPolicy: Always
+          ports:
+            # nginx listens on 80 where FastAPI listened on 8000; both are
+            # named `http`, which is what lets the two Services be identical.
+            - containerPort: 80
+              name: http
+              protocol: TCP
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+
+      imagePullSecrets:
+        - name: ghcr-secret

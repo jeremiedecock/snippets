@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: [[ namespace ]]
+  labels:
+    app.kubernetes.io/name: [[ app_slug ]]
+    # Grants this namespace the right to attach HTTPRoutes to the shared
+    # Gateway (its `allowedRoutes` selector). In a multi-team cluster the
+    # label belongs to the cluster operator, who sets it with
+    # `just grant [[ namespace ]]` from the shared infrastructure directory
+    # -- keep it here only if the same people own both repositories.
+    gateway-access: "true"

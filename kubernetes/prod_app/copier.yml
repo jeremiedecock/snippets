@@ -1,0 +1,128 @@
+# Copier template for a production fullstack application (FastAPI + nginx)
+# behind the shared Gateway of ../prod_common_DNS-01 or ../prod_common_HTTP-01.
+#
+#   copier copy prod_app ../my-app
+#   copier update            # later, from inside the generated app
+#
+# Jinja delimiters are [[ ]] / [% %] so that the generated justfile can use
+# just's own {{ }} syntax untouched.
+
+_min_copier_version: "9.0.0"
+_subdirectory: template
+_answers_file: .copier-answers.yml
+
+_envops:
+  variable_start_string: "[["
+  variable_end_string: "]]"
+  block_start_string: "[%"
+  block_end_string: "%]"
+  comment_start_string: "[#"
+  comment_end_string: "#]"
+  keep_trailing_newline: true
+
+_message_after_copy: |
+  Created [[ app_slug ]] -> https://[[ subdomain ]].[[ base_domain ]]
+
+  Next:
+    1. cd into the new directory and read README.md
+    2. create the DNS record if the zone has no wildcard A record
+    3. just login && just release && just deploy
+
+# --- identity ----------------------------------------------------------------
+
+app_slug:
+  type: str
+  help: "Application name (lowercase, used for the namespace, images and labels)"
+  placeholder: "invoices"
+  validator: >-
+    [% if not app_slug | regex_search('^[a-z]([a-z0-9-]*[a-z0-9])?$') %]
+    must be lowercase alphanumeric with dashes, starting with a letter
+    [% endif %]
+
+app_title:
+  type: str
+  help: "Human-readable title, shown on the page"
+  default: "[[ app_slug | replace('-', ' ') | title ]]"
+
+app_description:
+  type: str
+  help: "One-line description"
+  default: "[[ app_title ]] service"
+
+# --- publication -------------------------------------------------------------
+
+base_domain:
+  type: str
+  help: "Domain the shared Gateway serves"
+  default: "example.com"
+
+subdomain:
+  type: str
+  help: "Subdomain of this application"
+  default: "[[ app_slug ]]"
+
+hostname:
+  type: str
+  default: "[[ subdomain ]].[[ base_domain ]]"
+  when: false
+
+namespace:
+  type: str
+  help: "Kubernetes namespace (one per application)"
+  default: "[[ app_slug ]]"
+
+api_prefix:
+  type: str
+  help: "Path prefix routed to the backend (stripped before forwarding)"
+  default: "/api"
+
+# --- registry ----------------------------------------------------------------
+
+registry:
+  type: str
+  help: "Container registry"
+  default: "ghcr.io"
+
+registry_owner:
+  type: str
+  help: "Registry account or organisation owning the images"
+  placeholder: "my-org"
+
+pull_secret:
+  type: str
+  help: "Name of the image pull Secret created in the namespace"
+  default: "ghcr-secret"
+
+version:
+  type: str
+  help: "Initial image tag"
+  default: "0.1.0"
+
+# --- sizing ------------------------------------------------------------------
+
+backend_replicas:
+  type: int
+  help: "Backend replicas"
+  default: 2
+
+frontend_replicas:
+  type: int
+  help: "Frontend replicas"
+  default: 2
+
+# --- shared gateway (defaults match ../prod_common_DNS-01) -------------------
+
+gateway_name:
+  type: str
+  help: "Name of the shared Gateway"
+  default: "gateway-infra"
+
+gateway_namespace:
+  type: str
+  help: "Namespace of the shared Gateway"
+  default: "gateway-infra"
+
+gateway_listener:
+  type: str
+  help: "HTTPS listener to attach to: `https` with the DNS-01 wildcard gateway, `https-<app>` with the HTTP-01 per-app one"
+  default: "https"

@@ -1,0 +1,24 @@
+# Keeps a voluntary disruption (node drain, cluster upgrade) from taking both
+# replicas of a component down at once. `maxUnavailable: 1` stays safe with a
+# single replica, where `minAvailable: 1` would block drains entirely.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: backend
+  namespace: [[ namespace ]]
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: backend
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: frontend
+  namespace: [[ namespace ]]
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: frontend

@@ -1,0 +1,31 @@
+# Only needed to cover the APEX domain (the bare name, with no subdomain) in
+# addition to the wildcard. A wildcard certificate does not cover the name it
+# is a wildcard of, and the `cert-manager.io/cluster-issuer` annotation cannot
+# express a two-name certificate -- it derives `dnsNames` from the listener
+# hostname, which is a single name.
+#
+# To use it:
+#   1. REMOVE the annotation from `gateway/gateway.yml` (leaving it in place
+#      makes the gateway-shim fight this object: it refuses to touch a
+#      Certificate it does not own and logs an error on every sync);
+#   2. apply this file;
+#   3. add an apex listener to the Gateway (hostname = the bare domain,
+#      certificateRef `wildcard-tls`) if the apex must be served too.
+#
+# Both names challenge at the SAME `_acme-challenge` record of the base
+# domain, simultaneously. acme-dns keeps the two most recent TXT values,
+# which is exactly the case it was built for -- and one acme-dns account,
+# keyed by the base domain, serves both.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-tls
+  namespace: gateway-infra
+spec:
+  secretName: wildcard-tls
+  dnsNames:
+    - "*.example.com"
+    - "example.com"
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt

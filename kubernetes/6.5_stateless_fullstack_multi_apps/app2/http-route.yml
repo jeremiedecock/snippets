@@ -1,0 +1,109 @@
+# Where 6.4 and 5.4 actually meet: this one route carries 6.4's path split
+# (`/api` -> backend, `/` -> frontend) *and* 5.4's cross-namespace attachment
+# to a shared Gateway, pinned to this application's HTTPS listener.
+#
+# Read the two halves separately and neither is new:
+#
+#   * `parentRefs` + `hostnames` say **where this route is published** --
+#     which Gateway, which listener, which name. That is the Gateway API
+#     part, identical to 5.4.
+#   * `rules` say **what happens to a request once it is here** -- the
+#     internal shape of one application. That is the 6.4 part, identical to
+#     it but for the namespace.
+#
+# The second half is invisible from the Gateway: the cluster operator sees
+# one route on one hostname, and never learns that it fans out to two
+# Services. Adding a third component to this application changes this file
+# and nothing else.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+  namespace: snippet-fullstack-multi-demo-app2
+spec:
+  hostnames:
+    # One hostname for both halves of *this* application. This is the whole
+    # point of 6.4: the page served by the frontend and the JSON served by
+    # the backend have the same origin, so the browser treats the
+    # `fetch("/api/")` in `index.html` as a same-origin request and CORS
+    # never enters the picture.
+    #
+    # Note what is *not* shared: app1 has its own origin. The two
+    # applications are mutually cross-origin, which is exactly right -- they
+    # are unrelated, and neither's page may read the other's answers.
+    - "app2.example.com"
+  parentRefs:
+    - name: my-gateway
+      # The Gateway lives in another namespace, and the route reaches across
+      # to it. That direction is governed by `allowedRoutes` on the listener,
+      # and needs no ReferenceGrant -- see the README.
+      namespace: snippet-fullstack-multi-demo-gateway   # Use "gateway-infra" in production
+      # No longer optional: the Gateway has four listeners, and this route
+      # must land on the HTTPS one of *this* application. Attached to the
+      # HTTP one instead, it would be accepted and then shadowed by the
+      # redirect below.
+      sectionName: https-app2
+  rules:
+    # --- rule 1: the API ---------------------------------------------------
+    - matches:
+        - path:
+            # `PathPrefix` matches whole path *segments*, not characters:
+            # this matches `/api`, `/api/` and `/api/docs`, and does not
+            # match `/apiary`. (`type: Exact` would match `/api` alone;
+            # `RegularExpression` exists too but is implementation-specific.)
+            type: PathPrefix
+            value: /api
+
+      filters:
+        # Strip the prefix before forwarding, because the backend does not
+        # know about it: its only route is `/`, and `GET /api/` would be a
+        # 404 from FastAPI.
+        #
+        #     /api      -> /
+        #     /api/     -> /
+        #     /api/docs -> /docs
+        #
+        # Careful: `--root-path` in `backend/deployment.yml` is not an
+        # alternative to this filter but its counterpart -- uvicorn
+        # *prepends* the value to the incoming path, so it assumes the
+        # stripping already happened here. Drop the filter and keep the flag
+        # and every call becomes `/api/api/...`, a flat 404. See 6.4's
+        # README for the three possible designs.
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+
+      backendRefs:
+        # The *Service* named in backend/service.yml, on the *Service* port
+        # (80), not the container's 8000.
+        #
+        # No `namespace:` field, and that is deliberate: a backendRef with no
+        # namespace means "in the route's own namespace". Pointing it at
+        # app1's `backend` would be a cross-namespace backendRef, which the
+        # Gateway API refuses unless app1 publishes a ReferenceGrant
+        # accepting it -- the safeguard that keeps one team from quietly
+        # routing traffic into another team's Services.
+        - name: backend
+          port: 80
+
+    # --- rule 2: everything else ------------------------------------------
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: frontend
+          port: 80
+
+# Why this is not ambiguous, and why the order of the rules above does not
+# matter: `/api/` matches both rules, and the Gateway API specifies how ties
+# are broken. The first criterion is the *length of the matched path*, so the
+# `/api` prefix (4 characters) always wins over `/` (1). Only after that do
+# method, header and query-parameter matches come into play, and only then --
+# for rules that are still tied -- does order.
+#
+# That ranking is per hostname, so app2's `/` catch-all can never swallow a
+# request for `app1.example.com`: hostname matching happens first, and the
+# two routes are attached to two different listeners anyway.

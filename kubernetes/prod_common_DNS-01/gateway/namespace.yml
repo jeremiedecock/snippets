@@ -1,0 +1,6 @@
+# Holds the shared entry point: the Gateway, the redirect route, and the
+# wildcard certificate cert-manager writes for it. No application object.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway-infra

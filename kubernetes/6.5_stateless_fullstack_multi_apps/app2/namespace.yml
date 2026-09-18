@@ -1,0 +1,12 @@
+# One namespace per application, holding *both* halves of it: the frontend
+# Deployment and Service, the backend Deployment and Service, the two
+# HTTPRoutes, and the registry pull Secret.
+#
+# The unit of isolation is the application, not the component: a frontend and
+# the backend it is published with are one team's business, share one
+# hostname, and are deployed together. Splitting them across two namespaces
+# would buy nothing here and cost a ReferenceGrant (see the README).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: snippet-fullstack-multi-demo-app2

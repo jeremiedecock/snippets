@@ -1,0 +1,80 @@
+# 6.4's backend Deployment, with one change: the namespace is hardcoded, as
+# every manifest's is in this layout.
+#
+# The image is 6.1's, untouched -- and it is the *same image* app2 runs. Two
+# applications, one tag: what distinguishes them is the namespace they run in
+# and the hostname they are published under, not their code.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: snippet-fullstack-multi-demo-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        # `app: backend` in *this* namespace. app2's Deployment carries the
+        # very same label, and the two never collide: a Service's selector
+        # only ever matches Pods in its own namespace.
+        app: backend
+    spec:
+      containers:
+        - image: ghcr.io/jeremiedecock/hello-fastapi:1.0
+          name: backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+
+          # The HTTPRoute of this namespace strips `/api` before forwarding,
+          # so the application receives `/` and answers it, exactly as in 6.3
+          # -- it has no idea a prefix was involved.
+          #
+          # `--root-path` is how an ASGI app is told "you are published under
+          # this prefix": routing is unchanged (the app still serves `/`), but
+          # every URL it *builds* is prefixed -- which is what makes
+          # `/api/docs` find `/api/openapi.json` instead of a 404 served by
+          # the frontend. It belongs in the manifest rather than in the image
+          # precisely because the prefix is a deployment choice; see 6.4's
+          # README for the full story, and for why `--root-path` and
+          # `FastAPI(root_path=...)` are not interchangeable.
+          #
+          # This flag is the counterpart of the `URLRewrite` filter in
+          # `../http-route.yml` and is useless without it: uvicorn *prepends*
+          # the value to the incoming path, so it takes for granted that the
+          # proxy already removed it. Remove the filter and leave this in
+          # place and every request becomes `/api/api/...`, i.e. a 404.
+          #
+          # The image declares no ENTRYPOINT, only a CMD, so `command` here
+          # replaces that CMD in full -- hence the repetition of the
+          # Containerfile's arguments.
+          command:
+            - fastapi
+            - run
+            - main.py
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8000"
+            - --root-path
+            - /api
+
+          # The kubelet queries `/` on the Pod's own IP, in plain HTTP,
+          # without going through the Gateway -- so it sees neither the
+          # certificate nor the `/api` prefix.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+
+      # The Secret of *this* namespace (see ../secret.yml). Naming
+      # `ghcr-secret` here does not reach into app2's copy, nor into the
+      # Gateway's namespace: imagePullSecrets are resolved locally.
+      imagePullSecrets:
+        - name: ghcr-secret

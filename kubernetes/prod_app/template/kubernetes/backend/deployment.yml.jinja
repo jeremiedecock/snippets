@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: [[ namespace ]]
+  labels:
+    app.kubernetes.io/name: [[ app_slug ]]
+    app.kubernetes.io/component: backend
+spec:
+  replicas: [[ backend_replicas ]]
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # No capacity loss during a rollout.
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        app.kubernetes.io/name: [[ app_slug ]]
+        app.kubernetes.io/component: backend
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: backend
+          image: [[ registry ]]/[[ registry_owner ]]/[[ app_slug ]]-backend:[[ version ]]
+          # Immutable tags are pushed by `just release`, so the digest never
+          # changes under a tag: IfNotPresent avoids a pull per Pod restart.
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+
+          # The HTTPRoute strips `[[ api_prefix ]]` before forwarding, so the
+          # app serves `/`; --root-path puts the prefix back into every URL
+          # the app *generates* (/docs, /openapi.json). The two are a matched
+          # pair: remove the filter and every call becomes a 404.
+          command:
+            - fastapi
+            - run
+            - main.py
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8000"
+            - --root-path
+            - "[[ api_prefix ]]"
+
+          # Probed on the Pod IP, in plain HTTP, without the prefix.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              # No CPU limit on purpose: it throttles latency-sensitive
+              # workloads. Memory is limited because it cannot be throttled.
+              memory: 512Mi
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
+      volumes:
+        - name: tmp
+          emptyDir: {}
+
+      imagePullSecrets:
+        - name: [[ pull_secret ]]

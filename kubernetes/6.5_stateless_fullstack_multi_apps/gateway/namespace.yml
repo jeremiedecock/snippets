@@ -1,0 +1,7 @@
+# The namespace of the shared entry point. It holds the Gateway, the two
+# Certificates cert-manager generates from it, and the two TLS Secrets -- and
+# no application object at all.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: snippet-fullstack-multi-demo-gateway   # Use "gateway-infra" in production

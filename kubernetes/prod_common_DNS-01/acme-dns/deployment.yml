@@ -1,0 +1,69 @@
+# acme-dns: an authoritative DNS server for the delegated zone, plus a REST
+# API with three endpoints (/register, /update, /health).
+#
+# One replica, `Recreate`: the SQLite database sits on a ReadWriteOnce
+# volume. A minute of downtime delays a challenge, it never breaks an
+# already-issued certificate.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acme-dns
+  namespace: acme-dns
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: acme-dns
+  template:
+    metadata:
+      labels:
+        app: acme-dns
+    spec:
+      containers:
+        - image: docker.io/joohoi/acme-dns:v2.0.2
+          name: acme-dns
+          ports:
+            - containerPort: 5053
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 5053
+              name: dns-tcp
+              protocol: TCP
+            - containerPort: 8080
+              name: api
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: api
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: api
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: config
+              mountPath: /etc/acme-dns
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/acme-dns
+      volumes:
+        - name: config
+          configMap:
+            name: acme-dns-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: acme-dns-data

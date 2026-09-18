@@ -1,0 +1,26 @@
+# The 301 to HTTPS for this application's hostname, as in 6.4. It belongs to
+# the application rather than to the Gateway: one hostname, one team, one set
+# of routes. It shares the `http-app2` listener with the temporary ACME
+# solver route, which wins on the challenge path because an Exact path match
+# takes precedence over this catch-all -- across routes, not just within one.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-redirect-route
+  namespace: snippet-fullstack-multi-demo-app2
+spec:
+  hostnames:
+    - "app2.example.com"
+  parentRefs:
+    - name: my-gateway
+      namespace: snippet-fullstack-multi-demo-gateway   # Use "gateway-infra" in production
+      sectionName: http-app2
+  rules:
+    # No backendRefs and no matches: every plain-HTTP request for this
+    # hostname is answered by the Gateway itself, whether it was headed for
+    # the page or for the API. Nothing reaches either Pod.
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

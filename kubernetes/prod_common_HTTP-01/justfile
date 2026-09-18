@@ -1,0 +1,153 @@
+# Shared cluster infrastructure, HTTP-01 flavour: Envoy Gateway, cert-manager,
+# the Gateway and one certificate per application.
+# Run `just` to list the recipes.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+envoy_gateway_version := "v1.9.1"
+cert_manager_version  := "v1.21.2"
+
+gateway_ns := "gateway-infra"
+gateway    := "gateway-infra"
+
+default:
+    @just --list
+
+# --- one-off configuration ---------------------------------------------------
+
+#   just configure example.com ops@example.com
+# Replace the placeholders in every manifest. Run once, then commit.
+configure domain email:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    domain='{{domain}}'; email='{{email}}'
+    sed -i "s|you@example\.com|${email}|g" cert-manager/cluster-issuer.yml
+    sed -i "s|example\.com|${domain}|g" gateway/gateway.yml
+    echo "Configured for ${domain} (contact ${email})."
+
+# --- cluster add-ons ---------------------------------------------------------
+
+# What is already installed? Run before installing anything cluster-wide.
+check:
+    -kubectl api-resources --api-group=gateway.networking.k8s.io
+    -kubectl get deployments -n envoy-gateway-system
+    -kubectl get deployments -n cert-manager
+    -kubectl get gatewayclass
+    -helm list --all-namespaces
+
+install-envoy-gateway:
+    helm install eg oci://docker.io/envoyproxy/gateway-helm \
+      --version {{envoy_gateway_version}} \
+      -n envoy-gateway-system --create-namespace
+    kubectl wait --timeout=5m -n envoy-gateway-system deployment/envoy-gateway --for=condition=Available
+
+install-cert-manager:
+    helm install cert-manager oci://quay.io/jetstack/charts/cert-manager \
+      --version {{cert_manager_version}} \
+      --namespace cert-manager --create-namespace \
+      --set crds.enabled=true \
+      --set config.gatewayAPI.enabled=true
+    kubectl wait --timeout=5m -n cert-manager deployment --all --for=condition=Available
+
+# cert-manager reads the Gateway API CRDs only at startup. Must print `true`.
+verify-cert-manager:
+    kubectl rollout restart deployment cert-manager -n cert-manager
+    kubectl rollout status deployment cert-manager -n cert-manager
+    kubectl get configmap cert-manager -n cert-manager -o yaml | grep -A2 gatewayAPI
+
+# `eg` is the Helm RELEASE name, unrelated to the GatewayClass name (`envoy`);
+# only `spec.controllerName` binds the class to the controller.
+install: install-envoy-gateway install-cert-manager verify-cert-manager
+    kubectl apply -f gateway-class.yml
+    kubectl get gatewayclass
+
+# --- gateway and issuers -----------------------------------------------------
+
+deploy-issuers:
+    kubectl apply -f cert-manager/cluster-issuer.yml
+    kubectl get clusterissuer
+
+deploy-gateway:
+    kubectl apply \
+      -f gateway/namespace.yml \
+      -f gateway/gateway.yml \
+      -f gateway/http-redirect-route.yml
+
+deploy: deploy-issuers deploy-gateway
+    @echo "Waiting for the Gateway address (Ctrl+C to stop)..."
+    kubectl get gateway -n {{gateway_ns}} --watch
+
+# Public IP of the Gateway (the target of every application `A` record).
+gateway-ip:
+    @kubectl get gateway {{gateway}} -n {{gateway_ns}} -o jsonpath='{.status.addresses[0].value}{"\n"}'
+
+# --- onboarding an application ----------------------------------------------
+
+# Print the HTTPS listener block to paste into gateway/gateway.yml.
+listener app hostname:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    printf '%s\n' \
+      "    - name: https-{{app}}" \
+      "      protocol: HTTPS" \
+      "      port: 443" \
+      "      hostname: {{hostname}}" \
+      "      tls:" \
+      "        mode: Terminate" \
+      "        certificateRefs:" \
+      "          - name: {{app}}-tls" \
+      "      allowedRoutes:" \
+      "        namespaces:" \
+      "          from: Selector" \
+      "          selector:" \
+      "            matchLabels:" \
+      "              gateway-access: \"true\""
+    echo
+    echo "Paste it under spec.listeners, then: kubectl apply -f gateway/gateway.yml"
+    echo "The application HTTPRoute must use   sectionName: https-{{app}}"
+    echo "An A record must point {{hostname}} at the Gateway IP (just gateway-ip)."
+
+# Grant an application namespace access to the shared Gateway.
+grant namespace:
+    kubectl label namespace {{namespace}} gateway-access=true --overwrite
+
+# Namespaces allowed to attach routes to the Gateway.
+tenants:
+    kubectl get namespace -l gateway-access=true
+
+# --- certificates ------------------------------------------------------------
+
+certificates:
+    kubectl get certificate,certificaterequest,order,challenge -n {{gateway_ns}}
+
+certificate-watch:
+    kubectl get certificate -n {{gateway_ns}} --watch
+
+certificate-show name:
+    kubectl get secret {{name}}-tls -n {{gateway_ns}} \
+      -o jsonpath='{.data.tls\.crt}' | base64 -d \
+      | openssl x509 -noout -subject -issuer -dates
+
+# Re-issues EVERY certificate: one annotation, all listeners.
+use-production:
+    sed -i 's|cert-manager.io/cluster-issuer: letsencrypt-staging|cert-manager.io/cluster-issuer: letsencrypt|' gateway/gateway.yml
+    kubectl apply -f gateway/gateway.yml
+    kubectl get certificate -n {{gateway_ns}} --watch
+
+use-staging:
+    sed -i 's|cert-manager.io/cluster-issuer: letsencrypt$|cert-manager.io/cluster-issuer: letsencrypt-staging|' gateway/gateway.yml
+    kubectl apply -f gateway/gateway.yml
+
+# --- day to day --------------------------------------------------------------
+
+status:
+    kubectl get gatewayclass
+    kubectl get gateway,httproute,certificate -n {{gateway_ns}}
+    kubectl get httproute --all-namespaces
+
+# Per-listener conditions -- the view that matters when PROGRAMMED is False.
+describe:
+    kubectl describe gateway {{gateway}} -n {{gateway_ns}}
+
+logs-cert-manager:
+    kubectl logs -n cert-manager deployment/cert-manager --tail=100 -f

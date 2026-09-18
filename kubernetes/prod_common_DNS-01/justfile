@@ -1,0 +1,188 @@
+# Shared cluster infrastructure: Envoy Gateway, cert-manager, acme-dns,
+# the Gateway and its wildcard certificate. Run `just` to list the recipes.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+envoy_gateway_version := "v1.9.1"
+cert_manager_version  := "v1.21.2"
+
+gateway_ns  := "gateway-infra"
+gateway     := "gateway-infra"
+acme_dns_ns := "acme-dns"
+
+default:
+    @just --list
+
+# --- one-off configuration ---------------------------------------------------
+
+#   just configure example.com ops@example.com auth.example.com
+# Replace the placeholders in every manifest. Run once, then commit.
+configure domain email zone:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    domain='{{domain}}'; email='{{email}}'; zone='{{zone}}'
+    sed -i "s|you@example\.com|${email}|g" cert-manager/cluster-issuer.yml
+    sed -i "s|auth\.example\.com|${zone}|g" acme-dns/configmap.yml
+    sed -i "s|you\.example\.com|${email/@/.}|g" acme-dns/configmap.yml
+    sed -i "s|\*\.example\.com|*.${domain}|g" gateway/gateway.yml optional/certificate-apex.yml
+    sed -i "s|\"example\.com\"|\"${domain}\"|g" optional/certificate-apex.yml
+    echo "Configured for ${domain} (acme-dns zone ${zone}, contact ${email})."
+    grep -n "hostname:" gateway/gateway.yml
+
+# --- cluster add-ons ---------------------------------------------------------
+
+# What is already installed? Run before installing anything cluster-wide.
+check:
+    -kubectl api-resources --api-group=gateway.networking.k8s.io
+    -kubectl get deployments -n envoy-gateway-system
+    -kubectl get deployments -n cert-manager
+    -kubectl get gatewayclass
+    -helm list --all-namespaces
+
+install-envoy-gateway:
+    helm install eg oci://docker.io/envoyproxy/gateway-helm \
+      --version {{envoy_gateway_version}} \
+      -n envoy-gateway-system --create-namespace
+    kubectl wait --timeout=5m -n envoy-gateway-system deployment/envoy-gateway --for=condition=Available
+
+install-cert-manager:
+    helm install cert-manager oci://quay.io/jetstack/charts/cert-manager \
+      --version {{cert_manager_version}} \
+      --namespace cert-manager --create-namespace \
+      --set crds.enabled=true \
+      --set config.gatewayAPI.enabled=true
+    kubectl wait --timeout=5m -n cert-manager deployment --all --for=condition=Available
+
+# cert-manager reads the Gateway API CRDs only at startup. Must print `true`.
+verify-cert-manager:
+    kubectl rollout restart deployment cert-manager -n cert-manager
+    kubectl rollout status deployment cert-manager -n cert-manager
+    kubectl get configmap cert-manager -n cert-manager -o yaml | grep -A2 gatewayAPI
+
+# `eg` is the Helm RELEASE name, unrelated to the GatewayClass name (`envoy`);
+# only `spec.controllerName` binds the class to the controller.
+install: install-envoy-gateway install-cert-manager verify-cert-manager
+    kubectl apply -f gateway-class.yml
+    kubectl get gatewayclass
+
+# --- acme-dns ----------------------------------------------------------------
+
+deploy-acme-dns:
+    kubectl apply \
+      -f acme-dns/namespace.yml \
+      -f acme-dns/pvc.yml \
+      -f acme-dns/configmap.yml \
+      -f acme-dns/deployment.yml \
+      -f acme-dns/service-api.yml \
+      -f acme-dns/service-dns.yml
+    kubectl rollout status deployment/acme-dns -n {{acme_dns_ns}}
+
+# Public IP of the acme-dns DNS server (the target of the `A` record).
+acme-dns-ip:
+    @kubectl get svc acme-dns -n {{acme_dns_ns}} -o jsonpath='{.status.loadBalancer.ingress[0].ip}{"\n"}'
+
+# Write that IP into the ConfigMap's `records` and restart acme-dns.
+acme-dns-set-ip:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    ip=$(kubectl get svc acme-dns -n {{acme_dns_ns}} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    test -n "$ip" || { echo "acme-dns Service has no external IP yet"; exit 1; }
+    sed -i -E "s|(A )[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|\1${ip}|" acme-dns/configmap.yml
+    kubectl apply -f acme-dns/configmap.yml
+    kubectl rollout restart deployment/acme-dns -n {{acme_dns_ns}}
+    kubectl rollout status deployment/acme-dns -n {{acme_dns_ns}}
+    echo "acme-dns A record set to ${ip}"
+
+# `name` must be the EXACT challenged name: the base domain for a wildcard
+# (example.com, never *.example.com), the hostname otherwise.
+# Register an acme-dns account for `name`, into the cert-manager Secret.
+acme-dns-register name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v jq >/dev/null || { echo "jq is required"; exit 1; }
+    umask 077
+    kubectl port-forward -n {{acme_dns_ns}} svc/acme-dns-api 8080:80 >/dev/null 2>&1 &
+    pf=$!
+    # The credentials never touch this directory: a 0700 temp dir the trap
+    # removes on every exit path, so an interrupted run leaves nothing behind.
+    # The basename becomes the Secret key, so it must stay `acmedns.json`.
+    tmp=$(mktemp -d); trap 'kill $pf 2>/dev/null || true; rm -rf "$tmp"' EXIT
+    for i in $(seq 20); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 1; done
+    reg=$(curl -sS -X POST http://127.0.0.1:8080/register)
+    existing=$(kubectl get secret acme-dns-credentials -n cert-manager \
+      -o jsonpath='{.data.acmedns\.json}' 2>/dev/null | base64 -d || true)
+    test -n "$existing" || existing='{}'
+    echo "$existing" | jq --arg k '{{name}}' --argjson r "$reg" '. + {($k): $r}' > "$tmp/acmedns.json"
+    kubectl create secret generic acme-dns-credentials -n cert-manager \
+      --from-file="$tmp/acmedns.json" --dry-run=client -o yaml | kubectl apply -f -
+    echo
+    echo "Create this CNAME at your registrar, then wait for it to resolve:"
+    echo "  _acme-challenge.{{name}}.  CNAME  $(echo "$reg" | jq -r .fulldomain)."
+
+# --- gateway and issuers -----------------------------------------------------
+
+deploy-issuers:
+    kubectl apply -f cert-manager/cluster-issuer.yml
+    kubectl get clusterissuer
+
+deploy-gateway:
+    kubectl apply \
+      -f gateway/namespace.yml \
+      -f gateway/gateway.yml \
+      -f gateway/http-redirect-route.yml
+
+deploy: deploy-issuers deploy-gateway
+    @echo "Waiting for the Gateway address (Ctrl+C to stop)..."
+    kubectl get gateway -n {{gateway_ns}} --watch
+
+# Public IP of the Gateway (the target of every application `A` record).
+gateway-ip:
+    @kubectl get gateway {{gateway}} -n {{gateway_ns}} -o jsonpath='{.status.addresses[0].value}{"\n"}'
+
+# --- certificate -------------------------------------------------------------
+
+certificate:
+    kubectl get certificate,certificaterequest,order,challenge -n {{gateway_ns}}
+
+certificate-watch:
+    kubectl get certificate -n {{gateway_ns}} --watch
+
+certificate-show:
+    kubectl get secret wildcard-tls -n {{gateway_ns}} \
+      -o jsonpath='{.data.tls\.crt}' | base64 -d \
+      | openssl x509 -noout -subject -issuer -dates
+
+use-production:
+    sed -i 's|cert-manager.io/cluster-issuer: letsencrypt-staging|cert-manager.io/cluster-issuer: letsencrypt|' gateway/gateway.yml
+    kubectl apply -f gateway/gateway.yml
+    kubectl get certificate -n {{gateway_ns}} --watch
+
+use-staging:
+    sed -i 's|cert-manager.io/cluster-issuer: letsencrypt$|cert-manager.io/cluster-issuer: letsencrypt-staging|' gateway/gateway.yml
+    kubectl apply -f gateway/gateway.yml
+
+# --- day-to-day --------------------------------------------------------------
+
+status:
+    kubectl get gatewayclass
+    kubectl get gateway,httproute,certificate -n {{gateway_ns}}
+    kubectl get pods,svc -n {{acme_dns_ns}}
+    kubectl get httproute --all-namespaces
+
+# Per-listener conditions -- the view that matters when PROGRAMMED is False.
+describe:
+    kubectl describe gateway {{gateway}} -n {{gateway_ns}}
+
+logs-cert-manager:
+    kubectl logs -n cert-manager deployment/cert-manager --tail=100 -f
+
+logs-acme-dns:
+    kubectl logs -n {{acme_dns_ns}} deployment/acme-dns --tail=100 -f
+
+# Namespaces allowed to attach routes to the Gateway.
+tenants:
+    kubectl get namespace -l gateway-access=true
+
+# Grant an application namespace access to the shared Gateway.
+grant namespace:
+    kubectl label namespace {{namespace}} gateway-access=true --overwrite

@@ -1,0 +1,19 @@
+"""[[ app_description ]]."""
+
+from fastapi import FastAPI
+
+# No `root_path` here: the public prefix ([[ api_prefix ]]) is stripped by the
+# Gateway and given back to uvicorn with --root-path in the Deployment, so
+# this image stays neutral about where it is mounted.
+app = FastAPI(title="[[ app_title ]]")
+
+
+@app.get("/")
+def root():
+    return {"app": "[[ app_slug ]]", "message": "hello"}
+
+
+@app.get("/health")
+def health():
+    """Probed by the kubelet, never routed from outside."""
+    return {"status": "ok"}
